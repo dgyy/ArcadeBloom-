@@ -113,11 +113,14 @@
             let current = '';
             let inQuotes = false;
             
+            // 将默认的逗号分隔符更改为Tab字符('\t')
+            const delimiter = '\t';
+            
             for (let i = 0; i < line.length; i++) {
                 const char = line[i];
                 if (char === '"') {
                     inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
+                } else if (char === delimiter && !inQuotes) { // 更改这里的判断条件
                     result.push(current.trim());
                     current = '';
                 } else {
@@ -143,7 +146,7 @@
                 code += `        name: "${game.name}",\n`;
                 code += `        slug: "${slug}",\n`;
                 code += `        category: "${game.category}",\n`;
-                code += `        image: "https://placehold.co/400x300/1a202c/FFFFFF??text=${encodeURIComponent(game.name)}",\n`;
+                code += `        image: "./pic/logo/${game.name}.png",\n`;
                 code += `        description: "${game.description}",\n`;
                 code += `        developer: "${game.developer}",\n`;
                 code += `        releaseDate: "${game.releaseDate}",\n`;
@@ -165,6 +168,14 @@
             return code;
         }
         
+        function generateRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
         function generateSlug(name) {
             return name.toLowerCase()
                 .replace(/[^a-z0-9 -]/g, '')
