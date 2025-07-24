@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>About ArcadeBloom - Free Online Browser Games Platform</title>
+    <meta name="description" content="Learn about ArcadeBloom, your premier destination for free online browser games. Discover our mission to provide instant, high-quality gaming experiences for everyone.">
+    <meta name="keywords" content="about arcadebloom, online games platform, browser games, free games, gaming community">
+    <meta name="author" content="ArcadeBloom">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arcadebloom.com/about">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About ArcadeBloom - Free Online Browser Games Platform">
+    <meta property="og:description" content="Learn about ArcadeBloom's mission to provide instant, high-quality gaming experiences for everyone.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arcadebloom.com/about">
+    <meta property="og:image" content="https://arcadebloom.com/images/about-og.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About ArcadeBloom">
+    <meta name="twitter:description" content="Your premier destination for free online browser games">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ArcadeBloom",
+      "description": "Free online browser games platform",
+      "url": "https://arcadebloom.com/",
+      "logo": "https://arcadebloom.com/logo.png",
+      "sameAs": [
+        "https://twitter.com/arcadebloom",
+        "https://facebook.com/arcadebloom"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-555-GAMES",
+        "contactType": "customer service"
+      }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .feature-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="all-games.html" class="text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                    <a href="index.html#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                    <a href="about.html" class="text-gray-900 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="index.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                <a href="all-games.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                <a href="index.html#categories-section" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-900 font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient py-20 lg:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    About ArcadeBloom
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                    We're passionate about bringing you the best free online gaming experience, 
+                    making quality browser games accessible to everyone, everywhere.
+                </p>
+            </div>
+        </section>
+
+        <!-- Mission Section -->
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">Our Mission</h2>
+                        <p class="text-lg text-gray-700 mb-6 leading-relaxed">
+                            At ArcadeBloom, we believe that everyone deserves access to high-quality entertainment. 
+                            Our mission is to provide a comprehensive platform where players can discover, play, and 
+                            enjoy thousands of browser games without any barriers.
+                        </p>
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            We curate the best games across all genres - from brain-teasing puzzles to 
+                            adrenaline-pumping action adventures - ensuring there's something for every 
+                            type of gamer, regardless of age or skill level.
+                        </p>
+                    </div>
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white">
+                        <div class="text-6xl mb-4">🎮</div>
+                        <h3 class="text-2xl font-bold mb-4">10,000+</h3>
+                        <p class="text-blue-100">
+                            Free games available across all categories, 
+                            with new titles added weekly
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="bg-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">What Makes Us Different</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        We're committed to providing an exceptional gaming experience through our core values
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="feature-card bg-gray-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Instant Access</h3>
+                        <p class="text-gray-600">
+                            No downloads, no installations, no waiting. Click and play instantly 
+                            from any device with an internet connection.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card bg-gray-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Quality First</h3>
+                        <p class="text-gray-600">
+                            Every game is carefully tested and curated to ensure it meets our 
+                            high standards for gameplay, graphics, and user experience.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card bg-gray-50 rounded-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Community Focused</h3>
+                        <p class="text-gray-600">
+                            We listen to our community and continuously improve based on 
+                            feedback to create the best possible gaming platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">ArcadeBloom by the Numbers</h2>
+                    <p class="text-xl text-gray-600">
+                        Join millions of gamers who have made ArcadeBloom their gaming destination
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl font-bold text-blue-600 mb-2">10K+</div>
+                        <div class="text-gray-600">Games Available</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-green-600 mb-2">5M+</div>
+                        <div class="text-gray-600">Monthly Players</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-purple-600 mb-2">50+</div>
+                        <div class="text-gray-600">Game Categories</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-red-600 mb-2">99.9%</div>
+                        <div class="text-gray-600">Uptime</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="bg-white py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Meet Our Team</h2>
+                    <p class="text-xl text-gray-600">
+                        Passionate gamers and tech enthusiasts working to bring you the best gaming experience
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">AB</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Alex Blake</h3>
+                        <p class="text-gray-600 mb-4">Founder & CEO</p>
+                        <p class="text-gray-500 text-sm">
+                            Gaming enthusiast with 15+ years in the industry, passionate about 
+                            making quality games accessible to everyone.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gradient-to-r from-green-400 to-blue-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">SC</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Sarah Chen</h3>
+                        <p class="text-gray-600 mb-4">Head of Content</p>
+                        <p class="text-gray-500 text-sm">
+                            Game curator and quality assurance expert, ensuring every game 
+                            on our platform meets the highest standards.
+                        </p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full mx-auto mb-6 flex items-center justify-center">
+                            <span class="text-white text-2xl font-bold">MR</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Mike Rodriguez</h3>
+                        <p class="text-gray-600 mb-4">Lead Developer</p>
+                        <p class="text-gray-500 text-sm">
+                            Full-stack developer and technical architect, building the platform 
+                            that powers millions of gaming sessions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="py-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl p-12 text-white text-center">
+                    <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+                    <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                        Have questions, suggestions, or just want to say hello? 
+                        We'd love to hear from you!
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                        <a href="mailto:hello@arcadebloom.com" 
+                           class="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition duration-200">
+                            📧 hello@arcadebloom.com
+                        </a>
+                        <a href="contact.html" 
+                           class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-600 transition duration-200">
+                            Contact Form
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold">ArcadeBloom</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Your ultimate destination for free online browser games. Play instantly without downloads, 
+                        enjoy endless fun with friends and family.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987c6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.73-3.016-1.789L3.26 11.987l2.173-3.212c.568-1.059 1.719-1.789 3.016-1.789s2.448.73 3.016 1.789l2.173 3.212-2.173 3.212c-.568 1.059-1.719 1.789-3.016 1.789z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white transition duration-200">All Games</a></li>
+                        <li><a href="index.html#categories-section" class="text-gray-300 hover:text-white transition duration-200">Categories</a></li>
+                        <li><a href="index.html#games-section" class="text-gray-300 hover:text-white transition duration-200">New Games</a></li>
+                        <li><a href="index.html#games-section" class="text-gray-300 hover:text-white transition duration-200">Popular Games</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white transition duration-200">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white transition duration-200">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white transition duration-200">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white transition duration-200">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu?.classList.toggle('hidden');
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

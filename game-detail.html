@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>[GAME_NAME] - Play Free Online | ArcadeBloom</title>
+    <meta name="description" content="Play [GAME_NAME] free online at ArcadeBloom. [GAME_DESCRIPTION] No download required, instant play in your browser.">
+    <meta name="keywords" content="[GAME_NAME], [CATEGORY] games, free online games, browser games, html5 games">
+    <meta name="author" content="ArcadeBloom">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arcadebloom.com/game/[GAME_SLUG]">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="[GAME_NAME] - Play Free Online">
+    <meta property="og:description" content="Play [GAME_NAME] free online. [GAME_DESCRIPTION]">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://arcadebloom.com/game/[GAME_SLUG]">
+    <meta property="og:image" content="[GAME_IMAGE_URL]">
+    <meta property="og:site_name" content="ArcadeBloom">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="[GAME_NAME] - Play Free Online">
+    <meta name="twitter:description" content="[GAME_DESCRIPTION]">
+    <meta name="twitter:image" content="[GAME_IMAGE_URL]">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://arcadebloom.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "[CATEGORY]",
+          "item": "https://arcadebloom.com/category/[CATEGORY_SLUG]"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "[GAME_NAME]",
+          "item": "https://arcadebloom.com/game/[GAME_SLUG]"
+        }
+      ]
+    }
+    </script>
+    
+    <!-- Game Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "[GAME_NAME]",
+      "description": "[GAME_DESCRIPTION]",
+      "category": "[CATEGORY]",
+      "gamePlatform": "Web Browser",
+      "operatingSystem": "Any",
+      "applicationCategory": "Game",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "[RATING]",
+        "ratingCount": "[RATING_COUNT]"
+      }
+    }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .game-iframe {
+            border: none;
+            width: 100%;
+            height: 600px;
+            background: #f3f4f6;
+            border-radius: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .game-iframe {
+                height: 400px;
+            }
+        }
+        
+        /* Fullscreen mode styles */
+        #game-container:fullscreen {
+            background: #000;
+            padding: 0;
+            border-radius: 0;
+        }
+        
+        #game-container:fullscreen .game-iframe {
+            height: 100vh;
+            border-radius: 0;
+            background: #000;
+        }
+        
+        #game-container:fullscreen #game-loading {
+            background: #000;
+            color: #fff;
+        }
+        
+        /* iframe secure loading styles */
+        .game-iframe {
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .game-iframe[src=""] {
+            opacity: 0;
+        }
+        
+        /* Loading state optimization */
+        #game-loading {
+            min-height: 600px;
+        }
+        
+        #game-error {
+            min-height: 600px;
+        }
+        
+        @media (max-width: 768px) {
+            #game-loading, #game-error {
+                min-height: 400px;
+            }
+        }
+        .star-rating {
+            color: #fbbf24;
+        }
+        .related-game {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .related-game:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="all-games.html" class="text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                    <a href="index.html#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                    <a href="about.html" class="text-gray-600 hover:text-gray-900 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Breadcrumb -->
+        <nav class="bg-white border-b" aria-label="Breadcrumb">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center space-x-4 py-4">
+                    <a href="index.html" class="text-gray-500 hover:text-gray-700">Home</a>
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <a href="index.html#categories-section" class="text-gray-500 hover:text-gray-700 capitalize" id="breadcrumb-category">[CATEGORY]</a>
+                    <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                    </svg>
+                    <span class="text-gray-900 font-medium" id="breadcrumb-game">[GAME_NAME]</span>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Game Area -->
+                <div class="lg:col-span-2">
+                    <!-- Game Title & Rating -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                            <div>
+                                <h1 class="text-3xl font-bold text-gray-900 mb-2">[GAME_NAME]</h1>
+                                <div class="flex items-center space-x-4">
+                                    <div class="flex items-center">
+                                        <div class="star-rating flex">
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <svg class="w-5 h-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                        </div>
+                                        <span class="ml-2 text-gray-600">4.2 ([RATING_COUNT] ratings)</span>
+                                    </div>
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium capitalize">[CATEGORY]</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 sm:mt-0">
+                                <button class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition duration-200 font-semibold text-lg">
+                                    ▶ Play Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Frame -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <!-- Game Controls -->
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-xl font-bold text-gray-900">Game Player</h2>
+                            <div class="flex space-x-2">
+                                <button id="refresh-game" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200 text-sm font-medium" title="Refresh Game">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                    </svg>
+                                    Refresh
+                                </button>
+                                <button id="fullscreen-btn" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200 text-sm font-medium" title="Fullscreen Mode">
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                                    </svg>
+                                    Fullscreen
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Game Container -->
+                        <div id="game-container" class="bg-gray-100 rounded-lg relative overflow-hidden">
+                            <!-- Loading Indicator -->
+                            <div id="game-loading" class="absolute inset-0 bg-gray-100 flex items-center justify-center z-10">
+                                <div class="text-center">
+                                    <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mx-auto mb-4"></div>
+                                    <p class="text-gray-600 font-medium">Loading game...</p>
+                                    <p class="text-gray-500 text-sm mt-2">Please wait, the game will start shortly</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Error State -->
+                            <div id="game-error" class="absolute inset-0 bg-gray-100 items-center justify-center z-10 hidden">
+                                <div class="text-center p-8">
+                                    <svg class="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                                    </svg>
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Game Loading Failed</h3>
+                                    <p class="text-gray-600 mb-4">Sorry, the game could not load properly. This might be due to network issues or the game server being temporarily unavailable.</p>
+                                    <button id="retry-game" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-200 font-medium">
+                                        Retry
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Game Iframe -->
+                            <iframe id="game-iframe" 
+                                    class="game-iframe w-full border-none rounded-lg" 
+                                    src="" 
+                                    title="Loading game..."
+                                    allowfullscreen
+                                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals"
+                                    loading="lazy">
+                            </iframe>
+                        </div>
+                        
+                        <!-- Game Info -->
+                        <!-- <div class="mt-4 flex flex-wrap items-center justify-between text-sm text-gray-600">
+                            <div class="flex items-center space-x-4">
+                                <span>🎮 Keyboard & Mouse Support</span>
+                                <span>📱 Mobile Friendly</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2 sm:mt-0">
+                                <span>Having issues?</span>
+                                <button id="report-issue" class="text-blue-600 hover:text-blue-800 underline">Report Problem</button>
+                            </div>
+                        </div> -->
+                    </div>
+
+                    <!-- Game Description -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">About [GAME_NAME]</h2>
+                        <div class="prose prose-gray max-w-none">
+                            <p class="text-gray-700 leading-relaxed mb-4">
+                                [GAME_DESCRIPTION_LONG]
+                            </p>
+                            <p class="text-gray-700 leading-relaxed">
+                                [ADDITIONAL_DESCRIPTION]
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Game Instructions -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Play</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
+                                <p class="text-gray-700">[INSTRUCTION_1]</p>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
+                                <p class="text-gray-700">[INSTRUCTION_2]</p>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
+                                <p class="text-gray-700">[INSTRUCTION_3]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <!-- Game Info -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Game Information</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Category:</span>
+                                <span class="font-medium capitalize">[CATEGORY]</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Platform:</span>
+                                <span class="font-medium">Web Browser</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Controls:</span>
+                                <span class="font-medium">[CONTROLS]</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Developer:</span>
+                                <span class="font-medium">[DEVELOPER]</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Release Date:</span>
+                                <span class="font-medium">[RELEASE_DATE]</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Share Game -->
+                    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Share this Game</h3>
+                        <div class="flex space-x-3">
+                            <button class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 text-sm font-medium">
+                                Facebook
+                            </button>
+                            <button class="flex-1 bg-sky-500 text-white py-2 px-4 rounded-md hover:bg-sky-600 transition duration-200 text-sm font-medium">
+                                Twitter
+                            </button>
+                            <button class="flex-1 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-200 text-sm font-medium">
+                                Copy Link
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Related Games -->
+                    <!-- <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-4">Related Games</h3>
+                        <div class="space-y-4">
+                            <div class="related-game flex bg-gray-50 rounded-lg p-3 hover:bg-gray-100 cursor-pointer">
+                                <img src="https://via.placeholder.com/80x80/4F46E5/FFFFFF?text=Game" alt="Related Game" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-3 flex-1">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Similar Game 1</h4>
+                                    <p class="text-gray-600 text-xs mt-1">Puzzle Game</p>
+                                    <div class="flex items-center mt-1">
+                                        <div class="star-rating flex text-xs">
+                                            <span>★★★★☆</span>
+                                        </div>
+                                        <span class="text-gray-500 text-xs ml-1">4.1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="related-game flex bg-gray-50 rounded-lg p-3 hover:bg-gray-100 cursor-pointer">
+                                <img src="https://via.placeholder.com/80x80/059669/FFFFFF?text=Game" alt="Related Game" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-3 flex-1">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Similar Game 2</h4>
+                                    <p class="text-gray-600 text-xs mt-1">Action Game</p>
+                                    <div class="flex items-center mt-1">
+                                        <div class="star-rating flex text-xs">
+                                            <span>★★★★★</span>
+                                        </div>
+                                        <span class="text-gray-500 text-xs ml-1">4.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="related-game flex bg-gray-50 rounded-lg p-3 hover:bg-gray-100 cursor-pointer">
+                                <img src="https://via.placeholder.com/80x80/DC2626/FFFFFF?text=Game" alt="Related Game" class="w-16 h-16 rounded-md object-cover">
+                                <div class="ml-3 flex-1">
+                                    <h4 class="font-semibold text-gray-900 text-sm">Similar Game 3</h4>
+                                    <p class="text-gray-600 text-xs mt-1">Strategy Game</p>
+                                    <div class="flex items-center mt-1">
+                                        <div class="star-rating flex text-xs">
+                                            <span>★★★★☆</span>
+                                        </div>
+                                        <span class="text-gray-500 text-xs ml-1">4.0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="/games" class="block text-center bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium text-sm">
+                                View All Games
+                            </a>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold">ArcadeBloom</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Your ultimate destination for free online browser games. Play instantly without downloads.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">All Games</a></li>
+                        <li><a href="index.html#categories-section" class="text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="index.html#games-section" class="text-gray-300 hover:text-white">New Games</a></li>
+                        <li><a href="index.html#games-section" class="text-gray-300 hover:text-white">Popular Games</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ArcadeBloom. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Game Data -->
+    <script src="games-data.js"></script>
+    
+    <script>
+        // Get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Use external game data, no need for local data array
+
+        // Initialize page with game data
+        document.addEventListener('DOMContentLoaded', function() {
+            function initializeGameDetail() {
+                if (typeof GameUtils !== 'undefined') {
+                    const gameId = parseInt(getUrlParameter('id'));
+                    const gameName = getUrlParameter('name');
+                    const gameCategory = getUrlParameter('category');
+
+                    if (gameId && gameName) {
+                        const game = GameUtils.getGameById(gameId);
+                        if (game) {
+                            populateGameData(game);
+                        } else {
+                            // Use URL parameters as fallback
+                            populateGameData({
+                                name: gameName,
+                                category: gameCategory,
+                                id: gameId,
+                                description: "Play this amazing " + gameCategory + " game!",
+                                developer: "Game Developer",
+                                releaseDate: "2024",
+                                controls: "Various",
+                                image: `https://placehold.co/400x300/1a202c/FFFFFF??text=${encodeURIComponent(gameName)}`
+                            });
+                        }
+                    }
+                } else {
+                    // If data not loaded, retry after short delay
+                    setTimeout(initializeGameDetail, 50);
+                }
+            }
+            
+            initializeGameDetail();
+        });
+
+        function populateGameData(game) {
+            // Update page title
+            document.title = `${game.name} - Play Free Online | ArcadeBloom`;
+            
+            // Update meta description
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.content = `Play ${game.name} free online at ArcadeBloom. ${game.description} No download required, instant play in your browser.`;
+            }
+
+            // Update breadcrumb
+            const breadcrumbCategory = document.getElementById('breadcrumb-category');
+            if (breadcrumbCategory) {
+                breadcrumbCategory.textContent = game.category.charAt(0).toUpperCase() + game.category.slice(1);
+            }
+
+            const breadcrumbGame = document.getElementById('breadcrumb-game');
+            if (breadcrumbGame) {
+                breadcrumbGame.textContent = game.name;
+            }
+
+            // Update game title (h1 element)
+            const gameTitle = document.querySelector('h1');
+            if (gameTitle && gameTitle.textContent.includes('[GAME_NAME]')) {
+                gameTitle.textContent = gameTitle.textContent.replace('[GAME_NAME]', game.name);
+            }
+
+            // Update other game name instances
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[GAME_NAME]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[GAME_NAME\]/g, game.name);
+                }
+            });
+
+            // Update game details in sidebar
+            const gameInfoContainer = document.querySelector('.bg-white.rounded-lg.shadow-md.p-6');
+            if (gameInfoContainer) {
+                const gameInfo = gameInfoContainer.querySelector('.space-y-3');
+                if (gameInfo) {
+                    gameInfo.innerHTML = `
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Category:</span>
+                            <span class="font-medium capitalize">${game.category}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Platform:</span>
+                            <span class="font-medium">Web Browser</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Controls:</span>
+                            <span class="font-medium">${game.controls}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Developer:</span>
+                            <span class="font-medium">${game.developer}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Release Date:</span>
+                            <span class="font-medium">${game.releaseDate}</span>
+                        </div>
+                    `;
+                }
+            }
+
+            // Update category badge
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[CATEGORY]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[CATEGORY\]/g, game.category);
+                }
+            });
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[CONTROLS]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[CONTROLS\]/g, game.controls);
+                }
+            });
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[DEVELOPER]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[DEVELOPER\]/g, game.developer);
+                }
+            });
+
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[RELEASE_DATE]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[RELEASE_DATE\]/g, game.releaseDate);
+                }
+            });
+
+            
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[INSTRUCTION_1]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[INSTRUCTION_1\]/g, game.instructions[0]);
+                }
+            });
+
+          document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[INSTRUCTION_2]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[INSTRUCTION_2\]/g, game.instructions[1]);
+                }
+            });
+
+          document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[INSTRUCTION_3]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[INSTRUCTION_3\]/g, game.instructions[2]);
+                }
+            });
+
+            // Update game iframe with actual game URL
+            const iframe = document.getElementById('game-iframe');
+            const gameLoading = document.getElementById('game-loading');
+            const gameError = document.getElementById('game-error');
+            
+            if (iframe && game.gameUrl) {
+                            // Set iframe title
+            iframe.title = `${game.name} - Online Game`;
+            
+            // Show loading state
+            showLoading();
+            
+            // Load game
+            loadGame(game.gameUrl);
+        } else if (!game.gameUrl) {
+            // If no game URL, show error state
+            showError('This game is temporarily unavailable. Please check back later!');
+        }
+        
+        // Initialize game controls
+        setupGameControls();
+
+            // Update descriptions
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[GAME_DESCRIPTION') && el.children.length === 0) {
+                    el.textContent = game.description;
+                }
+                if (el.textContent && el.textContent.includes('[ADDITIONAL_DESCRIPTION]') && el.children.length === 0) {
+                    el.textContent = `${game.name} is an engaging ${game.category} game that offers hours of entertainment. Perfect for players of all skill levels, this game combines classic gameplay mechanics with modern design.`;
+                }
+            });
+        }
+
+        // Game loading function
+        function loadGame(gameUrl) {
+            const iframe = document.getElementById('game-iframe');
+            const gameLoading = document.getElementById('game-loading');
+            const gameError = document.getElementById('game-error');
+            
+            // Set iframe source
+            iframe.src = gameUrl;
+            
+            // Listen for iframe load events
+            iframe.onload = function() {
+                setTimeout(() => {
+                    hideLoading();
+                }, 1000); // Delay 1 second to hide loading state, ensuring game fully loads
+            };
+            
+            iframe.onerror = function() {
+                showError();
+            };
+            
+            // Timeout check (show possible error if still loading after 10 seconds)
+            setTimeout(() => {
+                const gameLoading = document.getElementById('game-loading');
+                if (gameLoading && !gameLoading.classList.contains('hidden')) {
+                    console.warn('Game is taking longer to load, possible network issues');
+                    hideLoading();
+                }
+            }, 10000);
+        }
+        
+        // Show loading state
+        function showLoading() {
+            const gameLoading = document.getElementById('game-loading');
+            const gameError = document.getElementById('game-error');
+            if (gameLoading) {
+                gameLoading.classList.remove('hidden');
+                gameLoading.classList.add('flex');
+            }
+            if (gameError) {
+                gameError.classList.add('hidden');
+                gameError.classList.remove('flex');
+            }
+        }
+        
+        // Hide loading state
+        function hideLoading() {
+            const gameLoading = document.getElementById('game-loading');
+            if (gameLoading) {
+                gameLoading.classList.add('hidden');
+                gameLoading.classList.remove('flex');
+            }
+        }
+        
+        // Show error state
+        function showError(customMessage = null) {
+            const gameLoading = document.getElementById('game-loading');
+            const gameError = document.getElementById('game-error');
+            
+            hideLoading();
+            if (gameError) {
+                gameError.classList.remove('hidden');
+                gameError.classList.add('flex');
+                
+                if (customMessage) {
+                    const errorMessage = gameError.querySelector('p');
+                    if (errorMessage) {
+                        errorMessage.textContent = customMessage;
+                    }
+                }
+            }
+        }
+        
+        // Game control functionality setup
+        function setupGameControls() {
+            // Refresh game button
+            const refreshBtn = document.getElementById('refresh-game');
+            if (refreshBtn) {
+                refreshBtn.addEventListener('click', function() {
+                    const iframe = document.getElementById('game-iframe');
+                    if (iframe && iframe.src) {
+                        showLoading();
+                        iframe.src = iframe.src; // Reload current URL
+                    }
+                });
+            }
+            
+            // Fullscreen button
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', function() {
+                    const gameContainer = document.getElementById('game-container');
+                    if (gameContainer) {
+                        if (!document.fullscreenElement) {
+                            gameContainer.requestFullscreen().then(() => {
+                                // Fullscreen success
+                                fullscreenBtn.innerHTML = `
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    Exit Fullscreen
+                                `;
+                            }).catch((err) => {
+                                console.warn('Fullscreen request failed:', err);
+                            });
+                        } else {
+                            document.exitFullscreen().then(() => {
+                                // Exit fullscreen success
+                                fullscreenBtn.innerHTML = `
+                                    <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                                    </svg>
+                                    Fullscreen
+                                `;
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Retry button
+            const retryBtn = document.getElementById('retry-game');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', function() {
+                    const iframe = document.getElementById('game-iframe');
+                    if (iframe && iframe.src) {
+                        showLoading();
+                        loadGame(iframe.src);
+                    }
+                });
+            }
+            
+            // Report issue button
+            const reportBtn = document.getElementById('report-issue');
+            if (reportBtn) {
+                reportBtn.addEventListener('click', function() {
+                    window.open('contact.html?subject=bug&message=' + encodeURIComponent('Game loading issue: ' + window.location.href), '_blank');
+                });
+            }
+            
+            // Listen for fullscreen state changes
+            document.addEventListener('fullscreenchange', function() {
+                const fullscreenBtn = document.getElementById('fullscreen-btn');
+                if (fullscreenBtn) {
+                    if (document.fullscreenElement) {
+                        fullscreenBtn.innerHTML = `
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                            Exit Fullscreen
+                        `;
+                    } else {
+                        fullscreenBtn.innerHTML = `
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                            </svg>
+                            Fullscreen
+                        `;
+                    }
+                }
+            });
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu?.classList.toggle('hidden');
+        });
+        
+        // Share functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareButtons = document.querySelectorAll('button');
+            shareButtons.forEach(button => {
+                if (button.textContent.includes('Facebook')) {
+                    button.addEventListener('click', function() {
+                        const url = window.location.href;
+                        const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+                        window.open(shareUrl, '_blank', 'width=600,height=400');
+                    });
+                } else if (button.textContent.includes('Twitter')) {
+                    button.addEventListener('click', function() {
+                        const url = window.location.href;
+                        const title = document.title;
+                        const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
+                        window.open(shareUrl, '_blank', 'width=600,height=400');
+                    });
+                } else if (button.textContent.includes('Copy Link')) {
+                    button.addEventListener('click', function() {
+                        navigator.clipboard.writeText(window.location.href).then(() => {
+                            alert('Link copied to clipboard!');
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

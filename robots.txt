@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Disallow specific paths if needed
+# Disallow: /admin/
+# Disallow: /private/
+
+# Sitemap location
+Sitemap: https://arcadebloom.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1 

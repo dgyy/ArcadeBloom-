@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batch Game Generator - ArcadeBloom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6">🎮 Batch Game Generator</h1>
+        
+        <!-- CSV Input -->
+        <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <h2 class="text-xl font-semibold mb-4">📊 Paste CSV Data</h2>
+            <textarea id="csvInput" class="w-full h-48 p-4 border rounded-lg font-mono text-sm" 
+                placeholder="Paste your CSV data here (name,category,description,developer,releaseDate,controls,rating,gameUrl,tags,featured)&#10;Candy Crush,puzzle,Match 3 candies,King,2012,Mouse,4.2,https://example.com,puzzle;sweet,false"></textarea>
+            <div class="flex gap-4 mt-4">
+                <button id="generateCode" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">⚡ Generate Code</button>
+                <button id="clearAll" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">🗑️ Clear</button>
+            </div>
+        </div>
+
+        <!-- Generated Code -->
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">📝 Generated Games Code</h2>
+                <button id="copyCode" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">📋 Copy Code</button>
+            </div>
+            <pre id="generatedCode" class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm min-h-48"></pre>
+            
+            <!-- Instructions -->
+            <div class="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2">🎯 How to Use:</h3>
+                <ol class="text-blue-700 space-y-1 text-sm">
+                    <li><strong>1.</strong> Copy the generated code above</li>
+                    <li><strong>2.</strong> Open your <code class="bg-blue-100 px-1 rounded">games-data.js</code> file</li>
+                    <li><strong>3.</strong> Find the line with the last game (before the closing <code class="bg-blue-100 px-1 rounded">];</code>)</li>
+                    <li><strong>4.</strong> Add a comma after the last game, then paste the new code</li>
+                    <li><strong>5.</strong> Save and refresh your website!</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentId = 21; // Next available ID - update this as needed
+        
+        document.getElementById('generateCode').addEventListener('click', function() {
+            const csvData = document.getElementById('csvInput').value.trim();
+            if (!csvData) {
+                alert('Please paste your CSV data first!');
+                return;
+            }
+            
+            const games = parseCSVToGames(csvData);
+            const code = generateGamesCode(games);
+            
+            document.getElementById('generatedCode').textContent = code;
+        });
+        
+        document.getElementById('copyCode').addEventListener('click', function() {
+            const code = document.getElementById('generatedCode').textContent;
+            if (!code.trim()) {
+                alert('Generate code first!');
+                return;
+            }
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copyCode');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.className = 'bg-green-500 text-white px-4 py-2 rounded-lg';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.className = 'bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700';
+                }, 2000);
+            });
+        });
+        
+        document.getElementById('clearAll').addEventListener('click', function() {
+            document.getElementById('csvInput').value = '';
+            document.getElementById('generatedCode').textContent = '';
+        });
+        
+        function parseCSVToGames(csvData) {
+            const lines = csvData.split('\n').filter(line => line.trim());
+            const games = [];
+            
+            lines.forEach(line => {
+                const values = parseCSVLine(line);
+                if (values.length >= 8) {
+                    games.push({
+                        name: values[0] || '',
+                        category: values[1] || 'action',
+                        description: values[2] || '',
+                        developer: values[3] || 'Unknown',
+                        releaseDate: values[4] || '2024',
+                        controls: values[5] || 'Mouse',
+                        rating: parseFloat(values[6]) || 4.0,
+                        gameUrl: values[7] || '#',
+                        tags: values[8] ? values[8].split(';').map(tag => tag.trim()) : ['game'],
+                        featured: values[9] === 'true' || values[9] === '1'
+                    });
+                }
+            });
+            
+            return games;
+        }
+        
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+        
+        function generateGamesCode(games) {
+            let code = '';
+            
+            games.forEach((game, index) => {
+                const id = currentId + index;
+                const slug = generateSlug(game.name);
+                const tags = game.tags.map(tag => `"${tag}"`).join(', ');
+                
+                if (index > 0) code += ',\n';
+                
+                code += `    {\n`;
+                code += `        id: ${id},\n`;
+                code += `        name: "${game.name}",\n`;
+                code += `        slug: "${slug}",\n`;
+                code += `        category: "${game.category}",\n`;
+                code += `        image: "https://placehold.co/400x300/1a202c/FFFFFF??text=${encodeURIComponent(game.name)}",\n`;
+                code += `        description: "${game.description}",\n`;
+                code += `        developer: "${game.developer}",\n`;
+                code += `        releaseDate: "${game.releaseDate}",\n`;
+                code += `        controls: "${game.controls}",\n`;
+                code += `        rating: ${game.rating},\n`;
+                code += `        plays: ${Math.floor(Math.random() * 50000) + 10000},\n`;
+                code += `        featured: ${game.featured},\n`;
+                code += `        tags: [${tags}],\n`;
+                code += `        gameUrl: "${game.gameUrl}",\n`;
+                code += `        instructions: [\n`;
+                code += `            "Click or tap to start playing",\n`;
+                code += `            "Use ${game.controls} to control the game",\n`;
+                code += `            "Follow the on-screen instructions",\n`;
+                code += `            "Have fun and enjoy the game!"\n`;
+                code += `        ]\n`;
+                code += `    }`;
+            });
+            
+            return code;
+        }
+        
+        function generateSlug(name) {
+            return name.toLowerCase()
+                .replace(/[^a-z0-9 -]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+    </script>
+</body>
+</html>

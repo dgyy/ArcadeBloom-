@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>All Games - ArcadeBloom | Browse Free Online Browser Games</title>
+    <meta name="description" content="Browse all free online browser games at ArcadeBloom. Discover action, puzzle, strategy, casual games and more. Play instantly without downloads!">
+    <meta name="keywords" content="all games, online games, browser games, free games, action games, puzzle games, strategy games, casual games">
+    <meta name="author" content="ArcadeBloom">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arcadebloom.com/all-games">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="All Games - Free Online Browser Games | ArcadeBloom">
+    <meta property="og:description" content="Browse all free online browser games. Action, puzzle, strategy & casual games available now!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arcadebloom.com/all-games">
+    <meta property="og:image" content="https://arcadebloom.com/images/all-games-og.jpg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="all-games.html" class="text-gray-900 font-medium">All Games</a>
+                    <a href="index.html#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                    <a href="about.html" class="text-gray-600 hover:text-gray-900 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="index.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                <a href="all-games.html" class="block px-3 py-2 text-gray-900 font-medium">All Games</a>
+                <a href="index.html#categories-section" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-r from-blue-500 to-purple-600 py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    All Games
+                </h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+                    Explore our complete collection of free online browser games. 
+                    From action-packed adventures to relaxing puzzles, find your next favorite game here.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto">
+                    <div class="relative">
+                        <input 
+                            type="search" 
+                            id="search-input"
+                            placeholder="Search games..."
+                            class="w-full px-6 py-4 text-lg rounded-full border-0 shadow-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+                            autocomplete="off"
+                        >
+                        <button 
+                            id="search-button"
+                            class="absolute right-2 top-2 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-200"
+                        >
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="bg-white py-8 shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex flex-wrap gap-3">
+                        <button class="category-btn bg-blue-600 text-white px-6 py-3 rounded-full font-medium transition duration-200" data-category="all">
+                            All Games
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="action">
+                            Action
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="puzzle">
+                            Puzzle
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="strategy">
+                            Strategy
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="casual">
+                            Casual
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="sports">
+                            Sports
+                        </button>
+                        <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="racing">
+                            Racing
+                        </button>
+                    </div>
+                    
+                    <div class="flex items-center gap-4">
+                        <select id="sort-select" class="bg-white border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="name">Sort by Name</option>
+                            <option value="category">Sort by Category</option>
+                            <option value="popular">Most Popular</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                        
+                        <div class="flex border border-gray-300 rounded-lg overflow-hidden">
+                            <button id="grid-view" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition duration-200">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4zm2 2V5h1v1h-1z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                            <button id="list-view" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200 transition duration-200">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section class="py-16">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Results Count -->
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        <span id="results-count">0</span> Games Found
+                    </h2>
+                    <div id="loading" class="flex items-center hidden">
+                        <div class="loading-spinner"></div>
+                        <span class="ml-3 text-gray-600">Loading games...</span>
+                    </div>
+                </div>
+
+                <!-- Games Grid -->
+                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <!-- Games will be loaded here dynamically -->
+                </div>
+
+                <!-- No Results -->
+                <div id="no-results" class="text-center py-12 hidden">
+                    <div class="text-6xl mb-4">🎮</div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">No games found</h3>
+                    <p class="text-gray-600">Try adjusting your search or filter criteria</p>
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-12">
+                    <button id="load-more" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-200 font-medium hidden">
+                        Load More Games
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold">ArcadeBloom</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Your ultimate destination for free online browser games. Play instantly without downloads.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">All Games</a></li>
+                        <li><a href="index.html#categories-section" class="text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="index.html#games-section" class="text-gray-300 hover:text-white">Featured Games</a></li>
+                        <li><a href="index.html" class="text-gray-300 hover:text-white">Home</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Game Data -->
+    <script src="games-data.js"></script>
+    
+    <!-- JavaScript -->
+    <script>
+        // Use external game data
+        let allGames = [];
+        
+        let currentCategory = 'all';
+        let currentSort = 'name';
+        let currentView = 'grid';
+        let displayedGames = 20;
+        let filteredGames = [];
+        
+        // DOM Elements
+        const gamesGrid = document.getElementById('games-grid');
+        const loading = document.getElementById('loading');
+        const loadMoreBtn = document.getElementById('load-more');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const sortSelect = document.getElementById('sort-select');
+        const gridViewBtn = document.getElementById('grid-view');
+        const listViewBtn = document.getElementById('list-view');
+        const resultsCount = document.getElementById('results-count');
+        const noResults = document.getElementById('no-results');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for game data to load
+            function initializeWithData() {
+                if (typeof GameUtils !== 'undefined') {
+                    allGames = GameUtils.getAllGames();
+                    
+                    // Check for URL parameters
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const searchQuery = urlParams.get('search');
+                    const categoryFilter = urlParams.get('category');
+                    
+                    // Set initial search if provided
+                    if (searchQuery) {
+                        searchInput.value = searchQuery;
+                    }
+                    
+                    // Set initial category if provided
+                    if (categoryFilter && categoryFilter !== 'all') {
+                        const categoryBtn = document.querySelector(`[data-category="${categoryFilter}"]`);
+                        if (categoryBtn) {
+                            selectCategory(categoryFilter, categoryBtn);
+                        }
+                    }
+                    
+                    filterAndSortGames();
+                    loadGames();
+                    setupEventListeners();
+                } else {
+                    // If data not loaded, retry later
+                    setTimeout(initializeWithData, 50);
+                }
+            }
+            
+            initializeWithData();
+        });
+        
+        function setupEventListeners() {
+            // Category filter
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    selectCategory(this.dataset.category, this);
+                });
+            });
+            
+            // Search functionality
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            searchInput.addEventListener('input', performSearch);
+            
+            // Sort functionality
+            sortSelect.addEventListener('change', function() {
+                currentSort = this.value;
+                sortGames();
+                loadGames();
+            });
+            
+            // View toggle
+            gridViewBtn.addEventListener('click', () => setView('grid'));
+            listViewBtn.addEventListener('click', () => setView('list'));
+            
+            // Load more button
+            loadMoreBtn.addEventListener('click', loadMoreGames);
+            
+            // Mobile menu
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+        
+        function selectCategory(category, button) {
+            currentCategory = category;
+            displayedGames = 20;
+            
+            // Update button styles
+            categoryButtons.forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            });
+            button.classList.add('bg-blue-600', 'text-white');
+            button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            
+            filterAndSortGames();
+            loadGames();
+        }
+        
+        function performSearch() {
+            filterAndSortGames();
+            loadGames();
+        }
+        
+        function filterAndSortGames() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Filter by category and search
+            filteredGames = allGames.filter(game => {
+                const matchesCategory = currentCategory === 'all' || game.category === currentCategory;
+                const matchesSearch = !query || 
+                    game.name.toLowerCase().includes(query) || 
+                    game.description.toLowerCase().includes(query) ||
+                    game.category.toLowerCase().includes(query);
+                
+                return matchesCategory && matchesSearch;
+            });
+            
+            sortGames();
+        }
+        
+        function sortGames() {
+            switch(currentSort) {
+                case 'name':
+                    filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'category':
+                    filteredGames.sort((a, b) => a.category.localeCompare(b.category));
+                    break;
+                case 'popular':
+                    filteredGames.sort((a, b) => b.plays - a.plays);
+                    break;
+                case 'newest':
+                    filteredGames.sort((a, b) => b.id - a.id);
+                    break;
+            }
+        }
+        
+        function setView(view) {
+            currentView = view;
+            
+            if (view === 'grid') {
+                gridViewBtn.classList.add('bg-blue-600', 'text-white');
+                gridViewBtn.classList.remove('bg-gray-100', 'text-gray-600');
+                listViewBtn.classList.remove('bg-blue-600', 'text-white');
+                listViewBtn.classList.add('bg-gray-100', 'text-gray-600');
+                gamesGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6';
+            } else {
+                listViewBtn.classList.add('bg-blue-600', 'text-white');
+                listViewBtn.classList.remove('bg-gray-100', 'text-gray-600');
+                gridViewBtn.classList.remove('bg-blue-600', 'text-white');
+                gridViewBtn.classList.add('bg-gray-100', 'text-gray-600');
+                gamesGrid.className = 'space-y-4';
+            }
+            
+            loadGames();
+        }
+        
+        function loadGames() {
+            loading.classList.remove('hidden');
+            
+            setTimeout(() => {
+                const gamesToShow = filteredGames.slice(0, displayedGames);
+                renderGames(gamesToShow);
+                updateUI();
+                loading.classList.add('hidden');
+            }, 300);
+        }
+        
+        function loadMoreGames() {
+            displayedGames += 20;
+            loadGames();
+        }
+        
+        function updateUI() {
+            resultsCount.textContent = filteredGames.length;
+            
+            if (filteredGames.length === 0) {
+                noResults.classList.remove('hidden');
+                gamesGrid.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                gamesGrid.classList.remove('hidden');
+            }
+            
+            // Show/hide load more button
+            if (displayedGames < filteredGames.length) {
+                loadMoreBtn.classList.remove('hidden');
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
+        }
+        
+        function renderGames(games) {
+            if (currentView === 'grid') {
+                gamesGrid.innerHTML = games.map(game => `
+                    <div class="game-card bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="aspect-w-3 aspect-h-4">
+                            <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full capitalize">${game.category}</span>
+                                <div class="flex items-center text-yellow-400">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                    </svg>
+                                    <span class="text-gray-600 text-sm ml-1">${game.rating}</span>
+                                </div>
+                            </div>
+                            <h3 class="font-semibold text-gray-900 mb-2 truncate">${game.name}</h3>
+                            <p class="text-gray-600 text-sm mb-3 line-clamp-2">${game.description}</p>
+                            <button onclick="playGame(${game.id})" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
+                                Play Now
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                gamesGrid.innerHTML = games.map(game => `
+                    <div class="game-card bg-white rounded-lg shadow-md overflow-hidden flex">
+                        <img src="${game.image}" alt="${game.name}" class="w-24 h-24 object-cover">
+                        <div class="flex-1 p-4 flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-4 mb-2">
+                                    <h3 class="font-semibold text-gray-900">${game.name}</h3>
+                                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full capitalize">${game.category}</span>
+                                    <div class="flex items-center text-yellow-400">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        <span class="text-gray-600 text-sm ml-1">${game.rating}</span>
+                                    </div>
+                                </div>
+                                <p class="text-gray-600 text-sm">${game.description}</p>
+                                <p class="text-gray-500 text-xs mt-1">${game.plays.toLocaleString()} plays</p>
+                            </div>
+                            <button onclick="playGame(${game.id})" class="bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
+                                Play Now
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+        
+        function playGame(gameId) {
+            if (typeof GameUtils !== 'undefined') {
+                const game = GameUtils.getGameById(gameId);
+                if (game) {
+                    const gameUrl = `game-detail.html?name=${encodeURIComponent(game.name)}&category=${game.category}&id=${gameId}`;
+                    window.open(gameUrl, '_blank');
+                } else {
+                    alert('Game not found! Please check the game ID.');
+                }
+            } else {
+                alert('Game data not loaded yet. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 

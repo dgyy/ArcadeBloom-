@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>ArcadeBloom - Free Online Browser Games | Play Instantly</title>
+    <meta name="description" content="Discover thousands of free online browser games at ArcadeBloom. Play action, puzzle, strategy, and casual games instantly. No downloads required - just click and play!">
+    <meta name="keywords" content="online games, browser games, free games, html5 games, web games, action games, puzzle games, strategy games, casual games, arcade games">
+    <meta name="author" content="ArcadeBloom">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arcadebloom.com/">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="ArcadeBloom - Free Online Browser Games">
+    <meta property="og:description" content="Play thousands of free online browser games instantly. Action, puzzle, strategy & casual games available now!">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://arcadebloom.com/">
+    <meta property="og:image" content="https://arcadebloom.com/images/og-image.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ArcadeBloom - Free Online Browser Games">
+    <meta name="twitter:description" content="Play thousands of free online browser games instantly. No downloads required!">
+    <meta name="twitter:image" content="https://arcadebloom.com/images/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "ArcadeBloom",
+      "description": "Free online browser games platform",
+      "url": "https://arcadebloom.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://arcadebloom.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .search-focus:focus {
+            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);
+        }
+        .category-active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                    </a>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-900 font-medium">Home</a>
+                    <a href="all-games.html" class="text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                    <a href="#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                    <a href="about.html" class="text-gray-600 hover:text-gray-900 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="index.html" class="block px-3 py-2 text-gray-900 font-medium">Home</a>
+                <a href="all-games.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                <a href="#categories-section" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium mobile-link">Categories</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient py-20 lg:py-32">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    Play Amazing Browser Games
+                    <span class="block text-2xl md:text-4xl font-normal text-blue-200 mt-2">
+                        Instantly & Free
+                    </span>
+                </h1>
+                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                    Discover thousands of free online games. From puzzles to action adventures, find your next favorite game right here.
+                </p>
+                
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto mb-8">
+                    <div class="relative">
+                        <input 
+                            type="search" 
+                            id="search-input"
+                            placeholder="Search for games..."
+                            class="w-full px-6 py-4 text-lg rounded-full border-0 shadow-lg search-focus focus:outline-none focus:ring-0"
+                            autocomplete="off"
+                        >
+                        <button 
+                            id="search-button"
+                            class="absolute right-2 top-2 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-200"
+                        >
+                            Search
+                        </button>
+                    </div>
+                    <div id="search-suggestions" class="hidden absolute z-10 w-full bg-white border rounded-lg shadow-lg mt-1"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter -->
+        <section class="bg-white py-8 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="category-btn category-active px-6 py-3 rounded-full text-white font-medium transition duration-200" data-category="all">
+                        All Games
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="action">
+                        Action
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="puzzle">
+                        Puzzle
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="strategy">
+                        Strategy
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="casual">
+                        Casual
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="sports">
+                        Sports
+                    </button>
+                    <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="racing">
+                        Racing
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Games -->
+        <section class="py-16" id="games-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8">Featured Games</h2>
+                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                    <!-- Games will be loaded here dynamically -->
+                </div>
+                
+                <!-- Loading Spinner -->
+                <div id="loading" class="flex justify-center items-center py-12">
+                    <div class="loading-spinner"></div>
+                    <span class="ml-3 text-gray-600">Loading games...</span>
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="text-center mt-12">
+                    <button id="load-more" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-200 font-medium hidden">
+                        Load More Games
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Categories -->
+        <section class="bg-gray-100 py-16" id="categories-section">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-12 text-center">Popular Categories</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 p-6 text-center cursor-pointer category-card" data-category="action">
+                        <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-red-200 transition duration-300">
+                            <svg class="w-8 h-8 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Action Games</h3>
+                        <p class="text-gray-600 text-sm">Fast-paced games with exciting gameplay</p>
+                    </div>
+                    
+                    <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 p-6 text-center cursor-pointer category-card" data-category="puzzle">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition duration-300">
+                            <svg class="w-8 h-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12a1 1 0 102 0V9a1 1 0 10-2 0v3zm1-6a1 1 0 100 2 1 1 0 000-2z"/>
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0a6 6 0 11-12 0 6 6 0 0112 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Puzzle Games</h3>
+                        <p class="text-gray-600 text-sm">Challenge your mind with brain teasers</p>
+                    </div>
+                    
+                    <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 p-6 text-center cursor-pointer category-card" data-category="strategy">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-green-200 transition duration-300">
+                            <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/>
+                                <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Strategy Games</h3>
+                        <p class="text-gray-600 text-sm">Plan, build, and conquer in these games</p>
+                    </div>
+                    
+                    <div class="group bg-white rounded-lg shadow-md hover:shadow-xl transition duration-300 p-6 text-center cursor-pointer category-card" data-category="casual">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-200 transition duration-300">
+                            <svg class="w-8 h-8 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4zm2 2V5h1v1h-1z" clip-rule="evenodd"/>
+                                <path d="M12 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-3zm2 2v-1h1v1h-1z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold text-gray-900 mb-2">Casual Games</h3>
+                        <p class="text-gray-600 text-sm">Easy to play, fun to master</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold">ArcadeBloom</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Your ultimate destination for free online browser games. Play instantly without downloads, enjoy endless fun with friends and family.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">All Games</a></li>
+                        <li><a href="#categories-section" class="text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="#games-section" class="text-gray-300 hover:text-white">Featured Games</a></li>
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">Browse Games</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white">Contact</a></li>
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Game Data -->
+    <script src="games-data.js"></script>
+    
+    <!-- JavaScript -->
+    <script>
+        // Use external game data
+        let currentCategory = 'all';
+        let displayedGames = 12;
+        let filteredGames = [];
+        
+        // Function to get game data
+        function getGameData() {
+            if (typeof GameUtils !== 'undefined') {
+                // Prioritize featured games, if no featured games show first 12
+                const featuredGames = GameUtils.getFeaturedGames();
+                return featuredGames.length > 0 ? featuredGames : GameUtils.getAllGames().slice(0, 12);
+            }
+            // If data not yet loaded, return empty array
+            return [];
+        }
+        
+        // DOM Elements
+        const gamesGrid = document.getElementById('games-grid');
+        const loading = document.getElementById('loading');
+        const loadMoreBtn = document.getElementById('load-more');
+        const searchInput = document.getElementById('search-input');
+        const searchButton = document.getElementById('search-button');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGames();
+            setupEventListeners();
+        });
+        
+        function setupEventListeners() {
+            // Category filter
+            categoryButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    selectCategory(category, this);
+                });
+            });
+            
+            // Search functionality
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // Load more button
+            loadMoreBtn.addEventListener('click', loadMoreGames);
+            
+            // Mobile menu
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking on mobile links
+            document.querySelectorAll('.mobile-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Category card click handlers
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.dataset.category;
+                    
+                    // Scroll to games section
+                    document.getElementById('games-section').scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Filter games after a short delay
+                    setTimeout(() => {
+                        selectCategory(category, document.querySelector(`[data-category="${category}"].category-btn`));
+                    }, 500);
+                });
+            });
+        }
+        
+        function selectCategory(category, button) {
+            // Update active category
+            currentCategory = category;
+            displayedGames = 12;
+            
+            // Update button styles
+            categoryButtons.forEach(btn => {
+                btn.classList.remove('category-active');
+                btn.classList.add('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            });
+            button.classList.add('category-active');
+            button.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+            
+            // Filter and load games
+            filterGames();
+            loadGames();
+        }
+        
+        function filterGames() {
+            const allGames = getGameData();
+            if (currentCategory === 'all') {
+                filteredGames = allGames;
+            } else {
+                filteredGames = allGames.filter(game => game.category === currentCategory);
+            }
+        }
+        
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            if (query) {
+                // Redirect to all-games page with search query
+                window.location.href = `all-games.html?search=${encodeURIComponent(query)}`;
+            } else {
+                // If no query, just go to all games
+                window.location.href = 'all-games.html';
+            }
+        }
+        
+        function loadGames() {
+            loading.classList.remove('hidden');
+            
+            // Simulate loading delay
+            setTimeout(() => {
+                const gamesToShow = filteredGames.slice(0, displayedGames);
+                renderGames(gamesToShow);
+                
+                loading.classList.add('hidden');
+                
+                // Show/hide load more button
+                if (displayedGames < filteredGames.length) {
+                    loadMoreBtn.classList.remove('hidden');
+                } else {
+                    loadMoreBtn.classList.add('hidden');
+                }
+            }, 500);
+        }
+        
+        function loadMoreGames() {
+            displayedGames += 12;
+            loadGames();
+        }
+        
+        function renderGames(games) {
+            gamesGrid.innerHTML = games.map(game => `
+                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="aspect-w-3 aspect-h-4">
+                        <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-900 mb-2 truncate">${game.name}</h3>
+                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">${game.description}</p>
+                        <button onclick="playGame(${game.id})" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
+                            Play Now
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Initialize page
+        function initializePage() {
+            // Ensure game data is loaded
+            if (typeof GameUtils !== 'undefined') {
+                filterGames();
+                loadGames();
+            } else {
+                // If data not loaded, retry after short delay
+                setTimeout(initializePage, 50);
+            }
+        }
+        
+        // Initialize after page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+        });
+        
+        function playGame(gameId) {
+            if (typeof GameUtils !== 'undefined') {
+                const game = GameUtils.getGameById(gameId);
+                if (game) {
+                    // Create a URL with game parameters for the detail page
+                    const gameUrl = `game-detail.html?name=${encodeURIComponent(game.name)}&category=${game.category}&id=${gameId}`;
+                    window.open(gameUrl, '_blank');
+                } else {
+                    alert('Game not found! Please check the game ID.');
+                }
+            } else {
+                alert('Game data not loaded yet. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 
