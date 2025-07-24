@@ -7,10 +7,10 @@
 
 // Game data array
 const GAMES_DATABASE = [
-    {
-        id: 1,
+        {
+        id: 21,
         name: "Hextris",
-        slug: "Hextris",
+        slug: "hextris",
         category: "puzzle",
         image: "./pic/logo/Hextris.png",
         description: "Fast paced HTML5 puzzle game inspired by Tetris!",
@@ -18,18 +18,19 @@ const GAMES_DATABASE = [
         releaseDate: "2015",
         controls: "mouse",
         rating: 4.8,
-        plays: 1600,
+        plays: 20994,
         featured: true,
-        tags: ["level", "puzzle"],
+        tags: ["puzzle"],
         gameUrl: "https://hextris.io/",
         instructions: [
-            "Rotate the hexagon with arrow keys to match incoming blocks",
-            "Stack three or more blocks of the same color to clear them",
-            "Prevent the stack from reaching the outer boundary to survive"
+            "Click or tap to start playing",
+            "Use mouse to control the game",
+            "Follow the on-screen instructions",
+            "Have fun and enjoy the game!"
         ]
     },
     {
-        id: 2,
+        id: 22,
         name: "proxx",
         slug: "proxx",
         category: "puzzle",
@@ -38,15 +39,16 @@ const GAMES_DATABASE = [
         developer: "mgerdes",
         releaseDate: "2020",
         controls: "mouse",
-        rating: 4.6,
-        plays: 1450,
+        rating: 4.9,
+        plays: 55646,
         featured: true,
-        tags: [ "sport"],
+        tags: ["sprot"],
         gameUrl: "https://proxx.app/",
         instructions: [
-            "Click tiles to reveal empty space or black holes",
-            "Numbers show how many nearby black holes are adjacent",
-            "Mark suspected black holes to avoid clicking them"
+            "Click or tap to start playing",
+            "Use mouse to control the game",
+            "Follow the on-screen instructions",
+            "Have fun and enjoy the game!"
         ]
     }
 ];
