@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Girlfriend Tolerance Challenge</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter for a clean look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to supplement Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            touch-action: manipulation; /* Improves touch responsiveness */
+        }
+        /* Custom transition for the anger bar for a smooth effect */
+        #angerBarFill {
+            transition: width 0.5s ease-in-out, background-color 0.5s ease-in-out;
+        }
+        /* A subtle animation for when the character's mood changes */
+        .mood-change {
+            animation: pulse 0.5s;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body class="bg-pink-50 flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main Game Container -->
+    <div id="gameContainer" class="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 md:p-8 text-center">
+
+        <!-- Character and Anger Meter Section -->
+        <div class="mb-6">
+            <div id="characterEmoji" class="text-7xl md:text-8xl mb-4">😊</div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Anger Meter</h2>
+            <div id="angerBar" class="w-full bg-gray-200 rounded-full h-6 overflow-hidden border-2 border-gray-300">
+                <div id="angerBarFill" class="h-full bg-green-500 rounded-full text-xs font-medium text-white text-center leading-6" style="width: 0%;">
+                    0%
+                </div>
+            </div>
+        </div>
+
+        <!-- Dialogue Section -->
+        <div class="min-h-[100px] flex items-center justify-center mb-6">
+            <p id="dialogueText" class="text-lg font-medium text-gray-700">
+                Welcome! Ready to start the challenge?
+            </p>
+        </div>
+
+        <!-- Options Section -->
+        <div id="optionsContainer" class="grid grid-cols-1 gap-4">
+            <!-- Options will be dynamically inserted here -->
+        </div>
+        
+        <!-- Start Button -->
+        <button id="startButton" class="w-full bg-pink-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+            Start Challenge
+        </button>
+    </div>
+
+    <!-- Game Over/Win Modal -->
+    <div id="gameOverModal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-8 text-center max-w-sm w-full">
+            <div id="modalEmoji" class="text-8xl mb-4">💥</div>
+            <h2 id="modalTitle" class="text-3xl font-bold text-red-600 mb-2">Challenge Failed</h2>
+            <p id="modalText" class="text-gray-700 mb-4">You ran out of her patience!</p>
+            <p id="finalScore" class="text-xl font-semibold text-gray-800 mb-6">You survived 0 rounds.</p>
+            <button id="restartButton" class="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+                Try Again
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DOM ELEMENT REFERENCES ---
+        const gameContainer = document.getElementById('gameContainer');
+        const characterEmoji = document.getElementById('characterEmoji');
+        const angerBarFill = document.getElementById('angerBarFill');
+        const dialogueText = document.getElementById('dialogueText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const startButton = document.getElementById('startButton');
+        
+        const gameOverModal = document.getElementById('gameOverModal');
+        const modalEmoji = document.getElementById('modalEmoji');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalText = document.getElementById('modalText');
+        const finalScore = document.getElementById('finalScore');
+        const restartButton = document.getElementById('restartButton');
+
+        // --- GAME STATE ---
+        let currentAnger = 0;
+        let roundsSurvived = 0;
+        let scenarios = [];
+        let usedScenarioIndices = new Set();
+        const totalRounds = 10; // Total number of rounds for the game
+
+        // --- GAME DATA: SCENARIOS (in English) ---
+        const allScenarios = [
+            {
+                dialogue: "Do you notice anything different about me today?",
+                options: [
+                    { text: "You got a new hairstyle! It looks amazing!", anger: -5 },
+                    { text: "Hmm... I can't quite put my finger on it, but you look as beautiful as ever.", anger: 10 },
+                    { text: "Did you lose weight?", anger: 25 },
+                    { text: "No, should I have noticed something?", anger: 60 }
+                ]
+            },
+            {
+                dialogue: "Do you know I've been waiting for you for half an hour? Where were you?",
+                options: [
+                    { text: "Baby, I'm so sorry! There was traffic, I rushed here as fast as I could!", anger: 10 },
+                    { text: "Don't be so impatient, I'm here now, aren't I?", anger: 40 },
+                    { text: "You were late last week too, so we're even.", anger: 70 },
+                    { text: "Why didn't you play a few games? Time would fly by.", anger: 100 }
+                ]
+            },
+            {
+                dialogue: "Honey, does this dress make me look fat?",
+                options: [
+                    { text: "How could it? This dress was practically made for you!", anger: 0 },
+                    { text: "It's not the dress, it might be the angle.", anger: 30 },
+                    { text: "Just a tiny bit, but you're still adorable.", anger: 60 },
+                    { text: "If you think you look fat, then you probably already have your answer.", anger: 100 }
+                ]
+            },
+            {
+                dialogue: "You've been playing games for hours, aren't you going to spend time with me?",
+                options: [
+                    { text: "You're right, my bad. I'll save and quit right away, let's do something else together.", anger: -10 },
+                    { text: "Just one more level, I promise!", anger: 35 },
+                    { text: "I'm almost at the final boss! Can't it wait?", anger: 65 },
+                    { text: "I'm just relaxing, you have your hobbies, I have mine.", anger: 90 }
+                ]
+            },
+            {
+                dialogue: "I had a terrible day at work, I'm so annoyed...",
+                options: [
+                    { text: "Oh no, tell me everything, who upset you?", anger: -15 },
+                    { text: "That's awful. How about we watch a movie to forget about it?", anger: 15 },
+                    { text: "If you're that unhappy, why don't you just quit?", anger: 40 },
+                    { text: "At least you have a job.", anger: 80 }
+                ]
+            },
+            {
+                dialogue: "Can I see your phone for a second?",
+                options: [
+                    { text: "Of course, here you go. My phone is your phone.", anger: 0 },
+                    { text: "Uh, why? What do you need it for?", anger: 30 },
+                    { text: "Hold on, let me just close a few things...", anger: 70 },
+                    { text: "Men need their privacy too.", anger: 100 }
+                ]
+            },
+            {
+                dialogue: "What are you thinking about?",
+                options: [
+                    { text: "Just thinking about how lucky I am to have you.", anger: -5 },
+                    { text: "Nothing much, just work stuff.", anger: 20 },
+                    { text: "Why do you always ask that?", anger: 50 },
+                    { text: "Thinking about my ex.", anger: 100 }
+                ]
+            },
+            {
+                dialogue: "I'm hungry, what should we eat?",
+                options: [
+                    { text: "Anything you want, my love! Your wish is my command.", anger: 0 },
+                    { text: "I don't know, what do you feel like?", anger: 25 },
+                    { text: "Let's just order pizza again.", anger: 55 },
+                    { text: "Cook something yourself.", anger: 90 }
+                ]
+            },
+            {
+                dialogue: "My friend just got engaged! Isn't that wonderful?",
+                options: [
+                    { text: "That's amazing news! I'm so happy for her!", anger: -10 },
+                    { text: "Oh, that's nice. Good for them.", anger: 20 },
+                    { text: "Are you hinting at something?", anger: 60 },
+                    { text: "Another one bites the dust.", anger: 100 }
+                ]
+            },
+            {
+                dialogue: "Do you remember what today is?",
+                options: [
+                    { text: "Of course, it's our anniversary! I have a surprise for you!", anger: -20 },
+                    { text: "Uh, Tuesday?", anger: 40 },
+                    { text: "Is it... something important?", anger: 75 },
+                    { text: "No, should I?", anger: 100 }
+                ]
+            }
+        ];
+
+        /**
+         * Initializes or resets the game to its starting state.
+         */
+        function initializeGame() {
+            currentAnger = 0;
+            roundsSurvived = 0;
+            usedScenarioIndices.clear();
+            scenarios = [...allScenarios]; // Reset scenarios for a new game
+
+            updateAnger(0);
+            gameOverModal.classList.add('hidden');
+            gameContainer.classList.remove('hidden');
+            
+            // Reset modal to its default "Game Over" state
+            modalEmoji.textContent = "💥";
+            modalTitle.textContent = "Challenge Failed";
+            modalTitle.classList.remove('text-green-600');
+            modalTitle.classList.add('text-red-600');
+            modalText.textContent = "You ran out of her patience!";
+
+            optionsContainer.innerHTML = '';
+            startButton.classList.remove('hidden');
+            dialogueText.textContent = "Welcome! Click the button below to start the challenge!";
+        }
+
+        /**
+         * Starts the game by hiding the start button and showing the first scenario.
+         */
+        function startGame() {
+            startButton.classList.add('hidden');
+            displayNextScenario();
+        }
+
+        /**
+         * Selects and displays a new, unused scenario.
+         */
+        function displayNextScenario() {
+            // Check if all scenarios have been used
+            if (usedScenarioIndices.size === scenarios.length) {
+                winGame(); // Player wins if all scenarios are completed
+                return;
+            }
+
+            let scenarioIndex;
+            // Loop until an unused scenario index is found
+            do {
+                scenarioIndex = Math.floor(Math.random() * scenarios.length);
+            } while (usedScenarioIndices.has(scenarioIndex));
+            
+            usedScenarioIndices.add(scenarioIndex); // Mark the scenario as used
+            const scenario = scenarios[scenarioIndex];
+
+            dialogueText.textContent = scenario.dialogue;
+            optionsContainer.innerHTML = ''; // Clear previous options
+
+            // Create buttons for each option
+            scenario.options.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option.text;
+                // Apply Tailwind classes for styling and responsiveness
+                button.className = "w-full bg-gray-100 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75 transition-transform transform hover:scale-105";
+                button.onclick = () => handleOptionSelect(option.anger); // Attach event listener
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        /**
+         * Handles the player's choice, updates anger, and checks game state.
+         * @param {number} angerValue - The amount of anger to add or subtract.
+         */
+        function handleOptionSelect(angerValue) {
+            updateAnger(currentAnger + angerValue); // Update anger based on choice
+
+            if (currentAnger >= 100) {
+                triggerGameOver(); // Game over if anger reaches 100%
+            } else {
+                roundsSurvived++; // Increment rounds survived
+                // Display the next scenario after a short delay for better UX
+                setTimeout(displayNextScenario, 500); 
+            }
+        }
+
+        /**
+         * Updates the current anger level and the UI elements (bar and emoji).
+         * @param {number} newAngerValue - The new total anger value.
+         */
+        function updateAnger(newAngerValue) {
+            // Ensure anger stays within 0-100 range
+            currentAnger = Math.max(0, Math.min(100, newAngerValue));
+
+            angerBarFill.style.width = `${currentAnger}%`;
+            angerBarFill.textContent = `${currentAnger}%`;
+
+            // Change anger bar color based on anger level
+            if (currentAnger < 30) {
+                angerBarFill.className = 'h-full bg-green-500 rounded-full text-xs font-medium text-white text-center leading-6';
+            } else if (currentAnger < 60) {
+                angerBarFill.className = 'h-full bg-yellow-500 rounded-full text-xs font-medium text-white text-center leading-6';
+            } else if (currentAnger < 90) {
+                angerBarFill.className = 'h-full bg-orange-500 rounded-full text-xs font-medium text-white text-center leading-6';
+            } else {
+                angerBarFill.className = 'h-full bg-red-600 rounded-full text-xs font-medium text-white text-center leading-6';
+            }
+            
+            // Update character emoji based on anger level
+            const oldEmoji = characterEmoji.textContent;
+            let newEmoji = '😊'; // Happy
+            if (currentAnger >= 90) newEmoji = '😡'; // Very angry
+            else if (currentAnger >= 60) newEmoji = '😠'; // Angry
+            else if (currentAnger >= 30) newEmoji = '😐'; // Neutral
+            
+            // Apply mood-change animation if emoji changes
+            if(oldEmoji !== newEmoji) {
+                characterEmoji.textContent = newEmoji;
+                characterEmoji.classList.add('mood-change');
+                setTimeout(() => characterEmoji.classList.remove('mood-change'), 500);
+            }
+        }
+        
+        /**
+         * Triggers the game over sequence, showing the modal with failure message.
+         */
+        function triggerGameOver() {
+            finalScore.textContent = `You survived ${roundsSurvived} rounds.`;
+            gameContainer.classList.add('hidden'); // Hide main game
+            gameOverModal.classList.remove('hidden'); // Show game over modal
+        }
+
+        /**
+         * Triggers a win state if the player clears all scenarios.
+         */
+        function winGame() {
+            modalEmoji.textContent = "🏆"; // Trophy emoji for win
+            modalTitle.textContent = "Challenge Succeeded! 🎉";
+            modalTitle.classList.remove('text-red-600');
+            modalTitle.classList.add('text-green-600'); // Green title for win
+            modalText.textContent = "You are truly an emotional master!";
+            finalScore.textContent = `You successfully completed all ${roundsSurvived} rounds!`;
+            
+            gameContainer.classList.add('hidden'); // Hide main game
+            gameOverModal.classList.remove('hidden'); // Show win modal
+        }
+
+        // --- EVENT LISTENERS ---
+        startButton.addEventListener('click', startGame); // Start game on button click
+        restartButton.addEventListener('click', initializeGame); // Restart game on button click
+
+        // --- INITIALIZE GAME ON PAGE LOAD ---
+        window.onload = initializeGame;
+
+    </script>
+</body>
+</html>
