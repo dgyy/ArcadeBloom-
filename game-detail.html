@@ -335,13 +335,10 @@
 
                     <!-- Game Description -->
                     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-4">About [GAME_NAME]</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-4">About Game</h2>
                         <div class="prose prose-gray max-w-none">
                             <p class="text-gray-700 leading-relaxed mb-4">
-                                [GAME_DESCRIPTION_LONG]
-                            </p>
-                            <p class="text-gray-700 leading-relaxed">
-                                [ADDITIONAL_DESCRIPTION]
+                                [GAME_DESCRIPTION]
                             </p>
                         </div>
                     </div>
@@ -351,16 +348,7 @@
                         <h2 class="text-2xl font-bold text-gray-900 mb-4">How to Play</h2>
                         <div class="space-y-3">
                             <div class="flex items-start">
-                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</span>
-                                <p class="text-gray-700">[INSTRUCTION_1]</p>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</span>
-                                <p class="text-gray-700">[INSTRUCTION_2]</p>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</span>
-                                <p class="text-gray-700">[INSTRUCTION_3]</p>
+                                <p class="text-gray-700">[INSTRUCTION]</p>
                             </div>
                         </div>
                     </div>
@@ -375,18 +363,6 @@
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Category:</span>
                                 <span class="font-medium capitalize">[CATEGORY]</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Platform:</span>
-                                <span class="font-medium">Web Browser</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Controls:</span>
-                                <span class="font-medium">[CONTROLS]</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Developer:</span>
-                                <span class="font-medium">[DEVELOPER]</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-gray-600">Release Date:</span>
@@ -640,16 +616,6 @@
                     el.textContent = el.textContent.replace(/\[CATEGORY\]/g, game.category);
                 }
             });
-            document.querySelectorAll('*').forEach(el => {
-                if (el.textContent && el.textContent.includes('[CONTROLS]') && el.children.length === 0) {
-                    el.textContent = el.textContent.replace(/\[CONTROLS\]/g, game.controls);
-                }
-            });
-            document.querySelectorAll('*').forEach(el => {
-                if (el.textContent && el.textContent.includes('[DEVELOPER]') && el.children.length === 0) {
-                    el.textContent = el.textContent.replace(/\[DEVELOPER\]/g, game.developer);
-                }
-            });
 
             document.querySelectorAll('*').forEach(el => {
                 if (el.textContent && el.textContent.includes('[RELEASE_DATE]') && el.children.length === 0) {
@@ -659,22 +625,17 @@
 
             
             document.querySelectorAll('*').forEach(el => {
-                if (el.textContent && el.textContent.includes('[INSTRUCTION_1]') && el.children.length === 0) {
-                    el.textContent = el.textContent.replace(/\[INSTRUCTION_1\]/g, game.instructions[0]);
+                if (el.textContent && el.textContent.includes('[INSTRUCTION]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[INSTRUCTION\]/g, game.instructions);
                 }
             });
 
-          document.querySelectorAll('*').forEach(el => {
-                if (el.textContent && el.textContent.includes('[INSTRUCTION_2]') && el.children.length === 0) {
-                    el.textContent = el.textContent.replace(/\[INSTRUCTION_2\]/g, game.instructions[1]);
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[GAME_DESCRIPTION]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[GAME_DESCRIPTION\]/g, game.description);
                 }
             });
 
-          document.querySelectorAll('*').forEach(el => {
-                if (el.textContent && el.textContent.includes('[INSTRUCTION_3]') && el.children.length === 0) {
-                    el.textContent = el.textContent.replace(/\[INSTRUCTION_3\]/g, game.instructions[2]);
-                }
-            });
 
             // Update game iframe with actual game URL
             const iframe = document.getElementById('game-iframe');
@@ -702,9 +663,6 @@
             document.querySelectorAll('*').forEach(el => {
                 if (el.textContent && el.textContent.includes('[GAME_DESCRIPTION') && el.children.length === 0) {
                     el.textContent = game.description;
-                }
-                if (el.textContent && el.textContent.includes('[ADDITIONAL_DESCRIPTION]') && el.children.length === 0) {
-                    el.textContent = `${game.name} is an engaging ${game.category} game that offers hours of entertainment. Perfect for players of all skill levels, this game combines classic gameplay mechanics with modern design.`;
                 }
             });
         }

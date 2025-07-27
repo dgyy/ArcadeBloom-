@@ -14,7 +14,7 @@
         <div class="bg-white p-6 rounded-lg shadow mb-6">
             <h2 class="text-xl font-semibold mb-4">📊 Paste CSV Data</h2>
             <textarea id="csvInput" class="w-full h-48 p-4 border rounded-lg font-mono text-sm" 
-                placeholder="Paste your CSV data here (name,category,description,developer,releaseDate,controls,rating,gameUrl,tags,featured)&#10;Candy Crush,puzzle,Match 3 candies,King,2012,Mouse,4.2,https://example.com,puzzle;sweet,false"></textarea>
+                placeholder="Paste your CSV data here (name,category,description,instructions,releaseDate,rating,gameUrl,tags,featured,logo)"></textarea>
             <div class="flex gap-4 mt-4">
                 <button id="generateCode" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">⚡ Generate Code</button>
                 <button id="clearAll" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">🗑️ Clear</button>
@@ -83,31 +83,50 @@
             document.getElementById('generatedCode').textContent = '';
         });
         
-        function parseCSVToGames(csvData) {
-            const lines = csvData.split('\n').filter(line => line.trim());
+        
+        function parseCSVToGames (data) {
+                    // 清洗并分割每一行
+            const lines = data.split('\n')
+                            .map(line => line.trim())
+                            .filter(line => line.length > 0);
+
             const games = [];
-            
-            lines.forEach(line => {
-                const values = parseCSVLine(line);
-                if (values.length >= 8) {
-                    games.push({
-                        name: values[0] || '',
-                        category: values[1] || 'action',
-                        description: values[2] || '',
-                        developer: values[3] || 'Unknown',
-                        releaseDate: values[4] || '2024',
-                        controls: values[5] || 'Mouse',
-                        rating: parseFloat(values[6]) || 4.0,
-                        gameUrl: values[7] || '#',
-                        tags: values[8] ? values[8].split(';').map(tag => tag.trim()) : ['game'],
-                        featured: values[9] === 'true' || values[9] === '1'
-                    });
-                }
-            });
-            
+
+            for (const line of lines) {
+                // 替换多个连续的 ffff 为一个
+                const cleanLine = line.replace(/ffff+/g, 'ffff');
+
+                // 按 ffff 分割字段
+                const fields = cleanLine.split('ffff');
+                // 构建游戏对象（不对其他字段清洗）
+                const game = {
+                    name: fields[0] || '',
+                    category: fields[1] || 'action',
+                    description: fields[2] || '',
+                    instructions: fields[3] || '',
+                    releaseDate: fields[4] || '2024',
+                    rating: parseFloat(fields[5]) || 4.0,
+                    gameUrl: fields[6] || '#',
+                    tags: fields[7] ? fields[7].split(';').map(tag => tag.trim()) : ['game'],
+                    featured: fields[8] === 'true' || fields[8] === '1',
+                    logo: removeSpacesInFilename(fields[9] || '')  // 只处理 image 字段
+                };
+
+                games.push(game);
+            }
+
             return games;
         }
-        
+        function removeSpacesInFilename(path) {
+            console.log(path)
+
+            // 去掉文件名中的所有空格（包括全角、tab、多个空格）
+            const newFilename = path.replace(/[\s\u3000]+/g, '');
+
+            console.log(newFilename)
+            return newFilename;
+        }
+
         function parseCSVLine(line) {
             const result = [];
             let current = '';
@@ -146,22 +165,15 @@
                 code += `        name: "${game.name}",\n`;
                 code += `        slug: "${slug}",\n`;
                 code += `        category: "${game.category}",\n`;
-                code += `        image: "./pic/logo/${game.name}.png",\n`;
+                code += `        image: "./pic/logo/${game.logo}",\n`;
                 code += `        description: "${game.description}",\n`;
-                code += `        developer: "${game.developer}",\n`;
+                code += `        instructions: "${game.instructions}",\n`;
                 code += `        releaseDate: "${game.releaseDate}",\n`;
-                code += `        controls: "${game.controls}",\n`;
                 code += `        rating: ${game.rating},\n`;
                 code += `        plays: ${Math.floor(Math.random() * 50000) + 10000},\n`;
                 code += `        featured: ${game.featured},\n`;
                 code += `        tags: [${tags}],\n`;
                 code += `        gameUrl: "${game.gameUrl}",\n`;
-                code += `        instructions: [\n`;
-                code += `            "Click or tap to start playing",\n`;
-                code += `            "Use ${game.controls} to control the game",\n`;
-                code += `            "Follow the on-screen instructions",\n`;
-                code += `            "Have fun and enjoy the game!"\n`;
-                code += `        ]\n`;
                 code += `    }`;
             });
             
