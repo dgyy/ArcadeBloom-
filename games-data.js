@@ -1392,7 +1392,7 @@ const GAMES_DATABASE = [
         plays: 22827,
         featured: true,
         tags: ["Couple Interaction, Relationship Simulation, Reaction Time, Decision Making, Humor, Emotional Management, Relationship Challenge, Casual, Single Player"],
-        gameUrl: "./games/Chronotron.html",
+        gameUrl: "./games/Girlfriend Tolerance Challenge.html",
     },
     {
         id: 112,
@@ -1407,7 +1407,7 @@ const GAMES_DATABASE = [
         plays: 22827,
         featured: true,
         tags: ["Puzzle-Platformer, Time Manipulation, Temporal Duplicates, Echo Mechanics, Strategic Planning, Cooperative Puzzles, Action-Puzzle, Indie Game, Platforming"],
-        gameUrl: "./games/Girlfriend Tolerance Challenge.html",
+        gameUrl: "./games/Chronotron.html",
     }
 
 ];
