@@ -7,7 +7,7 @@
 
 // Game data array
 const GAMES_DATABASE = [
-        {
+    {
         id: 1,
         name: "Hextris",
         slug: "hextris",
@@ -43,8 +43,56 @@ const GAMES_DATABASE = [
             "Follow the on-screen instructions",
             "Have fun and enjoy the game!"
         ],
+    }
+    ,
+    {
+        id: 3,
+        name: "Girlfriend Tolerance Challenge",
+        slug: "girlfriend-tolerance-challenge",
+        category: "casual",
+        image: "./pic/logo/GirlfriendToleranceChallenge.png",
+        description: "Girlfriend Tolerance Challenge is a fun and engaging interactive simulation game designed to test players' emotional intelligence and quick thinking in everyday couple interactions. In this unique casual game, you'll face various scenarios and questions posed by your virtual girlfriend, and your responses will directly impact her Anger Meter. Choose the right answers to appease her, keep her in a good mood, and strive to survive more rounds. Through this game, you'll not only experience the dynamics of a relationship but also enhance your communication skills and emotional management in a lighthearted and enjoyable environment. Start the challenge now and see how many rounds you can endure to become a true Emotional Master !",
+        instructions: "To play, click Start Challenge. Respond to dialogue, manage anger, and complete 10 rounds to win.",
+        releaseDate: "2025",
+        rating: 4.5,
+        plays: 22827,
+        featured: true,
+        tags: ["Couple Interaction, Relationship Simulation, Reaction Time, Decision Making, Humor, Emotional Management, Relationship Challenge, Casual, Single Player"],
+        gameUrl: "./games/Girlfriend Tolerance Challenge.html",
     },
-       {
+    {
+        id: 4,
+        name: "Chronotron",
+        slug: "chronotron",
+        category: "sports",
+        image: "./pic/logo/Chronotron.png",
+        description: "Chronotron is a unique puzzle-platformer where players wield the power to manipulate time. By pressing 'R', you can rewind your actions, leaving behind an Echo of your past self. These echoes will faithfully repeat your recorded movements, allowing you to cooperate with them to press distant buttons, collect unreachable keys, or create temporary platforms. The goal is to strategically utilize these temporal duplicates to overcome obstacles, open doors, and ultimately reach the exit portal in each challenging level. With intuitive controls and increasingly complex puzzles, Chronotron offers a fresh take on the platforming genre, demanding both quick reflexes and clever planning.",
+        instructions: "Here are the streamlined operating instructions for Echoes: Master time manipulation with Echoes. Navigate puzzle-platform levels strategically using intuitive controls. Progress through dynamic challenges.",
+        releaseDate: "2025",
+        rating: 4.5,
+        plays: 22827,
+        featured: true,
+        tags: ["Puzzle-Platformer, Time Manipulation, Temporal Duplicates, Echo Mechanics, Strategic Planning, Cooperative Puzzles, Action-Puzzle, Indie Game, Platforming"],
+        gameUrl: "./games/Chronotron.html",
+    },
+    {
+        id: 5,
+        name: "Anime Witchcraft",
+        slug: "anime-witchcraft",
+        category: "cooking",
+        image: "./pic/logo/AnimeWitchcraft.jpg",
+        description: "Play Anime Witchcraft online for free – an addictive cooking game that combines fun gameplay with stunning HTML5 graphics. Do you want to become a witch? Try Anime Witchcraft Mix Ingredients to make your ideal anime pictures, use 2 combinations to get more result, 3 combinations most of the time get no result. By mixing 2 ingredients you can craft your anime. Can you get all the pictures? Enjoy now!",
+        instructions: "Drag and Drop to play",
+        releaseDate: "2024",
+        rating: 4.8,
+        plays: 23178,
+        featured: true,
+        tags: ["Anime,Cooking,Girls,Boys,Craft,Hypercasual,Casual,Crafting"],
+        gameUrl: "https://html5.gamemonetize.co/lyvvl1x30cqyuurfg52g4i7xt9d03mos/",
+    },
+
+
+    {
         id: 21,
         name: "brainrot-evolution",
         slug: "brainrot-evolution",
@@ -810,21 +858,6 @@ const GAMES_DATABASE = [
         gameUrl: "https://html5.gamemonetize.co/b7088jad68v036rp283153k0bceos9sm/",
     },
     {
-        id: 72,
-        name: "Anime Witchcraft",
-        slug: "anime-witchcraft",
-        category: "cooking",
-        image: "./pic/logo/AnimeWitchcraft.jpg",
-        description: "Play Anime Witchcraft online for free – an addictive cooking game that combines fun gameplay with stunning HTML5 graphics. Do you want to become a witch? Try Anime Witchcraft Mix Ingredients to make your ideal anime pictures, use 2 combinations to get more result, 3 combinations most of the time get no result. By mixing 2 ingredients you can craft your anime. Can you get all the pictures? Enjoy now!",
-        instructions: "Drag and Drop to play",
-        releaseDate: "2024",
-        rating: 4.8,
-        plays: 23178,
-        featured: true,
-        tags: ["Anime,Cooking,Girls,Boys,Craft,Hypercasual,Casual,Crafting"],
-        gameUrl: "https://html5.gamemonetize.co/lyvvl1x30cqyuurfg52g4i7xt9d03mos/",
-    },
-    {
         id: 73,
         name: "Burger Mania",
         slug: "burger-mania",
@@ -1378,36 +1411,6 @@ const GAMES_DATABASE = [
         featured: true,
         tags: ["juggling,soccer,arcade,global-backdrops,combo-score"],
         gameUrl: "https://html5.gamemonetize.co/ocuawximv8s4omrwf7t8linvh4lsl9u5/",
-    },
-    {
-        id: 111,
-        name: "Girlfriend Tolerance Challenge",
-        slug: "girlfriend-tolerance-challenge",
-        category: "casual",
-        image: "./pic/logo/GirlfriendToleranceChallenge.png",
-        description: "Girlfriend Tolerance Challenge is a fun and engaging interactive simulation game designed to test players' emotional intelligence and quick thinking in everyday couple interactions. In this unique casual game, you'll face various scenarios and questions posed by your virtual girlfriend, and your responses will directly impact her Anger Meter. Choose the right answers to appease her, keep her in a good mood, and strive to survive more rounds. Through this game, you'll not only experience the dynamics of a relationship but also enhance your communication skills and emotional management in a lighthearted and enjoyable environment. Start the challenge now and see how many rounds you can endure to become a true Emotional Master !",
-        instructions: "To play, click Start Challenge. Respond to dialogue, manage anger, and complete 10 rounds to win.",
-        releaseDate: "2025",
-        rating: 4.5,
-        plays: 22827,
-        featured: true,
-        tags: ["Couple Interaction, Relationship Simulation, Reaction Time, Decision Making, Humor, Emotional Management, Relationship Challenge, Casual, Single Player"],
-        gameUrl: "./games/Girlfriend Tolerance Challenge.html",
-    },
-    {
-        id: 112,
-        name: "Chronotron",
-        slug: "chronotron",
-        category: "sports",
-        image: "./pic/logo/Chronotron.png",
-        description: "Chronotron is a unique puzzle-platformer where players wield the power to manipulate time. By pressing 'R', you can rewind your actions, leaving behind an Echo of your past self. These echoes will faithfully repeat your recorded movements, allowing you to cooperate with them to press distant buttons, collect unreachable keys, or create temporary platforms. The goal is to strategically utilize these temporal duplicates to overcome obstacles, open doors, and ultimately reach the exit portal in each challenging level. With intuitive controls and increasingly complex puzzles, Chronotron offers a fresh take on the platforming genre, demanding both quick reflexes and clever planning.",
-        instructions: "Here are the streamlined operating instructions for Echoes: Master time manipulation with Echoes. Navigate puzzle-platform levels strategically using intuitive controls. Progress through dynamic challenges.",
-        releaseDate: "2025",
-        rating: 4.5,
-        plays: 22827,
-        featured: true,
-        tags: ["Puzzle-Platformer, Time Manipulation, Temporal Duplicates, Echo Mechanics, Strategic Planning, Cooperative Puzzles, Action-Puzzle, Indie Game, Platforming"],
-        gameUrl: "./games/Chronotron.html",
     }
 
 ];
@@ -1430,7 +1433,7 @@ const GAME_CATEGORIES = [
     },
     {
         id: "puzzle",
-        name: "Puzzle Games", 
+        name: "Puzzle Games",
         icon: "puzzle",
         color: "blue",
         description: "Challenge your mind with brain teasers"
@@ -1439,7 +1442,7 @@ const GAME_CATEGORIES = [
         id: "strategy",
         name: "Strategy Games",
         icon: "strategy",
-        color: "green", 
+        color: "green",
         description: "Plan, build, and conquer in these games"
     },
     {
@@ -1469,72 +1472,72 @@ const GAME_CATEGORIES = [
 const GameUtils = {
     // Get all games
     getAllGames: () => GAMES_DATABASE,
-    
+
     // Get featured games
     getFeaturedGames: () => GAMES_DATABASE.filter(game => game.featured),
-    
+
     // Get games by category
     getGamesByCategory: (category) => {
         if (category === 'all') return GAMES_DATABASE;
         return GAMES_DATABASE.filter(game => game.category === category);
     },
-    
+
     // Get single game by ID
     getGameById: (id) => GAMES_DATABASE.find(game => game.id === parseInt(id)),
-    
+
     // Get single game by slug
     getGameBySlug: (slug) => GAMES_DATABASE.find(game => game.slug === slug),
-    
+
     // Search games
     searchGames: (query) => {
         const lowercaseQuery = query.toLowerCase();
-        return GAMES_DATABASE.filter(game => 
+        return GAMES_DATABASE.filter(game =>
             game.name.toLowerCase().includes(lowercaseQuery) ||
             game.description.toLowerCase().includes(lowercaseQuery) ||
             game.category.toLowerCase().includes(lowercaseQuery) ||
             game.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery))
         );
     },
-    
+
     // Get random games
     getRandomGames: (count = 6) => {
         const shuffled = [...GAMES_DATABASE].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, count);
     },
-    
+
     // Get related games (same category)
     getRelatedGames: (gameId, count = 4) => {
         const currentGame = GameUtils.getGameById(gameId);
         if (!currentGame) return [];
-        
+
         const relatedGames = GAMES_DATABASE
             .filter(game => game.id !== gameId && game.category === currentGame.category)
             .sort(() => 0.5 - Math.random())
             .slice(0, count);
-            
+
         return relatedGames;
     },
-    
+
     // Get popular games (sorted by play count)
     getPopularGames: (count = 10) => {
         return [...GAMES_DATABASE]
             .sort((a, b) => b.plays - a.plays)
             .slice(0, count);
     },
-    
+
     // Get newest games (sorted by release date)
     getNewestGames: (count = 10) => {
         return [...GAMES_DATABASE]
             .sort((a, b) => b.id - a.id) // Simple ID sorting, should use date in real projects
             .slice(0, count);
     },
-    
+
     // Get all categories
     getAllCategories: () => GAME_CATEGORIES,
-    
+
     // Get category information by category ID
     getCategoryById: (id) => GAME_CATEGORIES.find(cat => cat.id === id),
-    
+
     // Get game statistics
     getGameStats: () => {
         return {
