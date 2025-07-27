@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Contact Us - ArcadeBloom</title>
+    <meta name="description" content="Contact ArcadeBloom - Get in touch with our team for support, feedback, or business inquiries. We're here to help!">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://arcadebloom.com/contact">
+    
+    <!-- Google Fonts (Optimized) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Preload optimization
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Optimized animation performance */
+        .contact-card {
+            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), 
+                        box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, box-shadow;
+        }
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Fast animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Form state indicators */
+        .form-loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        
+        /* Preload optimization */
+        .form-field {
+            transition: border-color 0.15s ease-in-out;
+        }
+        
+        /* Reduce reflows and repaints */
+        .success-message {
+            contain: layout style paint;
+        }
+        
+        /* Optimize scroll performance */
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <!-- Google tag (gtag.js) --> 
+     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRKXGJZ9R4"></script> 
+     <script> 
+        window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-KRKXGJZ9R4'); 
+     </script>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Header -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                    </a>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                    <a href="all-games.html" class="text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                    <a href="index.html#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                    <a href="about.html" class="text-gray-600 hover:text-gray-900 font-medium">About</a>
+                    <a href="contact.html" class="text-gray-900 font-medium">Contact</a>
+                </nav>
+                
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+                <a href="index.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Home</a>
+                <a href="all-games.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">All Games</a>
+                <a href="index.html#categories-section" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Categories</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-900 font-medium">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-r from-blue-500 to-purple-600 py-16 lg:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">
+                    Get in Touch
+                </h1>
+                <p class="text-xl text-blue-100 max-w-2xl mx-auto">
+                    Have questions, suggestions, or need support? We'd love to hear from you. 
+                    Our team is here to help make your gaming experience even better.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Methods -->
+        <section class="py-16 -mt-12 relative z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <!-- Email -->
+                    <div class="contact-card bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Email Support</h3>
+                        <p class="text-gray-600 mb-4">Send us an email and we'll respond within 24 hours</p>
+                        <a href="mailto:hello@arcadebloom.com" class="text-blue-600 hover:text-blue-800 font-semibold">
+                            hello@arcadebloom.com
+                        </a>
+                    </div>
+                    
+                    <!-- Community -->
+                    <div class="contact-card bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Community Support</h3>
+                        <p class="text-gray-600 mb-4">Join our community for discussions and peer support</p>
+                        <a href="#" class="text-green-600 hover:text-green-800 font-semibold">
+                            Join Discord
+                        </a>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div class="contact-card bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2h4a1 1 0 110 2h-1v10a2 2 0 01-2 2H6a2 2 0 01-2-2V6H3a1 1 0 110-2h4zM8 6v10h8V6H8z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-4">Social Media</h3>
+                        <p class="text-gray-600 mb-4">Follow us for updates and gaming news</p>
+                        <div class="flex justify-center space-x-3">
+                            <a href="#" class="text-purple-600 hover:text-purple-800">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-purple-600 hover:text-purple-800">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <!-- Form -->
+                    <div class="bg-white rounded-lg shadow-lg p-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                                    <input type="text" id="firstName" name="firstName" required 
+                                           class="form-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                           autocomplete="given-name">
+                                </div>
+                                <div>
+                                    <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                                    <input type="text" id="lastName" name="lastName" required 
+                                           class="form-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                           autocomplete="family-name">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                <input type="email" id="email" name="email" required 
+                                       class="form-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                       autocomplete="email">
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                                <select id="subject" name="subject" required 
+                                        class="form-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="support">Technical Support</option>
+                                    <option value="bug">Bug Report</option>
+                                    <option value="suggestion">Game Suggestion</option>
+                                    <option value="business">Business Partnership</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message *</label>
+                                <textarea id="message" name="message" rows="6" required 
+                                          placeholder="Tell us more about your inquiry..."
+                                          class="form-field w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"></textarea>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <input type="checkbox" id="privacy" name="privacy" required 
+                                       class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                <label for="privacy" class="ml-3 text-sm text-gray-600">
+                                    I agree to the <a href="/privacy" class="text-blue-600 hover:underline">Privacy Policy</a> and 
+                                    <a href="/terms" class="text-blue-600 hover:underline">Terms of Service</a> *
+                                </label>
+                            </div>
+                            
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition duration-200 transform hover:scale-105">
+                                Send Message
+                            </button>
+                        </form>
+                        
+                        <!-- Success Message -->
+                        <div id="success-message" class="success-message hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="flex items-center">
+                                <svg class="w-5 h-5 text-green-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <p class="text-green-800">Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Info -->
+                    <div>
+                        <div class="bg-white rounded-lg shadow-lg p-8 mb-8">
+                            <h3 class="text-xl font-bold text-gray-900 mb-6">Contact Information</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">General Inquiries</h4>
+                                        <p class="text-gray-600">hello@arcadebloom.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Technical Support</h4>
+                                        <p class="text-gray-600">support@arcadebloom.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-blue-600 mr-3 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6a2 2 0 01-2 2H8a2 2 0 01-2-2V8a2 2 0 012-2V6"/>
+                                    </svg>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-900">Business Partnerships</h4>
+                                        <p class="text-gray-600">business@arcadebloom.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg p-8 text-white">
+                            <h3 class="text-xl font-bold mb-4">Response Time</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span>General inquiries: 24 hours</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span>Technical support: 12 hours</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                    <span>Bug reports: 6 hours</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold">ArcadeBloom</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Your ultimate destination for free online browser games. Play instantly without downloads.
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">All Games</a></li>
+                        <li><a href="index.html#categories-section" class="text-gray-300 hover:text-white">Categories</a></li>
+                        <li><a href="about.html" class="text-gray-300 hover:text-white">About</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Support</h3>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-gray-300 hover:text-white">Contact Us</a></li>
+                        <li><a href="privacy.html" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2025 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page load optimization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pre-cache DOM elements
+            const elements = {
+                mobileMenuButton: document.getElementById('mobile-menu-button'),
+                mobileMenu: document.getElementById('mobile-menu'),
+                contactForm: document.getElementById('contact-form'),
+                successMessage: document.getElementById('success-message'),
+                submitButton: null
+            };
+
+            // Mobile menu toggle (performance optimized)
+            if (elements.mobileMenuButton && elements.mobileMenu) {
+                elements.mobileMenuButton.addEventListener('click', function() {
+                    elements.mobileMenu.classList.toggle('hidden');
+                }, { passive: true });
+            }
+            
+            // Form submission handling (removing unnecessary delays)
+            if (elements.contactForm && elements.successMessage) {
+                elements.submitButton = elements.contactForm.querySelector('button[type="submit"]');
+                
+                elements.contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Show loading state
+                    if (elements.submitButton) {
+                        elements.submitButton.disabled = true;
+                        elements.submitButton.innerHTML = `
+                            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Sending...
+                        `;
+                    }
+                    
+                    // Fast response (removing 1 second delay)
+                    setTimeout(() => {
+                        // Show success message
+                        elements.successMessage.classList.remove('hidden');
+                        elements.successMessage.classList.add('animate-fade-in');
+                        
+                        // Reset form
+                        this.reset();
+                        
+                        // Restore button state
+                        if (elements.submitButton) {
+                            elements.submitButton.disabled = false;
+                            elements.submitButton.innerHTML = `
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                                Send Message
+                            `;
+                        }
+                        
+                        // Smooth scroll to success message
+                        elements.successMessage.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        
+                        // Auto-hide success message after 3 seconds
+                        setTimeout(() => {
+                            elements.successMessage.classList.add('hidden');
+                            elements.successMessage.classList.remove('animate-fade-in');
+                        }, 3000);
+                        
+                    }, 100); // Reduced to 100ms for instant feedback
+                }, { passive: false });
+            }
+            
+            // Real-time form validation (performance friendly)
+            const formInputs = elements.contactForm?.querySelectorAll('input, textarea');
+            if (formInputs) {
+                let validationTimeout;
+                formInputs.forEach(input => {
+                    input.addEventListener('input', function() {
+                        clearTimeout(validationTimeout);
+                        validationTimeout = setTimeout(() => {
+                            validateField(this);
+                        }, 300); // Debounce 300ms
+                    }, { passive: true });
+                });
+            }
+        });
+        
+        // Field validation function
+        function validateField(field) {
+            const value = field.value.trim();
+            let isValid = true;
+            
+            if (field.type === 'email') {
+                isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+            } else if (field.required) {
+                isValid = value.length > 0;
+            }
+            
+            // Update visual feedback
+            if (isValid) {
+                field.classList.remove('border-red-500');
+                field.classList.add('border-green-500');
+            } else if (value.length > 0) {
+                field.classList.remove('border-green-500');
+                field.classList.add('border-red-500');
+            } else {
+                field.classList.remove('border-green-500', 'border-red-500');
+            }
+        }
+    </script>
+</body>
+</html> 
