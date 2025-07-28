@@ -65,7 +65,7 @@ const GAMES_DATABASE = [
         name: "Chronotron",
         slug: "chronotron",
         category: "sports",
-        image: "./pic/logo/Chronotron.png",
+        image: "./pic/logo/Chronotron.png", 
         description: "Chronotron is a unique puzzle-platformer where players wield the power to manipulate time. By pressing 'R', you can rewind your actions, leaving behind an Echo of your past self. These echoes will faithfully repeat your recorded movements, allowing you to cooperate with them to press distant buttons, collect unreachable keys, or create temporary platforms. The goal is to strategically utilize these temporal duplicates to overcome obstacles, open doors, and ultimately reach the exit portal in each challenging level. With intuitive controls and increasingly complex puzzles, Chronotron offers a fresh take on the platforming genre, demanding both quick reflexes and clever planning.",
         instructions: "Here are the streamlined operating instructions for Echoes: Master time manipulation with Echoes. Navigate puzzle-platform levels strategically using intuitive controls. Progress through dynamic challenges.",
         releaseDate: "2025",
