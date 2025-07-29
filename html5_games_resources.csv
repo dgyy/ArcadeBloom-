@@ -1,0 +1,21 @@
+名称,类型,GitHub链接,描述,难度,特色功能
+leereilly/games,游戏合集,https://github.com/leereilly/games,500+开源游戏合集，含浏览器和原生游戏,初级,完整源码+在线演示
+leocavalcante/30-js-games,游戏合集,https://github.com/leocavalcante/30-js-games,30个完整JavaScript小游戏,初级,现代JS+触摸控制
+kubowania/Tetris-JavaScript-2024,俄罗斯方块,https://github.com/kubowania/Tetris-JavaScript-2024,现代ES6俄罗斯方块,中级,触摸控制+音效
+Phaser 3,游戏引擎,https://github.com/photonstorm/phaser,最流行的HTML5 2D游戏引擎,中级,600+示例+TypeScript支持
+Three.js,3D引擎,https://github.com/mrdoob/three.js,WebGL 3D图形库,高级,106k星标+大量3D游戏示例
+LittleJS,轻量引擎,https://github.com/KilledByAPixel/LittleJS,轻量级无依赖游戏引擎,初级,多个示例游戏+源码
+2048,益智游戏,https://github.com/gabrielecirulli/2048,经典2048滑块游戏,初级,完整源码+移动端适配
+Clumsy Bird,休闲游戏,https://github.com/ellisonleao/clumsy-bird,Flappy Bird克隆版,初级,HTML5 Canvas+音效
+BrowserQuest,MMORPG,https://github.com/mozilla/BrowserQuest,Mozilla开发的HTML5多人RPG,高级,WebSocket+多人联机
+HexGL,竞速游戏,https://github.com/BKcore/HexGL,WebGL未来竞速游戏,中级,3D图形+音效
+A Dark Room,文字冒险,https://github.com/doublespeakgames/adarkroom,极简文字冒险游戏,中级,响应式设计+离线存储
+FullScreenMario,平台游戏,https://github.com/FullScreenMario/FullScreenMario,增强版超级马里奥,中级,完整关卡+作弊码
+Lichess,国际象棋,https://github.com/lichess-org/lichess.org,功能完整的国际象棋网站,高级,实时对战+AI
+PixiJS,2D渲染引擎,https://github.com/pixijs/pixijs,超快2D WebGL渲染器,中级,45k星标+Canvas回退
+Babylon.js,3D引擎,https://github.com/BabylonJS/Babylon.js,完整3D游戏引擎,高级,微软支持+Playground
+GDevelop 5,可视化引擎,https://github.com/4ian/GDevelop,拖拽式游戏开发工具,初级,无代码+HTML5导出
+Defold,轻量引擎,https://github.com/defold/defold,轻量级IDE+Lua脚本,中级,HTML5原生导出
+melonJS,模块化引擎,https://github.com/melonjs/melonJS,模块化2D游戏引擎,中级,专注平台和解谜游戏
+Akihabara,复古引擎,https://github.com/nddrylliog/akihabara,复古8/16位JS库,初级,完整街机游戏源码
+Matter.js,物理引擎,https://github.com/liabru/matter-js,轻量级2D物理引擎,中级,可集成到任意渲染器
