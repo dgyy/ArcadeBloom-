@@ -14,15 +14,14 @@ const GAMES_DATABASE = [
         category: "puzzle",
         image: "./pic/logo/Hextris.png",
         description: "Fast paced HTML5 puzzle game inspired by Tetris1111111111111!",
+        instructions: "Click or tap to start pddddddddddddlaying",
         releaseDate: "2015",
         rating: 4.8,
         plays: 20994,
         featured: true,
         tags: ["puzzle"],
         gameUrl: "https://html5.gamemonetize.co/f8m9kw1kdw638xz9ishyenne8f2izl6z/",
-        instructions: [
-            "Click or tap to start pddddddddddddlaying"
-        ]
+
     },
     {
         id: 2,
@@ -31,18 +30,14 @@ const GAMES_DATABASE = [
         category: "puzzle",
         image: "./pic/logo/proxx.png",
         description: "A HTML5 game of proximity",
+        instructions: "Click or tap to start playing, Use mouse to control the game Follow the on-screen instructions, Have fun and enjoy the game!",
         releaseDate: "2020",
         rating: 4.9,
         plays: 55646,
         featured: true,
         tags: ["sprot"],
         gameUrl: "https://proxx.app/",
-        instructions: [
-            "Click or tap to start playing",
-            "Use mouse to control the game",
-            "Follow the on-screen instructions",
-            "Have fun and enjoy the game!"
-        ],
+    
     }
     ,
     {
