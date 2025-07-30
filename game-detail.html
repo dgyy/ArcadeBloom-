@@ -365,6 +365,10 @@
                                 <span class="font-medium capitalize">[CATEGORY]</span>
                             </div>
                             <div class="flex justify-between">
+                                <span class="text-gray-600">tag:</span>
+                                <span class="font-medium capitalize">[TAG]</span>
+                            </div>
+                            <div class="flex justify-between">
                                 <span class="text-gray-600">Release Date:</span>
                                 <span class="font-medium">[RELEASE_DATE]</span>
                             </div>
@@ -579,6 +583,11 @@
                     el.textContent = el.textContent.replace(/\[RATING_COUNT\] /g, game.plays);
                 }
             });
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[TAG] ') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[TAG\] /g, game.tag);
+                }
+            });
 
             // Update game details in sidebar
             const gameInfoContainer = document.querySelector('.bg-white.rounded-lg.shadow-md.p-6');
@@ -635,6 +644,14 @@
                     el.textContent = el.textContent.replace(/\[GAME_DESCRIPTION\]/g, game.description);
                 }
             });
+
+            document.querySelectorAll('*').forEach(el => {
+                if (el.textContent && el.textContent.includes('[TAG]') && el.children.length === 0) {
+                    el.textContent = el.textContent.replace(/\[TAG\]/g, game.tags[0]);
+                }
+            });
+
+
 
 
             // Update game iframe with actual game URL
