@@ -70,6 +70,22 @@ const GAMES_DATABASE = [
         tags: ["Puzzle-Platformer, Time Manipulation, Temporal Duplicates, Echo Mechanics, Strategic Planning, Cooperative Puzzles, Action-Puzzle, Indie Game, Platforming"],
         gameUrl: "./games/Chronotron.html",
     },
+
+    {
+        id: 5,
+        name: "Creative Sudoku",
+        slug: "creative-sudoku",
+        category: "puzzle",
+        image: "./pic/logo/CreativeSudoku.png", 
+        description: "Get ready for a Sudoku challenge like no other! Creative Sudoku blends classic number puzzle gameplay with stunning visual effects, offering four difficulty levels from Easy to Expert. We bring you the most beautiful and immersive online Sudoku experience with real-time validation, smart hints, particle animations, and multiple gradient themes. It's perfect for brain training, daily mental exercise, and stress relief. Our responsive design works flawlessly on desktop, tablet, and mobile devices. With a comprehensive scoring system, time tracking, and convenient keyboard navigation, Creative Sudoku is ideal for both beginners learning the ropes and experts seeking ultimate challenges. Experience our intelligent hint system, instant feedback, beautiful animations, customizable themes, and progressive difficulty scaling. Whether you're solving your first puzzle or your thousandth, Creative Sudoku delivers an engaging, premium gaming experience that makes number puzzles addictive and enjoyable.",
+        instructions: "The objective of Creative Sudoku is simple: fill the 9×9 grid so that every row, column, and 3×3 box contains digits 1−9 exactly once. To get started, select your difficulty (Easy/Medium/Hard/Expert), choose a theme, and click any empty cell. You can click cells to select them, use number keys 1−9 to fill in digits, use arrow keys to navigate, and Backspace to erase; mobile users can use the on-screen number pad. You'll earn +10 points for correct answers, lose -5 points for mistakes, and -20 points for hints (up to 3 per game), with a +1000 bonus for completing a puzzle. Our smart validation system provides instant feedback with animations, showing green cells for correct answers and red cells that shake for errors. When you get stuck, remember to start with sections that have many pre-filled numbers, use elimination logic to narrow down possibilities, and save your hints for the most challenging moments, as expert puzzles can take 30+ minutes to solve completely.",
+        releaseDate: "2025",
+        rating: 4.8,
+        plays: 22827,
+        featured: true,
+        tags: ["Sudoku, Puzzle Game, Brain Teaser, Logic Game, Mind Game, Number Game, Casual Game, Online Game, Free Game, Relaxing Game"],
+        gameUrl: "./games/CreativeSudoku.html",
+    },
     // {
     //     id: 5,
     //     name: "Anime Witchcraft",
