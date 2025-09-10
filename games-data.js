@@ -147,6 +147,21 @@ const GAMES_DATABASE = [
         tags: ["puzzle-game, action"],
         gameUrl: "https://drawafish.com/",    
     },
+    {
+        id: 10,
+        name: "Memory Warriors",
+        slug: "Memory-Warriors",
+        category: "action",
+        image: "./pic/logo/Memory-Warriors.png", 
+        description: "Memory Warriors - Ultimate memory matching card game for brain training! Test your memory skills in this free online puzzle game with multiple difficulty levels (3x3 to 5x5). Features high contrast mode, keyboard controls, and timed challenges. Perfect cognitive exercise game for improving concentration and mental agility. Play instantly in browser!",
+        instructions: "🎯 Click or press Space/Enter to flip cards\n🔍 Find matching pairs to score points\n⏱️ Complete the game as quickly as possible\n⌨️ Use Tab and arrow keys to navigate\n🎨 Press H to toggle high contrast mode\n🔊 Press M to toggle sound effects",
+        releaseDate: "2025",
+        rating: 4.8,
+        plays: 5527,
+        featured: true,
+        tags: ["puzzle-game, memory game,brain training"],
+        gameUrl: "./games/memoryGame/index.html",    
+    }
     
 ];
 
