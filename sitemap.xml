@@ -1,689 +1,2211 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    
-    <!-- Homepage -->
     <url>
         <loc>https://arcadebloom.com/</loc>
-        <lastmod>2024-01-01</lastmod>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
-    
-    <!-- About Page -->
     <url>
         <loc>https://arcadebloom.com/about</loc>
-        <lastmod>2024-01-01</lastmod>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
-    
-    <!-- Contact Page -->
-    <url>
-        <loc>https://arcadebloom.com/contact</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    
-    <!-- Privacy Policy -->
-    <url>
-        <loc>https://arcadebloom.com/privacy</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <!-- Terms of Service -->
-    <url>
-        <loc>https://arcadebloom.com/terms</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>yearly</changefreq>
-        <priority>0.5</priority>
-    </url>
-    
-    <!-- All Games Page -->
-    <url>
-        <loc>https://arcadebloom.com/all-games</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>daily</changefreq>
-        <priority>0.9</priority>
-    </url>
-    
-    <!-- Add Game Guide -->
     <url>
         <loc>https://arcadebloom.com/add-game</loc>
-        <lastmod>2024-01-01</lastmod>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.4</priority>
     </url>
-    
-    <!-- Categories Page -->
     <url>
-        <loc>https://arcadebloom.com/categories</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <loc>https://arcadebloom.com/all-games</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
     </url>
-    
-    <!-- Category Pages -->
     <url>
-        <loc>https://arcadebloom.com/category/action</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>weekly</changefreq>
+        <loc>https://arcadebloom.com/contact</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/category/puzzle</loc>
-        <lastmod>2024-01-01</lastmod>
+        <loc>https://arcadebloom.com/game/1-13-am</loc>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/category/strategy</loc>
-        <lastmod>2024-01-01</lastmod>
+        <loc>https://arcadebloom.com/game/10plus3</loc>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/category/casual</loc>
-        <lastmod>2024-01-01</lastmod>
+        <loc>https://arcadebloom.com/game/1257-samalas</loc>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/category/sports</loc>
-        <lastmod>2024-01-01</lastmod>
+        <loc>https://arcadebloom.com/game/13-blades</loc>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/category/racing</loc>
-        <lastmod>2024-01-01</lastmod>
+        <loc>https://arcadebloom.com/game/13-bubbles</loc>
+        <lastmod>2025-09-20</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-cards-dungeon</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-curses</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-drums</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-geese-defending-rome</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-hours</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-low</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-maze</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-order</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-samurai</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-seconds-to-kill</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-seconds-to-midnight</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-squared</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-steps-to-escape</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13-the-damned</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13all-room</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13attle-tanks</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13c-defense</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13c-gauntlet</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13legions</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13s</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13s-tactics</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-barbers-guild</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-century-2048</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-century-city-builder</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-century-siege</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-floor</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-gate</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-guy</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/13th-restaurant-rush</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/2048-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/6174</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/a-deadly-bet</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/a-dogs-adventure</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/a-khans-soul</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/aargh-triskaideka-attacks</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/age-of-the-demigods</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/alquerque</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/anachronic</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/angry-temujin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/apollo-13kb</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/archery-master</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/aud13nd</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/aurora-snap</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/b</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/badluck-butter-chicken-flies-the-unfriendly-skies</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/badluck-butter-chicken-goes-to-outer-space</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/ball-and-wall</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/barbenheim-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/battle-commander-middle-ages</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/bee-b-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/belly-flop</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/bewitched</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/bitty-jump</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/blind-fear</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/blue-retro</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/bounty-islands</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/breakout-game</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/brewing-disaster</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/bubble-burst</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cannonbolf</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/Captain-Rogers</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cards13k</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castle-attack</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castle-defender-vr</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castle-escape-2023</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castle-wars</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castlefire</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/castlerun-maze</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/casual-crusade</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cathar</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cathedral-builder</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cathedral-master-builder</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/century-spikes</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/chronotron</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cookie-maze-3d</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cool-dolphin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cooler</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/counting-mind</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/coup-ahoo</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/courage</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/creative-sudoku</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/crusaders-and-their-journeys</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cry-in-the-13th</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cube-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/cursed-elevator</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/data-warrior-13kb-limit</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/death-sea-xiii</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/decidophobia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/deck-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/deep13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/defense-of-the-13th-city</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dekatria-mansion</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dimension-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/divine-wind</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/do-not-make-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dont-step-on-thirteen</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dr1v3n-wild</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dragon-simulator</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dragoom</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/DrawAFish</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/drunken-cornhole</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/duelo</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dungeon-of-curse</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dynasty</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/dynasty-united</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/economy-of-motion</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/emojiphobia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/entangolf</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/entitled</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/escape-13th-floor-dungeon</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/escape-from-planet-xiii</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/escape-from-trece</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/exilium-the-fall-of-dominus</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/exit-the-castle</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/exterminator</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/f-stop</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/facing-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fear-species-13-k</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/feast-and-courtesans</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/feast-night</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/feudalistic-overlap</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/final-lift</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/flappybird</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/flee</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fort-knight</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fortdmin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fortifia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/freeedooom</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/freezobia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fresh-fruit-feeder</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/fri3</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/gecko-blaster</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/genghis-castle-battle</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/get-the-flock-outta-here</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/ghosted</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/gibbonacci</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/girlfriend-tolerance-challenge</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/go-forth-and-conquer</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/golfrog</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/gothic-tower</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/great-plumber-65</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/guardian-village</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/guess-my-triski</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/guess-the-letter</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/guess-the-year</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/harold-is-heavy</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/haun13d-hotel</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/hauntriska</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/hex-crusaders</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/hextris</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/holy-knight</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/how-it-started</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/hugo-the-wizard</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/idle-merchant-guild</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/infernal-adolescence</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/it-adds-up</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/its-merlin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/journey-to-the-east-silk-road-adventure</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/jurassic-nursery</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/k1n3kt-archery</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/keep-calm</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/khan-westward-conquest</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/khiljis-folly</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/king-longlegs</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/king-thirteen</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/kite-kaos</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/knight</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/knight-dreams</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/knights-of-acre</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/kukulkan</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/kyabetsu</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/last-viking</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/laundry-in-debt</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/liminal-gap-runner</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/lord-balsekils-lairs-of-bad-luck</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/lost-city-of-s</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/m13e</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/m7-summit</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/magna-carta</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mai</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/marco</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/market-street-tycoon</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/maze-runner-vs-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/meandering-medieval-merchant</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/medieval-commerce</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/medieval-matchup</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mediwars</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/Memory-Warriors</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/merlin-vs-alfonso</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/miles-to-mend</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/millennials</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/minecssweeper</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mini-merchant</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mini13-a-very-minimal-fps</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/minipuyo</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/moai-alley</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mongol-march</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/mongorun</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/monster-steps</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/musas-quest</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/national-accident-day</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/necromancer-colony-sim</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/night-at-hotel-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/niwatori</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/no-flight-zone-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/noble-rivers</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/not-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/not-warehouse-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/number-knight</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/o-hiii-bad-skatepark</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/odyssey</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/of-all-trades</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/one-guard</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/only-one</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/overforged</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/paraskevidekatriaphobia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/parry</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/path-to-glory</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/petty-kingdoms</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/phantomicus</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
     </url>
-    
-    <!-- Individual Game Pages (Examples) -->
     <url>
-        <loc>https://arcadebloom.com/game/2048</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/picobuddy</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/game/snake</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/pied-pipe-revolution</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/game/tetris</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/please-finish-in-13th-place</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
-    
     <url>
-        <loc>https://arcadebloom.com/game/pacman</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/plunder-survivors</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
-    <!-- <url>
-        <loc>https://html5.gamemonetize.co/c34zurvgw1w01fkf4n07idbggc6vvkbq/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+    <url>
+        <loc>https://arcadebloom.com/game/plusminus13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/portolani</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/predecessors</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/prime-guy</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/primonumerophobia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/princess-of-corinium</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/proxx</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/puzzle-tower</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/revenge</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/rice-or-die</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/road-to-roam</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/robin-hood</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/robin-of-thirteensley</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/robo-13th-regiment-attack</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/rock-feud</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/rollermaze</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/run-away-from-pied-piper-of-hamelin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/runekeeper</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/saeculum-xiii-agricultura</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/sails</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/salvadoran-reclamation-ms-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/samurai-sam</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/fzfkma6ilfsojvec4a3u6sowy5qt3tqw/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/scrammbl</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/kveqspfrcdspsnzwy1wt8tc3lf63w3xh/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sector-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/hwj2oufpdy6xknvjpj99974odbysfq1r/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/shadow-survivor</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/1ci7q4hq9q105lp1y1vxcar3rmccjuvt/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/shameful-murder-desperadoes</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/8sttq4hfxsvoveqhy43cp39updyjcs48/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sharks-and-trains</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/avdfpa7rynma1wxofv7mfg6iyh8trf07/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/shikken</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/4htdhun5663v914ifk7o2kdfwtc3nfs8/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/shoot-13-nomsters</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/t9qbykeho1i1ch47rpgaekbpojdxuoom/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/simple-sailing-simulator</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/3xlseluxd857tfjdkzpfjz8ts4its0bi/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sir-brunos-minnelied</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/ieq59ij69onmbvdfjlh16mkupxsfg3ct/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sir-coadalot-and-the-holy-grail</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/lrai63tp6xcbvdda6c6s1lne4d0ubz3u/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/six-and-seven</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/wkokj30hsjf5iwczg486ovsv1w8tc6xc/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/slowed-dao-run</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/1z71ur1g7az36nqxvpv69hbellzmx9lg/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/small-mahjong</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/jp22mjv7m4b283qu7mhzsy599omxbi13/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/snakes-and-ladders</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/j4j0ucs81t2ds1mps9mi72i6649g50s2/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/spell-spells</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/unmmql4hfo0hqaca1mstpffycp6o75b8/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/spirit-hunter</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/n5w86rvbn0dleu813h3mfuov030sfih9/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/squad-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/rhcgv1e11i4b969i0me6m3hgxn99295d/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/steamshot-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/1xhcqbonnmw8i8zn6kovy66mk3u1b15i/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sub13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/f8m9kw1kdw638xz9ishyenne8f2izl6z/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/sup3rfr1ght-vr</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/an6ivuc0bf2mlmeccxpgmoy62cdn196v/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/super-castle-game</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/3vfcposqhcqxry8lugoqadmdpteoae3v/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/super-polo-bros</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/15xmgy0og4ojairdvytqcm0je1zv5xzz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/superstitious-story</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/mbf3d5yx40vklpnmbg7c86rggzjkx0x1/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/swords-quills</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/ilrgmbbz9iahzagncq6oamsbmgktufph/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tavernity</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/4zbu48bx93xhmvjyqpuo0o9rj0zpgxf1/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/templars-final-stand</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/6afbjlwlbhxw5d3diva2y8qcq12paknn/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/terra-mobilis</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/vcecgonbw7uvc92nrt8xgwx9meouuqtz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tetromigo</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9pc3ac8adszy2k1d1gtqhmy1xci9yh6d/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-13-invaders</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/p64058ybqqb8gwhmesfp87rsqm1m4o7n/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-13th-door</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/ibdahpzhiyatdd5fyvlbcgv4c9fj7sgz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-13th-kings-odyssey</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/lwm03op9s8jb09siewh3xuu5i135wr9g/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-anti-poker-protocol</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/8c2ackwuxywgybcyem33mxbxizc7s707/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-baltic-league</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/n412slsirp0rlj8kjc4133gdecjvs72k/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-book-of-ani</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/t6sixhl4z74ngcl9q1g6v6w8keh4upxy/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-cat-jumper</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/bfprmqp63f9l8l7p956xkva5ta6v1buy/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-city-without-that-number</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/pkxwciwnmuvscqtcpq9z4360cqk6ib3f/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-curse-of-13-cats</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/3czz06mb7lhflst7sak4e2g8fww4gnqj/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-dandelion-wars</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/zxj7rznt6ljamaxaitum0fhzx7lt0ztt/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-demons-13-floors</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/jaj71oz3teb57c2egenil47f6jla6fjh/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-emerald-serpent</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/2fv0ll1x7y0tpbax9wv27skdijx8nxs1/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-encroaching-darkness</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/cl8vxtfu6k8gd2h3dm7hcsj1j75pud2l/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-fall-of-the-last-tower</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/wwfknwnztfclvg8v0p2h7g71dvsldo01/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-fear-factory</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/3pfhniq2exy97nw1jp07ehb5832l1adk/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-first-horde</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/4gdaaydms8czkwsi3cacdbtjjnu91qhx/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-forbidden-number</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/1d15zvk45ind7zij10yswa8zs8rao8ye/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-horde-the-horde-the-horde</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9k2zdddsiz73bqbhlmf9duz21iwf570x/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-kings-crowns</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/czcr4z403xj0fdtaqc8ilxvlvzvj3v1r/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-knighting-of-sr-isaac</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/q2fcgyk3dtprdnf8279v45ssixlwqi9v/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-last-bullet</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/b7088jad68v036rp283153k0bceos9sm/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-last-tower</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/lyvvl1x30cqyuurfg52g4i7xt9d03mos/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-lonely-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/lddztqtvg7kvofzep7py0radwj0y1uzr/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-magna-carta</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/q3tnburiqiyt9erta7e6crxgs5daodhy/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-mongol-horde</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/qj5d65z1uq70gnxqkskgrlrzppodll5u/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-monks-window</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/8oc1rjmuwkx2ol1th8pjrfwmtgg3ckgu/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-mystery-at-glamis-castle</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/r5edz2u459yqeshu0cf9nlafrjqrf2w1/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-saga-of-temujin</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/4cspk9tp97cbr0jweeordsxx9hjva5vt/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-silk-trail</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/s76ipcs902lggaujztftdidyopfld3ea/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-sixth-prime</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/mpa0fpjmcfgstp5v9mfz3hk86vdy2tgz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-society-of-multiphobics</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/wr4s1bkz7u57su3t7he5rs9otce1o6ft/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-terminal</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/c34zurvgw1w01fkf4n07idbggc6vvkbq/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-terror-of-mongolia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/f8m9kw1kdw638xz9ishyenne8f2izl6z/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-thirteen-storms-of-divine-wrath</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/8p3so8q9f3iycgpynknbtx1gyv9nxpzm/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-thirteenth-offering</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/63hu1ckpffmin83h2mu9bxah3do0hjcl/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-treasure-of-the-nibelungs</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/xxlz1gjpdxfhl98zmshxkqg3a90gccvz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-tridecomino-coral-reef</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/6psthwbt96i8afnwmsovc95508t2pt27/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/the-way-of-the-dodo</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9gt85xy3om372b2lwusxycx2msh4k90r/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteen</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/j3696t3w3nl7d05dvrsvxzaulvnd587j/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteen-minutes-to-space</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/r0gtbnuiwo9d7owan4fgrmd54ywcti00/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteen-potions</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/k4fe068va7dwcxuk73twcbthf9mbnkz5/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteen-terrible-stunts</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/j00jvss4g2nby7optz97bp2xtj1wy6nu/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteen-truco</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/0hvpeh7isix8tk9003wger45add5he5q/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/thirteens-everywhere</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9msfg45e79xq4jmoconwm2a2ra7xe2de/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/those-final-seconds</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/0khp6yxfvfzeyxc65krkzfio6l9ujwpw/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tide-of-the-templars</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/vyyh0e28gi85jp4rk3umxdyugsuu9p84/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/timerush</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/3t1l1ofawi6w888fgv28uc1u2kdv0qhk/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tiny-yurts</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/v3z04zubxirjp383zpy9855a0l4jgo3w/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/to-health-with-you</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/72qleuiiglbn0gbma3pljam9pn0qz5lj/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tower-defence-walking-13s</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/xcj55qktot7ucsj0lepq6hjd6egh1b1m/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/trading-buses</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/p8vp0dxq81p2nz04byvs4g0oh24fvjme/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/trado-polo-explores</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/s9et24t9023vk2kk72m1eygr7yrk59d0/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/treasure-thirteen</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/psizgzz3jnafzlmnpctk8bxcfc1jfmk0/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/tredici-malefici</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9p1uqz68xfgc02tb292d3s5mhpbigqjd/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/trench-fisher</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/rc0aptuuleju6xnlpeds38lisqpz1hzu/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskai-deka-phobia-card-game</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/9ptv2pbyrhiv9e9jlcj91vj9cwdwd3mw/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskaideka-cats-elevator-caper</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/ss7hiku3sutu1jiftnohynx0d4nddhh</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskaidekagenesis</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/h8381esputdzb7w30swugmh9aufj4lrz/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskaidekapool</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/ocuawximv8s4omrwf7t8linvh4lsl9u5/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskaidekapotamus</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
     </url>
     <url>
-        <loc>https://html5.gamemonetize.co/d8vjyjtwgj1c7opsa1e99ifmvnfvgvn8/</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/triskatopia</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
-    </url>     -->
-    <!-- Add more game URLs as needed -->
-    <!-- 
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/tron-20</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/turrets-and-trebuchets</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/unblock</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/unloved-13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/unnamed</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/upyri</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/vagabond-king-of-cards</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/wands-of-triskaidekai</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/wanted</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/weird-cannon</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/wendol-village</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/when-your-neighbors-are-mongols</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/witch-hunter</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/witchcup1276</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/wor</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/xiicur-surviivors</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/xiii-days-to-save-the-kingdom</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/xiii-feet-underground</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/xiii-floor</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/game/young-magi-awaken</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+    </url>
     <url>
-        <loc>https://arcadebloom.com/game/[GAME_SLUG]</loc>
-        <lastmod>2024-01-01</lastmod>
-        <changefreq>monthly</changefreq>
+        <loc>https://arcadebloom.com/game/z0mb13</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.6</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/privacy</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://arcadebloom.com/terms</loc>
+        <lastmod>2025-09-20</lastmod>
+        <changefreq>yearly</changefreq>
+        <priority>0.5</priority>
     </url>
-    -->
-    
-</urlset> 
+</urlset>

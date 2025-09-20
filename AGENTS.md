@@ -1,20 +1,21 @@
-﻿# Repository Guidelines
+# Repository Guidelines
 
 ## Project Structure & Module Organization
-ArcadeBloom is a static browser-game portal. Core landing flows live in `index.html`, `all-games.html`, `game-detail.html`, plus marketing pages `about.html`, `contact.html`, `privacy.html`, and `terms.html`. Gameplay metadata is centralized in `games-data.js`; update `GAMES_DATABASE` entries instead of touching HTML. Individual embed builds live under `games/` (for example `games/Chronotron.html`) and should remain self-contained. Shared art assets are stored in `pic/logo/`; reuse existing naming to avoid broken references. SEO artifacts (`sitemap.xml`, `robots.txt`, `manifest.json`) sit at the root and must be regenerated if URLs change.
+ArcadeBloom ships as static pages. Core flows live in `index.html`, `all-games.html`, and `game-detail.html`; marketing copy sits in `about.html`, `contact.html`, `privacy.html`, and `terms.html`. Gameplay metadata belongs in `games-data.js`—update `GAMES_DATABASE` entries instead of editing HTML. Individual embeds stay under `games/` (for example `games/Chronotron.html`) and should remain self-contained. Shared logos reside in `pic/logo/`. SEO artifacts (`sitemap.xml`, `robots.txt`, `manifest.json`) sit at the root and must be regenerated if URLs change.
 
 ## Build, Test, and Development Commands
-The site ships as static files; no bundler is required. Launch a local server to avoid CORS issues: `npx serve .` or `python -m http.server 8000` from the repo root. Use the same commands when spot-checking updates to embedded games inside `games/`.
+- `npx serve .` — launch a local server from the repo root to avoid CORS issues.
+- `python -m http.server 8000` — lightweight alternative dev server.
+Serve from the project root before opening any `games/*.html` files so embedded assets load correctly.
 
 ## Coding Style & Naming Conventions
-Follow the existing 4-space indentation in HTML and JavaScript. Keep HTML tags semantic (header/nav/main/footer) and attributes lowercase with double quotes. In `games-data.js`, append new entries to `GAMES_DATABASE` using consistent property order (`id`, `name`, `slug`, `image`, `description`, `instructions`, `releaseDate`, `rating`, `plays`, `featured`, `tags`, `gameUrl`). Give slugs hyphenated names (for example `slug: "space-rally"`). Always include trailing commas to preserve diff clarity.
+Use 4-space indentation in HTML and JavaScript. Keep HTML semantic with lowercase tags and double-quoted attributes. In `games-data.js`, append new objects with fields ordered `id`, `name`, `slug`, `image`, `description`, `instructions`, `releaseDate`, `rating`, `plays`, `featured`, `tags`, `gameUrl`, using hyphenated slugs and trailing commas. Reuse existing filenames when adding art under `pic/logo/`.
 
 ## Testing Guidelines
-Manual verification is required. After changes, refresh the dev server and confirm: homepage cards render, `all-games.html` search returns the new title, and `game-detail.html?slug=<slug>` loads without console errors. For new standalone game files, smoke-test controls and responsive layout in both desktop and mobile emulation.
+Manual verification only. After changes, refresh the dev server and confirm: homepage cards render correctly, `all-games.html` search surfaces new titles, and `game-detail.html?slug=<slug>` loads without console errors. For new embeds, smoke-test controls and layout on desktop and mobile breakpoints.
 
 ## Commit & Pull Request Guidelines
-Commits in this repo are short imperative statements, often Chinese (see commit 7d4bcfe). Use that tone or a concise English equivalent. Each commit should reflect a single logical change and reference updated files in the body if context helps. Pull requests should include: summary of the change, manual test notes, affected pages, and before/after screenshots when UI shifts. Link to any tracking issue and call out SEO-impacting edits explicitly.
+Write short imperative commit messages; many in history are Chinese, an equivalent English command is acceptable. Scope each commit to a single logical change. Pull requests should summarize the update, list manual test notes, flag affected pages, and include before/after screenshots for UI tweaks. Call out SEO-impacting edits explicitly and link any tracking issues.
 
-## Content Updates
-When adding games, reuse images under `pic/logo/` (`<game>.png`) and compress to web-friendly sizes. Confirm new entries keep `featured` balanced (<=6 true values) and update marketing copy in `about.html` or `contact.html` only through coordinated content reviews.
-
+## Content & Asset Updates
+When adding games, point metadata to the existing image under `pic/logo/`. Keep the number of `featured: true` entries at or below six to balance the homepage. Compress new assets before committing and coordinate any marketing copy updates in `about.html` or `contact.html` with the content team.

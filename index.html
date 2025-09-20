@@ -59,32 +59,248 @@
     
     <!-- Custom Styles -->
     <style>
+        :root {
+            color-scheme: dark;
+        }
         body {
             font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 15% 20%, rgba(131, 56, 236, 0.38), transparent 55%),
+                        radial-gradient(circle at 85% 12%, rgba(37, 211, 255, 0.32), transparent 45%),
+                        linear-gradient(135deg, #1a1040 0%, #29176f 35%, #0f5bf3 70%, #0bd3ff 100%);
+            background-attachment: fixed;
+            color: #f5f7ff;
+            min-height: 100vh;
+        }
+        a {
+            color: inherit;
         }
         .hero-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(116, 30, 255, 0.94) 0%, rgba(0, 180, 255, 0.85) 100%);
+            box-shadow: 0 40px 80px rgba(6, 10, 33, 0.45);
         }
-        .game-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .hero-gradient::before,
+        .hero-gradient::after {
+            content: "";
+            position: absolute;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0.6;
+            pointer-events: none;
         }
-        .game-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        .hero-gradient::before {
+            top: -160px;
+            left: -160px;
+        }
+        .hero-gradient::after {
+            bottom: -200px;
+            right: -120px;
+            background: radial-gradient(circle, rgba(255, 77, 196, 0.32) 0%, rgba(255, 255, 255, 0) 70%);
+        }
+        .hero-title {
+            text-shadow: 0 12px 30px rgba(10, 16, 45, 0.45);
+        }
+        .nav-shell {
+            background: linear-gradient(90deg, rgba(17, 24, 39, 0.78), rgba(30, 64, 175, 0.38));
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+        }
+        .nav-link {
+            position: relative;
+            padding-bottom: 4px;
+            font-weight: 600;
+            color: rgba(226, 232, 255, 0.75);
+            letter-spacing: 0.01em;
+            transition: color 0.2s ease, opacity 0.2s ease;
+        }
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        .nav-link-active {
+            color: #ffffff;
+        }
+        .nav-link-active::after,
+        .nav-link:hover::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 100%;
+            height: 3px;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #ff60d7, #6a5bff);
+        }
+        .cta-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.4rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            background: rgba(255, 255, 255, 0.14);
+            color: #ffffff;
+            gap: 0.5rem;
+        }
+        .cta-pill:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(17, 24, 39, 0.4);
+            background: rgba(255, 255, 255, 0.22);
+        }
+        .cta-pill.primary {
+            background: linear-gradient(135deg, #ff4ec7, #6f58ff);
+        }
+        .cta-pill.secondary {
+            background: linear-gradient(135deg, #25d7ff, #3b82f6);
+        }
+        .primary-button {
+            background: linear-gradient(135deg, #ff4ec7, #6f58ff);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.85rem;
+        }
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(79, 70, 229, 0.45);
+        }
+        .button-sm {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.75rem;
+        }
+        .button-md {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.9rem;
+        }
+        .button-lg {
+            padding: 0.75rem 1.8rem;
+            font-size: 1rem;
+        }
+        .search-focus {
+            background: rgba(8, 14, 34, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f1f5ff;
+            box-shadow: 0 18px 45px rgba(6, 11, 32, 0.45);
+        }
+        .search-focus::placeholder {
+            color: rgba(209, 213, 255, 0.54);
         }
         .search-focus:focus {
-            box-shadow: 0 0 0 3px rgba(147, 197, 253, 0.5);
+            border-color: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35);
         }
-        .category-active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .search-dropdown {
+            background: rgba(8, 14, 34, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(9, 13, 35, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 28px 55px rgba(7, 12, 29, 0.35);
+        }
+        .game-card {
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 65px rgba(15, 23, 42, 0.5);
+        }
+        .game-thumb {
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .game-thumb img {
+            transition: transform 0.35s ease;
+        }
+        .game-card:hover .game-thumb img {
+            transform: scale(1.05);
+        }
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            font-weight: 500;
+            gap: 0.5rem;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .tag-pill:hover {
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-2px);
+        }
+        .category-btn {
+            position: relative;
+            border-radius: 9999px;
+            padding: 0.45rem 0.9rem;
+            background: rgba(8, 14, 34, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(236, 242, 255, 0.78);
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.25s ease;
+        }
+        .category-btn:hover {
+            color: #ffffff;
+            border-color: rgba(255, 255, 255, 0.35);
+        }
+        .category-btn.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, #ff4ec7, #6f58ff);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.45);
+            border-color: rgba(255, 255, 255, 0.45);
+        }
+        .view-toggle {
+            display: inline-flex;
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(8, 14, 34, 0.76);
+        }
+        .view-toggle button {
+            padding: 0.45rem 0.85rem;
+            color: rgba(226, 232, 255, 0.65);
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+        .view-toggle button.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.18);
+        }
+        .filter-select {
+            background: rgba(8, 14, 34, 0.76);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #f8fafc;
+            border-radius: 9999px;
+            padding: 0.45rem 0.9rem;
+            font-size: 0.8rem;
+        }
+        .filter-panel {
+            background: rgba(9, 12, 32, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(8, 11, 27, 0.35);
         }
         .loading-spinner {
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #3b82f6;
+            border: 3px solid rgba(255, 255, 255, 0.12);
+            border-top: 3px solid #38bdf8;
             border-radius: 50%;
             width: 20px;
             height: 20px;
             animation: spin 1s linear infinite;
+        }
+        footer {
+            background: rgba(8, 11, 27, 0.88);
         }
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -97,35 +313,35 @@
         window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-KRKXGJZ9R4'); 
      </script>
 </head>
-<body class="bg-gray-50">
+<body class="antialiased text-white">
 
     <!-- Header -->
-    <header class="bg-white shadow-lg sticky top-0 z-50">
+    <header class="nav-shell sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="index.html" class="flex items-center">
-                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                        <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
-                        <span class="text-2xl font-bold text-gray-900">ArcadeBloom</span>
+                        <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
                     </a>
                 </div>
                 
                 <!-- Navigation -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-gray-900 font-medium">Home</a>
-                    <a href="all-games.html" class="text-gray-600 hover:text-gray-900 font-medium">All Games</a>
-                    <a href="#categories-section" class="text-gray-600 hover:text-gray-900 font-medium">Categories</a>
-                    <a href="about.html" class="text-gray-600 hover:text-gray-900 font-medium">About</a>
-                    <a href="contact.html" class="text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="nav-link nav-link-active">Home</a>
+                    <a href="all-games.html" class="nav-link">All Games</a>
+                    <a href="#categories-section" class="nav-link">Categories</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
                 </nav>
                 
                 <!-- Mobile menu button -->
-                <button class="md:hidden" id="mobile-menu-button">
+                <button class="md:hidden text-white" id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
@@ -135,68 +351,94 @@
         
         <!-- Mobile Navigation -->
         <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-                <a href="index.html" class="block px-3 py-2 text-gray-900 font-medium">Home</a>
-                <a href="all-games.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">All Games</a>
-                <a href="#categories-section" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium mobile-link">Categories</a>
-                <a href="about.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">About</a>
-                <a href="contact.html" class="block px-3 py-2 text-gray-600 hover:text-gray-900 font-medium">Contact</a>
+            <div class="px-4 pt-4 pb-5 space-y-2 bg-slate-950/90 border-t border-white/10 backdrop-blur">
+                <a href="index.html" class="block px-3 py-2 text-white font-semibold">Home</a>
+                <a href="all-games.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">All Games</a>
+                <a href="#categories-section" class="block px-3 py-2 text-white/80 hover:text-white font-medium mobile-link">Categories</a>
+                <a href="about.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">About</a>
+                <a href="contact.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">Contact</a>
             </div>
         </div>
     </header>
 
     <main>
         <!-- Hero Section -->
-        <section class="hero-gradient py-20 lg:py-32">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
-                    Play Amazing Browser Games
-                    <span class="block text-2xl md:text-4xl font-normal text-blue-200 mt-2">
-                        Instantly & Free
-                    </span>
+        <section class="hero-gradient py-4 lg:py-6">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+                <span class="inline-flex items-center justify-center px-2.5 py-0.5 text-[0.55rem] md:text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/70 bg-white/10 rounded-full mb-2">
+                    Curated HTML5 Library
+                </span>
+                <h1 class="hero-title text-xl md:text-3xl lg:text-[2.25rem] font-extrabold leading-snug">
+                    High-Voltage Games, One Click Away
                 </h1>
-                <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                    Discover thousands of free online games. From puzzles to action adventures, find your next favorite game right here.
+                <p class="mt-2 text-[0.7rem] md:text-sm text-white/70 max-w-2xl mx-auto">
+                    ArcadeBloom tests and curates cross-platform titles so you can jump straight into the action. Browse editor picks, trending releases, and walkthroughs updated daily.
                 </p>
-                
+                <div class="mt-3 flex flex-wrap justify-center gap-1.5">
+                    <a href="#games-section" class="cta-pill primary text-[0.65rem] md:text-xs">Editor's Picks</a>
+                    <a href="all-games.html" class="cta-pill secondary text-[0.65rem] md:text-xs">Games Catalog</a>
+                    <a href="all-games.html#all-games-grid" class="cta-pill text-[0.65rem] md:text-xs">Walkthroughs</a>
+                </div>
+
                 <!-- Search Bar -->
-                <div class="max-w-2xl mx-auto mb-8">
+                <div class="max-w-lg mx-auto mt-3">
                     <div class="relative">
                         <input 
                             type="search" 
                             id="search-input"
-                            placeholder="Search for games..."
-                            class="w-full px-6 py-4 text-lg rounded-full border-0 shadow-lg search-focus focus:outline-none focus:ring-0"
+                            placeholder="Search for games, genres, or creators..."
+                            class="w-full px-4 py-2 text-[0.75rem] md:text-sm rounded-full border-0 search-focus focus:outline-none focus:ring-0"
                             autocomplete="off"
                         >
                         <button 
                             id="search-button"
-                            class="absolute right-2 top-2 bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-200"
+                            class="primary-button button-sm absolute right-1 top-1 text-[0.65rem] md:text-xs"
                         >
                             Search
                         </button>
                     </div>
-                    <div id="search-suggestions" class="hidden absolute z-10 w-full bg-white border rounded-lg shadow-lg mt-1"></div>
+                    <div id="search-suggestions" class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-2"></div>
                 </div>
             </div>
         </section>
         <!-- Featured Games -->
-        <section class="py-16" id="games-section">
+        <section class="py-20" id="games-section">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl font-bold text-gray-900 mb-8">Hot Games</h2>
-                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+                    <div class="text-left">
+                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Hot Games</h2>
+                        <p class="mt-3 text-white/70 max-w-xl">
+                            Fresh drops and all-time crowd favorites handpicked by the ArcadeBloom editors.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap justify-center md:justify-end gap-3">
+                        <span class="tag-pill">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223c.2-2.512 2.269-4.5 4.79-4.5 2.523 0 4.592 1.988 4.791 4.5.014.179-.052.355-.178.481l-1.367 1.367a8.9 8.9 0 014.264 4.263l1.367-1.366a.675.675 0 01.48-.18c2.512.2 4.5 2.269 4.5 4.791 0 2.522-1.988 4.591-4.5 4.79-.179.015-.355-.051-.481-.177l-2.598-2.599c-3.346.542-6.96-.64-9.582-3.262s-3.804-6.235-3.262-9.582L3.8 8.703a.675.675 0 01-.178-.48z" />
+                            </svg>
+                            Daily curated
+                        </span>
+                        <span class="tag-pill">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2.293 2.293a1 1 0 001.414 0L12 9l5.293 5.293a1 1 0 001.414 0L21 12M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            </svg>
+                            One-click play
+                        </span>
+                    </div>
+                </div>
+                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8">
                     <!-- Games will be loaded here dynamically -->
                 </div>
                 
                 <!-- Loading Spinner -->
-                <div id="loading" class="flex justify-center items-center py-12">
+                <div id="loading" class="flex justify-center items-center py-12 text-white/70">
                     <div class="loading-spinner"></div>
-                    <span class="ml-3 text-gray-600">Loading games...</span>
+                    <span class="ml-3">Loading games...</span>
                 </div>
                 
                 <!-- Load More Button -->
                 <div class="text-center mt-12">
-                    <button id="load-more" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-200 font-medium hidden">
+                    <button id="load-more" class="primary-button button-lg font-semibold hidden">
                         Load More Games
                     </button>
                 </div>
@@ -204,76 +446,99 @@
         </section>
 
         <!-- All Games Section -->
-        <section class="py-16 bg-white border-t" id="all-games">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"  id="categories-section" >
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">All Games</h2>
-                    <!-- Filter and Sort Controls -->
-                    <div class="flex flex-col gap-4 w-full" >
-                        <!-- Categories - Full width row -->
-                        <div class="flex flex-wrap gap-3">
-                            <button class="category-btn bg-blue-600 text-white px-4 py-2 rounded-full font-medium transition" data-category="all">All</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="action">Action</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="adventure">Adventure</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="arcade">Arcade</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="bejeweled">Bejeweled</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="boys">Boys</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="clicker">Clicker</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="girls">Girls</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="hypercasual">Hypercasual</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="puzzle">Puzzle</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="strategy">Strategy</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="casual">Casual</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="sports">Sports</button>
-                            <button class="category-btn bg-gray-200 text-gray-700 hover:bg-gray-300 px-6 py-3 rounded-full font-medium transition duration-200" data-category="racing">Racing</button>
+        <section class="py-20" id="all-games">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="categories-section">
+                <div class="filter-panel p-4 sm:p-5 lg:p-6">
+                    <div class="flex flex-col gap-4">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <div>
+                                <h2 class="text-2xl font-bold tracking-tight">Browse the Catalog</h2>
+                                <p class="text-white/60 text-sm mt-2 max-w-lg">
+                                    Use quick filters, sort controls, and layout options to find the next game worth your session.
+                                </p>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-center md:justify-end text-[0.75rem]">
+                                <span class="tag-pill px-3 py-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L20 11l-6.5 6.5M4 12h16" />
+                                    </svg>
+                                    1,500+ titles
+                                </span>
+                                <span class="tag-pill px-3 py-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Fresh drops weekly
+                                </span>
+                            </div>
                         </div>
 
-                        <!-- Sort Controls - Always on a separate line, right-aligned -->
-                        <div class="flex justify-end w-full">
-                            <div class="flex items-center gap-4">
-                            <select id="sort-select" class="bg-white border border-gray-300 rounded-lg px-4 py-2">
-                                <option value="name">Sort by Name</option>
-                                <option value="category">Sort by Category</option>
-                                <option value="popular">Most Popular</option>
-                                <option value="newest">Newest First</option>
-                            </select>
-                            <div class="flex border border-gray-300 rounded-lg overflow-hidden">
-                                <button id="grid-view" class="px-4 py-2 bg-blue-600 text-white hover:bg-blue-700">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="category-btn active" data-category="all">All</button>
+                            <button class="category-btn" data-category="action">Action</button>
+                            <button class="category-btn" data-category="adventure">Adventure</button>
+                            <button class="category-btn" data-category="arcade">Arcade</button>
+                            <button class="category-btn" data-category="bejeweled">Bejeweled</button>
+                            <button class="category-btn" data-category="boys">Boys</button>
+                            <button class="category-btn" data-category="clicker">Clicker</button>
+                            <button class="category-btn" data-category="girls">Girls</button>
+                            <button class="category-btn" data-category="hypercasual">Hypercasual</button>
+                            <button class="category-btn" data-category="puzzle">Puzzle</button>
+                            <button class="category-btn" data-category="strategy">Strategy</button>
+                            <button class="category-btn" data-category="casual">Casual</button>
+                            <button class="category-btn" data-category="sports">Sports</button>
+                            <button class="category-btn" data-category="racing">Racing</button>
+                        </div>
+
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                            <div class="flex items-center gap-2 text-[0.75rem] text-white/60">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 4.5L21 9m0 0l-4.5 4.5M21 9H3" />
                                 </svg>
-                                </button>
-                                <button id="list-view" class="px-4 py-2 bg-gray-100 text-gray-600 hover:bg-gray-200">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z" clip-rule="evenodd"/>
-                                </svg>
-                                </button>
+                                <span>Tip: combine filters with search for laser-focused results.</span>
                             </div>
+                            <div class="flex items-center gap-2">
+                                <select id="sort-select" class="filter-select">
+                                    <option value="name">Sort by Name</option>
+                                    <option value="category">Sort by Category</option>
+                                    <option value="popular">Most Popular</option>
+                                    <option value="newest">Newest First</option>
+                                </select>
+                                <div class="view-toggle">
+                                    <button id="grid-view" class="active" aria-label="Grid view">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                    <button id="list-view" aria-label="List view">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Results Count -->
-                <div class="flex items-center justify-between mb-6">
-                    <h3 class="text-xl text-gray-800 font-medium"><span id="results-count">0</span> Games Found</h3>
-                    <div id="all-loading" class="flex items-center hidden">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mt-6">
+                    <h3 class="text-xl font-semibold">
+                        <span id="results-count">0</span> Games Found
+                    </h3>
+                    <div id="all-loading" class="flex items-center gap-3 hidden text-white/70">
                         <div class="loading-spinner"></div>
-                        <span class="ml-2 text-gray-600">Loading games...</span>
+                        <span>Loading games...</span>
                     </div>
                 </div>
 
-                <!-- All Games Grid -->
-                <div id="all-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"></div>
+                <div id="all-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 lg:gap-6 mt-6"></div>
 
-                <!-- No Results -->
                 <div id="no-results" class="hidden text-center py-12">
-                    <p class="text-gray-600 text-lg">No games found. Try a different filter or keyword.</p>
+                    <p class="text-white/70 text-lg">No games found. Try a different filter or keyword.</p>
                 </div>
 
-                <!-- Load More Button -->
-                <div class="text-center mt-12">
-                    <button id="all-load-more" class="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition duration-200 font-medium hidden">
+                <div class="text-center mt-8">
+                    <button id="all-load-more" class="primary-button button-lg font-semibold hidden">
                         Load More
                     </button>
                 </div>
@@ -283,29 +548,29 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer class="pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card p-8 sm:p-10 grid grid-cols-1 md:grid-cols-4 gap-10">
                 <div class="md:col-span-2">
-                    <div class="flex items-center mb-4">
-                        <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg mr-3 flex items-center justify-center">
+                    <div class="flex items-center mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
                         <span class="text-2xl font-bold">ArcadeBloom</span>
                     </div>
-                    <p class="text-gray-300 mb-4">
-                        Your ultimate destination for free online browser games. Play instantly without downloads, enjoy endless fun with friends and family.
+                    <p class="text-white/70 mb-6">
+                        Your HQ for high-impact browser games. Launch in seconds, share with friends, and stay ahead of the next viral hit.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        <a href="#" class="text-white/60 hover:text-white transition">
                             <span class="sr-only">Facebook</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
                             </svg>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        <a href="#" class="text-white/60 hover:text-white transition">
                             <span class="sr-only">Twitter</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
@@ -316,29 +581,27 @@
                 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#all-games" class="text-gray-300 hover:text-white">All Games</a></li>
-                        <li><a href="#categories-section" class="text-gray-300 hover:text-white">Categories</a></li>
-                        <li><a href="#games-section" class="text-gray-300 hover:text-white">Featured Games</a></li>
-                        <li><a href="all-games.html" class="text-gray-300 hover:text-white">Browse Games</a></li>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="#all-games" class="hover:text-white transition">All Games</a></li>
+                        <li><a href="#categories-section" class="hover:text-white transition">Categories</a></li>
+                        <li><a href="#games-section" class="hover:text-white transition">Featured Games</a></li>
+                        <li><a href="all-games.html" class="hover:text-white transition">Browse Games</a></li>
                     </ul>
                 </div>
                 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Company</h3>
-                    <ul class="space-y-2">
-                        <li><a href="about.html" class="text-gray-300 hover:text-white">About Us</a></li>
-                        <li><a href="contact.html" class="text-gray-300 hover:text-white">Contact</a></li>
-                        <li><a href="privacy.html" class="text-gray-300 hover:text-white">Privacy Policy</a></li>
-                        <li><a href="terms.html" class="text-gray-300 hover:text-white">Terms of Service</a></li>
+                    <ul class="space-y-2 text-white/70">
+                        <li><a href="about.html" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
-            
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p class="text-gray-400">
-                    © 2025 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
-                </p>
+
+            <div class="text-center text-white/60 mt-10">
+                © 2025 ArcadeBloom. All rights reserved. Made with ❤️ for gamers worldwide.
             </div>
         </div>
     </footer>
@@ -439,6 +702,16 @@
                 window.location.href = 'all-games.html';
             }
         }
+
+        function formatRating(rating) {
+            const value = Number(rating);
+            return Number.isFinite(value) ? value.toFixed(1) : '—';
+        }
+
+        function formatPlays(plays) {
+            const value = Number(plays);
+            return Number.isFinite(value) ? value.toLocaleString() : '0';
+        }
         
         function loadGames() {
             loading.classList.remove('hidden');
@@ -466,14 +739,31 @@
         
         function renderGames(games) {
             gamesGrid.innerHTML = games.map(game => `
-                <div class="game-card bg-white rounded-lg shadow-md overflow-hidden">
-                    <div class="aspect-w-3 aspect-h-4">
-                        <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
+                <div class="game-card glass-card">
+                    <div class="game-thumb h-32">
+                        <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
+                        <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
+                            ${game.category || 'Arcade'}
+                        </span>
+                        <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                            ${formatRating(game.rating)}
+                        </span>
                     </div>
-                    <div class="p-4">
-                        <h3 class="font-semibold text-gray-900 mb-2 truncate">${game.name}</h3>
-                        <p class="text-gray-600 text-sm mb-3 line-clamp-2">${game.description}</p>
-                        <button onclick="playGame(${game.id})" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 font-medium">
+                    <div class="p-4 flex flex-col gap-2">
+                        <h3 class="font-semibold text-white text-base truncate">${game.name}</h3>
+                        <div class="flex items-center justify-between text-[0.7rem] text-white/60">
+                            <span class="inline-flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
+                                </svg>
+                                ${formatPlays(game.plays)} plays
+                            </span>
+                            <span>${game.releaseDate || 'New drop'}</span>
+                        </div>
+                        <button onclick="playGame(${game.id})" class="primary-button button-md w-full">
                             Play Now
                         </button>
                     </div>
@@ -555,12 +845,8 @@
                     allDisplayed = 12;
 
                     // 激活按钮状态
-                    categoryBtns.forEach(b => {
-                        b.classList.remove('bg-blue-600', 'text-white');
-                        b.classList.add('bg-gray-200', 'text-gray-700');
-                    });
-                    btn.classList.add('bg-blue-600', 'text-white');
-                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
 
                     applyAllFilters();
                 });
@@ -620,18 +906,13 @@
 
         function updateViewToggle() {
             if (allView === 'grid') {
-                allGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6';
-                gridBtn.classList.add('bg-blue-600', 'text-white');
-                gridBtn.classList.remove('bg-gray-100', 'text-gray-600');
-                listBtn.classList.add('bg-gray-100', 'text-gray-600');
-                listBtn.classList.remove('bg-blue-600', 'text-white');
+                allGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8 mt-10';
             } else {
-                allGrid.className = 'space-y-4';
-                listBtn.classList.add('bg-blue-600', 'text-white');
-                listBtn.classList.remove('bg-gray-100', 'text-gray-600');
-                gridBtn.classList.add('bg-gray-100', 'text-gray-600');
-                gridBtn.classList.remove('bg-blue-600', 'text-white');
+                allGrid.className = 'space-y-4 mt-10';
             }
+
+            gridBtn.classList.toggle('active', allView === 'grid');
+            listBtn.classList.toggle('active', allView === 'list');
         }
 
         function renderAllGames() {
@@ -654,16 +935,30 @@
                 allGrid.innerHTML = showGames.map(game => {
                     if (allView === 'grid') {
                         return `
-                            <div class="game-card bg-white rounded-lg shadow-md overflow-hidden">
-                                <img src="${game.image}" alt="${game.name}" class="w-full h-48 object-cover">
-                                <div class="p-4">
-                                    <div class="flex justify-between mb-2">
-                                        <span class="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">${game.category}</span>
-                                        <span class="text-yellow-500 text-sm">${game.rating}</span>
+                            <div class="game-card glass-card">
+                                <div class="game-thumb h-44">
+                                    <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
+                                    <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">${game.category}</span>
+                                    <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                        ${formatRating(game.rating)}
+                                    </span>
+                                </div>
+                                <div class="p-5 flex flex-col gap-3">
+                                    <h3 class="text-white font-semibold text-lg truncate">${game.name}</h3>
+                                    <p class="text-white/70 text-sm line-clamp-2">${game.description}</p>
+                                    <div class="flex items-center justify-between text-xs text-white/60">
+                                        <span class="inline-flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
+                                            </svg>
+                                            ${formatPlays(game.plays)} plays
+                                        </span>
+                                        <span>${game.releaseDate || 'New drop'}</span>
                                     </div>
-                                    <h3 class="text-gray-900 font-semibold truncate">${game.name}</h3>
-                                    <p class="text-gray-600 text-sm line-clamp-2 mt-1">${game.description}</p>
-                                    <button onclick="playGame(${game.id})" class="mt-3 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+                                    <button onclick="playGame(${game.id})" class="primary-button button-md w-full mt-1">
                                         Play Now
                                     </button>
                                 </div>
@@ -671,20 +966,34 @@
                         `;
                     } else {
                         return `
-                            <div class="game-card flex bg-white rounded-lg shadow-md overflow-hidden">
-                                <img src="${game.image}" alt="${game.name}" class="w-24 h-24 object-cover">
-                                <div class="p-4 flex-1 flex justify-between items-center">
-                                    <div>
-                                        <div class="flex items-center gap-2 mb-1">
-                                            <h3 class="font-semibold text-gray-900">${game.name}</h3>
-                                            <span class="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full">${game.category}</span>
-                                        </div>
-                                        <p class="text-sm text-gray-600">${game.description}</p>
-                                    </div>
-                                    <button onclick="playGame(${game.id})" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Play
-                                    </button>
+                            <div class="game-card glass-card p-3 sm:p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+                                <div class="game-thumb w-full sm:w-28 h-24 sm:h-20">
+                                    <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
                                 </div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="flex flex-wrap items-center gap-3">
+                                        <h3 class="text-white font-semibold text-base">${game.name}</h3>
+                                        <span class="tag-pill text-[0.65rem] px-3 py-1">${game.category}</span>
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-3 text-[0.7rem] text-white/60">
+                                        <span class="inline-flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                            </svg>
+                                            ${formatRating(game.rating)}
+                                        </span>
+                                        <span class="inline-flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
+                                            </svg>
+                                            ${formatPlays(game.plays)} plays
+                                        </span>
+                                        <span>${game.releaseDate || 'New drop'}</span>
+                                    </div>
+                                </div>
+                                <button onclick="playGame(${game.id})" class="primary-button button-sm">
+                                    Play
+                                </button>
                             </div>
                         `;
                     }
