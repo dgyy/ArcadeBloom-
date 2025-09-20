@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>js13k 2023</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: black;
+        font-size: 14px;
+        overflow: hidden;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: 16px;
+      }
+
+      .dispnone {
+        display: none;
+      }
+
+      #ui {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      [data-stage="defeat"] #defeat {
+        display: block;
+      }
+
+      [data-stage="main-menu"] #main-menu {
+        display: block;
+      }
+
+      .ui-panel {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255, 255, 255, 0.8);
+        padding: 1rem 1.5rem;
+      }
+
+      #duration, #killed, #best-effort-v, #best-effort-kills {
+        font-weight: 600;
+      }
+
+      #restart {
+        border: 0;
+        background: rgb(0, 255, 0);
+        padding: 1rem 1.5rem;
+        border: 2px solid black;
+        margin: auto;
+        display: block;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+    </style>
+    <script src="./main.js" type="module"></script>
+  </head>
+  <body data-stage="main-menu">
+    <img src="./assets/wall.webp" class="dispnone" id="sprite-wall" />
+    <img src="./assets/knight_1.webp" class="dispnone" id="sprite-knight-1" />
+    <img src="./assets/knight_2.webp" class="dispnone" id="sprite-knight-2" />
+    <img src="./assets/mongol_1.webp" class="dispnone" id="sprite-enemy-1" />
+    <img src="./assets/mongol_2.webp" class="dispnone" id="sprite-enemy-2" />
+    <img src="./assets/tower-down.webp" class="dispnone" id="sprite-tower-down" />
+    <img src="./assets/tower-up.webp" class="dispnone" id="sprite-tower-up" />
+    <img src="./assets/slash.webp" class="dispnone" id="sprite-slash" />
+
+    <canvas style="width: 100vw; height: 100vh"></canvas>
+    <div id="ui" onselectstart="return false">
+      <div id="main-menu" class="dispnone ui-panel">
+        <p>Movement: WASD</p>
+        <p>Attack: left mouse button - point at the enemy</p>
+        <p>Your <strong>goal</strong> is to <strong>defend the tower</strong> and <strong>keep yourself alive</strong> for as long as you can.</p>
+        <p>
+          The tower is helping you out by shooting projectiles at the enemies. The worse the health of the tower, the
+          less damage it deals. You can heal the tower by killing the invaders. You can also heal yourself by avoiding
+          being attacked for a few seconds.
+        </p>
+        <p>To the battle!</p>
+        <button id="restart" onclick="startGame()">Start game</button>
+      </div>
+      <div id="defeat" class="dispnone ui-panel">
+          <p>You made it on the battlefield for <span id="duration"></span>.</p>
+          <p>In this time you managed to defeat <span id="killed"></span> mongolian invaders.</span></p>
+          <p id="best-effort-p" class="dispnone">Your previous best time is <span id="best-effort-v"></span> time and best number of kills: <span id="best-effort-kills"></span>.</p>
+        <button id="restart" onclick="startGame()">Try again</button>
+      </div>
+    </div>
+  </body>
+</html>

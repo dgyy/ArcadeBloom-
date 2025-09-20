@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Magna Carta</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <button id="upBtn">Up</button>
+    <button id="downBtn">Down</button>
+    <button id="rightBtn">Right</button>
+    <button id="leftBtn">Left</button>
+    <button id="playAgainBtn">Play Again!</button>
+    <button id="newGameBtn">New Game!</button>
+    <div id="text">Magna-Carta By Armaan.M!</div>
+    <link rel="stylesheet" href="blurt.min.css">
+    <link rel="preload" as="image" href="boxImg.png">
+    <link rel="preload" as="image" href="enemyImg.png">
+    <link rel="preload" as="image" href="enemyImg2.png">
+    <link rel="preload" as="image" href="enemyImg3.png">
+    <link rel="preload" as="image" href="enemyImg4.png">
+    <link rel="preload" as="image" href="magnaCartaImg.png">
+    <link rel="preload" as="image" href="playerImg.png">
+    <link rel="preload" as="image" href="playerImg2.png">
+    <link rel="preload" as="image" href="playerImg3.png">
+    <link rel="preload" as="image" href="playerImg4.png">
+    <div id="magnaCarta"></div>
+</body>
+<style>
+    *{
+        -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  image-rendering: pixelated;
+    }
+    body{
+        background-color: lightgoldenrodyellow;
+    }
+    canvas{
+        display:none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border: 3px solid black;
+    }
+    #rightBtn{
+        display: none;
+        position: absolute;
+        top: 70%;
+        right: 0%;
+        transform: translate(-50%,-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-color: aquamarine;
+        font-size: x-large;
+    }
+    #leftBtn{
+        display: none;
+        position: absolute;
+        top: 70%;
+        right: 12%;
+        transform: translate(-50%,-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-color: aquamarine;
+        font-size: x-large;
+    }
+    #downBtn{
+        display: none;
+        position: absolute;
+        top: 83%;
+        left: 10%;
+        transform: translate(-50%,-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-color: aquamarine;
+        font-size: x-large;
+    }
+    #upBtn{
+        display: none;
+        position: absolute;
+        top: 60%;
+        left: 10%;
+        transform: translate(-50%,-50%);
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background-color: aquamarine;
+        font-size: x-large;
+    }
+    #playAgainBtn{
+        display: none;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 300px;
+        height: 75px;
+        background-color: aquamarine;
+        font-size: xx-large;
+        border-radius: 30px;
+    }
+    #text{
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        font-size: 100px;
+        font-stretch: expanded;
+        color:darkgoldenrod;
+        stroke: black;
+        text-decoration:underline;
+    }
+    #newGameBtn{
+        display: block;
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 400px;
+        height: 80px;
+        background-color: aquamarine;
+        font-size: 50px;
+        border-radius: 50px;
+    }
+    #magnaCarta{
+        display: none;
+        position: absolute;
+        background-image: url('magnaCartaImg.png');
+        width:100px;
+        height:100px;
+        background-size: contain;
+    }
+</style>
+<script src="blurt.min.js"></script>
+<script src="main.js"></script>
+</html>

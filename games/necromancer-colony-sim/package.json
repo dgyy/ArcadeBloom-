@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "start": "http-server --silent",
+    "pack": "rimraf ./dist && js13k-packer index.html dist --pack false"
+  },
+  "dependencies": {
+    "kontra": "^9.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "js13k-packer": "^1.0.2",
+    "rimraf": "^5.0.1"
+  }
+}

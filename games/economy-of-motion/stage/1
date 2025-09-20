@@ -1,0 +1,10 @@
+song dd
+bg 8ac
+hero 36 64
+win 160 80 56 16
+wall 0 128 256 16
+wall 160 96 56 8
+wall 0 64 76 64
+wall 76 96 32 32
+wall 76 80 16 16
+wall 108 112 16 16

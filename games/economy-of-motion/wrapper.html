@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head>
+<!--
+  Dummy HTML wrapper page running the game in an iframe.
+  On Itch, holding the down arrow at the bottom of a ladder makes the page move.
+  Must be able to reproduce locally before attempting a fix.
+-->
+<title>Game Wrapper</title>
+<style>
+html {
+  background-color: #222;
+  color: #fff;
+}
+body {
+  height: 200vh;
+  display: flex;
+  flex-direction: column;
+}
+.spacer {
+  flex: 1;
+}
+iframe {
+  width: 512px;
+  height: 288px;
+}
+</style>
+</head><body>
+<div>Top of wrapper page.</div>
+<iframe src="./index.html"></iframe>
+<div class="spacer"></div>
+<div>Bottom of wrapper page.</div>
+</body></html>

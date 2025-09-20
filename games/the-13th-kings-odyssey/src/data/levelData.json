@@ -1,0 +1,817 @@
+[
+    {
+        "levelNumber": 1,
+        "tileDataKey": "level1TilesData",
+        "player": {
+            "positionX": 20,
+            "positionY": 180,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 442,
+            "positionY": 128,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 1,
+        "hazard": [
+            {
+                "positionX": 300,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }
+        ],        
+        "enemies": [
+        ],
+        "collectibales": [
+            {
+                "positionX": 330,
+                "positionY": 223,
+                "src": "img/objects/cup.png",
+                "animations": [],
+                "isActive": true
+            }
+        ], 
+        "dashPoints": [
+        ]
+    },
+    {
+        "levelNumber": 2,
+        "tileDataKey": "level2TilesData",
+        "player": {
+            "positionX": 24,
+            "positionY": 125,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 392,
+            "positionY": 192,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 1,
+        "hazard": [
+            {
+                "positionX": 97,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 114,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 130,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 195,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 211,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 227,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 243,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 259,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 275,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 291,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 307,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 323,
+                "positionY": 224,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }
+        ],
+        "enemies": [
+        ],
+        "collectibales": [
+            {
+                "positionX": 240,
+                "positionY": 72,
+                "src": "img/objects/cup.png",
+                "animations": []
+            }
+        ],
+        "dashPoints": [
+        ]
+    },
+    {
+        "levelNumber": 3,
+        "tileDataKey": "level3TilesData",
+        "player": {
+            "positionX": 22,
+            "positionY": 188,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 445,
+            "positionY": 63,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 58,
+        "hazard": [
+            {
+                "positionX": 144,
+                "positionY": 47,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 224,
+                "positionY": 47,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 240,
+                "positionY": 159,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 224,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 240,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 272,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 288,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 304,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },            
+            {
+                "positionX": 352,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 368,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 382,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 399,
+                "positionY": 240,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }
+        ],
+        "enemies": [
+            {
+                "positionX": 381,
+                "positionY": 30,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.1,
+                "moveLength": 160,
+                "moveSpeed":0.06
+            }
+        ],
+        "collectibales": [
+            {
+                "positionX": 331,
+                "positionY": 32,
+                "src": "img/objects/cup.png",
+                "animations": []
+            }
+        ],
+        "dashPoints": [
+        ]
+    },
+    {
+        "levelNumber": 4,
+        "tileDataKey": "level4TilesData",
+        "player": {
+            "positionX": 19,
+            "positionY": 90,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 128,
+            "positionY": 31,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 58,
+        "hazard": [
+            {
+                "positionX": 159,
+                "positionY": 47,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }, 
+            {
+                "positionX": 255,
+                "positionY": 63,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },           
+            {
+                "positionX": 336,
+                "positionY": 63,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 432,
+                "positionY": 112,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }            
+        ],
+        "enemies": [
+            {
+                "positionX": 160,
+                "positionY": 80,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.1,
+                "moveLength": 128,
+                "moveSpeed":0.06
+            },
+            {
+                "positionX": 208,
+                "positionY": 8,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.1,
+                "moveLength": 160,
+                "moveSpeed":0.08
+            },
+            {
+                "positionX": 272,
+                "positionY": 32,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": true,
+                "isMoveVertical": false,
+                "waitAtEndTime": 0.1,
+                "moveLength": 144,
+                "moveSpeed":0.05
+            }
+        ],
+        "collectibales": [
+            {
+                "positionX": 431,
+                "positionY": 160,
+                "src": "img/objects/cup.png",
+                "animations": []
+            }
+        ],
+        "dashPoints": [
+            {
+                "positionX": 257,
+                "positionY": 94,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            }
+        ]
+    },
+    {
+        "levelNumber": 5,
+        "tileDataKey": "level5TilesData",
+        "player": {
+            "positionX": 112,
+            "positionY": 225,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 464,
+            "positionY": 48,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 58,
+        "hazard": [
+            {
+                "positionX": 224,
+                "positionY": 127,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 128,
+                "positionY": 127,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 112,
+                "positionY": 207,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 64,
+                "positionY": 255,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 32,
+                "positionY": 63,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }
+        ],
+        "enemies": [
+            {
+                "positionX": 192,
+                "positionY": 156,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.11,
+                "moveLength": 80,
+                "moveSpeed":0.1
+            },
+            {
+                "positionX": 255,
+                "positionY": 156,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.12,
+                "moveLength": 80,
+                "moveSpeed":0.14
+            },
+            {
+                "positionX": 351,
+                "positionY": 156,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.13,
+                "moveLength": 80,
+                "moveSpeed":0.15
+            },
+            {
+                "positionX": 16,
+                "positionY": 80,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": true,
+                "isMoveVertical": false,
+                "waitAtEndTime": 0.3,
+                "moveLength": 64,
+                "moveSpeed":0.08
+            },
+            {
+                "positionX": 128,
+                "positionY": 16,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.40,
+                "moveLength": 80,
+                "moveSpeed":0.07
+            },
+            {
+                "positionX": 405,
+                "positionY": 70,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 420,
+                "positionY": 20,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 423,
+                "positionY": 10,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 436,
+                "positionY": 17,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 448,
+                "positionY": 8,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            }
+        ],
+        "collectibales": [
+            {
+                "positionX": 64,
+                "positionY": 244,
+                "src": "img/objects/cup.png",
+                "animations": []
+            }
+        ],
+        "dashPoints": [
+            {
+                "positionX": 304,
+                "positionY": 176,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 360,
+                "positionY": 94,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 288,
+                "positionY": 105,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 0,
+                "positionY": 224,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 210,
+                "positionY": 10,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 282,
+                "positionY": 18,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 350,
+                "positionY": 32,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            }
+        ]
+    },
+    {
+        "levelNumber": 6,
+        "tileDataKey": "level6TilesData",
+        "player": {
+            "positionX": 77,
+            "positionY": 210,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 384,
+            "positionY": 128,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 58,
+        "hazard": [
+            {
+                "positionX": 16,
+                "positionY": 64,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            },
+            {
+                "positionX": 16,
+                "positionY": 208,
+                "src": "img/objects/spikes.png",
+                "animations": []
+            }          
+        ],
+        "enemies": [
+            {
+                "positionX": 300,
+                "positionY": 48,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": true,
+                "isMoveVertical": false,
+                "waitAtEndTime": 0.13,
+                "moveLength": 60,
+                "moveSpeed":0.09
+            },
+            {
+                "positionX": 112,
+                "positionY": 48,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": true,
+                "isMoveVertical": false,
+                "waitAtEndTime": 0.11,
+                "moveLength": 96,
+                "moveSpeed":0.05
+            },
+            {
+                "positionX": 33,
+                "positionY": 96,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.11,
+                "moveLength": 96,
+                "moveSpeed":0.05
+            },
+            {
+                "positionX": 128,
+                "positionY": 80,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.2,
+                "moveLength": 96,
+                "moveSpeed":0.05
+            },
+            {
+                "positionX": 176,
+                "positionY": 112,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.08,
+                "moveLength": 64,
+                "moveSpeed":0.07
+            },
+            {
+                "positionX": 208,
+                "positionY": 128,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.4,
+                "moveLength": 48,
+                "moveSpeed":0.03
+            },
+            {
+                "positionX": 256,
+                "positionY": 112,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": false,
+                "isMoveVertical": true,
+                "waitAtEndTime": 0.5,
+                "moveLength": 48,
+                "moveSpeed":0.04
+            },
+            {
+                "positionX": 310,
+                "positionY": 128,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": true,
+                "isMoveHorzontal": true,
+                "isMoveVertical": false,
+                "waitAtEndTime": 0.8,
+                "moveLength": 50,
+                "moveSpeed":0.02
+            },
+            {
+                "positionX": 334,
+                "positionY": 143,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 345,
+                "positionY": 82,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 360,
+                "positionY": 98,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 383,
+                "positionY": 102,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 371,
+                "positionY": 84,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 192,
+                "positionY": 156,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },            
+            {
+                "positionX": 419,
+                "positionY": 63,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 455,
+                "positionY": 112,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 446,
+                "positionY": 220,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 282,
+                "positionY": 233,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            },
+            {
+                "positionX": 140,
+                "positionY": 245,
+                "src": "img/objects/enemy.png",
+                "animations": [],
+                "canMove": false
+            }
+            
+        ],
+        "collectibales": [
+            {
+                "positionX": 272,
+                "positionY": 192,
+                "src": "img/objects/cup.png",
+                "animations": []
+            }
+        ],
+        "dashPoints": [
+            {
+                "positionX": 405,
+                "positionY": 200,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            },
+            {
+                "positionX": 192,
+                "positionY": 218,
+                "src": "img/objects/dash_point.png",
+                "animations": []
+            }           
+        ]
+    },
+    {
+        "levelNumber": 7,
+        "tileDataKey": "level7TilesData",
+        "player": {
+            "positionX": 770,
+            "positionY": 210,
+            "src": "img/king/king_idle.png",
+            "animations": []
+        },
+        "door": {
+            "positionX": 3840,
+            "positionY": 128,
+            "src": "img/objects/door.png",
+            "animations": []
+        },
+        "collisions": {},
+        "collisionsSymbolKey": 58,
+        "hazard": [         
+        ],
+        "enemies": [
+            
+        ],
+        "collectibales": [
+           
+        ],
+        "dashPoints": [
+                     
+        ]
+    }
+]

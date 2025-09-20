@@ -1,0 +1,39 @@
+* {
+  touch-action: none;
+  -webkit-user-drag: none;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+html {
+  background: #000;
+}
+
+canvas {
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#a {
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+#a,
+#c {
+  height: 540px;
+  width: 960px;
+}
+
+#c {
+  left: 0;
+  position: absolute;
+  top: 0;
+}

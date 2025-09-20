@@ -1,0 +1,133 @@
+body {
+  background-color: black;
+  font-family: "Arial", sans-serif;
+  margin: 0;
+}
+
+#topbar,
+#navbar {
+  z-index: 1;
+}
+
+#topbar,
+#navbar,
+.row {
+  background-color: #333;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex: 0;
+  min-height: 42px;
+}
+
+#topbar div {
+  padding: 0 8px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.cb-row {
+  display: flex;
+  gap: 8px;
+  flex-direction: row;
+  color: white;
+  align-items: center;
+}
+
+#create-base-container,
+#guild-container {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.expand {
+  flex: 1;
+}
+
+.btn,
+select {
+  color: white;
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 8px;
+  cursor: pointer;
+}
+
+select,
+select option,
+input {
+  background-color: #333;
+  color: white;
+}
+
+span {
+  background-color: transparent;
+}
+
+span,
+select option {
+  color: white;
+}
+
+.btn.btn-menu {
+  border: 1px solid white;
+}
+
+h1,
+div {
+  color: white;
+}
+
+h1 {
+  margin: 8px;
+  padding: 0;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+.btn {
+  background-color: #333;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+  transition: background-color 0.3s ease, width 0.3s ease; /* Add transition on background-color and width */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 36px;
+}
+
+.btn:hover {
+  background-color: #555;
+}
+
+.btn:active {
+  background-color: #777;
+  box-shadow: none;
+}
+
+.btn.active {
+  background-color: #666;
+}
+
+.red {
+  color: red;
+}

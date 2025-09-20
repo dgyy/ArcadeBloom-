@@ -1,0 +1,20 @@
+[
+    {
+      "animationName": "cup",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 7,
+        "loop": true,
+        "src": "img/objects/cup.png"
+      }
+    },
+    {
+      "animationName": "cup_effect",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 50,
+        "loop": false,
+        "src": "img/objects/cup.png"
+      }
+    }
+  ]

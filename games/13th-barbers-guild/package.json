@@ -1,0 +1,33 @@
+{
+  "name": "13th-barbers-guild",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "lint": "eslint 'src/**'",
+    "build": "tsc && vite build && rm -f dist.zip && advzip -a dist.zip dist/index.html && ls -l dist.zip",
+    "preview": "vite preview",
+    "test": "vitest",
+    "serve": "python -m http.server 8008"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "@typescript-eslint/parser": "^6.5.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint": "^8.0.1",
+    "lightningcss": "^1.21.7",
+    "prettier": "^3.0.3",
+    "terser": "^5.19.3",
+    "typescript": "*",
+    "vite": "^4.4.5",
+    "vite-plugin-singlefile": "^0.13.5",
+    "vitest": "^0.34.3"
+  }
+}

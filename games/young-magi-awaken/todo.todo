@@ -1,0 +1,62 @@
+ ✔ Add player / box collisions (need multi sided collision detection) @done (23-09-11 18:37)
+ ✔ Add black hole / box collisions (circle to box collision) @done (23-09-11 18:47)
+ ✔ Stack boxes @done (23-09-11 18:47)
+ ✔ Add orbs to collect @done (23-09-12 17:33)
+ ✔ Only allow boxes to be cleaned up if orb is big enough @done (23-09-12 17:33)
+ ✔ Add second challenge with pathway and stacked boxes @done (23-09-12 17:33)
+ ✔ Add parallax item @done (23-09-12 17:33)
+ ☐ Place knight in correct position
+ ☐ Add text that activates when scroll position reaches certain point
+   ☐ Magic barriers set by the knights will shrink the omni
+   ☐ Knights can only be defeated with a more powerful omni
+   ☐ We must find a way to grow and pass
+ ☐ Fade to black, restart game functionality
+ ☐ Compress spritesheet (can prob save 2kb)
+
+
+ ☐ Add a third challenge with an enemy
+ ☐ Add fourth challenge
+ ☐ Add fifth and final challenge
+ ☐ Add sound effects
+ ☐ Add music
+
+
+ FINISHING MOVES:
+ ☐ Full screen
+ ☐ Center canvas
+
+
+
+
+ ✔ On click, create two "Points" @done (23-09-02 21:04)
+ ✔ On move, drag one point @done (23-09-02 21:04)
+ ✔ Always render line associated with both points @done (23-09-02 21:04)
+ ✔ Get drag distance @done (23-09-02 21:05)
+ ✔ Now get angle @done (23-09-02 21:07)
+ ✔ Launch a blackHole from player's location based on these values @done (23-09-02 22:59)
+ ✔ Fancy arrow click drag art @done (23-09-02 23:15)
+ ☐ Arrow around black hole on click drag
+ ✔ Wizard sprite @done (23-09-03 00:13)
+ ✔ Detach hand from wizard sprite @done (23-09-03 01:31)
+ ✔ Fix line on wizard sprite (if still exists) @done (23-09-03 01:31)
+ ✔ Add hand into spritesheet @done (23-09-03 01:31)
+ ✔ Soldier sprite @done (23-09-03 14:21)
+ ✔ Add ground sprite @done (23-09-04 17:13)
+ ✔ Add delta to player movement @done (23-09-04 17:27)
+ ☐ Add smoke trail to player when running
+
+ ☐ add jump
+
+
+ ☐ Add flash effect to mage on hit
+ ☐ Add screen flash effect on hit
+ ☐ Add heart sprites
+
+
+ ☐ Rotate wand with hand no matter where it is
+ ☐ Background sprite
+ ☐ Floor sprite
+ ☐ Rock pedestal sprite
+ ☐ Black hole art
+   ☐ Fade spinners
+   ☐ Electric black hole

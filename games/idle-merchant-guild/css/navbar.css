@@ -1,0 +1,13 @@
+.navbar-button {
+  width: 30%;
+  height: 100%;
+}
+
+.navbar-button.active {
+  width: 40%;
+  flex: 1;
+}
+
+.navbar-button span {
+  background-color: transparent;
+}

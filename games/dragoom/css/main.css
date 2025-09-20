@@ -1,0 +1,252 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --game-width: 256px;
+  --game-height: 352px;
+  --gameboard-width: 256px;
+  --gameboard-height: 256px;
+  --pixel-size: 1;
+}
+
+html,
+body {
+  font-size: 11px;
+  font-family: Impact, sans-serif;
+  overflow: hidden;
+}
+
+body {
+  background: #c2b685;
+}
+
+canvas {
+  display: block;
+  image-rendering: pixelated;
+  user-select: none;
+  cursor: pointer;
+}
+
+.game-container {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game {
+  width: var(--game-width);
+  height: var(--game-height);
+  transform: scale(var(--pixel-size));
+}
+
+.title-screen {
+  height: 75%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  letter-spacing: -3px;
+  margin-bottom: 2rem;
+  font-size: 40px;
+  text-decoration: underline;
+}
+
+.gameboard {
+  width: var(--gameboard-width);
+  height: var(--gameboard-height);
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  outline: 2px solid #a08733;
+
+  margin-bottom: 1rem;
+
+  /* debugging stuff */
+  /* background: url("images/center-lines.png") center center no-repeat; */
+}
+
+.camera-controls {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  display: flex;
+  flex-direction: column;
+}
+
+.camera-controls__zoom,
+.camera-controls__move {
+  display: flex;
+  gap: 4px;
+  margin: 2px 0;
+}
+
+.camera-controls button {
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  border: 1px solid black;
+  box-shadow: 1px 1px black, 2px 2px white;
+  background: white;
+  color: black;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem;
+}
+
+.camera-controls button:hover {
+  color: black;
+  background: white;
+}
+
+.camera-controls button:active {
+  background-color: white;
+  color: black;
+  box-shadow: 0px 0px white;
+  transform: translateX(2px) translateY(1px);
+}
+
+.scoreboard {
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid black;
+  background: black;
+  color: white;
+  padding: 0.25rem;
+  margin-bottom: 0.25rem;
+  outline: 2px solid #a08733;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.scoreboard-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scoreboard-panel-final {
+  margin-bottom: 1rem;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  border: 1px solid black;
+  box-shadow: 1px 1px black, 2px 2px white;
+  background: white;
+  color: black;
+  cursor: pointer;
+  user-select: none;
+  padding: 0.25rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.animate__headShake {
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-name: headShake;
+  animation-name: headShake;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+
+@media (min-width: 512px) and (min-height: 704px) {
+  :root {
+    --pixel-size: 2;
+  }
+}
+
+@media (min-width: 768px) and (min-height: 1056px) {
+  :root {
+    --pixel-size: 3;
+  }
+}
+
+@-webkit-keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  6.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+    transform: translateX(-6px) rotateY(-9deg);
+  }
+
+  18.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+    transform: translateX(5px) rotateY(7deg);
+  }
+
+  31.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+    transform: translateX(-3px) rotateY(-5deg);
+  }
+
+  43.5% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+    transform: translateX(2px) rotateY(3deg);
+  }
+
+  50% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+@keyframes headShake {
+  0% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+
+  6.5% {
+    -webkit-transform: translateX(-6px) rotateY(-9deg);
+    transform: translateX(-6px) rotateY(-9deg);
+  }
+
+  18.5% {
+    -webkit-transform: translateX(5px) rotateY(7deg);
+    transform: translateX(5px) rotateY(7deg);
+  }
+
+  31.5% {
+    -webkit-transform: translateX(-3px) rotateY(-5deg);
+    transform: translateX(-3px) rotateY(-5deg);
+  }
+
+  43.5% {
+    -webkit-transform: translateX(2px) rotateY(3deg);
+    transform: translateX(2px) rotateY(3deg);
+  }
+
+  50% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+  }
+}
+.animate__headShake {
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+  -webkit-animation-name: headShake;
+  animation-name: headShake;
+}

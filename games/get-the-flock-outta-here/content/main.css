@@ -1,0 +1,22 @@
+
+  body {
+    background-color: #731180;
+  }
+  
+  #cb canvas {
+    cursor: none;
+    width: 100%;
+    display: block;
+  }
+  
+  div#cb {
+    width: 100vw;
+    height: 76vw;
+    max-height: 100vh;
+    max-width: 131.57vh;
+
+    margin: auto;
+    position: absolute;
+    inset: 0;
+  }
+  

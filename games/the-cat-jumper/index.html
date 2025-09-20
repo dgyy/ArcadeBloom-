@@ -1,0 +1,393 @@
+<!doctype html>
+<html id=hH>
+<style>*{color:#fff}img{height:50vh}h1{font:3vh rubik,sans-serif;text-align:center}</style>
+<title>The Cat Jumper</title>
+<link rel=icon href=icon.gif>
+<meta content="width=device-width,initial-scale=1,user-scalable=0" name=viewport>
+<body style="background-image:url('bg.avif');background-size:cover" id=hB>
+<h1 hidden id=hW>You won the game. The cat needs to rest after all that strenuous jumping.<br><br><img src=won.avif><br><br>Made by <a href=https://384.cz/en>384.cz</a> in 2023.<br><br><b onclick=init()>Replay</b><br><br><br><i onclick=reset()>reset</i></h1>
+<h1 id=wlcm>
+
+A new queen has ascended the throne of the country.<br>
+But where all the family wealth was stored, the new queen's parents took to their grave<br>
+You're her cat, trying to find your parents' treasure.<br>
+You'll face various obstacles along the way.<br>
+
+<br> Controls: left screen tap: change direction to left,
+<br> middle screen tap: jump,
+<br> right screen tap: change direction to right,
+or you can use WASD<br>
+Tip: You can kill archers & catapults by touching them,<br> you can set respawn point by touching the scepter, the respawn point is saved permanently.
+<br><br><img id=T onerror='this.src="avatar.png"'><br><br>
+<b onclick=init()>PLAY</b><br><br><br>
+<i onclick=reset()>reset</i>
+</h1>
+
+<img src=arrow.png id=Arr hidden>
+<img src=avatar.png id=a hidden>
+<img src=torch.png id=torch hidden>
+<img src=scepter.png id=scepter hidden>
+<img src=knight.png id=l hidden>
+<img src=redheart.png id=rH hidden>
+<img src=blackheart.png id=bH hidden>
+<img src=finish.png id=f hidden>
+<img src=archer.png id=Arch hidden>
+<img src=fb.png id=fb hidden>
+<img src=pult.png id=pult hidden>
+<img src=alchemist.png id=alchemist hidden>
+<canvas id=hC style='width:100%;height:100%' hidden></canvas>
+<canvas id=hS width=59 height=28 hidden></canvas>
+<canvas id=hST width=23 height=120 hidden></canvas>
+<script>
+
+// ZZFX MUSIC & SFX
+var music=_=>{
+	
+
+	// zzfxP() - the sound player -- returns a AudioBufferSourceNode
+	zzfxP=(...t)=>{let e=zzfxX.createBufferSource(),f=zzfxX.createBuffer(t.length,t[0].length,zzfxR);t.map((d,i)=>f.getChannelData(i).set(d)),e.buffer=f,e.connect(zzfxX.destination),e.start();return e}
+
+	// zzfxG() - the sound generator -- returns an array of sample data
+	zzfxG=(q=1,k=.05,c=220,e=0,t=0,u=.1,r=0,F=1,v=0,z=0,w=0,A=0,l=0,B=0,x=0,G=0,d=0,y=1,m=0,C=0)=>{let b=2*Math.PI,H=v*=500*b/zzfxR**2,I=(0<x?1:-1)*b/4,D=c*=(1+2*k*Math.random()-k)*b/zzfxR,Z=[],g=0,E=0,a=0,n=1,J=0,K=0,f=0,p,h;e=99+zzfxR*e;m*=zzfxR;t*=zzfxR;u*=zzfxR;d*=zzfxR;z*=500*b/zzfxR**3;x*=b/zzfxR;w*=b/zzfxR;A*=zzfxR;l=zzfxR*l|0;for(h=e+m+t+u+d|0;a<h;Z[a++]=f)++K%(100*G|0)||(f=r?1<r?2<r?3<r?Math.sin((g%b)**3):Math.max(Math.min(Math.tan(g),1),-1):1-(2*g/b%2+2)%2:1-4*Math.abs(Math.round(g/b)-g/b):Math.sin(g),f=(l?1-C+C*Math.sin(2*Math.PI*a/l):1)*(0<f?1:-1)*Math.abs(f)**F*q*zzfxV*(a<e?a/e:a<e+m?1-(a-e)/m*(1-y):a<e+m+t?y:a<h-d?(h-a-d)/u*y:0),f=d?f/2+(d>a?0:(a<h-d?1:(h-a)/d)*Z[a-d|0]/2):f),p=(c+=v+=z)*Math.sin(E*x-I),g+=p-p*B*(1-1E9*(Math.sin(a)+1)%2),E+=p-p*B*(1-1E9*(Math.sin(a)**2+1)%2),n&&++n>A&&(c+=w,D+=w,n=0),!l||++J%l||(c=D,v=H,n=n||1);return Z}
+
+	// zzfxV - global volume
+	zzfxV=.1
+
+	// zzfxR - global sample rate
+	zzfxR=32000
+
+	// zzfxX - the common audio context
+	zzfxX=new AudioContext
+
+
+	//! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
+	zzfxM=(n,f,t,e=125)=>{let l,o,z,r,g,h,x,a,u,c,d,i,m,p,G,M=0,R=[],b=[],j=[],k=0,q=0,s=1,v={},w=zzfxR/e*60>>2;for(;s;k++)R=[s=a=d=m=0],t.map((e,d)=>{for(x=f[e][k]||[0,0,0],s|=!!f[e][k],G=m+(f[e][0].length-2-!a)*w,p=d==t.length-1,o=2,r=m;o<x.length+p;a=++o){for(g=x[o],u=o==x.length+p-1&&p||c!=(x[0]||0)|g|0,z=0;z<w&&a;z++>w-99&&u?i+=(i<1)/99:0)h=(1-i)*R[M++]/2||0,b[r]=(b[r]||0)-h*q+h,j[r]=(j[r++]||0)+h*q+h;g&&(i=g%1,q=x[1]||0,(g|=0)&&(R=v[[c=x[M=0]||0,g]]=v[[c,g]]||(l=[...n[c]],l[2]*=2**((g-12)/12),g>0?zzfxG(...l):[])))}m=G});return[b,j]}
+	
+	md=[[[,0,245,,,.48,2,,,,,,,,,.02,.01],[.3,0,143,,,,3],[.25,0,196,,.08,.18,3]],[[[,,1,6,,,1,6,3,6,,4,6,,5,,5,,1,,,,1,6,,1,6,3,6,,,,,,,,,,,,5,3,1,1,,,,13,18,15,18,,15,18,17,17,,,],[1,-1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,,1,1,,1,1,,1,1,,1,1,,1,1,,,,6,6,,,1,,1,,1,,1,,,,,],[2,1,,,,,,,,,6,6,,6,6,,6,1,,,,,,,6,,,,6,5,,6,,,6,,,6,,,,,,,,,3,5,,,,6,,,3,1,,,]]],[0],75,{}]
+	mb=zzfxM(...md)
+	mn=zzfxP(...mb)
+	mn.loop=1
+	
+	
+	sHurt=zzfxG(...[2.3,,456,,.07,.11,4,2.36,-6.7,,,,.1,1.5,1.4,.2,.15,.76,.02,.12])
+	sJump=zzfxG(...[1.06,,162,.01,.03,.116,2,1.96,-20,3.6,,,,,,,,.69,.06])
+	sHeal=zzfxG(...[4,0,130.8128,.1,.18,.49,2,1.7,.6,-1,,,.21,,,,.36,.28,.13])
+	sArrow=zzfxG(...[2,,330,,,.3,1,,1,,,,,1,20])
+	sEnemyDie=zzfxG(...[2,,7,.02,.04,.05,1,,-26,,,,,,8,,,.92,.04])
+}
+var sHurt,sJump,sHeal,sArrow,sEnemyDie,timeFromSpawn,direct
+reset=_=>{
+	if(confirm`Reset the whole game?`){localStorage.biteCatPhotos=localStorage.biteCatJumperX=localStorage.biteCatJumperY=0}
+}
+var maxhp,hp,bodies,cameraArrayX,cameraArrayY,isCollidingX,isCollidingY,down,up,left,right
+var catWidth=416/1.5
+var catHeight=26*7/1.5 
+init=_=>{
+	wlcm.hidden=1
+	hC.hidden=0
+	hB.style.overflow="hidden"
+	hW.hidden=1
+	hC.hidden=0
+	if(typeof gn!=='undefined'){
+		gn.stop()
+	}
+	cameraFrames=15
+	maxhp=hp=8
+	direct=1
+	//MovingEntity has got despawnPos & img & speed & gravity
+	//Torch has got img
+	//bodies object
+	bodies=[{type:"Ground",posX:-200,posY:700,width:12560,height:innerHeight}
+		,{type:"Ground",posX:12960,posY:700,width:1e4,height:innerHeight}
+		,{type:"MovingEntity",posX:2500,posY:490,width:300,height:210,despawnPosX:1200,img:l,speed:7,gravity:0,despawnsAfterCollision:false}
+		,{type:"MovingEntity",posX:3700,posY:490,width:300,height:210,despawnPosX:1200,img:l,speed:7,gravity:0,despawnsAfterCollision:false}
+		,{type:"MovingEntity",posX:7700,posY:490,width:300,height:210,despawnPosX:1200,img:l,speed:7,gravity:0,despawnsAfterCollision:false}
+		,{type:"MovingEntity",posX:14700,posY:490,width:300,height:210,despawnPosX:13700,img:l,speed:7,gravity:0,despawnsAfterCollision:false}
+		,{type:"Heal",posX:0,posY:550,width:50,height:50}
+		,{type:"Archer",posX:5200,posY:456,width:124,height:244}
+		,{type:"Archer",posX:8200,posY:456,width:124,height:244}
+		,{type:"Archer",posX:8400,posY:456,width:124,height:244}
+		,{type:"Archer",posX:15500,posY:456,width:124,height:244}
+		,{type:"Archer",posX:15500,posY:456,width:124,height:244}
+		,{type:"Scepter",posX:9400,posY:256,width:64,height:244}
+		,{type:"Scepter",posX:16400,posY:256,width:64,height:244}
+		,{type:"Pult",posX:11400,posY:556,width:192,height:43*3}
+		,{type:"Pult",posX:13400,posY:556,width:192,height:43*3}
+		,{type:"Pult",posX:18400,posY:556,width:192,height:43*3}
+		,{type:"Pult",posX:18400,posY:556,width:192,height:43*3}
+		,{type:"Heal",posX:13800,posY:550,width:50,height:50}
+		,{type:"Heal",posX:13850,posY:550,width:50,height:50}
+		,{type:"Heal",posX:13900,posY:550,width:50,height:50}
+		,{type:"Finish",posX:2e4,posY:450,width:250,height:250}
+	]
+		
+	//camera position in time
+	I=J=0
+	x=+localStorage.biteCatJumperX
+	y=+localStorage.biteCatJumperY
+	if(!y&&!x){
+		x=1
+		y=1
+	}
+	
+	cameraArrayX=Array(cameraFrames).fill(x)
+	cameraArrayY=Array(cameraFrames).fill(y)
+	
+	X=hC.getContext`2d`
+	
+	//cat bacwards
+	hX=hS.getContext`2d`
+	hX.scale(-1,1)
+	hX.drawImage(a,-59,0)
+
+	hX=hST.getContext`2d`
+	hX.scale(-1,1)
+	hX.drawImage(torch,-23,0)
+	
+	music()
+	hH.style.filter=''
+	MainInterval=setInterval(main,20)
+	onclick=klik
+}
+
+var klik=_=>{
+	hH.requestFullscreen()
+	move(Math.ceil((_.pageX/(innerWidth))*3))
+}
+
+var move=_=>{
+	navigator.vibrate(100)
+	if(_==1)direct=-1
+	if(_==2){
+		if(5>down){
+			J=49
+			zzfxP(sJump)
+		}
+	}
+	if(_==3)direct=1
+}
+var StopRunningMain=_=>{
+	clearInterval(MainInterval)
+	mn.stop()
+}
+
+var PopUpBox=_=>{
+	x-=direct*300
+	y=578
+	J=0
+	clrR('#0008',0,0,1920,1080)
+	clrR('#462',pX=1920/4,pY=1080/4,1920/2,1080/2)
+	X.fillText(_,pX/.9,pY/.7)
+	X.fillText("OK",pX/.55,pY/.4)
+	StopRunningMain()
+	onclick=_=>{
+		MainInterval=setInterval(main,20)
+		music()
+		onclick=klik
+	}
+}
+
+
+onkeydown=e=>{G=e.which;if(G==37||G==65){move(1)}if(G==38||G==87){move(2)}if(G==39||G==68){move(3)}}
+//kreslim hradby
+var hradby=(gx,gy,gw,gh)=>{
+	for(i=0;(0|gw/400)>i;i++){
+		clrR('#c84',gx+i*400,gy-200,200,400)
+		clrR('#b84',gx+200+i*400,gy,200,200)
+		if((i%3)==0){
+			if((0|(I/3))%2==0)dA=torch
+			else dA=hST
+			X.drawImage(dA,gx+75+i*400,gy-350,46,240)
+		}
+	}
+}
+
+var clrR=(clr,cX,cY,cW,cH)=>{
+	X.fillStyle=clr
+	X.fillRect(cX,cY,cW,cH)
+	X.fillStyle="#fff"
+}
+var main=_=>{
+	hC.width=1920
+	hC.height=1080	
+	X.font="2.6vw rubik,sans-serif"
+	right=left=up=down=9999
+
+	cameraArrayX[cI=I%cameraFrames]=x
+	cameraArrayY[cI]=y
+
+	cameraX=208+(1920/-2)
+	cameraY=182+(1080/-2)
+	for(i=0;cameraFrames>i;i++){
+		cameraX+=cameraArrayX[i]/cameraFrames
+		cameraY+=cameraArrayY[i]/cameraFrames
+	}	
+
+	//collision detection
+	mi=0
+	for(B of bodies){
+		currentDown=currentLeft=currentRight=currentUp=9999
+		bodyVisibleX=B.posX-cameraX
+		bodyVisibleY=B.posY-cameraY
+		isVisible = !(-B.width>bodyVisibleX||bodyVisibleX>1920+B.width||-B.height>bodyVisibleY||bodyVisibleY>1080+B.height)
+		isCollidingY=B.posY <= y+catHeight  && y <= B.posY+B.height+17
+		if(isCollidingY){
+			currentRight=(x-B.posX-B.width)
+			if(currentRight>-1){
+				right=Math.min(right,currentRight)
+			}
+			
+			currentLeft=(B.posX-x-catWidth)
+			if(currentLeft>-1){
+				left=Math.min(left,currentLeft)
+			}
+		}
+		isCollidingX=B.posX <= x+catWidth && x <= B.posX+B.width
+		if(isCollidingX){
+			currentUp=(y-B.posY-B.height)
+			//y-B.posY-B.height
+			if(currentUp>-1){
+				up=Math.min(up,currentUp)
+			}
+			
+			currentDown=(B.posY-y-catHeight)
+			if(currentDown>-1){
+				down=Math.min(down,currentDown)
+			}
+		}
+		hradby(bodyVisibleX,bodyVisibleY,B.width,B.height)
+		//isCollidingNow=isCollidingNowX&&isCollidingNowY
+		if(isVisible){
+			switch(B.type){
+				case "Ground":
+					hradby(bodyVisibleX,bodyVisibleY,B.width,B.height)
+				break;
+				case "MovingEntity":
+					if(B.despawnPosX>B.posX){
+						bodies.splice(mi,1)
+						console.log(mi)
+					}
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sHurt)
+						if(B.despawnsAfterCollision){
+							bodies.splice(mi,1)
+						}else{
+							x-=B.width*direct*2.2
+							y-=B.height
+						}
+						hp--
+						navigator.vibrate([50,50,50,50,50,50]);
+					}
+					X.drawImage(B.img,bodyVisibleX,bodyVisibleY,B.width,B.height)
+					B.posX-=B.speed
+					B.posY+=B.gravity
+				break;
+				case "Finish":
+					if(isCollidingX&&isCollidingY){
+						StopRunningMain()
+						hW.hidden=0
+						hC.hidden=1
+						zzfxP(sHeal)
+					}
+					X.drawImage(f,bodyVisibleX,bodyVisibleY,B.width,B.height)
+				break;
+				case "Heal":
+					if(isCollidingX&&isCollidingY){
+						if(9>hp){
+							hp++
+							zzfxP(sHeal)
+							bodies.splice(mi,1)
+						}
+						else{
+							PopUpBox`I can't heal you, because you've full HP`
+							return
+						}
+					}
+					X.drawImage(rH,bodyVisibleX,bodyVisibleY,B.width,B.height)
+				break;
+				case "Archer":
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sEnemyDie)
+						bodies.splice(mi,1)
+					}
+					X.drawImage(Arch,bodyVisibleX,bodyVisibleY,B.width,B.height)
+					if((I%30)==0){
+						zzfxP(sArrow)
+						bodies.push({type:"MovingEntity",posX:B.posX-100,posY:500,width:139,height:21,despawnPosX:B.posX-1e3,img:Arr,speed:9+new Date%39,gravity:new Date%6,despawnsAfterCollision:true})
+					}
+				break;
+				case "Pult":
+					timeFromSpawn=I%10	
+					X.strokeStyle='tan'
+					X.lineWidth=19
+					X.moveTo(bodyVisibleX+140+(45-timeFromSpawn*17),bodyVisibleY-50)
+					X.lineTo(bodyVisibleX+99,bodyVisibleY+49)
+					X.stroke()
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sEnemyDie)
+						bodies.splice(mi,1)
+					}
+					X.drawImage(pult,bodyVisibleX,bodyVisibleY,B.width,B.height)
+					if(timeFromSpawn==0){
+						zzfxP(sArrow)
+						bodies.push({type:"MovingEntity",posX:B.posX,posY:500,width:64,height:64,despawnPosX:B.posX-1e3,img:fb,speed:9+new Date%19,gravity:new Date%6,despawnsAfterCollision:true})
+					}
+				break;
+				case "Scepter":
+					if(isCollidingX&&isCollidingY){
+						PopUpBox`Respawn point set`
+						localStorage.biteCatJumperX=x
+						localStorage.biteCatJumperY=y
+						zzfxP(sHeal)
+						return
+					}
+					X.drawImage(scepter,bodyVisibleX,bodyVisibleY,B.width,B.height)
+					break;
+				}
+
+		}
+		mi++
+	}
+	
+	x+=direct* (direct<0?Math.min(10,right):Math.min(10,left))
+	//console.log("  right:"+right+"  left:"+left+"	up:"+up+"	down:"+down)
+	if(J>0){
+		J--
+		if(up==17){
+			J*=.9
+		}
+		y-=Math.min(up,J)
+	}
+	y+=Math.min(down,17)
+	
+	
+	
+	if((1>hp) || (-2000>-y)){
+		PopUpBox`Oh no, you died. Click to respawn!`
+		onclick=init
+		hH.style.filter="grayscale(1)"
+		gd=[[[,0,232,.01,.09,.15,2,,,,,,154.87,,,,.26],[3,0,655,,,.11,2,1.65,,,,,,3.8,-.1,.1]],[[[,-1,36,35,33,32,31,30,29,28,27,26,,,,,,,,,],[,1,,,,,,,,28,27,26,25,24,23,22,21,20,19,18],[1,,,,,,,,,,,,,,,5,,3,,1]]],[0],,{}]
+		gb=zzfxM(...gd)
+		gn=zzfxP(...gb)
+		gn.loop=1
+		return;
+	}
+	
+
+	//avatar forwards & backwards
+	if(direct==1)dA=a
+	if(direct==-1)dA=hS	
+	X.drawImage(dA,x-cameraX,(y-cameraY)+7,catWidth,catHeight)
+	I++
+	
+	//HP
+	for(i=0;maxhp+1>i;i++){
+		X.drawImage((hp>i)?rH:bH,i*75,0)
+	}
+	if((I%99)==0&&(location.protocol!=='file:')){localStorage.biteCatPhotos=hC.toDataURL()}
+
+}
+
+
+T.src=localStorage.biteCatPhotos
+</script>

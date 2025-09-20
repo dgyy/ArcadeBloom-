@@ -1,0 +1,222 @@
+main{
+    position: relative;
+    background-color: black;
+    width: 0;
+}
+
+/* div{
+    background: wheat;
+    width: 1vh;
+    height: 1vh;
+} */
+*{
+    box-sizing: border-box;
+}
+body{
+    background: black;
+    color: aliceblue;
+    
+}
+
+#a {
+    position: absolute;
+    transform: scale(20);
+    transform-origin: 0% 0%;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+#grid{
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+}
+#grid div{
+  
+    width: 20px;
+    height: 20px;
+    /* border: 1px dotted green; */
+    z-index: 1;
+    
+}
+#grid div:hover{
+    border: 1px solid black;
+}
+
+#me {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    bottom: 70px;
+    left: 140px;
+ 
+   
+   
+}
+#me div{
+    width: 10px;
+    height: 10px;
+    z-index: 5;
+}
+/* #me:hover{
+    left: 40px;
+} */
+.main-game-dash{
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 20vw;
+    z-index: 10;
+    
+}
+.main-game-dash h1{
+    text-align: center;
+    
+}
+.main-game-dash h2{
+    padding: 10px 20px;
+    border: 1px solid white;
+    text-align: center;
+}
+h3{
+    text-align: center;
+}
+h2:hover{
+    color: black;
+    background-color: red;
+}
+
+.pick{
+    
+    display: flex;
+    gap: 20px;
+    
+}
+
+#computer-choice{
+    text-align: center;
+    color: black;
+}
+
+.choices{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+}
+#announce{
+    padding: 2vh 0;
+    color: red;
+}
+#attack{
+    padding: 1rem;
+    background: red;  
+}
+#attack:hover{
+   border: 1px solid yellow; 
+}
+
+
+.landing{
+
+    position: fixed;
+    top: 0;
+    right: 20vw;
+    z-index: 10;
+}
+
+.legend{
+    display: flex;
+    background-color: gray;
+}
+
+li{
+    font-size: 14px;
+}
+@keyframes goToRightWing{
+    0%{
+        
+
+    }
+    50%{
+        bottom: 70px;
+        left: 255px;
+    }
+    100%{
+        bottom: 580px;
+        left: 255px;
+    }
+}
+
+@keyframes goToLeftWing {
+    0%{
+        
+
+    }
+    50%{
+        bottom: 70px;
+        left: 35px;
+    }
+    
+    100%{
+        bottom: 580px;
+        left: 35px;
+    }
+    
+}
+@keyframes goRight {
+    0%{
+        bottom: 580px;
+        left: 35px;
+        
+
+    }
+    100%{
+        left: 140px;
+    }
+}
+@keyframes goLeft {
+    0%{
+        
+        
+        
+    }
+    100%{
+        
+        left: 140px;
+    }
+
+}
+
+@keyframes goEnemyBase {
+    0%{
+
+        
+    }
+    100%{
+        bottom: 510px;
+        
+    }
+}
+
+
+/* @keyframes goForwardLong {
+    0%{
+       
+
+    }
+    100%{
+        bottom: 600px;
+        
+    }
+}
+@keyframes goBackwardLong {
+    0%{
+        bottom: 600px;
+
+    }
+    100%{
+        bottom: 80px;
+
+        
+    }
+} */

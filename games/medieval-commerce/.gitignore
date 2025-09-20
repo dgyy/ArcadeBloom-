@@ -1,0 +1,5 @@
+.DS_Store
+
+# Project exclude paths
+/dist/
+/node_modules/

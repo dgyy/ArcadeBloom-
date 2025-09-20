@@ -1,0 +1,62 @@
+#!/bin/bash -e
+
+test -e dist && rm -r dist || true
+mkdir dist
+
+test x$NO_LOG = x1 && LOG_FN=void || LOG_FN=log
+
+cat app.js tts.js game.js |
+sed -r "s/\blog\(/$LOG_FN(/g" |
+terser --compress \
+       --mangle toplevel \
+       --output dist/app.min.js \
+       --source-map includeSources,url=app.min.js.map \
+
+cat index.html |
+while read line; do
+  if (echo "$line" | grep -q '<link rel="stylesheet".*'); then
+    echo ">> Building CSS..." >&2
+    echo '<style>'
+    sass --style compressed style/index.scss
+    echo '</style>'
+  elif (echo "$line" | grep -q '<script.*</script>'); then
+    echo ">> Building JS..." >&2
+    echo '<script type="module">'
+    egrep -v '^//#' dist/app.min.js
+    #cat dist/app.min.js | sed 's/;/;\n/g'
+    #echo -e '\n//# sourceURL=app.min.js</script>'
+    echo -e '</script>'
+  elif (echo "$line" | grep -q '</body>'); then
+    echo ">> Embedding SVG..." >&2
+    #./minify-svg pieces.3.svg
+    ./minify-svg pieces.4.svg
+    echo '</body>'
+  else
+    echo "$line"
+  fi
+done > dist/index.html
+
+du -h dist/index.html
+
+rm dist/app.min.js
+
+echo ">> Packing..." >&2
+
+ZIP_PACK="/tmp/${npm_package_name}_$(date +%F_%T).zip"
+
+cd dist
+zip -9 -r "$ZIP_PACK" index.html
+cd ..
+
+zip_size=$(du -b "$ZIP_PACK" | sed 's/\t.*//')
+
+max=$((13*1024))
+pct="$(echo "scale=2; 100*$zip_size/$max" | bc -l)%"
+
+if [ $zip_size -le $max ]; then
+  echo -e "\e[32m>> The game pakage is in the limt. $ZIP_PACK $pct\e[0m"
+  exit 0
+else
+  echo -e "\e[31m>> The game pakage over the limt. $ZIP_PACK $pct\e[0m"
+  exit 1
+fi

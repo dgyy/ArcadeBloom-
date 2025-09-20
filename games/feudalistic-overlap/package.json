@@ -1,0 +1,29 @@
+{
+  "name": "js13k-2023-feudalistic-overlap",
+  "version": "0.0.0",
+  "description": "An entry to JS13k Games",
+  "main": "index.html",
+  "scripts": {
+    "build": "./build",
+    "build:watch": "npm run -s build; while inotifywait -r -e create -e modify -e move -e delete .; do echo; ./build; echo; done",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aurium/js13k-2023-feudalistic-overlap.git"
+  },
+  "keywords": [
+    "game",
+    "css"
+  ],
+  "author": "Aurélio Heckert",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/aurium/js13k-2023-feudalistic-overlap/issues"
+  },
+  "homepage": "https://github.com/aurium/js13k-2023-feudalistic-overlap#readme",
+  "devDependencies": {
+    "sass": "^1.66.1",
+    "terser": "^5.19.4"
+  }
+}

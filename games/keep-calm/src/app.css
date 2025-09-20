@@ -1,0 +1,17 @@
+/* @tailwind base; */
+/* smaller reset */
+* {
+  box-sizing: border-box
+}
+
+html, button {
+  font-family: cursive
+}
+
+.a-enter-vr {
+  position: fixed !important;
+  z-index: 1000 !important
+}
+
+@tailwind components;
+@tailwind utilities;

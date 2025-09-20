@@ -1,0 +1,25 @@
+{
+  "name": "js13kgames2023",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build --config vite.config.ts",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "js13k-vite-plugins": "^0.1.7",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "dependencies": {
+    "littlejsengine": "^1.6.4",
+    "node-fetch": "^2.7.0",
+    "svg-path-parser": "^1.1.0"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": true
+  }
+}

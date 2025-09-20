@@ -1,0 +1,6 @@
+out.bundle.js
+out.js
+node_modules/
+build/
+game.zip
+Session.vim

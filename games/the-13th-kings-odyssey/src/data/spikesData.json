@@ -1,0 +1,11 @@
+[
+    {
+      "animationName": "spikes",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 5,
+        "loop": true,
+        "src": "img/objects/spikes.png"
+      }
+    }
+  ]

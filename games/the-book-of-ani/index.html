@@ -1,0 +1,1637 @@
+<html>
+<title>The Book of Ani</title>
+<link rel="stylesheet" href="style.css">
+<script type="text/javascript" src="player-small.js"></script>
+  <script type="text/javascript" src="Blob.js"></script>
+<canvas id="canvas"></canvas>
+<script>
+
+
+(function () {
+    var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+    window.requestAnimationFrame = requestAnimationFrame;
+})();
+
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d"),
+    swtHide = true, //bool para esconder ou exibir os simbolos de interações
+	plShadow= false, //poder de sombra ativo ou não.
+    cansit= true,//alternador para ativar simbolos ao sentar e rezar
+	stage = -1,
+	hist=0,
+	sarc=620,
+	
+    width = 1000,
+    height = 620,
+
+    player = {
+        x: width / 2,
+        y: 500,
+        width: 35,
+        height: 80,
+        speed: 3,
+        velX: 0,
+        velY: 0,
+        jumping: false,
+        grounded: false,
+        color:'rgba(0,0,0,0)',
+		power: 0 ,//cada amuleto coletado dará um valor para esta propriedade do array
+		sitting: false,
+		ani: false,
+		valid: false,
+		walking:false,
+		side: "right",
+		feather: false,
+		ibis: false,
+    },
+    keys = [],
+    friction = 0.8,
+    gravity = 0.8,
+	door = {//porta de saída 
+    x: -950,
+    y: 320,
+    width:  40,
+    height: 100,
+    color: '#000'
+	},
+	
+	validation=[
+	{//[0]
+		a:0,
+	},
+	{//[1]
+		a:400,//conta texto do stage 0
+	},
+	{//[2]
+		a:400,//conta texto do stage 1
+	},
+	{//[3]
+		a:400,//conta texto do stage 2
+	},
+	{//[4]
+		a:400,//conta texto do stage 3
+	},
+	{//[5]
+		a:0,//valida caixa da fase 2
+	},
+	{//[6]
+		a:0,//valida colisao porta no stage 2
+	},
+	{//[7]
+		a:0,//conta tempo de mensagem de Anubis para Ani
+	},
+	{//[8]
+		a:0,//conta tempo para animacao das pernas
+	},
+	{//[9]
+		a:0,//valida uma unica execução para o soundtrack
+	},
+	
+	],
+	
+    boxes = [
+{//box on left [0]
+    x: 0,
+    y: 0,
+    width:  10,
+    height: height,
+    color: '#e7d09e',
+},
+{//box for the ground 1 [1]
+    x: 0,
+    y: height - 10,
+    width: width,
+    height: 10,
+    color: '#e7d09e',
+},
+{//box for the ground 2 [2]
+    x: 0,
+    y: height - 30,
+    width: width,
+    height: 10,
+    color: '#e7d09e',
+},
+{//box on right [3]
+    x: width - 10,
+    y: 0,
+    width: 50,
+    height: height,
+    color: '#e7d09e',
+},
+{//box on top 1 [4]
+    x: 0 - 10,
+    y: 0,
+    width: width,
+    height: 10,
+    color: '#e7d09e',
+},
+{//box on top 2 [5]
+    x: 0 - 10,
+    y: 20,
+    width: width,
+    height: 10,
+    color: '#e7d09e',
+}
+],
+
+
+/////platforms
+platforms=[
+////// stage 0
+{//coluna 1 [0]
+    x: 24,
+    y: 470,
+    width: 80,
+    height: 120,
+    color: '#ac7e41',
+	stage: 0
+},{//coluna 2 [1]
+    x: -430,
+    y: 200,
+    width: 80,
+    height: height-230,
+    color: '#ac7e41',
+	stage: 0
+},
+{//tampa da tumba [2]
+    x: 120,
+    y: 490,
+    width: 300,
+    height: 28,
+    color: '#ac7e41',
+	stage: 0
+},
+{//tumba [3]
+    x: 120,
+    y: 520,
+    width: 300,
+    height: 70,
+    color: '#ac7e41',
+	stage: 0
+},
+{//degrau1 [4]
+    x: 700,
+    y: 560,
+    width: 280,
+    height: 30,
+    color: '#ac7e41',
+	stage: 0
+},
+{//degrau2 [5]
+    x: 730,
+    y: 525,
+    width: 220,
+    height: 33,
+    color: '#ac7e41',
+	stage: 0
+},
+{//degrau3 [6]
+    x: 760,
+    y: 490,
+    width: 170,
+    height: 33,
+    color: '#ac7e41',
+	stage: 0
+},
+{//degrau4 [7]
+    x: 785,
+    y: 455,
+    width: 120,
+    height: 33,
+    color: '#ac7e41',
+	stage: 0
+},
+{//degrau5 [8]
+    x: 815,
+    y: 420,
+    width: 60,
+    height: 33,
+    color: '#ac7e41',
+	stage: 0
+},
+{//prateleira direita saida [9]
+    x: 920,
+    y: 160,
+    width: 0,
+    height: 10,
+    color: '#ac7e41',
+	stage: 0
+},
+////stage1
+{//degrau 1 [10]
+    x: 700,
+    y: 560,
+    width: 290,
+    height: 30,
+    color: '#d2a660',
+	stage: 1
+},
+{//degrau 2 [11]
+    x: 750,
+    y: 525,
+    width: 240,
+    height: 35,
+    color: '#d2a660',
+	stage: 1
+},
+{//degrau 3 [12]
+    x: 800,
+    y: 490,
+    width: 190,
+    height: 35,
+    color: '#d2a660',
+	stage: 1
+},
+{//degrau 4 [13]
+    x: 850,
+    y: 455	,
+    width: 140,
+    height: 35,
+    color: '#d2a660',
+	stage: 1
+},
+{//degrau 5 [14]
+    x: 900,
+    y: 420,
+    width: 90,
+    height: 35,
+    color: 'd2a660',
+	stage: 1
+},
+{//painel do meio [15]
+    x: 520,
+    y: 485,
+    width: 60,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ //coluna [16]
+    x: 150,
+    y: 140,
+    width: 90,
+    height: 398,
+    color: '#d2a660',
+	stage: 1
+},
+{ //base coluna  [17]
+    x: 125,
+    y: 540,
+    width: 140,
+    height: 50,
+    color: '#d2a660',
+	stage: 1
+},
+{ //  frutuante 1 [18] down left
+    x: 310,
+    y: 430,
+    width: 140,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ // flutuante 2 [19] top right
+    x: 595,
+    y: 350,
+    width: 170,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ // base caixa de saída [20] 
+    x: 750,
+    y: 200,
+    width: 240,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ // degrau da caixa de saida [21] top left
+    x: 750,
+    y: 130,
+    width: 10,
+    height: 70,
+    color: '#d2a660',
+	stage: 1
+},
+{ //prateleira 1  [22] down
+    x: 200,
+    y: 390,
+    width: 100,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ //prateleira 2 [23] top
+    x: 195,
+    y: 270,
+    width: 400,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{
+ //caminho superior [24] top
+    x: 150,
+    y: 130,
+    width: 600,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ // subida final 1 [25]
+    x: 10,
+    y: 460,
+    width: 40,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ //final 2 [26]
+    x: 110,
+    y: 350,
+    width: 40,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ //final 3 [27]
+    x: 10,
+    y: 280,
+    width: 40,
+    height: 10,
+    color: '#d2a660',
+	stage: 1
+},
+{ //final 3 [28]
+    x: 585,
+    y: 280,
+    width: 10,
+    height: 80,
+    color: '#d2a660',
+	stage: 1
+},
+{ //final 3 [29]
+    x: 300,
+    y: 390,
+    width: 10,
+    height: 50,
+    color: '#d2a660',
+	stage: 1
+},
+
+////stage 2[30]
+{// inutilizado [30]
+    x: 920,
+    y: 490,
+    width: 70,
+    height: 10,
+    color: '#e7d09e',
+	stage: 5
+},
+{// prato direito[31]
+    x: 309,
+    y: 410,
+    width: 70,
+    height: 15,
+    color: '#2b3526',
+	stage: 3
+},
+{//prato esquerdo[32]
+    x: 51,
+    y: 410,
+    width: 70,
+    height: 15,
+    color: '#2b3526',
+	stage: 3
+},
+{// prateleira ibis[33]
+    x: 900,
+    y: -20,
+    width: 270,
+    height: 15,
+    color: '#e8dbc1',
+	stage: 3
+},
+{// capa braco direita[34]
+    x: -259,
+    y: -320,
+    width: 60,
+    height: 15,
+    color: '#2b3526',
+	stage: 3
+},
+{//capa braco esquerda[35]
+    x: -115,
+    y: -320,
+    width: 60,
+    height: 15,
+    color: '#2b3526',
+	stage: 3
+},
+{//degrau1 [36]
+    x: 880,
+    y: 560,
+    width: 100,
+    height: 30,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau1 [37]
+    x: 700,
+    y: 560,
+    width: 280,
+    height: 30,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau2 [38]
+    x: 880,
+    y: 525,
+    width: 80,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau2 [39]
+    x: 730,
+    y: 525,
+    width: 80,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau3 [40]
+    x: 760,
+    y: 490,
+    width: 50,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau3 [41]
+    x: 880,
+    y: 490,
+    width: 50,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau4 [42]
+    x: 785,
+    y: 455,
+    width: 120,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+{//degrau5 [43]
+    x: 815,
+    y: 420,
+    width: 60,
+    height: 33,
+    color: '#e7d09e',
+	stage: 3
+},
+////////////////stage 2
+{//botão no chão [44]
+    x: 640,
+    y: 565,
+    width: 80,
+    height: 25,
+    color: '#d2a660',
+	stage: 2
+},
+{//base coluna [45]
+    x: 204,
+    y: 540,
+    width: 135,
+    height: 60,
+    color: '#e7d09e',
+	stage: 2
+},
+{//coluna [46]
+    x: 228,
+    y: 40,
+    width: 85,
+    height: 550,
+    color: '#e7d09e',
+	stage: 2
+},
+{//prateleira direita [47]
+    x: 780,
+    y: 270,
+    width: 210,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//prateleira direita 2 [48]
+    x: 740,
+    y: 290,
+    width: 250,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//flutuante meio [49]
+    x: 440,
+    y: 420,
+    width: 170,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//flutuante meio 2 [50]
+    x: 440,
+    y: 400,
+    width: 200,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//caixa [51]
+    x: 580,
+    y: 340,
+    width: 60,
+    height: 60,
+    color: '#ac6533',
+	stage: 2
+},
+{//prateleira esquerda 2 [52]
+    x: 10,
+    y: -200,
+    width: 70,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//prateleira esquerda 2 [53]
+    x: 10,
+    y: -220,
+    width: 90,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//prateleira direita 2 [54]
+    x: -512,
+    y: 320,
+    width: 90,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+{//prateleira direita 2 [55]
+    x: -512,
+    y: 320,
+    width: 90,
+    height: 10,
+    color: '#e7d09e',
+	stage: 2
+},
+    ],
+    powerup = [
+                { // inutilizado
+                x: 805,
+                y: 491,
+                width: 32,
+                height: 32,
+                color: 'rgba(0,0,0,0)',
+                effect: 'hide',
+                },        
+				// STAGE 1
+				{ // ren nome | name [1]
+                x: 50,
+                y: 480,
+                width: 30,
+                height: 30,
+                color: 'rgba(0,0,0,0)',
+                effect: 'hide',
+				stay:false,
+				stage: 1
+                },
+                { // papyrus 1 [2] de baixo
+                x: 246,
+                y: 450,
+                width: 50,
+                height: 50,
+                color: 'rgba(0,0,0,0)',
+                effect: 'gravity',
+				stay:false,
+				stage: 1
+                },
+                {// papyrus 2 [3] de cima
+                x: 246,
+                y: 300,
+                width: 50,
+                height: 50,
+                color: 'rgba(0,0,0,0.0)',
+                effect: 'gravity',
+				stay:false,
+				stage: 1
+                },                
+                {// sheut - shadow [4]
+                x: 246,//210
+                y: 160,//120
+                width: 17,
+                height: 35,
+                color: 'rgba(0,0,0,1)',
+                effect: 'none',
+				stay: false,
+				stage:1
+                },
+				// STAGE 0
+                {//khet [5]
+                x: 827,
+                y: -80,
+                width: 40,
+                height: 40,
+                color: 'rgba(0,0,0,0)',
+                effect: 'none',
+				stay:false,
+				stage: 0
+                },
+                { // ba [6]
+                x: 150,
+                y: -341,
+                width: 40,
+                height: 80,
+                color: 'rgba(100,0,0,0)',
+                effect: 'none',
+                stay: false,
+				stage: 0
+                },
+                { //ka [7]
+                x: 200,
+                y: -341,
+                width: 40,
+                height: 80,
+                color: 'rgba(0,100,0,0)',
+                effect: 'none',
+                stay: false,
+				stage: 0
+                },
+                { //ren [8]
+                x: 250,
+                y: -341,
+                width: 40,
+                height: 80,
+                color: 'rgba(100,0,0,0)',
+                effect: 'none',
+                stay: false,
+				stage: 0
+                },
+                { //ibis [9]
+                x: 300,
+                y: -341,
+                width: 40,
+                height: 80,
+                color: 'rgba(100,0,0,0)',
+                effect: 'none',
+                stay: false,
+				stage: 0
+                },
+                { //sheut [10]
+                x: 350,
+                y: -341,
+                width: 40,
+                height: 80,
+                color: 'rgba(100,0,0,0)',
+                effect: 'none',
+                stay: false,
+				stage: 0
+                },
+                { //ibis [11]
+                x: 920,
+                y: -90,
+                width: 48,
+                height: 48,
+                color: 'rgba(0,0,0,0)',
+                effect: 'none',
+				stage: 3,
+				stay: false
+                },
+                { //pena [12]
+                x: 835,
+                y: 504 ,
+                width: 48,
+                height: 48,
+                color: 'rgba(0,0,0,0)',
+                effect: 'none',
+				stage: 3,
+				stay: false
+                },
+                { //ka [13]
+                x: 930,
+                y: 170 ,
+                width: 40,
+                height: 80,
+                color: 'rgba(0,0,0,0)',
+                effect: 'none',
+				stage: 2,
+				stay: false
+                },
+                { //ba [14]
+                x: 85,
+                y: 460 ,
+                width: 40,
+                height: 80,
+                color: 'rgba(0,0,0,0)',
+                effect: 'none',
+				stage: 2,
+				stay: false
+                }
+            ];
+			
+// dimensions
+canvas.width = width;
+canvas.height = height;
+
+ctx.imageSmoothingEnabled = false;
+
+//bring the images from a unique file
+	imgmap = new Image();
+    imgmap.src='./img/imgmap.png';
+
+function update() {
+player.walking=false;
+    // check keys
+    if(keys[38] || keys[32] || keys[87]) {
+        // up arrow or space
+        if(!player.jumping&&player.grounded) {
+            player.jumping = true;
+            player.grounded = false;
+            player.velY = -player.speed * 2.5;//how high to jump
+			player.height=93;
+			player.y-=20;
+        }
+    }
+    if(keys[39] || keys[68]) {
+        // right arrow
+        if(player.velX < player.speed) {
+            player.velX++;
+			player.walking=true;
+			
+        }
+		player.side="right";
+		//inicia musica trilha
+	if(validation[9].a==0){
+	startMusic();
+	validation[9].a=1;
+	}
+    }
+	
+    if(keys[37] || keys[65]) {
+        // left arrow
+        if(player.velX > -player.speed) {
+            player.velX--;
+			player.walking=true;
+			
+        }
+		player.side="left"
+	}	
+
+	
+    player.velX *= friction;
+    player.velY += gravity;
+
+    ctx.clearRect(0, 0, width, height);
+    ctx.beginPath();
+    
+    player.grounded = false;
+    
+	//print boxes
+		for(var i = 0; i < boxes.length; i++) {
+		ctx.fill();
+        ctx.fillStyle = boxes[i].color;
+        ctx.fillRect(boxes[i].x, boxes[i].y, boxes[i].width, boxes[i].height);
+		var dir = colCheck(player, boxes[i]);
+		       if(dir === "l" || dir === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if(dir === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if(dir === "t") {
+            player.velY *= -1;
+			 }
+		}
+
+	//porta de saida pra poxima fase
+    ctx.fillStyle = "#000";
+    ctx.fillRect(door.x, door.y, door.width, door.height);
+
+//INTRO stage -1
+	
+if(stage==-1){
+	if(player.x>10&&player.valid==false){player.x=10;player.valid=true}
+	
+	
+	/* ctx.fillStyle="#e7d09e";
+	ctx.fillRect(100,100,800,400); */
+	ctx.fillStyle="#e8dbc1";
+	if(hist==0){
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| The book of Ani |",390,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("This is a retelling of a real event documented",208,240);
+	ctx.fillText("in a papyrus found in Thebes, Egypt.",208,280);
+	//press >
+	ctx.font="Italic 18px Tahoma";
+	ctx.fillStyle="#e7d09e";
+	ctx.fillText("hold",430,340);
+	ctx.fillText("button",510,340);
+	ctx.drawImage(imgmap,21,44,4,7,480,324,12,21);
+	}
+	if(hist==1){
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| The book of Ani |",390,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("Ani was a scribe who guaranteed his afterlife",208,240);
+	ctx.fillText("through the enchantments described in",208,278);
+	ctx.fillText("the Book of the Dead.",208,317);
+		//press >
+	ctx.font="Italic 18px Tahoma";
+	ctx.fillStyle="#e7d09e";
+	ctx.fillText("hold",430,370);
+	ctx.fillText("button",510,370);
+	ctx.drawImage(imgmap,21,44,4,7,480,354,12,21);
+	}
+
+	
+	
+	if(hist==0){
+	if(player.x>700){hist=1,player.valid=false,player.x=10;};
+	}
+	if(hist==1){
+		ctx.filter = "brightness(0.3)";
+	ctx.drawImage(imgmap,32,32,13,30,820,410,80,180);
+	ctx.filter = "none"
+	ctx.drawImage(imgmap,64,19,23,17,790,380,136,120);
+	
+	 if(player.x>=500&&platforms[30].y<600){
+		 player.velX=0;
+		 platforms[30].y+=1;
+		 if(platforms[30].y==600){
+			 player.valid=false;
+			 player.x=-400;
+			 hist=2
+			 }}
+	};
+	if(hist==2){
+	player.y=-100;
+	player.x=400;
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| The book of Ani |",390,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("Also known as \"Chapters of Going Forth by Day\"",230,240);
+	ctx.fillText("A magical book from",380,278);
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("13th Century BC.",390,317);
+		//press ENTER
+	ctx.fillStyle="#e7d09e";
+	ctx.font="Italic 18px Tahoma";
+	ctx.fillText("press",360,409);
+	ctx.fillText("to start the game",495,409);
+	ctx.font="18px Tahoma";
+	ctx.fillText("enter",426,409);
+	ctx.strokeStyle="#e7d09e";
+	ctx.roundRect(415,390,65,27,[8]);
+	ctx.stroke();
+	//sarcedotes
+	
+	if(sarc>=485){
+		sarc-=6;
+		}
+	ctx.filter="saturate(0.3)";
+	ctx.drawImage(imgmap,48,38,16,26,51,sarc,60,105); 
+	ctx.filter = "none"
+	
+	ctx.filter="saturate(0.5)";
+	ctx.drawImage(imgmap,48,38,16,26,151,sarc,60,105); 
+	ctx.filter = "none"
+	
+	ctx.filter="saturate(0.1)";
+	ctx.drawImage(imgmap,48,38,16,26,251,sarc,60,105);
+	ctx.filter = "none"
+	
+	ctx.filter="saturate(0.7)";
+	ctx.drawImage(imgmap,48,38,16,26,351,sarc,60,105); 
+	ctx.filter = "none"
+	
+	//estatua de Ani
+	ctx.filter="saturate(0.3)";
+	ctx.drawImage(imgmap,64,0,32,8,550,438,200,47);
+	ctx.fillStyle="#d2a660"
+	//tumba e tampo
+	ctx.fillRect(490,485,300,30);
+	ctx.fillRect(490,517,300,73);
+	ctx.filter="none";
+	
+	//Uapaut
+	ctx.filter = "brightness(0.3)";
+	ctx.drawImage(imgmap,32,32,13,30,820,410,80,180);
+	ctx.filter = "none"
+	ctx.drawImage(imgmap,64,19,23,17,790,380,136,120);
+	
+	if(keys[13]) {
+		stage=0;
+		hist=3;
+	}
+	}
+	
+	player.ani=false;
+	player.side="none";
+	friction=0.6;
+	
+	ctx.filter="brightness(0.5)";
+	ctx.filter="saturate(0.4)";
+	//sarcedotes
+	ctx.drawImage(imgmap,48,38,16,26,player.x,player.y-10,60,105); 
+	ctx.drawImage(imgmap,48,38,16,26,player.x+210,player.y-10,60,105);
+	//tumba
+	ctx.drawImage(imgmap,64,0,32,8,player.x+40,player.y-50,200,47);
+	ctx.fillStyle="#d2a660"
+	ctx.fillRect(player.x+30,player.y-3,200,40);
+}
+if(gravity==0){gravity=0.2};//resolve problema de flutuação
+	//stage 0
+    if(stage==0){
+	
+	
+		if(hist==3){player.x=500;player.y=400;hist=4;player.side="right";}
+		//platform
+		for(var m = 0; m < platforms.length; m++) {
+		if(platforms[m].stage==0){
+		ctx.fill();
+        ctx.fillStyle = platforms[m].color;
+        ctx.fillRect(platforms[m].x, platforms[m].y, platforms[m].width, platforms[m].height);
+        
+		var dir2 = colCheck(player, platforms[m]);
+	       if(dir2 === "l" || dir2 === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if(dir2 === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if(dir2 === "t") {
+            player.velY *= -1;
+			 }
+		}
+		}
+
+        //amuletos
+	ctx.drawImage(imgmap,0,0,16,32,powerup[5].x,powerup[5].y,40,80);//amuleto
+	ctx.drawImage(imgmap,16,0,8,16,powerup[5].x+10,powerup[5].y+15,20,40);//khet
+		
+	ctx.drawImage(imgmap,0,0,16,32,powerup[6].x,powerup[6].y,40,80);//amuleto
+	ctx.drawImage(imgmap,16,16,14,16,powerup[6].x+5,powerup[6].y+20,32,35);//ba
+	
+	ctx.drawImage(imgmap,0,0,16,32,powerup[7].x,powerup[7].y,40,80);//amuleto
+	ctx.drawImage(imgmap,32,16,13,13,powerup[7].x+5,powerup[7].y+20,30,30);//ka
+	
+	ctx.drawImage(imgmap,0,0,16,32,powerup[8].x,powerup[8].y,40,80);//amuleto
+	ctx.drawImage(imgmap,32,0,12,13,powerup[8].x+5,powerup[8].y+20,30,35);//ren
+	
+	ctx.drawImage(imgmap,0,0,16,32,powerup[9].x,powerup[9].y,40,80);//amuleto
+	ctx.drawImage(imgmap,48,0,14,12,powerup[9].x+4,powerup[9].y+20,33,35);//ibis
+	
+	ctx.drawImage(imgmap,0,0,16,32,powerup[10].x,powerup[10].y,40,80);//amuleto
+	ctx.drawImage(imgmap,24,0,8,16,powerup[10].x+10,powerup[10].y+20,17,35);//sheut
+        
+	//tumba
+	ctx.drawImage(imgmap,64,0,32,8,platforms[2].x+70,platforms[2].y-40,170,40);
+	
+	//simbolos na tumba
+	ctx.drawImage(imgmap,16,16,14,16,160,541,32,35);//ba
+	ctx.drawImage(imgmap,32,16,14,14,210,545,30,30);//ka
+	ctx.drawImage(imgmap,32,0,12,13,260,541,30,35);//ren
+	ctx.drawImage(imgmap,48,0,14,12,310,541,32,35);//ibis
+	ctx.drawImage(imgmap,24,0,8,16,360,541,17,35);//sheut
+	//no topo da escada em piramide
+	ctx.drawImage(imgmap,16,0,8,16,840,422,15,30);//khet
+	//no topo da coluna
+	ctx.drawImage(imgmap,87,9,12,16,50,platforms[0].y+10,36,48);
+	
+	
+	if(player.x>790&&player.x<870){
+		
+		if(player.sitting==true&&platforms[2].x<422){
+		platforms[2].x+=0.7;
+		}
+		if(platforms[2].x>190){
+			powerup[6].y=341
+		}
+		if(platforms[2].x>240){
+			powerup[7].y=341
+		}
+		if(platforms[2].x>290){
+			powerup[8].y=341
+		}
+		if(platforms[2].x>340){
+			powerup[9].y=341
+		}
+		if(platforms[2].x>390){
+			powerup[10].y=341
+		}
+		if(platforms[2].x>419&&platforms[2].y<560){
+			platforms[2].y+=10
+		}
+	}
+	//tampa termina de abrir sozinha
+	if(platforms[2].x>390&&platforms[2].x<422){
+		platforms[2].x+=0.5;
+	}
+	
+	//ação se anubis coletar o khet o último amuleto
+		if(powerup[6].x<0&&powerup[7].x<0&&powerup[8].x<0&&powerup[9].x<0&&powerup[10].x<0){
+		if(powerup[5].y<300){
+		//powerup[5].x=827;
+		powerup[5].y+=0.7;//amuleto desce do céu
+		}
+	}
+	if(powerup[5].x<0&&player.ani==false){
+		if(validation[7].a<300){
+			validation[7].a++;
+			ctx.font="italic 25px Arial"
+			ctx.fillText("Ani, Wake Up!",680,240)
+		}
+		if(validation[7].a>299){
+		player.y=-100;
+		player.ani = true;
+		player.valid=false;
+		}
+	}
+	
+	//nasce ani
+	if(player.ani==true&&player.valid==false){
+	player.x=160;
+	player.y=400;
+	player.y+=15;
+	player.valid=true;
+	hist=5;
+	}
+	if(player.valid==true&&hist==5){
+	ctx.drawImage(imgmap,73,56,23,7,131,513,69,21);//tecidos da múmia
+	door.x=950;
+	door.y=55;
+	//saída por cima
+	if(platforms[9].x>120){
+		platforms[9].x-=3;
+		
+	}
+	if(platforms[9].width<867){
+		platforms[9].width+=3;
+	}
+	//ativa hieroglifo na coluna da esquerda
+	if(player.ani==true&&player.x>20&&player.x<120&&player.sitting==true){
+		if(platforms[0].y>160){
+			platforms[0].y-=3;
+			platforms[0].height+=3;
+		}
+	}
+	}
+	//colisão porta saida
+	if(colCheck(player, door)!==null){
+	stage = 1;
+	console.log(stage);
+	powerup[2].x=246;
+	powerup[3].x=246;
+	}
+	if(validation[1].a>0){//chapter 1
+		validation[1].a-=1;
+	ctx.fillStyle="#3a2937"
+	ctx.fillRect(10,10,980,600);
+	ctx.fillStyle="#e7d09e"
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| Chapter 1 |",420,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("Anubis colects all the Amulets, then Ani wake up.",200,240);
+	}
+	}/////////////////////////////////////////fim stage 0
+    //inicio stage 1
+	if(stage==1){
+		
+		if(hist==5){powerup[1].x=50;player.x=400,player.y=450;powerup[4].x=246;hist=6}
+		door.x = -1000;
+		document.getElementById('canvas').style.background = "#593859";
+		
+		
+		for(var p=0;p<platforms.length;p++) {
+		if(platforms[p].stage==1){
+		ctx.fill();
+        ctx.fillStyle = platforms[p].color;
+        ctx.fillRect(platforms[p].x, platforms[p].y, platforms[p].width, platforms[p].height);
+        
+		var dir3 = colCheck(player, platforms[p]);
+	       if(dir3 === "l" || dir3 === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if(dir3 === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if(dir3 === "t") {
+            player.velY *= -1;
+			 }
+		}
+		}
+		
+		//powerup
+		//amuletos
+	  //ren
+	  ctx.fillStyle=powerup[1].color;
+	  ctx.fillRect(powerup[1].x,powerup[1].y,40,80);
+	  ctx.drawImage(imgmap,0,0,16,32,powerup[1].x,powerup[1].y,40,80);
+	  ctx.drawImage(imgmap,32,1,12,13,powerup[1].x+4,powerup[1].y+18,35,35);
+	  //sheut
+	  ctx.fillRect(powerup[4].x,powerup[4].y,40,80);
+	  ctx.drawImage(imgmap,0,0,16,32,powerup[4].x,powerup[4].y,40,80);
+	  ctx.drawImage(imgmap,24,0,8,16,powerup[4].x+10,powerup[4].y+20,17,35);
+		//papyrus
+	  ctx.fillRect(powerup[2].x,powerup[2].y,40,40);
+	  ctx.drawImage(imgmap,48,16,16,16,powerup[2].x,powerup[2].y,35,35);
+	  //papyrus
+	  ctx.fillRect(powerup[3].x,powerup[3].y,40,40);
+	  ctx.drawImage(imgmap,48,16,16,16,powerup[3].x,powerup[3].y,35,35);
+	  
+
+	 //se colide com sheut a sombra então ganhará poder de se transformar na sua propria sombra
+	if(colCheck(player, powerup[4])!==null||powerup[4].x<-999){//colisão shadow
+	player.power = 1;
+	powerup[4].x+=1;
+	}
+	//}fim for powerups
+	  	//simbolos nas escadas
+	ctx.drawImage(imgmap,64,9,12,10,855,465,36,32);//olho de osiris eye
+		if(player.x>820&&player.x<900){
+		if(player.sitting==true){
+			swtHide=false;
+		}
+		}
+		if(swtHide==false){
+			ctx.drawImage(imgmap,87,9,9,12,755,533,36,32);
+		if(player.x>730&&player.x<790){
+		if(player.sitting==true&&platforms[17].x<326){
+			platforms[17].x+=1;
+		}
+		}
+		}
+	//ação da porta de troca de fase
+		if(powerup[1].x<0&&powerup[4].x<0){
+		door.x=950;
+		door.y=100;
+	}
+	if(colCheck(player, door)!==null){//colisão porta saida
+	door.x = -1000;
+	powerup[13].x=920;
+	powerup[14].x=35;
+	player.valid=false;
+	player.x=740;
+	player.y=400;
+	stage = 2;
+
+	}
+		if(validation[2].a>0){//chapter 2 text
+	validation[2].a-=1;
+	ctx.fillStyle="#593859"
+	ctx.fillRect(10,10,980,600);
+	ctx.fillStyle="#e7d09e"
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| Chapter 2 |",420,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("Ani needs the Sheut (Shadow) power.",300,240);
+	}
+	}////////////////////////////////fim stage 1
+	//inicio stage 2
+	if(stage==2){
+		document.getElementById('canvas').style.background = "#686090";
+  
+		for(var r = 0; r < platforms.length; r++) {
+		if(platforms[r].stage==2){
+		ctx.fill();
+        ctx.fillStyle = platforms[r].color;
+        ctx.fillRect(platforms[r].x, platforms[r].y, platforms[r].width, platforms[r].height);
+        var dir3 = colCheck(player, platforms[r]);
+	       if(dir3 === "l" || dir3 === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if(dir3 === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if(dir3 === "t") {
+            player.velY *= -1;
+			 }
+		}
+		}
+
+	//amuleos ka e ba
+	ctx.drawImage(imgmap,0,0,16,32,powerup[13].x,powerup[13].y,40,80);//amuleto
+	ctx.drawImage(imgmap,32,16,13,13,powerup[13].x+5,powerup[13].y+20,30,30);//ka
+	
+	ctx.drawImage(imgmap,0,0,16,32,powerup[14].x,powerup[14].y,40,80);//amuleto
+	ctx.drawImage(imgmap,16,16,14,16,powerup[14].x+5,powerup[14].y+20,32,35);//ba
+	
+	//hieroglifo no botão no chão
+	ctx.drawImage(imgmap,87,9,9,12,670,565,18,24);
+	
+	//se subir no botão vermelho no chão
+	if(player.x>605&&player.x<720&&player.y>450&&player.y<620){
+		if(platforms[46].y<400){
+		platforms[46].y+=2;
+		platforms[46].height-=2;
+		}
+		}
+		
+		//se sair do perimetro do botão no chao
+	if(player.x<605&&validation[5].a==0||player.x>720&&validation[5].a==0){
+		if(platforms[46].y>=40){
+			platforms[46].y-=2;
+			platforms[46].height+=2;
+			}}
+		//se colide powerup ba
+		if(powerup[13].x<0){
+			player.power=2
+			ctx.drawImage(imgmap,32,16,13,13,player.x+2,player.y-27,30,30);
+			}
+		
+		//se ao adqquirir o poder do ba (força)
+		//se empurrar caixa
+		if(player.side=="right"&&player.power==2&&player.x>=platforms[51].x-50&&player.x<platforms[51].x&&player.y>300&&player.y<400){if(platforms[51].x<640){platforms[51].x+=2}}
+		if(platforms[51].x==640){
+			if(platforms[51].y<505){
+				platforms[51].y+=5;
+				}}
+		
+		//se caixa cair no botão do chão
+		if(platforms[51].y>500){
+			validation[5].a=1;
+			if(platforms[46].y<400){
+		platforms[46].y+=2;
+		platforms[46].height-=2;
+		}
+		}
+
+	if(validation[3].a>0){//chapter 3 text
+	validation[3].a-=1;
+	ctx.fillStyle="#686090"
+	ctx.fillRect(10,10,980,600);
+	ctx.fillStyle="#e7d09e"
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| Chapter 3 |",420,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("With Ka (Vital Force), you can move objects.",260,240);
+	}
+	if(powerup[13].x<0&&powerup[14].x<0&&validation[6].a==0){
+		door.x=950;
+		door.y=170;
+		validation[6].a=1;
+	}
+
+
+	if(colCheck(player, door)!==null){//colisão porta saida
+	stage = 3;
+	door.x = -1000;
+	powerup[11].x=920;
+	powerup[12].x=835;
+	player.valid=false;
+	}
+	}///////////////////////////////fim stage 2
+	if(stage==3){
+	
+		document.getElementById('canvas').style.background = "#7c89b3";
+		
+		for(var s=0;s<platforms.length;s++){
+		if(platforms[s].stage==3){
+		ctx.fill();
+        ctx.fillStyle = platforms[s].color;
+        ctx.fillRect(platforms[s].x, platforms[s].y, platforms[s].width, platforms[s].height);
+        
+		var dir3 = colCheck(player, platforms[s]);
+	       if(dir3 === "l" || dir3 === "r") {
+            player.velX = 0;
+            player.jumping = false;
+        } else if(dir3 === "b") {
+            player.grounded = true;
+            player.jumping = false;
+        } else if(dir3 === "t") {
+            player.velY *= -1;
+			 }
+		}
+		}
+		
+		//desenho da balança
+		ctx.strokeRect(214,253,17,194);
+		//eixo
+		ctx.fillStyle="#d2a660";
+		ctx.fillRect(215,253,15,306);
+		ctx.fillStyle="#3c4a35";
+		ctx.fillRect(215,353,15,90);//adorno
+		//adorno no topo do eixo
+		ctx.drawImage(imgmap,31,16,1,13,215,253,15,20);
+		ctx.drawImage(imgmap,31,16,1,13,215,290,15,30);
+		ctx.strokeRect(214,366,17,194);
+		//contorno do braco
+		ctx.strokeRect(79,269,272,17);
+		//braço
+		ctx.fillStyle="#d2a660";
+		ctx.fillRect(80,270,270,15);
+		ctx.fillStyle="#3c4a35";
+		ctx.fillRect(120,270,60,15);//adornos
+		ctx.fillRect(260,270,60,15);//adornos
+		ctx.drawImage(imgmap,31,30,13,1,80,270,30,15);
+		ctx.drawImage(imgmap,31,30,13,1,318,270,30,15);
+		
+		//cordas da balanca
+		ctx.strokeStyle="#3e496b";
+		ctx.strokeRect(80,280,0,130);
+		ctx.strokeRect(351,280,0,130);
+		//contorno da base da balança
+		ctx.strokeRect(80,560,280,30);
+
+		ctx.drawImage(imgmap,64,40,7,24,powerup[12].x,powerup[12].y,21,52);//pena 
+		ctx.fillStyle=powerup[12].color;
+		ctx.fillRect(powerup[12].x,powerup[12].y,20,48);
+		
+		ctx.drawImage(imgmap,87,17,9,4,830,430,30,15);//simbolo na piramide
+		//se parar no topo da piramide desabilita sombra pra habilitar o sitting
+		if(player.x>790&&player.x<870&&player.y>320&&player.y<360){
+		player.power=0;
+		cansit=true;
+		//move o primeiro degrau
+		if(player.sitting==true&&platforms[37].x>79){
+		platforms[37].x-=0.7;
+		}
+		}
+		else{player.power=1;}
+		//move sozinho o restante do degrau
+		if(platforms[37].x<400&&platforms[37].x>79){
+			platforms[37].x-=0.7;
+		}
+		
+		if(powerup[12].x<0){//se coletar a pena
+		player.feather=true;
+		if(player.feather==true){
+		ctx.drawImage(imgmap,64,40,7,24,player.x+4,player.y-80,21,52);//pena 
+		}
+		}
+		//se passar com a pena pelo balança
+		if(player.x>300&&player.x<370&&player.y>380&&player.y<5000&&player.feather==true){
+		player.valid=true;
+		powerup[12].x=1000;
+		player.feather=false
+		}
+		
+		if(player.valid==true&&player.feather==false){
+		ctx.drawImage(imgmap,64,40,7,24,330,335,21,52);//pena 
+		ctx.fillRect(platforms[33].x,platforms[33].y,90,10);//plataforma
+		ctx.drawImage(imgmap,0,0,16,32,powerup[11].x,powerup[11].y,40,80);//amuleto
+		ctx.drawImage(imgmap,48,0,14,12,powerup[11].x+4,powerup[11].y+20,33,35);//ibis
+		//desce a plataforma
+		if(platforms[33].y<280){
+		platforms[33].y+=0.7;
+		}
+		//desce o amuleto ibis
+		if(powerup[11].y<90&&platforms[33].y>=280){powerup[11].y+=0.7;}
+		}
+		//se coletar o amuleto ibis
+		if(powerup[11].x<0&&powerup[0].x<0){
+		//desenha ibis na cabeça de Ani
+		ctx.drawImage(imgmap,16,32,14,12,player.x+10,player.y-40,30,26);
+		player.ibis=true;
+		}
+		//se passar pela balança com Ibis impresso na cabeça
+		if(player.x>40&&player.x<130&&player.y>380&&player.y<500&&player.ibis==true){
+		player.ibis=false;
+		powerup[0].y=-1000;
+		}
+		//imprime Ibis no prato da balanca
+		if(player.ibis==false&&powerup[0].y<0){
+		ctx.drawImage(imgmap,16,32,14,12,68,355,40,34);
+		powerup[0].x=1;
+		validation[8].a=1;
+		}
+
+	if(validation[4].a>0){//chapter 4 text
+	validation[4].a-=1;
+	ctx.fillStyle="#593859";
+	ctx.fillRect(10,10,980,600);
+	ctx.fillStyle="#e7d09e";
+	ctx.font="Bold 25px Tahoma";
+	ctx.fillText("| Chapter 4 |",420,154);
+	ctx.font="25px Tahoma";
+	ctx.fillText("In front of the Gods now your challange",270,240);
+	ctx.fillText("will be to scale the Ibis (Heart)",310,278);
+	ctx.fillText("with the feather of Ammut.",340,316);
+	}
+	if(validation[8].a==1){
+	ctx.fillStyle="#2b3526";
+	ctx.font="bold 	25px Tahoma";
+	ctx.fillText("So... Ani, you collected all the Amulets and",260,140);
+	ctx.fillText("showed the weight of your heart to the Gods.",260,190);
+	ctx.fillText("Now you can live forever in the Osiris Paradise",260,240);
+	ctx.fillText("Well done!!",660,290);
+	ctx.font="Italic 18px Tahoma";
+	ctx.fillText("press",410,409);
+	ctx.fillText("to play again",545,409);
+	ctx.font="18px Tahoma";
+	ctx.fillText("enter",476,409);
+		ctx.strokeStyle="#2b3526";
+	ctx.roundRect(465,390,65,27,[8]);
+	ctx.stroke();
+	if(keys[13]) {
+	window.location.href = window.location.href;
+	}
+	}
+	
+	}//////////////////////////////////fim stage 3
+	//
+	//Draw charater stuff
+    
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, player.width, player.height);
+    if(plShadow==false){//valida sombra
+		if(player.ani==false){
+			ctx.filter = "brightness(0.3)";
+			}
+		if(player.walking==false){
+		if(player.side=="right"){
+		ctx.drawImage(imgmap,0,32,13,30,player.x-3,player.y+2,40,90);
+		if(player.ani==false){//desenha cabeça do anubis
+		//player anubis
+		ctx.filter = "none"
+		ctx.drawImage(imgmap,73,38,23,17,player.x-14,player.y-20,68,60);	
+		}
+		}
+		if(player.side=="left"){
+		ctx.drawImage(imgmap,32,32,13,30,player.x-3,player.y+2,40,90);
+		if(player.ani==false){//desenha cabeça do anubis
+		//player anubis
+		ctx.filter = "none"
+		ctx.drawImage(imgmap,64,19,23,17,player.x-24,player.y-21,68,60);	
+		}
+		}
+		}
+	
+	ctx.filter = "none";
+	player.height=93;
+	}
+
+	if(keys[40] || keys[83]) {//se pressionar o botao para baixo sentara
+	     if(player.power==1){
+                       plShadow=true;
+                       cansit=false;
+                       player.height=24;
+					   player.walking=false;
+		ctx.drawImage(imgmap,6,33,1,1,player.x,player.y+24,42,10);  
+ 	    }
+		if(cansit==true){
+        player.height=62;
+		plShadow=true;
+		player.sitting=true;
+			if(player.ani==false){//troca cor do corpo do personagem para combinar com a cabeça de anubis
+			ctx.filter = "brightness(0.3)";
+			}
+		ctx.drawImage(imgmap,48,38,16,26,player.x,player.y-10,40,70); 
+		ctx.filter = "none";
+		if(player.ani==false){//desenha cabeça do anubis
+		//player anubis
+		ctx.filter = "none";
+		ctx.drawImage(imgmap,73,38,23,17,player.x-14,player.y-30,68,60);	
+		}
+		player.walking=false;
+        }
+
+	}
+	else{
+	plShadow=false;
+	player.sitting=false;
+	}
+	
+	if(player.walking==true) {
+        // walking desenha as animação das pernas 
+		if(player.ani==false){//troca cor do corpo do personagem para combinar com a cabeça de anubis
+			ctx.filter = "brightness(0.3)";
+			}
+			if(player.side=="right"){
+		ctx.drawImage(imgmap,0,32,13,25,player.x-3,player.y,40,76);
+		ctx.drawImage(imgmap,13,58,12,6,player.x,player.y+75,40,20);
+		if(player.ani==false){//desenha cabeça do anubis
+		//player anubis
+		ctx.filter = "none"
+		ctx.drawImage(imgmap,73,38,23,17,player.x-14,player.y-20,68,60);	
+	}
+		}
+		if(player.side=="left"){
+		ctx.drawImage(imgmap,32,32,13,25,player.x-3,player.y,40,76);
+		ctx.drawImage(imgmap,13,52,12,6,player.x-5,player.y+73,40,20);
+		if(player.ani==false){//desenha cabeça do anubis
+		//player anubis
+		ctx.filter = "none";
+		ctx.drawImage(imgmap,64,19,23,17,player.x-25,player.y-20,68,60);	
+	}
+		}
+		ctx.filter = "none";
+    }
+
+
+	
+    if(player.grounded){
+         player.velY = 0;
+		 player.walking==false
+    }
+    player.x += player.velX;
+    player.y += player.velY;
+
+	  ctx.restore();
+	
+	//colisoes de powerup
+	
+ 	for(var o=0;o<powerup.length;o++){
+      //powerup collision
+      if(colCheck(player, powerup[o])!==null){//touched power up!
+        if(powerup[o].effect==='gravity'){
+          gravity-= 0.2;//decrease gravity
+        }
+        else if(powerup[o].effect==='tele'){
+          player.x=powerup[o].px;
+          player.y=powerup[o].py;
+        }
+        if(powerup[o].stay!==true)
+		powerup[o].x = -1000;//move o pwr up
+	  }
+    }
+    requestAnimationFrame(update);
+}
+
+function colCheck(shapeA, shapeB) {
+    // get the vectors to check against
+    var vX = (shapeA.x + (shapeA.width / 2)) - (shapeB.x + (shapeB.width / 2)),
+        vY = (shapeA.y + (shapeA.height / 2)) - (shapeB.y + (shapeB.height / 2)),
+        // add the half widths and half heights of the objects
+        hWidths = (shapeA.width / 2) + (shapeB.width / 2),
+        hHeights = (shapeA.height / 2) + (shapeB.height / 2),
+        colDir = null;
+
+    // if the x and y vector are less than the half width or half height, they we must be inside the object, causing a collision
+    if(Math.abs(vX) < hWidths&&Math.abs(vY) < hHeights) {
+        // figures out on which side we are colliding (top, bottom, left, or right)
+        var oX = hWidths - Math.abs(vX),
+            oY = hHeights - Math.abs(vY);
+        if(oX >= oY) {
+            if(vY > 0) {
+                colDir = "t";
+                shapeA.y += oY;
+            } else {
+                colDir = "b";
+                shapeA.y -= oY;
+            }
+        } else {
+            if(vX > 0) {
+                colDir = "l";
+                shapeA.x += oX;
+            } else {
+                colDir = "r";
+                shapeA.x -= oX;
+            }
+        }
+    }
+    return colDir;
+}
+document.body.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+
+});
+document.body.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+window.addEventListener("load", function () {
+    update();
+});
+
+///////////////////////////////sound//////////////////////
+function startMusic() {
+var song={songData:[{i:[1,251,128,164,3,240,128,139,64,144,4,7,23,176,0,0,3,208,14,1,2,255,81,0,160,61,5,44,12],p:[,,,,,,,7,7,7,7,8,3,3,3,5,5,5,2,,,,,,,,7,7,7,7,8,3,3,3,5,5,5,2],c:[{n:[],f:[]},{n:[138,137,,,,,,,,145,144,,,,,144,142,,,,,141,,,,138,137],f:[]},{n:[130,,,,133,,,,138,,,,141,,,,137],f:[]},{n:[125,,,,,,125,,,,,,125,,125,,125,,,,,,125,,,,,,125],f:[]},{n:[125,,,,,,149,,125,,,,,,,,125,,,,,,125,,149],f:[]},{n:[101,,,,,,101,,,,,,,,,,101,,,,,,101],f:[]},{n:[,,,,147,147,,,,,147,147,,,147,147,,,,,147,147,,,,,147,147,,,147,147,125,,125,,,,125,,125,,,,,,,,125,,125,,,,125,,125,,,,,,,,,,,,,,,,,,,,149,,,,,,,,,,,,,,,,149],f:[]},{n:[,,,,,,,,,,147,147,,,,,,,,,,,,,,,,147,,,,,125,,125,,,,125,,125,,,,,,,,125,,125,,,,125,,125,,,,,,,,,,,,,,,,,,,,149,,,,,,,,,,,,,,,,149,,,,,,,,,,,,,,,,,,,,,,,,,141,,,,138,137],f:[]}]},{i:[2,100,128,0,3,201,128,0,0,0,5,6,58,0,0,0,0,195,6,1,2,135,0,0,32,147,6,121,6],p:[,4,,4,,,3,,,3,2,,,,,,,,,,4,,4,,,3,,,3,2],c:[{n:[],f:[]},{n:[126,125,,,,,,,,133,132,,,,,132,130,,,,,129,,,,126,125],f:[]},{n:[114,,,,,,113,,,,,,,,113,,,,,,,,113],f:[]},{n:[,,,,,,,,,,,,,,169,,,,,,,,168],f:[]}]},{i:[3,191,128,0,2,184,140,18,0,255,64,119,218,203,0,0,0,101,3,1,3,2,0,1,27,212,3,0,8],p:[,,4,5,7,,,,6,,,,2,2,2,3,3,3,3,,,4,5,7,,,,6,,,,2,2,2,3,3,3,3],c:[{n:[],f:[]},{n:[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,141,,,144,,,148,,,150,,,153,,,148,,,144,,,,141,,,137,,,136,,,141],f:[]},{n:[,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,131,,,,,,,134,,,,,,,,,,131,,,,,,,136],f:[]},{n:[165,,,,,,,,,,,,,,,,161],f:[]},{n:[160],f:[]},{n:[165,,,,,,,,,,,,,,,,161,,,,,,,,160,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,137,,,,,,,,136],f:[]},{n:[,,,,156,,,,,,,,,,,,,,155],f:[]}]},{i:[2,100,128,0,3,201,128,0,0,0,0,6,84,0,0,0,0,195,4,0,2,50,184,119,244,91,6,0,6],p:[,,,,,,,,,,,,2,2,2,3,3,3,3,,,,,,,,,,,,,2,2,2,3,3,3,3],c:[{n:[],f:[]},{n:[112,,,,,,112,,,,,,,,,,,,,,,,,,,,,,117],f:[]},{n:[117,,,,,,115,,,,,,,,,,113,,,,,,110,,,,,,120],f:[]}]},{i:[3,255,128,0,0,216,140,15,0,0,2,4,81,57,0,0,0,47,12,1,3,135,113,1,45,56,4,43,1],p:[,,,,,,,,,,,6,,2,2,4,3,4,5,,,,,,,,,,,,6,,2,2,4,3,4,5],c:[{n:[],f:[]},{n:[136,,,,,,143,,,,,,,,,,146,,,,144,,,,,,141,,,,148],f:[]},{n:[,,,,,,,,,,,,144,146,144,,,,,,143,144,143,,,,,,149,148,153],f:[]},{n:[,,,,,,144,146,144,,,,,,143,144,143,,,,,,141,142,141,,,,137],f:[]},{n:[,,149,148,,,144,143,,,,,144,146,144,,142,141,,,143,144,143,,,139,138,,149,148,153],f:[]},{n:[,,,148,,,144,143,,,,,144,146,144,,142,141,,,143,144,,,,,,,149,148,153],f:[]}]},{i:[0,100,128,190,3,55,128,0,0,0,17,23,116,187,0,0,0,180,0,1,2,32,0,15,109,0,6,0,6],p:[],c:[]},{i:[3,0,128,0,3,0,128,2,0,255,138,9,39,0,0,0,0,0,0,0,2,9,40,99,159,0,0,0,6],p:[],c:[]},{i:[1,203,128,0,3,201,128,0,0,0,5,6,58,0,0,0,0,195,6,0,1,20,173,0,32,147,13,112,2],p:[],c:[]},{i:[0,146,128,80,3,41,128,12,100,195,48,40,91,113,0,0,0,168,1,0,3,6,122,16,81,147,6,0,6],p:[],c:[]},{i:[0,0,140,0,0,0,140,0,0,81,4,11,0,55,0,0,0,187,5,0,1,239,135,0,32,108,5,16,4],p:[8,8,8,8,8,8,,8,8,8,2,,,,,,,,,8,8,8,8,8,8,,8,8,8,2],c:[{n:[],f:[]},{n:[,,,,147,147,,,,,147,147,,,147,147,,,,,147,147,,,,,147,147,,,147,147],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[108,,,,,,,,108,,,,,,,,108,,,,,,,,108],f:[]},{n:[159,,,,,,159,,,,,,,,,,,,,,,,159],f:[]},{n:[,,,,,,159,,,,,,159,,,132,134,134,134,134,,,,,,,,,159],f:[]}]},{i:[0,255,116,64,0,255,120,0,64,127,4,6,35,0,0,0,0,0,0,0,2,14,0,10,32,0,0,0,0],p:[],c:[]},{i:[0,0,140,0,0,0,140,0,0,255,158,158,158,0,0,0,0,51,2,1,2,58,239,0,32,88,1,157,2],p:[8,8,8,8,8,8,8,,,,8,,,,,,,,,8,8,8,8,8,8,8,,,,8],c:[{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[142],f:[]}]},{i:[3,212,128,156,0,224,128,0,124,11,0,13,56,85,0,0,2,190,0,1,3,143,137,0,32,61,0,0,6],p:[,,,,,,2,2,2,2,2,2,,,,,,,,,,,,,,2,2,2,2,2,2],c:[{n:[],f:[]},{n:[,,,,147,147,,,,,147,147,,,147,147,,,,,147,147,,,,,147,147,,,147,147],f:[]}]},{i:[0,0,140,0,0,0,140,0,0,255,4,10,47,55,0,0,0,187,5,0,1,239,135,0,32,108,5,16,4],p:[,,,,,,2,2,8,2,2,8,,,,,,,,,,,,,,2,2,8,2,2,8],c:[{n:[],f:[]},{n:[135,,135,,,,137,,135,,,,,,,,135,,135,,,,137,,135,,,,130,130,130],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[],f:[]},{n:[130,,,,,,159,,,,,,159,,,132,134,134,134,134,,,130,,,,,,159],f:[]}]},],rowLen:5513,patternLen:32,endPattern:37,numChannels:14};
+
+
+  var sbplayer = new CPlayer();
+  sbplayer.init(song);
+  var done = false;
+  setInterval(function () {
+    if(done) {
+      return;
+    }
+    done = sbplayer.generate() >= 1;
+    if(done) {
+      var wave = sbplayer.createWave();
+      var audio = document.createElement("audio");
+      audio.src = URL.createObjectURL(new Blob([wave], {type: "audio/wav"}));
+      audio.loop=true;
+	  audio.play();
+    }
+  }, 0);
+}
+
+
+
+</script></html>

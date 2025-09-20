@@ -1,0 +1,56 @@
+[
+    {
+      "animationName": "idle",
+      "props": {
+        "frameCount": 3,
+        "frameBuffer": 7,
+        "loop": true,
+        "src": "img/king/king_idle.png"
+      }
+    },
+    {
+      "animationName": "run",
+      "props": {
+        "frameCount": 3,
+        "frameBuffer": 6,
+        "loop": true,
+        "src": "img/king/king_run.png"
+      }
+    },
+    {
+      "animationName": "jump",
+      "props": {
+        "frameCount": 2,
+        "frameBuffer": 20,
+        "loop": false,
+        "src": "img/king/king_idle.png"
+      }
+    },
+    {
+      "animationName": "door_enter",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 25,
+        "loop": false,
+        "src": "img/king/king_idle.png"
+      }
+    },
+    {
+      "animationName": "die",
+      "props": {
+        "frameCount": 3,
+        "frameBuffer": 11,
+        "loop": false,
+        "src": "img/king/king_die.png"
+      }
+    },
+    {
+      "animationName": "dash",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 3,
+        "loop": false,
+        "src": "img/king/king_idle.png"
+      }
+    }
+  ]

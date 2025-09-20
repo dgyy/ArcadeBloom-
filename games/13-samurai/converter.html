@@ -1,0 +1,194 @@
+<!--- Takes a obj and converts it to a more readable format. Make sure model is triangulated --->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function objtodad(obj) {
+            let lines = obj.split('\n');
+            let output = '';
+
+            for (let line of lines) {
+                const split = line.split(' ')
+                let instruction = split[0];
+                split.shift()
+                let data = split.join(' ');
+
+                if (instruction == 'v') {
+                    output += data.split(' ').join(',');
+                }
+
+                if (instruction == 'f') {
+                    if (output.indexOf(':') == -1)
+                        output += ':';
+                    output += data.split(' ').map(input => input.split('/')[0]).join(',') + ';';
+                }
+            }
+            return output;
+        }
+
+        function bintogeometry(obj) {
+            const verts = stringToCharCodeArray(obj.split('ÿ')[0]); //charcode 255
+            const indices = stringToCharCodeArray(obj.split('ÿ')[1]).map(str => str * 254); //multiply by 254 for indices
+
+            return { verts, indices };
+        }
+
+        const convert = value => (value + 127.5) / 255;
+
+        function objtobin(obj) {
+            let lines = obj.split('\n');
+            let output = '';
+            let colors = [];
+
+            for (let line of lines) {
+                const split = line.split(' ')
+                let instruction = split[0];
+                let currentColor = '#ff0000';
+                split.shift()
+                let data = split.join(' ');
+
+                if (instruction == 'v') {
+                    output += data.split(' ').map(s => String.fromCharCode(+s * 256 + 128).replace('\\', '\\\\').replace('\0', '\\0')).join``;
+                }
+
+                if (instruction == 'f') {
+                    if (output.indexOf('ÿ') == -1)
+                        output += 'ÿ';
+                    output += data.split(' ').map(input => String.fromCharCode(+(input.split('/')[0])).replace('\\', '\\\\').replace('\0', '\\0')).join(``);
+                    output += String.fromCharCode(colors.length - 1);
+                }
+
+                if (instruction == 'usemtl') {
+                    color = data;
+                    colors.push(color);
+                }
+            }
+            console.log(colors);
+            return output + 'ÿ' + colors.join``;
+        }
+
+        function hexToRgbArray(hex) {
+            // Remove the "#" symbol if it exists
+            hex = hex.replace(/^#/, '');
+
+            // Parse the hex values for red, green, and blue
+            const r = parseInt(hex.slice(0, 2), 16) / 255;
+            const g = parseInt(hex.slice(2, 4), 16) / 255;
+            const b = parseInt(hex.slice(4, 6), 16) / 255;
+
+            // Return the RGB color as an array with values in the [0, 1] range
+            return [r, g, b];
+        }
+
+        function parseOBJ(objString) {
+            const parsedObjects = {};
+            let currentObject = null;
+            let currentColor = '#deadbeef';
+            let currentColorCount = 0;
+            let indexOffset = 0;
+
+            const lines = objString.split('\n');
+
+            for (let line of lines) {
+                const parts = line.trim().split(/\s+/);
+
+                if (parts[0] === 'o' && parts[1]) {
+                    // Start of a new object
+                    if (currentObject !== null) {
+                        // If there's data in the current object, push it to the array
+                        indexOffset += currentObject.data.vertices.length / 3;
+                        parsedObjects[currentObject.name] = currentObject.data;
+                    }
+                    // Create a new object with an empty data object
+                    currentObject = { name: parts[1], data: { vertices: [], normals: [], indices: [], colors: [] } };
+                } else if (parts[0] === 'v') {
+                    // Vertex
+                    currentObject.data.vertices.push(Math.trunc(parseFloat(parts[1]) * 100), Math.trunc(parseFloat(parts[2]) * 100), Math.trunc(parseFloat(parts[3]) * 100));
+                }
+                else if (parts[0] === 'f') {
+                    // Face
+                    for (let i = 1; i < 4; i++) {
+                        const faceData = parts[i].split('/');
+                        currentObject.data.indices.push(parseInt(faceData[0]) - 1 - indexOffset); // OBJ indices start from 1!
+
+                    }
+                    currentColorCount++;
+                } else if (parts[0] === 'usemtl') {
+                    if (currentColorCount != 0)
+                        currentObject.data.colors.push([currentColor, currentColorCount]);
+                    currentColor = parts[1];
+                    currentColorCount = 0;
+                } 
+            }
+
+            if (currentColorCount != 0)
+                    currentObject.data.colors.push([currentColor, currentColorCount]);
+
+            if (currentObject !== null) {
+                indexOffset += currentObject.data.vertices.length / 3;
+                parsedObjects[currentObject.name] = currentObject.data;
+            }
+
+            return parsedObjects;
+        }
+
+
+        // Example usage:
+        // const objString = '...'; // Your OBJ file content as a string
+        // const { vertices, normals, indices } = parseOBJ(objString);
+
+
+        const stringToCharCodeArray = s => [...s].map(c => c.charCodeAt() / 254);//note that it returns values between 0 and 1
+        const charCodeArrayToString = a => a.map(i => String.fromCharCode(i * 254 | 0)).join``;
+
+        console.log(stringToCharCodeArray(charCodeArrayToString([.3, .5, .8, .9])))
+
+        function downloadFile(content, fileName, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = fileName;
+            a.click();
+
+            URL.revokeObjectURL(url);
+        }
+
+
+        // Example usage:
+        // const plyString = '...'; // Your PLY file content as a string
+        // const { vertices, normals, colors, indices, vertexFormat } = parsePLY(plyString);
+
+
+        console.log(JSON.stringify(parseOBJ(`# Blender 3.5.1
+# www.blender.org
+mtllib grass.mtl
+o Plane.001
+v -0.020263 0.600000 -0.058887
+v -0.016538 0.000000 0.057676
+v -0.003066 0.000000 -0.057676
+v 0.028811 0.344631 -0.028838
+vn -0.9882 0.1011 -0.1154
+vn -0.3747 -0.1791 -0.9097
+vt 1.000000 0.000000
+vt 0.000000 1.000000
+vt 1.000000 1.000000
+vt 1.000000 0.500000
+s 0
+f 4/4/1 3/3/1 2/2/1
+f 1/1/2 4/4/2 2/2/2
+`)));
+
+    </script>
+</body>
+
+</html>

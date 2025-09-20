@@ -1,0 +1,29 @@
+{
+  "name": "@lightster/13-sokoban",
+  "version": "1.0.0",
+  "description": "Sokoban game for js13games 2024",
+  "main": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rollup --config && npm run maps",
+    "maps": "node bin/tiled2bin.js tiled build/assets",
+    "watch": "npm run build && rollup --config --watch",
+    "clean": "rm -rf build game.zip",
+    "zip": "npm run clean && npm run build && (cd build && zip -r ../game.zip .) && ls -l game.zip",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Light",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "kontra": "^10.0.2",
+    "prettier": "^3.3.3",
+    "rollup": "^4.21.1",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-kontra": "^1.0.1",
+    "rollup-plugin-serve": "^1.1.1",
+    "tslib": "^2.7.0",
+    "typescript": "^5.5.4"
+  }
+}

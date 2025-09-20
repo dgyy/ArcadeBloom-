@@ -1,0 +1,12 @@
+[
+    {
+      "animationName": "enemy_idle",
+      "props": {
+        "frameCount": 3,
+        "frameBuffer": 9,
+        "loop": true,
+        "src": "img/objects/enemy.png"
+      }
+    }
+    
+  ]

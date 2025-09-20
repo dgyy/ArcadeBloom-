@@ -1,0 +1,188 @@
+.game {
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+
+.game * {
+	transition: all 0.2s ease-in-out;
+}
+
+.is-end * {
+	transition: all 1s ease-in-out;
+}
+
+.game > * {
+	z-index: 1;
+}
+
+.numbers-found {
+	flex-direction: column;
+	position: absolute;
+	top: 90px;
+	font-size: 40px;
+	height: 200px;
+	color: var(--color);
+	z-index: 2;
+}
+
+.is-end .numbers-found {
+	transform: translateY(-500px);
+	opacity: 0;
+}
+
+.name {
+	position: absolute;
+	top: 10px;
+	color: var(--color);
+}
+
+.check-current-number {
+	position: absolute;
+	bottom: 70px;
+}
+
+.is-fibonacci {
+	position: absolute;
+	bottom: 110px;
+	font-size: 16px;
+}
+
+.all-monkeys .check-current-number,
+.all-monkeys .is-fibonacci {
+	display: none;
+}
+
+.me-monkey {
+	position: absolute;
+	bottom: 75px;
+	display: none;
+	padding: 6px;
+}
+
+.me-monkey svg {
+	width: 30px;
+	height: 30px;
+}
+
+.all-monkeys .me-monkey {
+	display: flex;
+}
+
+.me-awake .me-monkey {
+	display: none;
+}
+
+.numbers-found * {
+	transition: all 0.5s ease-in-out;
+	position: absolute;
+}
+
+.current {
+	font-size: 40px;
+	position: absolute;
+	bottom: 150px;
+}
+
+.is-end .current {
+	opacity: 0;
+}
+
+.is-end .edge-button.link {
+	opacity: 0;
+}
+
+.particle {
+	position: absolute;
+	width: 40px;
+	height: 40px;
+	pointer-events: none;
+	z-index: 0 !important;
+}
+
+.resources {
+	position: absolute;
+	bottom: 12px;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	gap: 30px;
+}
+
+.resources > div {
+	height: 30px;
+}
+
+.resources svg {
+	width: 30px;
+	height: 30px;
+	margin-right: 4px;
+}
+
+.resources b {
+	margin: 0;
+}
+
+.is-end .resources {
+	opacity: 0;
+}
+
+.is-end .progress-bar {
+	opacity: 0;
+}
+
+.end-game {
+	opacity: 0;
+	transform: translateY(-500px);
+	flex-direction: column;
+	position: absolute;
+	top: 100px;
+	text-align: center;
+	width: 100%;
+}
+
+.is-end .end-game {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.end-game p {
+	font-size: 16px;
+	margin-top: 16px;
+}
+
+.social {
+	width: 100%;
+	height: 100px;
+	justify-content: space-evenly;
+}
+
+.social a {
+	border: 2px solid #fff;
+	border-radius: 8px;
+	padding: 12px;
+}
+
+.social a:hover {
+	transform: scale(1.1);
+}
+
+.social a:nth-of-type(1) {
+	border-color: #fbaa19;
+	background-color: #452e08;
+}
+
+.social a:nth-of-type(2) {
+	border-color: #5865f2;
+	background-color: #191c44;
+}
+
+.social a:nth-of-type(3) {
+	border-color: #fa5c5c;
+	background-color: #502020;
+}
+
+.social svg {
+	width: 42px;
+	height: 42px;
+}

@@ -1,0 +1,624 @@
+<html><head><meta charset=utf-8> 
+<title>Shikken</title>
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<style> 
+body {
+	background: #5d7275;
+	margin: 0;
+	padding: 0;
+	font-size: calc(9px + 2vmin);
+	font-family: 'Trebuchet MS', 'Lucida Sans', Arial, sans-serif;
+}
+main {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+}
+li {
+	display: block;
+	padding: calc(0.5em + 1vh) 0;
+}
+i {
+	font-style: normal;
+}
+
+
+#w {
+	/* dimensions set in js */
+	position: absolute;
+	background: #f1e7d9;
+	box-shadow: 0 0 5vmin rgba(0, 0, 0, 0.8);
+	cursor: grab;
+}
+.moving #w {
+	cursor: grabbing;
+}
+.creating #w {
+	cursor: crosshair;
+}
+#ws, #wc {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* background: rgba(255, 0, 0, 0.2); */
+}
+#ws {
+	/* background: rgba(0, 0, 255, 0.2); */
+}
+
+.ui {
+	position: fixed;
+	background: rgba(0, 0, 0, 0.6);
+	color: #fff;
+	width: 100vw;
+	display: flex;
+	flex-direction: column;
+	/* justify-content: space-around; */
+	/* padding: 2vmin; */
+	box-sizing: border-box;
+}
+.uirow {
+	display: flex;
+	justify-content: space-around;
+	padding: 2vmin;
+}
+#tui {
+	top: 0;
+}
+#bui {
+	bottom: 0;
+}
+.intro .ui {
+	display: none;
+}
+
+button {
+	position: relative;
+	border-radius: 1.8em;
+	border: solid 2px transparent;
+	min-width: 1em;
+	background: #e3cfb4;
+	color: #2b2821;
+	padding: 1.5vmin 3vmin;
+	font-size: 120%;
+	cursor: pointer;
+	box-shadow: 0 0.25em 0.5em rgba(0, 0, 0, 0.25);
+}
+button:active {
+	box-shadow: none;
+	border-color: #000;
+}
+button:hover {
+	background: #ffd;
+}
+button > i {
+	font-style: normal;
+	text-shadow:
+		0 1px 0 #fff,
+		1px 0 0 #fff,
+		-1px 0 0 #fff,
+		0 -1px 0 #fff,
+		1px 1px 0 #fff,
+		-1px 1px 0 #fff,
+		1px -1px 0 #fff,
+		-1px -1px 0 #fff,
+		0 0 0.3em #624c3c;
+}
+button > b {
+	display: block;
+	margin-top: 0.25em;
+	width: 100%;
+	font-size: 50%;
+}
+button[disabled] {
+	border-color: transparent;
+	background: transparent;
+	cursor: unset;
+	box-shadow: none;
+}
+button, #blist {
+	transition: all ease-in-out 0.15s;
+}
+#binfo {
+	display: flex;
+	justify-content: space-between;
+	text-shadow: 0 0 0.3em #624c3c;
+}
+#blist {
+	display: block;
+	transform: scale(0);
+	max-width: 34em;
+	min-width: 20em;
+	background: rgba(255, 255, 255, 0.9);
+	color: #111;
+	overflow: hidden;
+}
+.b-info {
+	flex-grow: 1;
+}
+.b-name {
+	font-size: 2em;
+}
+.bselected #binfo {
+	padding: 1vmin;
+	border-top: rgba(255,255,255,0.5) solid 1px;
+}
+.bselected #blist {
+	transform: scale(1);
+	padding: 0 1vmin;
+	margin: 1vmin auto;
+}
+
+#createhelp {
+	text-align: center;
+}
+
+.bselected #build,
+.bselected #upgra,
+.looping #pause,
+.creating #cancel,
+.bselected #blist,
+.pop #jobs,
+.assigning #jass,
+.creating #createhelp,
+.bselected #binfo {
+	transition: all ease-in-out 0.2s;
+	transform: scale(1);
+	max-height: 100vh;
+	max-width: 100vw;
+	opacity: 1;
+}
+#binfo,
+#pause, #build, #cancel, #blist, #jobs, #jass, #createhelp, #upgra,
+.looping #play,
+.creating #build,
+.creating #blist,
+.creating #upgra,
+.pop #restart {
+	transition: all ease-in-out 0.2s;
+	transform: scale(0.5);
+	max-height: 0;
+	max-width: 0;
+	opacity: 0;
+	overflow: hidden;
+}
+
+.switch {
+	border-radius: 2em;
+	/* border: solid 1px rgba(0, 0, 0, 0.2); */
+	background: rgba(36, 61, 92, 0.25);
+	box-shadow: inset 0 0 1em rgba(0, 0, 0, 0.4);
+	font-size: 80%;
+	display: flex;
+}
+.switch button {
+	border-radius: 1.9em;
+	border-color: transparent;
+	background: transparent;
+	box-shadow: none;
+	color: white;
+}
+.switch button[disabled],
+.switch button.active {
+	background: #e3cfb4;
+	color: #624c3c;
+}
+.switch button > i {
+	text-shadow: 0 0 0.3em #624c3c;
+}
+
+#cd {
+	display: block;
+	padding: 0.1em 0.5em;
+	user-select: none;
+}
+#cd:hover {
+	cursor: pointer;
+	background: rgba(0, 0, 0, 0.25);
+}
+#cd:active {
+	color: #b03a48;
+}
+
+/* Jobs assignment */
+#jass {
+	text-align: right;
+	padding: 0;
+	background: #fff;
+	color: #000;
+	max-width: 36em;
+	margin: 1vmin 1vmin 0 auto;
+}
+.assigning #jass {
+	padding: 3vmin;
+}
+#jass ul {
+	padding: 0;
+	margin: 0;
+}
+#jass li {
+	padding: 0.75em 0;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+#jass b {
+	display: inline-block;
+	width: 3em;
+	text-align: center;
+}
+#jass label {
+	display: inline-block;
+	min-width: 8em;
+	text-align: right;
+}
+#jass input[type="range"] {
+	width: 30vw;
+}
+.altname {
+	opacity: 0.5;
+	font-size: 65%;
+}
+#jass button {
+	font-size: 100%;
+	padding: 0.2em 0.8em;
+	box-shadow: none; 
+    border: solid 1px #b1a58d;
+}
+#jass button:active {
+	background: #b1a58d;
+	color: white;
+}
+.jass-ui {
+	display: flex;
+	align-items: center;
+}
+
+.up-action {
+	cursor: pointer;
+	border-bottom: solid 1px #666;
+	padding: 0.5em 1em;
+	display: flex;
+	justify-content: space-between;
+}
+.up-action:hover {
+	background: #e3cfb4;
+}
+.up-cost {
+	font-size: 85%;
+}
+.unaffordable,
+.unaffordable.up-action:hover {
+	cursor: not-allowed;
+	opacity: 0.5;
+	background: rgba(0,0,0,0.2);
+}
+.unaffordable .up-cost,
+.missing {
+	color: #b03a48;
+}
+
+#b-up-toggle {
+	padding: 1em 2em;
+}
+
+
+/* --- SVG --- */
+.meeple-g {
+	/* game tick is ~100ms, but a slightly slower animation looks interesting */
+	transition: all linear 0.3s;
+	pointer-events: none;
+}
+.meeple {
+	stroke: #76969b; /* #5d7275; */
+	stroke-width: 3px;
+}
+.mj-idle {
+	fill: #999;
+}
+.mj-prod {
+	fill: #3e6958;
+}
+.mj-carr {
+	fill: #e0c872;
+}
+.mj-defe {
+	fill: #243d5c;
+}
+.mj-spir {
+	fill: #d4804d;
+}
+.mj-kill {
+	fill: #b03a48;
+}
+.hurt .meeple {
+	stroke: #4b3d44;
+}
+
+.building, .building-connector {
+	fill: #fff;
+	stroke: rgba(0, 0, 0, 0.4);
+	stroke-width: 3px;
+	cursor: pointer;
+}
+.building:hover {
+	stroke: #000;
+}
+
+.selectedb > * {
+	stroke: #0ff;
+	stroke-width: 4px;
+}
+
+.road {
+	stroke: #b99;
+	stroke-width: 4px;
+}
+
+.b-emblem {
+	stroke: #624c3c;
+	stroke-width: 0;
+	opacity: 0.2;
+	pointer-events: none;
+}
+.b-prod-circle {
+	fill: none;
+	stroke: rgba(0, 0, 0, 0.18);
+	transition: all linear 0.13s;
+}
+
+.b-outpost {
+	fill: #e3cfb4;
+}
+.b-connector {
+	fill: #b99; /* #e3cfb4; */
+	stroke: #b99;
+}
+.b-stockpile,
+.b-warehouse {
+	fill: #e3cfb4;
+}
+.b-woodCutter,
+.b-lumberYard {
+	fill: #5b7d73;
+}
+.b-stoneMine,
+.b-stoneMine2 {
+	fill: #7b685a; /* #624c3c; */
+}
+.b-oreMine,
+.b-oreMine2,
+.b-oreMine3 {
+	fill: #8c7c79;
+}
+.b-tower {
+	fill: #5d7275;
+}
+.b-fortress {
+	fill: #5d7275;
+}
+.b-grainFarm,
+.b-grainFarm2 {
+	fill: #8e9f7d;
+}
+.b-riceFarm,
+.b-riceFarm2 {
+	fill: #aaa25d;
+}
+.b-shrine {
+	fill: #d9ac8b;
+}
+.b-temple,
+.b-temple2,
+.b-grandTemple {
+	fill: #d9ac8b;
+}
+.b-farmHouse,
+.b-farmHouse2,
+.b-farmHouse3 {
+	fill: #b1a58d;
+}
+.b-urbanHouse {
+	fill: #ddcf99;
+}
+.res {
+	stroke: #000;
+	stroke-width: 1px;
+	fill: #5cc;
+	pointer-events: none;
+}
+/* https://lospec.com/palette-list/japanese-woodblock 
+https://lospec.com/palette-list/fading-16
+*/
+.res-grain { fill: #cca87b; stroke: #fff;  }
+.res-rice { fill: #ddcf99; stroke: #fff; }
+.res-stone { fill: #8c7c79; stroke: #a99c8d; }
+.res-wood { fill: #846d59; stroke: #a88a5e; }
+.res-ore { fill: #645355; stroke: #a99c8d; }
+
+.selectedb .building,
+.selectedb .building:hover {
+	stroke: #0ff;
+	stroke-width: 6px;
+}
+.closed .building {
+	stroke-dasharray: 2;
+}
+
+/* intro */
+
+#intro {
+	box-sizing: border-box;
+	padding: 10vmin;
+	width: 50%;
+	height: 100%;
+	float: right;
+	background: rgba(0, 0, 0, 0.2);
+	color: #2b2821;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	opacity: 0;
+	transition: all ease-in-out 2s;
+	position: relative;
+}
+.intro #intro {
+	opacity: 1;
+}
+.game #intro {
+	transition: all ease-in-out 10s;
+	background: rgba(0, 0, 0, 0.1);
+	opacity: 0.5;
+}
+#intro h1 {
+	font-size: 2em;
+}
+#intro svg {
+	width: 50vmin;
+}
+#intro polygon {
+	fill: #2b2821;
+}
+#hist,
+#intro b {
+	font-size: 80%;
+}
+#hist {
+	color: #624c3c;
+	max-width: 40em;
+	opacity: 0;
+	transition: all ease-in-out 3s;
+}
+.intro #hist,
+.game #hist {
+	opacity: 1;
+}
+.quote {
+	/* font-family: Georgia, 'Times New Roman', Times, serif; */
+	font-style: italic;
+}
+
+
+#inst {
+	transition: all ease-in-out 5s;
+	color: #243d5c;
+	opacity: 0;
+}
+.intro #inst {
+	opacity: 1;
+}
+.game #inst {
+	transform: scale(0);
+}
+
+#ver {
+	position: absolute;
+	bottom: 1em;
+	right: 1em;
+	font-size: 50%;
+	opacity: 0.5;
+}
+
+#flash {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(255, 255, 255, 0.75);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+	transform: scale(0);
+	transition: all 1s;
+}
+.flash #flash {
+	transform: scale(1);
+}
+#flash > i {
+	font-size: 600%;
+}
+.flash .ui,
+.flash #w {
+	filter: blur(2px);
+}
+</style></head> 
+<body><script> 
+eval(Function("[M='DopypkfdZJGJgiKOQnCsoi}ukcNrZ~`lAHV_g~WrrzC{GeEukIwFSwNNCkUG@B|wzf`yyPeAP}UnKzHej@}aLeFggrVlO_PCN`ObDyQeot|QjcUOeQlPaN_Z@UQvtoA@[Ii_ftIxnctxf^|sAjk_C{g{w@cYeRycW?gSlIuAj`XPxj|OUhgbERgMHAGdAUqYLfrWebEln@Rg?Jc_dSssduT]Rz_QoL^NGfdvzwCqD}E{y`qVDJoGdrfm[QvSMQI[Hl~mps]qaEjLzwm?EE}@jczDE[vgQOKb}jeIKkf{hyCwRF@p}grfb^k{wngBkxOafvGD[fVENYi`hzAnBrbaN_s|nasDDzuaw~{bKHlMvBzlpvTo|kh~LngNrUg`|u`W{iUpElDq[Vg{bd`vy{^gsyCrykXRsK?YCP}E_Hay@y[d{~H[NepPF]O@t^dT`ShF_fOkgZNgIMM|UA@BtrR?|]MvjtlvWbMydPVi`UUYMqxJ_Tn~jukXurpWIx]WtlW^WdBgNn^Rtq@tzdJBaeovGMPT?xiMjPUgHgEeW?bNutb?IE`UAC}BrEAUWwP_`^edWQOyw_uYGbTplqEzmcmN]KNPz?^y?VxRbA^qVQ`tqCsKkPpwWl_i?SqeiTOTppknJGLSarUWMtqLkpI|w?VkBBAoyX]NV{i[?EvA@C`FC_F@vSq?}BjIFnrMNgx_s`pe{dXeHR|ySYgiJ~XzjNzV|Kl?YIYlqamCstBlwAbc|wx^FHVrbwMbZw{s{NBYtX^P|bT@jNyAelaSm]uiBqmbB}fLY]yF?xNuHV]NTikMmuxN[SPkrbA~oKGkBVNCyi`eCJEY^Ec?qXaQIDZ_NNLmTewuS@vtVWQfyplpDZx?IC?BoAErjwpb_fPesIImw[QHVjYDGRXoB^HPkvul^?C@HTuusJ`ubbLSscZPhzsUPplycuncPjN}KWBc|JjJTogGAoQrO}mwASoCGe_xAunRAOC^Far}_K@UaYREmXqpFsJuJQJJuLSFS`hJ~FnnWzwrrUebNETnqig~XIqNkFhdsu`WBuK~aGNSzf~NgF@}Z[YKB@TgIR|s|zNu~xoXSkHIgdtTJBY`dwos^tEcPzrlXaVUydgbPQSzSFnJoCaoZCxw|qQVn_GHjGepHZPeVeedxggKOZGjdW_]EWDr^]{DnZ]bsNuTin]Zi^q[RpWqDrGZkcBGTLyU|~oUvbZYfPQFBSVEJ@MvcRSE~xKgpiFPimbfUbVWO_]iS[yW{jqDfNlXhx@TW]jfT?yI]RGu~xgf~_lWlvrfXqmIzkyWbh@kHjdeQ|i~C_Tw^yrvAdK@MR|GqzLICgfBkncHAdND~UFOEENbpIdMZBS[_?CL]ga}uVAZP^p?gfKJrrEKagX]K|ZZoxkdkQ|kpUvY}IqMD^UkqSqZoWITjXQkcwZ?CMOVMkGVERXNfFVJIjBvZk}JuKvHKeezFWAEtM`kMsXmpcQ|kBNF?{BLQOMH~dSXVlgwvLCk_gT`HnufkO~~{DrekpSy]uuGdqPlBMiUtY{sVkZKNWjSRdWeW_]bO``yX@d{zKhpmOXObAjiVT~bzlbLT}ssOMOMhTv^?MDqzeH`Hjd^gv^riTwDJ@lJtwUt[kbrZfxi[@[EhhzLWsHN[P]hPNMxl|_zKDQhYLym]PvV{SIooT}P[[iBYQVGpmawWci@RGMT]NLJmEM~qhFc]Cla}b}rD`uD~g~^Ygr`sdwDp?Uo^lq?KXY^p}dQg}IoxHXzmtk~ml^pM]H^pZ~HsA^xX]I]znStDjjFAHPSfyN]rbMhP@p_izCkgBA_ICe~~BX]o[|uVPsmjkxpfY_CDOM[neg_~rlDiC}yTj?{ZVV^HIvcAYFHgFxxjPb?KpA^YCHpUgDFzjYzTsPJGk^ElXBfRAWOl_VcMaSYrgZI|bpfaV~WYDgMll^]F@t|f^bA}OxkAFwWCiyQf^LXxaweOIAHiEyr[zxiowNRi~lhuv@@OmC^xJDgQPjvs?naovpAxa_ayRFyCEuWzoPnHNaBLF@ifsSU{NTGBctrQJu?qcnS`_{oCX|TM`FmR?ZArcdzds@WQStQPMLDM@KusuinAe|@hl_qxC?}CQECb{cfT_bdTDAC?^fmivR~smDHOkCt}|JkfngoGbwU`}Qws_zAe]sDMZPbPwtcuavarWPsxWw_rTZlpd_e~ZSa|gZnoWeixpVUGeC@]JMO~|RE}|{hBh`Zytq`dztoPcDjGeT_`V}bipA[IRIu|wB]KCaC~^[gwO]EOeI{ADhWYDQgrx^|JC@TfPDjoYU_}|VAsgZPGVFgZR`GCTFccVShefZTtgkDXY|NgoHmGgY@WmsNUArWI^Ao[fC}RTOmFQRXHZemkeNnyxAcsl`JmpSEcOvBV@WyS[m{stUiJKHaBU^Ff`W]Qzj^KV`{oCXJVbJCpOMidGWtjoRESBC_y^pqw{RTsN{Sflz~LKih|~PbFg@DCor}SyqS{X`lcBY]}bodhLSstqgnV_gYDpKN]_jK[AXnWwOokE|[Us[O?}@FHcuFp`NqWHnsK^iepBpYciMneMnu`G^YmeP?kSns]qPwYWlgrvwwEqzazrCiOuNqtwoG`v^f{@]AhQQP|izdJEomcjbC^tXpyFs]nyL}vDKggU|EjfIjclsjoBy_|kSGG^bwjuaU]CRisADg]ngrycjqqeDqJJIstF{at[aaAAu@[TkEJh?|Y]TnRj`}twPkS}kECFhIAVFTf`S^}GuGtnqXxwsgwm{EsWmXsReVlfg_~^bnbJ@nVWgoa[MdK]{ja]AenCk^B~i@NWJTNDEZH^p|Wu|suVyXcBRNE@Z~]RM^gMKNQeqGluSFliEshTjB[W[lfRqOFdtYr{QCCtJsEs~oqxuLPMKGyrNnUHjzyHFZFFuqzJIJyn?ryRaGmXHmXSouVvikqc`OZS{gOx~K?bMAOMZe_DT?YsdQmOklYwk`}Up`qlJcsQ`lf^NfLZSyIxOmpZkIuB?h`m^]jGGAWPVgkMi@B]thsWq|NwPF[d[KzJJPhqciObfhqeT[UpvUsQvrIwEyb]cyxMAhEhZ^oPM~JuSRbA??LoxvevwBr]f^bsA^?F{kemtQerHk^z?mpAH]{wHzOMOiHwkD@`uJyH@fxn@JyL_eXGgMFFtVpgyMddtunRC?EAzsXBTiR{rwHCpqXIQrWqux@SUMbWhvm]HJLme[KLurUJpmOTyIoQXcwvOiY`w}tyePwwYOvkjC{?]ZkGbutq[Rr{qb]kIb@qaH`d@U@`^E_`ugI}GjgqFaWf~KHgQOODBnJgQPbIG|u~opt[gqMmlPbc@@i_XK[eRC]Tnis[[gkC[]yWc}rJh_yFGVJ}}VYG?umCRln}~cJl[U@m|?i^~Vo}jVap@eX_f}pkYmmF`ThF@E]M_?lMionFMp??SYLOSCUdeEiAWiwjQLhHNDcVj~Pl|ZpBywIFRyIVpruv[aKW_yvQ~cr^LAxbg~pME`qA@_DZmDBhugbfPIHX?TXWhCN}_yZPkR[QKygE{^pB_s|L_@SBPhyTdTZYe}Ikfa|IrXyNVOYlziUYAnVUkN_`a]dqJbfw_yY{KP{eREuSy`^[|^KUl|F~E[PHlzywyPggnr]mQrLVmziWttDcFvJT]_w?ROZtuWPDNMM?^kdR`]nE~jPOy~]D@fSq{~QBVSS}iU{zoUMKjnHFGnSQ_bOkxm`XLqC~O@BhnzexHRukGyn|{e[a{^VvzCGlDhaHdtWis_tAzjR`FVSW_@wIpYqJko|Nn@SFkwnGCjryonM[eUqT{kbjFbMoiUrkrESER[jZKMYIoLhS^QsQOb``OzxH}CgRxrYb{G|WOZgeVnEfPSa]QbmdCLSqQHN`izx{|Z[jXb[ooLMvFKVv`]x]tFJuzNy}tS`L[WOK_LkelcPu~`Ma^PGzuPhTDr^hpXzXiCsgrjZHO~UI@kSHsPEC_K^?h_A_Dn|TIzl{jLEO_jFQ~sjH]^H}L]yHEU`[|MyIw_]F^{HUvA~oZN~jkGoXOOrnfZWpZT]LcGOltNobqba~EQovE[wwTLhM`LgQlakmSUAjWfAhn]_RAxcA@glEEsAShZzQ_^JoS^uYInZArDc`bQJL~@IFG[BIsi]PZxzp{uZW@fjeJ@HWC}G{@TODd?TuqKj{@HFD^tI?qzRWolIWbLecQ?NB`IXHBmMq|jrz[R{tu^P^Zbodp`?rTL@pR_wYGdLEDBwmqKn?jyJDrj[HVkpq~oyZGaII[VtmGDTeXuLAQlgDlTgZY[Jwyp]vD}PZUqP|ZDQlhYuozYLhlmz?zR{auEIYvBA_?z]~rBCqMLaplCy[GTgqVX|gLHbbGGVOIcxuceXKEi_}YstqePzgEl^^gWk{NBbD_cvS~fqsLaNlyVz_~@FLSbKqBH?hocUgqMFpRiP|AtN|WtdoTQCDs{~gUF^YNapjlO|Xo}|Ynvdbs{}]DOGSTR|C@}kxhwfS`o^MksY`orYbCgD}FcyHgwcAlxxxO]Lscitf}OkCbj}CEKSUk`Nrt^Ad~qFw_wuEGOz`qFCq@SHimV|RUosMG{H}KKZKTw@fnRUxA[gzu@nD|E?cKkpz{}HtZxZUHRksg[][fwBdu`GMnfvUgHU|iZ?iVl_fX^QTzZ@GaMKsf@RTWSQa`DzHj~XNf`@IGCt|ylFqSmlS_ldODs?uY^MXdhp`|r~_yraqvYVGcAnX{Q@rOP^NvnV{rmzByBGzcwi]nhmwWksQO?g@DlFEfRbtH`vb~IZoXLeFqcCuK~vqCT|[jRk{mUE?Gvov]]OfFDJp|wuxhj?|FbAZEsuu^souwAFEF|CyaMyC^l?e|hHDPelxWG{CgPaZZxj]cqnitPuWQr{ZlDOgis]FyfJVYQDWSab@szuryDHrGHWpbQN]rvUHDwU?TFNUV}xEDqhoeCGPFF{JmjdA[pdNKjdtTWcX]kF`Q~JozHv}Tq?[Qzc|cLdjoxSAHEG^R?fuQObGjq?zsrpsUlvXYo^nLtsekwf^Kl_lZhalDunaadL[XBJETVddiJSw]FcTD^`^Ip{UzZidTqglzsUJBXRgQeaOuVpSMCHhgoWoMEUTCI|fjp@cfhaSJDAOyxGyHaghoCMmxjeGxBaZHRW~?rcSg?g}qlbVwiJZEVUCm`xpN{dNoWAjUaE[[`YBcVmHgoePJvVSyI^_y@vL}hBNX]bOxAJZS_YQ[B[Q[KUVMKOYoUW[^jgsGwUxyA^@RgB}Oi~NBWD]af]hj^Zd@RtQAdWiPtNNZ|hHOx}zlELDlcp@hYo`|qIrTdgm_GzvyEl^cUetxX_ZrtFfrcRDQEV^zCoygsTlYPwFfsswrl_os|fsHdICqBjt[IWrKfalCk^ZHbpTbugUFKOVraN|obmJNYMRyCGiqrwhfw[eWmGcLeIs]SamdLYQ[jKtQ?ydqtdQXXkzQ{tciBcB?g_ck}z{?~u}@n~kwpRYU@m}pKnNAzymfAwRBpxYwRLaPhuAVeouevz]ToeyZKwwp?c|CmPxO]I{|Hg^Uhr}sfvRoKJiay@w^ldBoO]fVGEh_}Y]iofLrZqBDawz?nNJ|f`G{[O]CYEa[x~ra`M|nBq~gd|}]iHii|t_ixcy~|w]YkXfjcykb@Mr[E_@NEY|h|DCaYjiK?oPMFahmIaK~[iXoDr]nc}|UNFZBfCesDLwSJmY?u?vFjwXQcUiXoqS}XzfXl|fF|F]Ai`wJl]TS[bnNCQrv{|~@PBvp]VcFQBI`LCfGZc^wWc^{iSDYSjMv`eOZ{nqUtBIS{MYXkZq]NDbWwx`qrHJg[aHC~MhUE`Ke}H`RxV||Hlc{v[aay`bnlkjzpEnZFJ?hj[bUdcUIQ|IkfQAavUUUCAOj~T}wppLM|BJnaxu_~bYRXL{ZPRdcbr@AsncITeUz[zFdRgQmN]itZmjcyGu?w]zXa{EVQhmdK^IbP~vjklMQPxbKENQ^||SXR]BHcLS?bR}MpmLld?~Yq}LuV`{XR`q}Rw[J?ya^zieBxtb[lCbn^egPo~aYWpHd@hWIIv}toDhZLLFoxlWKGyil^]G?[EPUGrz~uQ~fV`RyES[{^KIi`skoYtzL]SlgwbjTelnGSfFrcRsgc[BLFjBEtq{K`bDtejtCevQJGnFqQ`xtx|FsAp`HKPQqSp@zxEzPg^HUalL?tDjg|CC}TiRtJBCHx]LnqILahwAssnmpMWDH`^dPuXqiSgJoqMm[uIrgJTZgTFooJY_J[K]LXT}cifeZ?k`SfFcl{gF^Nf[hl[R^mwmwO{}]cewEBee]yQbGR|YVisaI~im@_bIvZEeteSTZ{GNW]OQigkkjhTUI_TkCwdtglHSJhEL[FBMMis|xzQa^|aSA@kFi?~o]h^hqWwaSatAkdHmxTKzf@kTF~`]f?W|Oj?txEumSbYwemVuFtgyDREnxtoDpiBpvTtLdQOwxAHH]v?dO]QQzub{^rNJtbpg~aZtOhNsp^wn[QTNtTYLBo}nUTjPp~jxXEEwyKTPL{nePBbw_kqzWVLZiaNM{Q_cduoGXi@ny_kz@xRx@d[yxvudjnAmh~uLAqdRNGl|{HYUaBRWzoyaqJ@Bs|ggspriNcdhGsJBezYVXSCaMDsVN]DTjC{wd@hFg??TTLfF|d[uUXrSspe~aRGBoDhvjT^ux~E|llbYLmOR@DV}WLzkUUPc]Kt{G{Ao_dXxIgGm^q~MZfiBgdcSefD[UW@rVIOumvM|vBbHDfvsrs~|AfI?lwr@t`OCJzWJNHYqg^Uv?`EjONYfPK?KfgmT@AKxNbYv{IL_A~YDxzgJtnvscitjwFdGuKFNz[Z}z|ddQhVMORmYIllUx`hyK{m[E|xs@RbC{r`iTbD}egtXj]`wSB}XLVFFA^ROiNJwiN{t|CjXLHiosGCDfzwmsbzIYg[}r_FxVzvHqJHB|cad[jRV?S~tVRW[S[PrRec@_vqPHYNGoLZRKRKRrf|nHfDhoJXKRggbdWtI_hpJntulZRUsgae~KZOxrYpQ~FpahDxt{NbHBr[mkOq~BOZKQTzGBKObKqyXEbZzWCkCs^M_ykdk}BfMIzmy_lKvcezOtGoOzETM}uMfujZ?cZ~nIZ|f[n{YgQ@aPf?k]SehJIvIE|Af~OFgjwFjY~lX~{_RSmDUu]JY{@@i}E{q{gvkTHQ]pVDAxr@lIlfSv@{Ox^iOdUgCCchuZxi@SpW}YfUo_gK?gIJ?ZPuDwW^pRXX_H]azyVXpO}?jNw|rm`|kX~pdIUki^HbOF]DdF|ndeTudQpF}[zdU{smyh?`^DIgAT{@_}oUWEz_kRR|ttdQqbbltSGd}uzYsFSaMMw?PmbebDChDucXpp^vOxjgoJWoOS[|^wChM`Mg^CNJfoAzZMFBlbkXOvNF}TrTPJmL[]^OdS?egywbJCcVh@TRXYuSTUBX^dKwPuF^dXvz^K?wWsRXofxQfYV}?mIzDaGx_LeNo}[oTyddpEkLIb]}u^_nO}FgOJsQyHcoBGBO~JIQdpTdV[x~QZdUM?Wm@Asf?^yMFykLHZKhmw[Wkkvr~VHfq^GG}kLaOuDu~qmr@PMt?Vc{uijC}o}NY[[NRBwitwJdaw`eRzxGcmKZvYtB?gkkk|cRxaaNV?H?@DwFzTGHQzZENTcdEGmxrqRt[frzN``S_iGfXvti[`k?fIhGLHxJ]sO|Y]KnYlrGkhOoudptPcFd]KmE|QeIJtGUnBuc~_LxXryuY]J]gjMBJ{vl?G?vg@DgEpAxfAgqT`LB~GCEAykxk~}DsmWrrA@yPMNXa}rwb?]WY?gFu^reioWJzN?{SQfdeyTk[axvwxD~YzN]WFEfyVSg`tyAzT~_ntDjX``@~ZLZ|oLrG^IXcpZH_^]niA_RqkQlMmkMjHgTGRPMwJnMvzrm~j^O[nSUPqKxiyra@D?ST[pKrNdsOhsPd~}Wykg~zIMAnnFfgkt]?QLE[MIYbehAXepULfSPZ@Xid^xPpZwGwe[jVgiLZR`br{ooeW@_NAcOmUv[q}SdQaXcZEHUSjvMkOHmyoHl}~q?gREJSQDCMC}y[{?rc}YArtNqYLupdjh~Xafi?vru?vIgTB~OxXjZoVqwlWvAAKua`RUoHokj?{TGaZ~]{GKNjHwoO^@l`iZCV`R]c{ftu[LrfVGeTC]FN|e}c_ov}|PdOpooMOFnWQaMEnXBFKd~Yy^feENwV{y]E_f?XJ{@py}uWnmD|OEop@pAvfp]lOxs]xzf}sNtE|ZUx]bb}Mwae{hoUpf{i_xLKtDFNUJQ?_an?KUKy{jGLAF{ehQ?CiB~[]feOUKvzLswNwrcEkFR^U]hZS|_oemfKKTnfCgPF}^aLD|SeJJ|IgOzqBVqtwvlXsYMa~zux}s|^AMQQfcjlnmGuPsGQJiiwvwf?wm@C}BBN`k|]qcfa~bfh?nmrCJSZHY@ulyEjtDcb{v~~ymdO[kaTj^L]DhftKGeWpjWSXnbgPppwJ[VeKJ?N@^aCaqkoGRJvCLETa?doJSolhq~|ZSI?htpPHodMs]ou_S?gMNADnrG?NRWvm]sTFxnMKdFH]lzwDXa~lr[HjQJ~SeeOXAILYljQ[eNnSCazA]HjCoZ}zngu`gtcvgT[ZI?~vlQlmoQNfGcKr?y_qwpweJ?FS@kqHAw`dEaKjQEmC^yT@dP}UDSDxwqetvzO}n^TXkyj{CHiUZfaO~Azg{tiwPq`iHFD{orn@N]jRIY@Hcy{JN_ik~PYPHoendPU[bP}TjJXfSBwY~aZNOP@DSH~BTHZRkdUHJg_jHa[SsIiFAhgIw|e_~c^_yUnIp^GrzXA@pPq}Cm?xqvQkFILbyusu_SMNvOJu?N}JXnOCa|VE]mvfj^kqW_mH{S~LqEWhrzV}rmPO^|BoAJhBXlyPhJJNLmbC{UDUzyoQ^gJuDzCmPfbwsM@`xzO~L|[kactcD`N_RrUsD^bjMv~jvbvjx`X_z}dDGSOxvc}wyjf@f{O{gEikD[b[WrGqws|bHfUlrEmUHtfZo{i{JEzeHJsN^ZirEyaezfUbXSfKddTetq[VeVk@~gBlVPaO[zv^H?F`jHywDCyQ_C|qANT^S~VgvcevqbBhknu]cHudbDOoRmCRv[|smYlvICDFsLtQVIu?gfEtvDsb~et{kRJIvGm|WCU_a|@deZcaiQ?KqoAE{FoKgWSSoqtINMvVyGioF^qKgDn^ZG?mo`NXLib[dc]TKqUYxTH}zybOaVWUJW_jGclfsUXDjGlW]x?u__vavDlbvxR`tP@nDi?JAwDmwIZzgw{oKW@rToCunzMC}~OGm^XwTa]O?^~s_fBy_VxB}zZJvK]l`hKHA~uBEe{gtvSeEMJRlBW^]~~S^WCWoyh}MHOSnYlKvhlPm{zgr'",...']charCodeAtUinyxp',"for(;e<20283;c[e++]=x-128)for(x=1;x<128;n=p.map((i,y)=>(t=r[i]*2+1,t=Math.log(t/(h-t)),A-=a[y]*t,t/1250)),A=~-h/(1+Math.exp(A))|1,U=o%h<A,o=o%h+(U?A:h-A)*(o>>15)-!U*A,p.map((i,y)=>(t=r[i]+=(U*h/2-r[i]<<15)/((C[i]+=C[i]<5)+1/20)>>15,a[y]+=n[y]*(U-A/h))),x=x*2+U)for(p='0102021032032104310531054106420654109651'.split(A=0).map((i,y)=>(t=0,[...i].map((i,y)=>(t=t*997+(c[e-i]|0)|0)),h*128-1&t*997+x)*12+y);o<h*128;o=o*64|M.charCodeAt(d++)&63);for(C=String.fromCharCode(...c);r=/[\0-	-@]/.exec(C);)with(C.split(r))C=join(shift());return C")([],[],1<<15,[0,0,0,0,0,0,0,0,0,0,0,0],new Uint16Array(51e6).fill(1<<13),new Uint8Array(51e6),0,0,0))</script> 
+<main>
+	<div id=w>
+		<div id=intro>
+			<svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
+				<polygon points="15,0 30,30, 15,30 22.5,15 7.5,15 15,30 0,30" />
+			</svg>
+			<div>
+				<h1>北条 執権<br>SHIKKEN</h1>
+			</div>
+			<div id=hist>
+				<p>
+				In the 13th century the Mongols conquered Korea, and by 1266 Kublai Khan set his eyes across the sea
+				to Japan. He sent emissaries demanding surrender:
+				<span class=quote>"Genghis Khan governed at heaven's commands. All countries belong to our family...
+				Now, under our sage emperor, all under the light of the sun and the moon are his subjects.
+				You, stupid little barbarians. Do you dare to defy us by not submitting?"</span>
+				</p>
+				<p>
+					Japan rushed to prepare for the invasion. The shikken 執権 of the Hōjō 北条 clan was absolute ruler of the Empire,
+					and began to fortify the coast, and ordered the Shinto shrines and Buddhist temples to pray for victory.
+				</p>
+			</div>
+			<div id=inst>
+				⬅️ Tap and drag to move left
+				<br><b>and begin preparing for the Mongol invasion.</b>
+			</div>
+			<div id=ver>JS13k 2023 version 1.0.0</div>
+		</div>
+		<canvas id=wc width=1 height=1></canvas>
+		<svg id=ws viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
+			<g id=layer-road></g>
+			<g id=layer-building></g>
+			<g id=layer-resource></g>
+			<g id=layer-meeple></g>
+		</svg>
+	</div>
+	<div id=tui class=ui>
+		<div class="uirow">
+			<span id=cd></span>
+			<span id=karma></span>
+			<div><button id=kamikaze>🌀<b>Kamikaze</b></button></div>
+			<!-- menu button -->
+		</div>
+		<div id=binfo><!-- info about selected building --></div>
+		<ul id=blist></ul>
+	</div>
+	<div id=bui class=ui>
+		<div id=jass><!-- job assignment --></div>
+		<div id=createhelp>Tap the map to build a connection</div>
+		<div class=uirow>
+			<button id=play><i>▶️</i><b>Play</b></button>
+			<button id=pause><i>⏸️</i><b>Pause</b></button>
+			<button id=upgra><i>🔨</i><b>Upgrade</b></button>
+			<button id=build><i>➕</i><b>Expand</b></button>
+			<button id=cancel><i>✖️</i><b>Cancel</b></button>
+			<button id=restart><i>💀🔄️</i><b>Restart</b></button>
+			<button id=jobs><i>💼</i><b>Jobs</b></button>
+		</div>
+	</div>
+	<div id=flash>
+		<i></i>
+		<h1></h1>
+		<p></p>
+		<b>Tap to dismiss</b>
+	</div>
+</main>

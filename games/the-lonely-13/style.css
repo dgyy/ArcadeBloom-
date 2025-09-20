@@ -1,0 +1,621 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-size: border-box;
+  color: white;
+  font-family: georgia;
+}
+
+body {
+  background: linear-gradient(359deg, black, #4b4b4b);
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  user-select: none;
+}
+
+body, html, .board, .starter {
+  min-height: -webkit-fill-available;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  top: env(safe-area-inset-top);
+  left: 0;
+}
+
+#noise {
+  position: absolute;
+  z-index: 9999999;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+.board {
+display: grid;
+grid-template-columns: 4fr 1fr;
+grid-template-rows: 1fr 10fr;
+  width: 100vw;
+}
+
+.board .score {
+  grid-area: 1 / 1 / 1 / 2;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+.board .townList { grid-area: 1 / 2 / 3 / 3; }
+.board .gameBoard { grid-area: 2 / 1 / 2 / 2; display: flex;
+  justify-content: center;
+  align-items: center; }
+.board #spells { grid-area: 1 / 1 / 3 / 2; position:relative; top: 0vh; opacity: 0; transition: all 0.5s ease; pointer-events: none; }
+
+#spells.active {
+  top: 0;
+  opacity: 1;
+  background: rgba(100, 100, 100, 0.5);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  filter: url(#squig);
+  transform: scale(1.01);
+}
+
+.s-word {
+  padding: 0 0 0 0.5em;
+}
+
+.inst {
+  text-align: center;
+  font-size: min(4vw, 6vh);
+  padding: 1em;
+  opacity: 0;
+}
+
+.inst.active {
+  opacity: 1;
+  transition: all 1s ease;
+}
+
+.town, .board {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.board {
+  z-index: 999;
+}
+
+.face {
+  position:absolute;
+  height: 1em;
+  line-height: 1em;
+  margin-top: 1em;
+  transition: all 5s ease;
+  border-radius: 100%;
+  animation: fadeIn 1s ease;
+}
+.face.hide, .face.hide.highlight {
+  display:none;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.face.highlight {
+  transition: none !important;
+  filter: saturate(0.01) blur(2px) !important;
+  z-index: 999 !important;
+}
+
+.character {
+  transition: top 1s ease-in-out, transform 2s ease-in-out, filter 0.1s ease-in-out;
+  transform-origin: 50% 110%;
+  mask-image: linear-gradient(to bottom, black 80%, transparent 98%);
+  padding-top: 0.1em;
+}
+
+.towny {
+  padding: 0.1vh;
+  box-shadow: inset 0 0 10px #000;
+  background: #555;
+  filter: brightness(0.85);
+  transition: 0.25s ease all; 
+}
+
+.towny.hurt:before {
+  transform-origin: 20% 20%;
+  content: "🔪";
+  position: absolute;
+  font-size: 6em;
+  z-index: 1;
+  animation: fall 0.6s ease-in 1;
+}
+
+.towny.heal .vis{
+  transform: scale(2);
+  filter: none !important;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(-110vh);
+  }
+  80% {
+    transform: scale(1) translateY(-1em);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+.town {
+  pointer-events: none;
+}
+.towny:hover {
+  background: #777;
+}
+
+#par {
+  display: flex;
+  text-align: center;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.8vh;
+}
+
+.strike {
+  text-decoration: line-through;
+  text-decoration-style: wavy;
+  text-decoration-color: black;
+}
+
+.range {
+  font-size: 0.45em;
+  margin: 1em 0;
+  letter-spacing: 0.1em;
+}
+
+.vis {
+  font-size: 5vh;
+  position: relative;
+}
+
+.mood {
+  position: absolute;
+  bottom: -0.1em;
+  right: -0.65em;
+  font-size: 0.65em;
+}
+
+.town-list {
+  height: 99%;
+  overflow: scroll;
+  filter: saturate(0.25);
+  box-shadow: inset 0 0 30vw #cccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 5px;
+  padding: 5px;
+}
+
+
+/* spells */
+.fate {
+  font-size: 6vmin;
+  text-align: center;
+  letter-spacing: -0.05em;
+  line-height: 1em;
+  padding-bottom: 2em;
+  padding: 1em;
+  margin: 1em;
+  color: white;
+}
+
+.fate .para:not(:last-child) {
+  margin-bottom: 2em;
+}
+
+@keyframes vibrate-1 {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.fate span {
+  display: inline-block;
+  transition: all 0.5s ease;
+}
+
+.spoke {
+  position: relative;
+  color: orange;
+  animation: vibrate-1 0.3s 0.3s linear infinite both;
+  
+}
+
+/* end spells */
+
+/* starter */
+.starter {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(29deg, #b8b8b8, #222);
+  opacity: 1;
+  z-index: 9999;
+  transition: all 1s ease;
+  filter: url(#squig);
+  top: 0;
+  transform: scale(1.01);
+  cursor: pointer;
+}
+
+.starter.remove {
+  transform: scale(2);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+  position: absolute;
+}
+
+.title {
+  font-size: 10vw;
+  color: #2c2c2c;
+  position: absolute;
+  top: 14vh;
+  left: 8vw;
+  text-shadow: 0px 1px 1px #aaa, -1px 4px 2px #919191;
+}
+
+.house-line {
+  position: absolute;
+  bottom: 25vh;
+  width: 100%;
+  left: 3vw;
+}
+
+.house-line svg {
+  width: 7%;
+}
+
+.go, .remain {
+  position: absolute;
+  margin: 1em;
+  padding: 1.5em 2.5em 1.6em 2em;
+  top: 36vh;
+  right: 16vw;
+  font-size: 2.2vw;
+  cursor: pointer;
+  background: #343434;
+  clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+  border-radius: 2em;
+  animation: wiggle 1s ease infinite alternate;
+}
+
+#h-arr {
+  padding: 1.25em 2em;
+  position: absolute;
+  cursor: pointer;
+  background: #666;
+  border-radius: 0.5em;
+  filter: drop-shadow(0 5px 0 #333);
+  filter: url(#squig);
+}
+
+#h-arr.ok {
+  background: #aaa;
+}
+
+.land {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  filter: drop-shadow(0px 0px 40px #aaa);
+  overflow: hidden;
+}
+
+.land svg {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* end starter */
+
+/* hex board */
+
+.hex-holder {
+  display: flex;
+  font-size: min(4vw, 4.6vh);
+  justify-content: center;
+  user-select: none;
+  transform-style: preserve-3d;
+}
+
+.hex.hide {
+  transform: scale(0);
+  pointer-events: none;
+}
+
+.hex,
+.hex:before,
+.hex:after {
+  height: 2em;
+  aspect-ratio: 1;
+  margin: 0.05em 0;
+  transform-origin: 50% 50%;
+  transition: transform 0.1s ease;
+  text-align: center;
+  line-height: 2em;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  color: black;
+}
+
+.hex:before,
+.hex:after,
+.cont {
+  top: 0;
+  left: 0;
+  position: absolute;
+  content: "";
+  background: #888;
+  clip-path: polygon(0 50%, 22.5% 0, 77.5% 0, 100% 50%, 77.5% 100%, 22.5% 100%);
+  color: black;
+}
+
+.cont {
+  backface-visibility: hidden;
+  transform: translateY(2px);
+  transform-origin: bottom;
+  pointer-events: none;
+  width: 100%;
+  font-size: 1.2em;
+}
+
+.flip .cont {
+  opacity: 1 !important;
+  background: #ccc;
+}
+
+.hex:not(.flip):hover:after {
+  background: orange;
+  --b: 0.15em;
+  clip-path: polygon(
+    0 50%,
+    50% -60%,
+    76.5% 0,
+    100% 50%,
+    76.5% 100%,
+    22.5% 100%,
+    0 50%,
+    var(--b) 50%,
+    calc(22.5% + var(--b) * cos(60deg)) calc(98% - var(--b) * sin(60deg)),
+    calc(76.5% - var(--b) * cos(60deg)) calc(98% - var(--b) * sin(60deg)),
+    calc(100% - var(--b)) 50%,
+    calc(76.5% - var(--b) * cos(60deg)) calc(var(--b) * sin(60deg)),
+    calc(22.5% + var(--b) * cos(60deg)) calc(var(--b) * sin(60deg)),
+    var(--b) 50%
+  );
+}
+
+.hex.flip:after {
+  display: none;
+}
+
+.column {
+  transform-style: preserve-3d;
+  width: 1.6em;
+}
+
+.column:nth-child(odd) {
+  position: relative;
+  top: 1.025em;
+}
+
+.grid-holder {
+  display: flex;
+}
+
+.flip {
+  animation: flip 0.5s linear backwards;
+  pointer-events: none;
+}
+
+@keyframes flip {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(180deg);
+    pointer-events: none;
+  }
+  60% {
+    transform: translate3d(0, 0, 8em) rotateX(0);
+    transform-origin: bottom;
+    pointer-events: none;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    pointer-events: auto;
+  }
+}
+
+/* end hex board */
+
+
+.cl-arrow {
+  position: absolute;
+  height: 5em;
+  transition: 0.5s steps(10) all;
+  animation: none;
+  pointer-events: none;
+}
+
+.ar-bird:after {
+  content: "🕷️";
+  font-size: 9vmin;
+  position: absolute;
+  text-shadow: 0 0 1px #ccc;
+  filter: url(#squig);
+}
+
+
+/* start cards */
+#choices {
+  display: flex;
+  justify-content: space-around;
+  color: #444;
+  flex-grow: 1;
+}
+
+.c-cho {
+  width: 40%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 3.7vw;
+  margin: 1em;
+  height: 50vh;
+  padding: 0.5em;
+  cursor: pointer;
+  transition: 0.5s ease all;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+  text-shadow: 2px 1px 3px #444;
+  transition: all 0.5s ease;
+  border: 5px solid #555;
+  filter: url(#squig);
+}
+
+.c-cho .smudge {
+  z-index: 1;
+  position: absolute; top: 0; left: 0;
+  filter: url(#disp-1);
+  opacity: 0.15;
+  font-size: 12vw;
+  transform: scale(5);
+}
+
+.c-cho:hover {
+  text-shadow: -2px 2px 3px #444;
+}
+
+.c-cho div {
+  position: relative;
+  z-index: 2;
+}
+
+.c-cho:before {
+  content: "";
+  position: absolute;
+  top: -40vh;
+  left: -40vh;
+  height: 120vh;
+  width: 120vh;
+  background: linear-gradient(122deg, #fff, #000);
+  transition: all 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.c-cho:hover:before {
+  transform: rotate(100deg);
+}
+
+.c-cho:hover {
+  transform: matrix3d(1, 0.01, 0, -0.0001, 0, 1, 0, -0.0001, 0, 0, 1, 0, 0, 0, 0, 1);
+} 
+
+.gig {
+  font-size: 2em;
+}
+
+/* end cards */
+
+.remain {
+  font-size: 2em;
+  background: #666;
+  text-align: center;
+  padding-right: 4em;
+  border-radius: 5em;
+  line-height: 1.75em;
+  transform: translateX(-1em);
+
+}
+
+@keyframes wiggle {
+  0% {
+    transform: translateX(-1.5em);
+  }
+  100% {
+    transform: translateX(-1em);
+  }
+  
+}
+
+.remain:before {
+  display: block;
+  content: "Select a Person to Heal ";
+}
+
+.face.reporter:before {
+  content: attr(data-speak);
+  line-height: 1em;
+  padding: 0.7em;
+  font-size: 0.09em;
+  position: absolute;
+  top: 3em;
+  left: 86%;
+  width: 5vw;
+  background: #444;
+  text-align: center;
+  border-radius: 3em 2em 2em 20%;
+}
+
+#hp {
+  position: relative;
+}
+#hp:after {
+  content: attr(turnsLeft);
+  position: absolute;
+  right: 1vw;
+  font-size: 5vw;
+  color: #aaa;
+}
+
+.ending {
+  font-size: 6vw;
+  margin-top: -12vh;
+  text-shadow: 1px 1px 1px #000;
+}

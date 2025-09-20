@@ -1,0 +1,21 @@
+[
+    {
+      "animationName": "dash_point",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 7,
+        "loop": true,
+        "src": "img/objects/dash_point.png"
+      }
+    },
+    {
+      "animationName": "dash_point_cracked",
+      "props": {
+        "frameCount": 1,
+        "frameBuffer": 25,
+        "loop": false,
+        "src": "img/objects/dash_point.png"
+      }
+    }
+    
+  ]

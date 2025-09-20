@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta
+    name="viewport"
+    content="initial-scale=1.0,width=device-width,user-scalable=no,viewport-fit=cover,maximum-scale=1.0, user-scalable=no"
+  />
+    <title>Entangolf</title>
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background-color: #f0f0f0;
+        font-family: 'Arial', sans-serif;
+        user-select: none;
+        pointer-events: none;
+        transition: background-color 1s ease;
+      }
+
+      @keyframes gradient {
+        0% { background-position: 0 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0 50%; }
+      }
+
+      .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      #canvas-container {
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /*transition: transform 1s ease-in-out;*/
+      }
+
+      #canvas {
+        max-width: 100%;
+        max-height: 100%;
+        background-color: rgba(0, 0, 0, 0.0);
+        cursor: crosshair;
+        z-index: 2;
+        pointer-events: all;
+      }
+
+      #hole-number {
+        max-width: 100%;
+        max-height: 100%;
+        position: absolute;
+        font-size: 40vw;
+        line-height: 1;
+        padding: 0;
+        margin: 0;
+      }
+
+      @media (orientation: portrait) {
+        #canvas-container {
+          width: 100%;
+          height: auto;
+        }
+
+        #canvas {
+          width: 100%;
+          height: auto;
+        }
+      }
+
+      @media (orientation: landscape) {
+        #canvas-container {
+          height: 100%;
+          width: auto;
+        }
+
+        #canvas {
+          height: 100%;
+          width: auto;
+        }
+
+      }
+
+      #top-container {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        top: 40px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 20px;
+        align-items: center;
+        text-align: center;
+        z-index: 2;
+      }
+
+      .button-container {
+        text-align: center;
+        position: absolute;
+        bottom: 40px;
+        display:flex;
+        gap: 5px;
+        z-index: 3;
+      }
+
+
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007BFF;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s, transform 0.1s;
+        user-select: none;
+        pointer-events: all;
+      }
+
+      .button:hover {
+        transform: rotate3d(1, 1, 1, -5deg);
+
+      }
+      .button.active {
+        transform: translateY(4px);
+      }
+
+      .button.disabled, .button.disabled:hover {
+        background-color: #d6d6d6;
+        color: #888;
+        box-shadow: 0 5px #b3b3b3;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+
+      #game-ui {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 2em;
+        line-height: 1em;
+        overflow: hidden;
+        font-size: 20px;
+        border: none;
+        border-radius: 5px;
+        padding: 5px;
+        top: 40px;
+      }
+
+      .prev-ui-text {
+        opacity: .30;
+      }
+
+      .animated .letter {
+        font-size: 5rem;
+        font-weight: bold;
+        position: relative;
+        opacity: 0;
+        animation: floatDown 3s ease-in-out forwards;
+      }
+
+      .letter:nth-child(1) {
+        animation-delay: 0.1s;
+        color: rgba(247.73108027855895, 14.633140945339672, 127.50016916634932, 1.0);
+      }
+      .letter:nth-child(2) {
+        animation-delay: 0.3s;
+        color: rgba(205.0117286612682, 1.3289939138077216, 127.50016916634932, 1.0);
+      }
+      .letter:nth-child(3) {
+        animation-delay: 0.5s;
+        color: rgba(55.17395905477653, 36.21780409482635, 127.50016916634932, 1.0);
+      }
+      .letter:nth-child(4) {
+        animation-delay: 0.7s;
+        color: rgba(5.2881737387066154, 105.97325359328423, 127.50016916634932, 1.0)
+      }
+      .letter:nth-child(5) {
+        animation-delay: 0.9s;
+        color: rgba(124.29473174644531, 183.95117512145356, 127.50016916634932, 1.0)
+      }
+      .letter:nth-child(6) {
+        animation-delay: 1.1s;
+        color: rgba(247.7308550661928, 240.36670167777106, 127.50016916634932, 1.0);
+      }
+      .letter:nth-child(7) {
+        animation-delay: 1.3s;
+        color: rgba(205.01226592350312, 253.67105480837546, 127.50016916634932, 1.0);
+      }
+      .letter:nth-child(8) {
+        animation-delay: 1.5s;
+        color: rgba(55.174516314549486, 218.7824321162417, 127.50016916634932, 1.0)
+      }
+      .letter:nth-child(9) {
+        animation-delay: 1.7s;
+        color: rgba(5.287980883077009, 149.02707988221658, 127.50016916634932, 1.0)
+      }
+
+      @keyframes floatDown {
+        0% {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        50% {
+          transform: translateY(20%);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0%);
+          opacity: 1;
+        }
+      }
+
+      .shake {
+        animation: shake-animation 1s ease-out forwards;
+      }
+
+      .offscreen-right {
+        transform: translateX(100vw); /* Move off-screen to the right */
+      }
+
+      .offscreen-left {
+        transform: translateX(-100vw); /* Move off-screen to the left */
+      }
+
+      .onscreen {
+        transform: translateX(0); /* Bring back to the original position */
+      }
+
+      .jiggle {
+        animation: jiggle-animation 0.5s infinite;
+      }
+
+      .hide {
+        display: none;
+      }
+
+      #title {
+        position: absolute;
+        display: flex;
+        justify-content: start;
+        align-items: flex-start;
+        color: white;
+        -webkit-text-stroke: 2px black;
+        transition: opacity 1s ease-in-out;
+        z-index: 2;
+      }
+
+      #win {
+        position: absolute;
+        display: flex;
+        justify-content: start;
+        align-items: flex-start;
+        color: white;
+        -webkit-text-stroke: 2px black;
+        transition: opacity 1s ease-in-out;
+        z-index: 2;
+      }
+
+      @keyframes jiggle-animation {
+        0% { transform: rotate(0deg); }
+        25% { transform: rotate(5deg); }
+        50% { transform: rotate(0deg); }
+        75% { transform: rotate(-5deg); }
+        100% { transform: rotate(0deg); }
+      }
+
+      @keyframes shake-animation {}
+    </style>
+  </head>
+  <body>
+
+  <div class="container">
+    <div id="canvas-container">
+      <canvas id="canvas" height=500 width=500></canvas>
+      <div id="hole-number"></div>
+
+    </div>
+      <div id="title" class="animated" style="display:none;">
+        <span class="letter">E</span>
+        <span class="letter">n</span>
+        <span class="letter">t</span>
+        <span class="letter">a</span>
+        <span class="letter">n</span>
+        <span class="letter">g</span>
+        <span class="letter">o</span>
+        <span class="letter">l</span>
+        <span class="letter">f</span>
+      </div>
+
+      <div id="win" class="hide" style="display:none;">
+        <span class="letter">G</span>
+        <span class="letter">o</span>
+        <span class="letter">o</span>
+        <span class="letter">d</span>
+        <span class="letter">&nbsp;</span>
+        <span class="letter">J</span>
+        <span class="letter">o</span>
+        <span class="letter">b</span>
+        <span class="letter">!</span>
+      </div>
+    <div id="top-container">
+      <div class="button" id="js-prev"><span class="button-label">Previous</span></div>
+      <div id="game-ui"></div>
+      <div class="button" id="js-next"><span class="button-label">Next</span></div>
+      </div>
+    <div class="button-container">
+      <div class="button" id="js-hit-ball"><span class="button-label">Hit</span></div>
+      <div class="button" id="js-place-wall"><span class="button-label">Wall</span></div>
+      <div class="button" id="js-reset"><span class="button-label">↺</span></div>
+      <div class="button active" id="js-hints"><span class="button-label">Hints On</span></div>
+    </div>
+  </div>
+  <script type="module" src="src/index.js"></script>
+  </body>
+</html>

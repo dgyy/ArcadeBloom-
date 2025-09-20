@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Of All Trades</title>
+    <script type="module" crossorigin src="/of-all-trades/assets/index-4676c1ae.js"></script>
+  </head>
+  <body>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: 'Trebuchet MS', Arial, sans-serif;
+        background-color: black;
+      }
+      .image {
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+      }
+      .hidden {
+        display: none;
+      }
+      .border {
+        border: 2px solid grey;
+        padding: 6px 8px;
+        border-radius: 8px;
+        margin: 2px;
+      }
+      li > span {
+        display: inline-block;
+      }
+      [data-d] {
+        opacity: 0;
+      }
+      [data-d]:hover {
+        fill: #f1f1f1;
+        opacity: 0.2;
+        cursor: pointer;
+      }
+      .stars {
+        position: absolute;
+        animation-name: topFadeOut;
+        animation-duration: 3s;
+      }
+      @keyframes topFadeOut {
+        0% {
+          position: absolute;
+          transform: translateY(0px);
+          opacity: 1;
+        }
+
+        100% {
+          position: absolute;
+          transform: translateY(-300px);
+          opacity: 0;
+        }
+      }
+      #wrap {
+        max-width: 350px; 
+        margin: 37px auto; 
+        position: relative;
+        color: white;
+      }
+      #map > rect {
+        fill:#d8b57a;
+      }
+    </style>
+    <div id="wrap">
+      <div id="svg-wrap">
+        <svg width="700" height="275" viewBox="0 0 700 350" style="width:100%; max-width:350px; margin: 0 auto" xmlns="http://www.w3.org/2000/svg">
+          <g id="game"></g>
+          <g id="ui">
+            <rect data-d="nw" width="233" height="124" x="0" y="0" />
+            <rect data-d="n" width="233" height="124" x="233" y="0" />
+            <rect data-d="ne" width="233" height="124" x="466" y="0" />
+            <rect data-d="w" width="350" height="124" x="0" y="124" />
+            <rect data-d="e" width="350" height="124" x="350" y="124" />
+            <rect data-d="sw" width="233" height="124" x="0" y="248" />
+            <rect data-d="s" width="233" height="124" x="233" y="248" />
+            <rect data-d="se" width="233" height="124" x="466" y="248" />
+          </g>
+        </svg>
+        <svg id="map" width="50" height="50" viewBox="0 0 50 50" transform="rotate(45)" style="position:absolute;left:0;" xmlns="http://www.w3.org/2000/svg">
+        </svg>
+      </div>
+      <div style="overflow-y: auto;overflow-x: hidden;">
+        <div id="story" class="border">Loading...
+        </div>
+        <div class="border">
+          <div>Apprenticed List</div>
+          <ol style="list-style-position: inside;"></ol>
+        </div>
+      </div>
+    </div>
+    <span>v.0.9</span>
+
+    <div id="character"></div>
+    <canvas class="hidden" id="perlin"
+    width="1000"
+    height="1000"></canvas>
+    <svg
+      class="hidden"
+      id="perlin-svg"
+      width="1000"
+      height="1000"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink">
+      <filter id="blur" filterUnits="objectBoundingBox"
+      x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" />
+      </filter>
+    </svg>
+    <canvas class="hidden" id="start"></canvas>
+    <canvas class="hidden" id="final"></canvas>
+    
+  </body>
+</html>

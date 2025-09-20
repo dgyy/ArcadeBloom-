@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="135" viewBox="0 0 100 135" version="1.1">
+  <defs>
+    <style>
+      .cls-b {
+        fill: #704900;
+        filter: drop-shadow(0 3px 1px #003000);
+      }
+      .cls-g {
+        fill: #007000;
+        filter: drop-shadow(0 2px 1px #005000);
+      }
+      .cls-g-b {
+        fill: #007000;
+        filter: drop-shadow(0 3px 1px #003000);
+      }
+    </style>
+  </defs>
+  <g>
+    <ellipse class="cls-b" cx="50" cy="100" rx="2" ry="20"/>
+    <ellipse class="cls-g-b" cx="50" cy="90" rx="40" ry="18"/>
+    <ellipse class="cls-g" cx="50" cy="80" rx="30" ry="15"/>
+    <ellipse class="cls-g" cx="50" cy="70" rx="25" ry="12"/>
+    <ellipse class="cls-g" cx="50" cy="60" rx="20" ry="10"/>
+    <ellipse class="cls-g" cx="50" cy="50" rx="15" ry="8"/>
+    <ellipse class="cls-g" cx="50" cy="40" rx="12" ry="8"/>
+    <ellipse class="cls-g" cx="50" cy="30" rx="10" ry="7"/>
+    <ellipse class="cls-g" cx="50" cy="20" rx="7" ry="10"/>
+  </g>
+</svg>

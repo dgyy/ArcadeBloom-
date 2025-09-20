@@ -1,0 +1,145 @@
+.monkey-container {
+	width: 50px;
+	height: 50px;
+	margin-left: -25px;
+	margin-top: -25px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: not-allowed;
+}
+
+.monkey {
+	width: 100%;
+	height: 100%;
+	opacity: 0.25;
+	filter: grayscale(1);
+}
+
+.monkey svg,
+.sleep svg {
+	width: 100%;
+	height: 100%;
+}
+
+.can-afford .monkey {
+	cursor: pointer;
+}
+
+.monkey-container.me {
+	display: none;
+}
+
+.monkey-container.me.active,
+.is-end .monkey-container.me {
+	display: flex;
+}
+
+.monkey-container.auto {
+	transform: scale(1.5);
+	display: none;
+}
+
+.monkey-container.auto.active {
+	display: flex;
+}
+
+.monkey-container.auto.active,
+.is-end .monkey-container.auto {
+	display: flex;
+}
+
+.is-end .monkey-container {
+	pointer-events: none;
+}
+
+.active .monkey {
+	opacity: 1;
+	filter: none;
+	animation: wiggle-and-float 1s infinite;
+}
+
+.sleep {
+	position: absolute;
+	top: 0;
+	width: 20px;
+	height: 20px;
+}
+
+.active .sleep {
+	opacity: 0;
+}
+
+.cost {
+	position: absolute;
+	bottom: -14px;
+	margin-left: -4px;
+	justify-content: center;
+	align-items: center;
+	font-size: 12px;
+	opacity: 0.5;
+	filter: grayscale(1);
+}
+
+.cost svg {
+	width: 14px;
+	height: 14px;
+	margin-right: 2px;
+	margin-top: -1px;
+}
+
+.cost svg.hidden {
+	display: none;
+}
+
+.cost b {
+	margin: 0;
+}
+
+.can-afford .cost {
+	opacity: 1;
+	filter: none;
+	cursor: pointer;
+}
+
+.is-end .cost {
+	opacity: 0;
+}
+
+.level {
+	position: absolute;
+	top: -14px;
+	font-size: 12px;
+	opacity: 0;
+}
+
+.active .level {
+	opacity: 1;
+}
+
+.is-end .level {
+	opacity: 0;
+}
+
+.auto .level {
+	top: -8px;
+}
+
+@keyframes wiggle-and-float {
+	0% {
+		transform: rotate(0deg) translateY(0px);
+	}
+	25% {
+		transform: rotate(7deg) translateY(-2px);
+	}
+	50% {
+		transform: rotate(0deg) translateY(0px);
+	}
+	75% {
+		transform: rotate(-7deg) translateY(-2px);
+	}
+	100% {
+		transform: rotate(0deg) translateY(0px);
+	}
+}

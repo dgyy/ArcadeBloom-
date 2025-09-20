@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert obj to walking path</title>
+</head>
+
+<body>
+    <script>
+        let objString = `# Blender 3.5.1
+# www.blender.org
+mtllib island.mtl
+o walkmap
+v 24.788315 0.245694 -29.849762
+v 2.356936 0.245694 -58.513855
+v -14.893141 0.245694 -25.639292
+v 9.456113 0.245694 -5.546616
+v 3.277549 0.245694 39.469658
+v 10.530051 0.245694 79.082870
+v -6.357214 0.245694 37.475952
+v -12.455954 0.245694 79.294777
+v -4.293152 0.245694 82.492981
+v 12.108326 0.245694 51.286064
+v -16.438896 0.245694 45.639153
+v 24.183102 0.245694 7.445000
+v -21.771009 0.245694 9.290497
+v 32.673565 0.245694 -69.439072
+v -31.060432 0.245694 -56.983555
+v 16.163128 0.245694 15.930153
+v -31.663902 0.245694 -23.518665
+v -3.228091 0.245694 -73.724152
+v 37.339748 0.245694 -31.804314
+v 16.191330 0.245694 65.227516
+v -19.836510 0.245694 60.297951
+v -15.409908 0.245694 -54.748772
+v -2.797628 0.245694 -10.436211
+v -1.580081 0.245694 74.842529
+v -7.791576 0.245694 69.294975
+v -7.486143 0.245694 74.977409
+v -2.045518 0.245694 69.015259
+s 0
+usemtl #a26d3f.001
+f 15 18 14 2 22
+f 6 27 24 9
+f 26 25 21 8 9 24
+f 27 20 6
+f 2 14 19 12 16 5 10 20 27 25 21 11 7 13 17 15 22 3 23 4 1
+`;
+
+
+        let points = [];
+        let faces = [];
+
+        const lines = objString.split('\n');
+        for (let line of lines) {
+            const values = line.split(" ");
+            if (values[0] === 'v')
+                points.push([parseFloat(parseFloat(values[1]).toFixed(2)), parseFloat(parseFloat(values[3]).toFixed(2))])
+            if (values[0] === 'f') {
+                // Face
+                let face = [];
+                for (let i = 1; i < values.length; i++) {
+                    const faceData = values[i].split('/');
+                    face.push(parseInt(faceData[0]) - 1);
+                }
+                faces.push(face);
+            }
+        }
+        
+        // console.log(JSON.stringify(points));
+        //  console.log(JSON.stringify(faces));
+
+        let polys = [];
+        faces.forEach(face => {
+            let edges = [];
+            for (let i = 0; i < face.length; i++) {
+                if (i !== face.length - 1)
+                    edges.push(
+                        points[face[i]][0],
+                        points[face[i]][1],
+                        points[face[i + 1]][0],
+                        points[face[i + 1]][1]);
+                else
+                    edges.push(points[face[i]][0], points[face[i]][1], points[face[0]][0], points[face[0]][1]);
+            }
+            polys.push(edges);
+        });
+        console.log(JSON.stringify(polys));
+    </script>
+</body>
+
+</html>

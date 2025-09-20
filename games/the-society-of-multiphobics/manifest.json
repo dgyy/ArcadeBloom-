@@ -1,0 +1,9 @@
+{
+  "short_name": "Multiphobics",
+  "name": "The Society of Multiphobics",
+  "icons": [],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#ffffff",
+  "background_color": "#09162a"
+}

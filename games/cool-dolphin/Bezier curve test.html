@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<canvas width="500" height="500" id="canvas"></canvas>
+	<script src="drawing.js"></script>
+	<script>
+		var start = [50, 50];
+		var p1 = [50, 50];
+		var p2 = [50, 50];
+		var end = [50, 50];
+		canvas.onclick = function(e) {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			console.log(e, ctx);
+			if (e.ctrlKey) {
+				p1 = [e.offsetX, e.offsetY];
+			} else if (e.altKey) {
+				p2 = [e.offsetX, e.offsetY];
+			} else if (e.shiftKey) {
+				end = [e.offsetX, e.offsetY];
+			}
+			ctx.beginPath();
+			ctx.moveTo(start[0], start[1]);
+			ctx.bezierCurveTo(p1[0], p1[1], p2[0], p2[1], end[0], end[1]);
+			ctx.stroke();
+			ctx.fillRect(start[0] - 5, start[1] - 5, 10, 10);
+			ctx.fillRect(p1[0] - 5, p1[1] - 5, 10, 10);
+			ctx.fillRect(p2[0] - 5, p2[1] - 5, 10, 10);
+			ctx.fillRect(end[0] - 5, end[1] - 5, 10, 10);
+		}
+		function b(a, b, t) {
+			return a * (1 - t) + b * t;
+		}
+		function draw13(t) {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.translate(150, 162.5);
+			ctx.beginPath();
+			ctx.rotate(b(0, -Math.PI / 2, t));
+			//ctx.moveTo(25, 25);
+			//ctx.bezierCurveTo(50, -10, 50, -10, 50, 100);
+			ctx.moveTo(-25, -37.5);
+			//ctx.bezierCurveTo(0, 37.5 + 25, 0, 37.5 + 25, 25, 100);
+			ctx.bezierCurveTo(0, b(-60, 0, t), 0, b(-60, 0, t), b(0, -25, t), 37.5);
+			ctx.moveTo(50, -12.5);
+			ctx.arc(50, -37.5, 25, Math.PI / 2, Math.PI, true);
+			ctx.arc(50, -37.5, 25, Math.PI, Math.PI * b(1, 0.5, t), true);
+			ctx.moveTo(50, -12.5);
+			//ctx.arc(100, 75, 25, Math.PI * 1.5, Math.PI * b(1, 1, t), !b(1, 0, t));
+			ctx.arc(50, b(12.5, 37.5, t), 25, -Math.PI / 2, Math.PI / 2, false);
+			ctx.arc(50, b(12.5, 37.5, t), 25, Math.PI / 2, Math.PI * b(1, 1.5, t), false);
+			//ctx.bezierCurveTo(b(50, 0, t), b(-10, 62.5, t), b(50, 0, t), b(-10, 62.5, t), b(50, 25, t), 100);
+			ctx.stroke();
+			ctx.resetTransform();
+		}
+		var frame = 0;
+		function update() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			//console.log(frame);
+			draw13(Math.max(Math.min(frame / 100, 2), 1) - 1);
+			frame++;
+			requestAnimationFrame(update);
+		}
+		update();
+	</script>
+</body>
+</html>

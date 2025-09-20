@@ -1,0 +1,100 @@
+#game-main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  height: calc(100% - 42px - 42px - 42px);
+}
+
+#game-base {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#game-market,
+#game-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+  flex-direction: row;
+  padding: 8px;
+  gap: 8px;
+  min-height: 84px;
+  overflow: auto;
+}
+
+#game-leftbar {
+  display: flex;
+  flex-direction: column;
+  flex: 0;
+  min-width: 72px;
+  transition: min-width 0.3s ease;
+  overflow: auto;
+}
+
+#game-leftbar.expand {
+  min-width: 160px;
+}
+
+#game-right-container {
+  display: flex;
+  flex: 1;
+  width: calc(100% - 160px);
+}
+
+#game-leftbar {
+  border-right: 1px solid #333;
+}
+
+#game-leftbar .btn {
+  border-radius: 0;
+}
+
+.resource-row,
+.btn-upgrade {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  gap: 8px;
+  height: initial;
+  background-color: #333;
+  padding: 8px;
+  border-radius: 8px;
+  min-height: 84px;
+  min-width: 212px;
+}
+
+.btn-upgrade .progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  background-color: #4a89c5;
+  opacity: 30%;
+}
+
+.btn-upgrade span {
+  display: flex;
+  gap: 0 4px;
+  align-items: flex-end;
+}
+
+.resource-row > * {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.resource-row > *:last-child {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.resource-row > * > .btn {
+  font-size: 12px;
+  min-height: 24px;
+  background-color: #555;
+}

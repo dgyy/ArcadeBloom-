@@ -1,0 +1,260 @@
+/* Global Styles for Monster Steps */
+
+:root {
+  --background-color: #1a1a1a;
+  --grid-color: #4a4a4a;
+  --player-color: #00ff00;
+  --monster-color: #800080;
+  --goal-color: #ffd700;
+  --ui-text-color: #fff;
+  --highlight-color: #ff0;
+  --button-color: #4caf50;
+  --button-hover-color: #45a049;
+  --intro-background: #2c3e50;
+  --intro-text-shadow: rgba(0, 0, 0, 0.5);
+  --intro-title-color: #e67e22;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: var(--background-color);
+  color: var(--ui-text-color);
+  text-transform: uppercase;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+button {
+  background-color: var(--button-color);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: var(--button-hover-color);
+}
+
+.intro,
+.game-complete {
+  text-align: center;
+  background-color: var(--intro-background);
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80vw;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-intro-responsive {
+  display: flex;
+  flex-direction: row;
+}
+
+.level-story {
+  max-width: 600px;
+}
+
+@media (max-width: 600px) {
+  .game-intro-responsive {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 600px) {
+  .game-intro-responsive {
+    justify-content: space-between;
+    width: 90%;
+  }
+}
+
+.game-preview-container canvas {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.game-title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  color: var(--intro-title-color);
+  text-shadow: 2px 2px 4px var(--intro-text-shadow);
+  letter-spacing: 2px;
+}
+
+.intro-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro-buttons button {
+  margin: 10px 0;
+  width: 200px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.intro-tip {
+  font-size: 18px;
+  margin-top: 20px;
+  color: var(--highlight-color);
+}
+
+.author-name {
+  font-size: 14px;
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+.author-name a {
+  color: white;
+}
+
+.gameplay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.hud {
+  font-size: 18px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.hud > div {
+  margin: 0 10px;
+}
+
+canvas {
+  border: 1px solid var(--grid-color);
+  max-height: 80vh;
+  max-width: 90vw;
+}
+
+.game-over-screen,
+.level-complete-screen,
+.game-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+.game-over-title,
+.level-complete-title,
+.game-complete-subtitle {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.game-over-title .over {
+  color: #f00;
+}
+
+.level-complete-title,
+.game-complete-subtitle {
+  color: var(--highlight-color);
+}
+
+.game-complete-stats {
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+.game-complete-stats p {
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 36px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .intro,
+  .game-complete {
+    width: 90vw;
+    height: 90vh;
+  }
+
+  .intro-buttons button {
+    width: 180px;
+  }
+
+  .hud {
+    font-size: 14px;
+  }
+
+  canvas {
+    max-height: 70vh;
+    max-width: 95vw;
+  }
+
+  .game-over-title,
+  .level-complete-title,
+  .game-complete-subtitle {
+    font-size: 28px;
+  }
+
+  .game-complete-stats {
+    font-size: 20px;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  button {
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+
+  .intro-buttons button {
+    margin: 15px 0;
+  }
+
+  .intro-tip {
+    display: none;
+  }
+}

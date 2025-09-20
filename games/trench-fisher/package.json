@@ -1,0 +1,29 @@
+{
+    "devDependencies": {
+        "@webpack-cli/generators": "^3.0.7",
+        "css-loader": "^6.8.1",
+        "css-minimizer-webpack-plugin": "^5.0.1",
+        "html-inline-css-webpack-plugin": "^1.11.2",
+        "html-inline-script-webpack-plugin": "^3.2.1",
+        "html-webpack-plugin": "^5.5.3",
+        "kontra": "^9.0.0",
+        "linked-list": "^3.1.0",
+        "mini-css-extract-plugin": "^2.7.6",
+        "terser-webpack-plugin": "^5.3.9",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^4.15.1"
+    },
+    "version": "1.0.0",
+    "description": "A js13k 2023 game",
+    "name": "trench-fisher",
+    "scripts": {
+        "build": "webpack --mode=production --node-env=production",
+        "build:dev": "webpack --mode=development",
+        "build:prod": "webpack --mode=production --node-env=production",
+        "watch": "webpack --watch",
+        "deploy": "npm run build; npm run clean; git stash; git switch gh-pages; rm -rf docs; mv dist docs; git add -u docs; git commit -m 'deploy gh-pages/docs'; git push -u origin gh-pages; git switch main; git stash pop",
+        "serve": "webpack serve",
+        "clean": "rm -rf ./dist/main.js.LICENSE.txt ./package.zip",
+        "pack": "npm run clean; cd ./assets/;advpng -i 1000 -z -4 tilemap_packed_compact_tileset.png;cd ../; npm run build;npm run clean; cd dist; advzip -i 1000 -4 ../package.zip -a ./*"
+    }
+}

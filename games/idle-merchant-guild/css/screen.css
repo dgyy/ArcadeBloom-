@@ -1,0 +1,12 @@
+.landing-screen,
+.load-games-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  gap: 16px;
+}
+
+.landing-screen {
+  justify-content: center;
+  align-items: center;
+}

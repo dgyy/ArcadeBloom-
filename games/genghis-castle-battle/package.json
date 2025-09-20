@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "dev": "esbuild src/main.ts --bundle --watch --outfile=build/main.js",
+    "build": "esbuild src/main.ts --bundle --minify --outfile=build/main.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.19.2"
+  }
+}

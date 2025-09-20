@@ -1,0 +1,7 @@
+.fireflies {
+	position: fixed;
+	z-index: 0;
+	filter: blur(1px);
+	pointer-events: none;
+	inset: 0;
+}

@@ -1,0 +1,47 @@
+#!/bin/bash -e
+
+base36="0123456789abcdefghijklmnopqrstuvwxyz"
+
+tmpStyle=/tmp/style.temp
+tmpSVG=/tmp/temp
+
+echo -n '<style>' > $tmpStyle
+
+cat $1 |
+while read line; do echo -n $line' '; done |
+sed -r '
+s/ *<\?.*?\?> *//;
+s/ *<!--.*?--> *//g;
+s/(\.[0-9]{,2})[0-9]*/\1/g;
+s/ (xmlns|sodipodi|inkscape):[a-z0-9]+="[^"]+"//g;
+s/xlink://g;
+s/<defs[^>]*>/<defs>/g;
+s/<\/?(xmlns|sodipodi|inkscape)[^>]*>//g;
+s/("|;)(stroke-dasharray|stroke-dashoffset|stroke-opacity|stroke-linejoin|stroke-miterlimit|fill-opacity|font[-a-z]*):[^;"]+/\1/g;
+s/;+/;/g;
+s/;"/"/g;
+#s/style="[^"]*(fill:....)[^"]*(;stroke-width:....)[^"]*(;stroke:....)[^"]*"/style="\1\2"/g;
+#s/ id="[^_][^"]*"//g;
+s/ +/ /g;
+s/> </></g;
+s/ ([-a-z]+=")/\n\1/ig;
+s/"\s*(\/?>)/"\n\1/g;
+' > $tmpSVG
+
+N=0
+grep 'style="' $tmpSVG | sort | uniq |
+while read style; do
+  id=${base36:((N%36)):1}
+  test $N -gt 35 && id=${base36:(((N/36)%36)):1}$id
+  sed -i "s!$style!class=\"s$id\"!" $tmpSVG
+  style="$(echo "$style" | sed -r 's/style="|"$//g')"
+  echo -n ".s$id{$style}" >> $tmpStyle
+  N=$((N+1))
+done
+echo -n '</style>' >> $tmpStyle
+
+sed -i "s!<defs>!<defs>$(cat $tmpStyle)!" $tmpSVG
+
+cat $tmpSVG
+# while read line; do echo -n $line' '; done |
+# sed 's/ >/>/g'

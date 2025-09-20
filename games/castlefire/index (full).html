@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, width=device-width">
+  <title>castlefire</title>
+  <style>
+    body {
+      background-color: #666;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='0' y='20' fill='red' font-size='20'>🏰</text></svg>"),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' height='50px' width='120px'><text x='0' y='20' fill='red' font-size='20'>👑</text></svg>");
+      background-repeat: repeat, repeat;
+      background-position: bottom left, center;
+      background-size: 10%, 10%;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      color: yellow;
+      font-size: 20px;
+    }
+
+    #box {
+      width: 300px;
+      height: 600px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      background-color: #ccc;
+      border: 10px inset;
+      border-color: red orange;
+      padding: 25px;
+    }
+    @media (max-width: 600px) {
+        #box{
+            top: 0;
+            left: 0;
+            transform: translate(0%, 0%);
+            position: relative;
+            margin: 0 auto;
+            padding: 0;
+        }
+    }
+
+    table {
+      margin: 0 auto;
+      width: 300px;
+      height: 300px;
+    }
+
+    td {
+      text-align: left;
+    }
+    
+    input {
+      width: 50px;
+      height: 50px;
+      opacity: 1.0;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    table label:before{
+      z-index: -1;
+      position: absolute;
+    }
+    input:checked {
+      opacity: 0.0;
+    }
+    input:checked + label:before{
+      content: url('fire.gif');
+      transform: scale(3);
+      margin-left: -35px;
+      margin-top: 15px;
+    }
+    #firestarter{
+      width: 300px;
+      text-align: center;
+      padding:0;
+      font-size: 6rem;
+      position: absolute;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+    
+    #header{
+      margin-top: 125px;
+    }
+  </style>
+</head>
+<body>
+  <div id="box">
+  <p id="firestarter">👹</p>
+  <div id="header">
+    <b><p id="firestarter_p" style="color: red;">"I wanna fire!"</p></b><hr>
+    <p style="font-size: 16px;">🧙‍♂️👸👼🤴🧛<br><b>"Hero please put out the fire!"</b></p>
+    <label>steps:0</label>
+  </div>
+  <table>
+  <tr>
+    <td><input type="checkbox" id="0"><label></label></td>
+    <td><input type="checkbox" id="1"><label></label></td>
+    <td><input type="checkbox" id="2"><label></label></td>
+    <td><input type="checkbox" id="3"><label></label></td>
+    <td><input type="checkbox" id="4"><label></label></td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="5"><label></label></td>
+    <td><input type="checkbox" id="6"><label></label></td>
+    <td><input type="checkbox" id="7"><label></label></td>
+    <td><input type="checkbox" id="8"><label></label></td>
+    <td><input type="checkbox" id="9"><label></label></td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="10"><label></label></td>
+    <td><input type="checkbox" id="11"><label></label></td>
+    <td><input type="checkbox" id="12"><label></label></td>
+    <td><input type="checkbox" id="13"><label></label></td>
+    <td><input type="checkbox" id="14"><label></label></td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="15"><label></label></td>
+    <td><input type="checkbox" id="16"><label></label></td>
+    <td><input type="checkbox" id="17"><label></label></td>
+    <td><input type="checkbox" id="18"><label></label></td>
+    <td><input type="checkbox" id="19"><label></label></td>
+  </tr>
+  <tr>
+    <td><input type="checkbox" id="20"><label></label></td>
+    <td><input type="checkbox" id="21"><label></label></td>
+    <td><input type="checkbox" id="22"><label></label></td>
+    <td><input type="checkbox" id="23"><label></label></td>
+    <td><input type="checkbox" id="24"><label></label></td>
+  </tr>
+</table>
+  <div id="footer">
+    <button style="font-size: 20px;">🌊🌊🌊🌊🌊</button>
+  </div>
+  </div>
+  <script>
+    let firestarter  = document.querySelector("#firestarter");
+    let firestarter_p = document.querySelector("#firestarter_p");
+    firestarter.addEventListener("click",()=>{
+      console.log("here");
+      firestarter_p.style.fontSize="13px";
+      firestarter_p.innerHTML ='"try to inverse fire in cells and the surrounding[+]<br>ahahahahahahahahahahah"';
+    })
+    console.log("Hello World!");
+    let score = 0;
+    let label = document.querySelector('label');
+    let checkbox_audio  = new Audio('press.mp3');
+    let checkboxes = document.querySelectorAll('input');
+    for(let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].addEventListener("click",(e)=>{
+        console.log("click: ", e.target.id);
+        checkbox_audio.play();
+        score++; label.innerHTML = "steps: "+score; 
+        if((i-1)%5>=0&&Math.floor(i/5)==Math.floor((i-1)/5)){
+          if(checkboxes[i-1].checked){
+                 checkboxes[i-1].checked = false;  
+          } else checkboxes[i-1].checked = true;
+        }
+        if((i+1)%5<=4&&Math.floor(i/5)==Math.floor((i+1)/5)){
+          if(checkboxes[i+1].checked){
+                 checkboxes[i+1].checked = false;  
+          } else checkboxes[i+1].checked = true;
+        }
+        if(Math.floor(i/5)-1>=0){
+          if(checkboxes[i-5].checked){
+                 checkboxes[i-5].checked = false;  
+          } else checkboxes[i-5].checked = true;
+        }
+        if(Math.floor(i/5)+1>=0){
+          if(checkboxes[i+5].checked){
+                 checkboxes[i+5].checked = false;  
+          } else checkboxes[i+5].checked = true;
+        }
+        let check = true;
+        for(el of checkboxes) {
+          if(el.checked==true)check = false;
+        } if (check){ 
+          firestarter_p.style.fontSize="20px";
+          firestarter_p.style.color="green";
+          firestarter_p.innerHTML ='"OK. You win..."';
+        }
+      })
+    }
+    console.log(checkboxes);
+    function burn(){
+      for(el of checkboxes){
+        if(Math.floor(Math.random()*4)==0)el.checked = true;
+      }
+    } burn();
+    let button_audio  = new Audio('wave.mp3');
+    let button = document.querySelector('button');
+        button.addEventListener('click',()=>{
+          button_audio.play();
+          console.log("click: wave");
+          for(el of checkboxes) el.checked = false;
+          score = 0; label.innerHTML = "steps: "+score;
+          burn();
+          firestarter_p.style.fontSize="20px";
+          firestarter_p.style.color="red";
+          firestarter_p.innerHTML ='"I wanna fire!"';
+        })
+  </script>
+</body>
+</html>

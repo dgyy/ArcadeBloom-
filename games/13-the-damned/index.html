@@ -1,0 +1,29 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8" />
+  <title>13 The Damned</title>
+  <script type="text/javascript" src="libs/kontra.min.js"></script>
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      justify-content: center;  /* Horizontally center the canvas */
+      align-items: center;      /* Vertically center the canvas */
+      background-color: #f0f0f0; /* Optional: Background color */
+    }
+    
+    canvas {
+      border: 1px solid #000; /* Optional: Add a border for visibility */
+    }
+  </style>
+</head>
+<body>
+  <canvas
+    id="game"
+    width="600"
+    height="400"
+    style="background: #0a6b01"
+  ></canvas>
+  <script id="code" src="assets/js/gameloop.js"></script>
+</body>

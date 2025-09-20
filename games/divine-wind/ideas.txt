@@ -1,0 +1,30 @@
+maybe we can have the junctions rotate as the puzzle
+add speed run mode
+circular maze? and you rotate the concentric circles
+
+maze solving with DFS
+
+I realize now that circular mazes are probably more fun in VR and also maybe easier to implement (I may eat those words)
+actually wait rectangular mazes might still be okay
+how to solve problem of which junction to choose? make it a skinny Nx3 maze so that
+choosing a junction won't give away the general path in the maze (maybe even Nx2 for simplicity)
+
+for more challenge - have multiple maze exits, and one side have faster enemies
+
+maze masking for different shapes and more challenging mazes? like a T formation
+or a:
+     |
+   |    |
+      |
+so player has to choose which junctions to fix
+
+also look into favoring breaking vertical vs. horizontal walls for better junctions
+wall shifts in addition to junction rotates
+
+rotating junctions might be bad after all, since one wall is useless, two walls as well
+part of the problem is that the maze is too open, rotating a junction is useless a lot of the time
+ - delete less walls in the maze
+
+ put offsets in new maze class
+
+ when you solve the circle, it becomes a twister that blows away the ships!!!

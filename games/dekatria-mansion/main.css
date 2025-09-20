@@ -1,0 +1,710 @@
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #808080;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  grid-template-areas:
+    "CharSel_Title  CharSel_Title   CharSel_Title   SelParty_Title  SelParty_Title  SelParty_Title    dice-title    dice-title  dice-title"
+    "CharSel_Char1  CharSel_Char1   CharSel_Char1   SelParty_Char   SelParty_Char   SelParty_Char     dice-sect     dice-sect   dice-sect"
+    "CharSel_Char2  CharSel_Char2   CharSel_Char2   SelParty_Char   SelParty_Char   SelParty_Char     button-wrap   button-wrap button-wrap"
+    "R10_TopLeft    R10_Top         R10_TopRight    Room13L         Room13D         Room13R           R14_TopLeft   R14_Top     R14_TopRight"
+    "R10_Left       R10_Center      R10_Right       Hall1_Left      Hall1_Top    Hall1_Right       R14_Left      R14_Center  R14_Right"
+    "R10_BotLeft    R10_Bot         R10_BotRight    Hall1_BotLeft   Hall1_Bot       Hall1_BotRight    R14_BotLeft   R14_Bot     R14_BotRight"
+    "R11_TopLeft    R11_Top         R11_TopRight    Hall2_TopLeft   Hall2_Top       Hall2_TopRight    R15_TopLeft   R15_Top     R15_TopRight"
+    "R11_Left       R11_Center      R11_Right       Hall2_Left      Hall2_Center    Hall2_Right       R15_Left      R15_Center  R15_Right"
+    "R11_BotLeft    R11_Bot         R11_BotRight    Hall2_BotLeft   Hall2_Bot       Hall2_BotRight    R15_BotLeft   R15_Bot     R15_BotRight"
+    "R12_TopLeft    R12_Top         R12_TopRight    Hall3_TopLeft   Hall3_Top       Hall3_TopRight    R16_TopLeft   R16_Top     R16_TopRight"
+    "R12_Left       R12_Center      R12_Right       Hall3_Left      Hall3_Center    Hall3_Right       R16_Left      R16_Center  R16_Right"
+    "R12_BotLeft    R12_Bot         R12_BotRight    Hall3_BotLeft   Hall3_Bot       Hall3_BotRight    R16_BotLeft   R16_Bot     R16_BotRight"
+    "Guide_Title    Guide_Title     Guide_Title     Base_Title      Base_Title      Base_Title        Inv_Title     Inv_Title   Inv_Title"
+    "Guide          Guide           Guide           Base_Char       Base_Char       Base_Char         Room13T       Room13T     Room13T"
+    "Guide          Guide           Guide           Base_Char       Base_Char       Base_Char             Base_Desc1    Base_Desc1  Base_Desc1";
+  width: 100vw;
+  height: 100vh;
+  gap: 0;
+  box-sizing: border-box;
+}
+
+.grid-container > div {
+  min-height: 43px;
+}
+
+.CharSel_Title { grid-area: CharSel_Title; }
+.CharSel_Char1 { grid-area: CharSel_Char1; }
+.CharSel_Char2 { grid-area: CharSel_Char2; }
+.SelParty_Title { grid-area: SelParty_Title; }
+.SelParty_Char { grid-area: SelParty_Char; }
+.SelPart_Desc { grid-area: SelParty_Desc; }
+.Start { grid-area: Start; }
+.Room13L { grid-area: Room13L; }
+.Room13D { grid-area: Room13D; }
+.Room13R { grid-area: Room13R; }
+.Room13T { grid-area: Room13T; }
+.dice-title { grid-area: dice-title; }
+.dice1 { grid-area: dice1; }
+.dice2 { grid-area: dice2; }
+.dice3 { grid-area: dice3; }
+.dice-plus { grid-area: dice-plus; }
+.dice-res { grid-area: dice-res; }
+.dice-minus { grid-area: dice-minus; }
+.button-wrap { grid-area: button-wrap; }
+.R10_TopLeft { grid-area: R10_TopLeft; }
+.R10_Top { grid-area: R10_Top; }
+.R10_TopRight { grid-area: R10_TopRight; }
+.R10_Left { grid-area: R10_Left; }
+.R10_Center { grid-area: R10_Center; }
+.R10_Right { grid-area: R10_Right; }
+.R10_BotLeft { grid-area: R10_BotLeft; }
+.R10_Bot { grid-area: R10_Bot; }
+.R10_BotRight { grid-area: R10_BotRight; }
+.R14_TopLeft { grid-area: R14_TopLeft; }
+.R14_Top { grid-area: R14_Top; }
+.R14_TopRight { grid-area: R14_TopRight; }
+.R14_Left { grid-area: R14_Left; }
+.R14_Center { grid-area: R14_Center; }
+.R14_Right { grid-area: R14_Right; }
+.R14_BotLeft { grid-area: R14_BotLeft; }
+.R14_Bot { grid-area: R14_Bot; }
+.R14_BotRight { grid-area: R14_BotRight; }
+.R11_TopLeft { grid-area: R11_TopLeft; }
+.R11_Top { grid-area: R11_Top; }
+.R11_TopRight { grid-area: R11_TopRight; }
+.R11_Left { grid-area: R11_Left; }
+.R11_Center { grid-area: R11_Center; }
+.R11_Right { grid-area: R11_Right; }
+.R11_BotLeft { grid-area: R11_BotLeft; }
+.R11_Bot { grid-area: R11_Bot; }
+.R11_BotRight { grid-area: R11_BotRight; }
+.Hall1_TopLeft { grid-area: Hall1_TopLeft; }
+.Hall1_Top { grid-area: Hall1_Top; }
+.Hall1_TopRight { grid-area: Hall1_TopRight; }
+.Hall1_Left { grid-area: Hall1_Left; }
+.Hall1_Center { grid-area: Hall1_Center; }
+.Hall1_Right { grid-area: Hall1_Right; }
+.Hall1_BotLeft { grid-area: Hall1_BotLeft; }
+.Hall1_Bot { grid-area: Hall1_Bot; }
+.Hall1_BotRight { grid-area: Hall1_BotRight; }
+.Hall2_TopLeft { grid-area: Hall2_TopLeft; }
+.Hall2_Top { grid-area: Hall2_Top; }
+.Hall2_TopRight { grid-area: Hall2_TopRight; }
+.Hall2_Left { grid-area: Hall2_Left; }
+.Hall2_Center { grid-area: Hall2_Center; }
+.Hall2_Right { grid-area: Hall2_Right; }
+.Hall2_BotLeft { grid-area: Hall2_BotLeft; }
+.Hall2_Bot { grid-area: Hall2_Bot; }
+.Hall2_BotRight { grid-area: Hall2_BotRight; }
+.R15_TopLeft { grid-area: R15_TopLeft; }
+.R15_Top { grid-area: R15_Top; }
+.R15_TopRight { grid-area: R15_TopRight; }
+.R15_Left { grid-area: R15_Left; }
+.R15_Center { grid-area: R15_Center; }
+.R15_Right { grid-area: R15_Right; }
+.R15_BotLeft { grid-area: R15_BotLeft; }
+.R15_Bot { grid-area: R15_Bot; }
+.R15_BotRight { grid-area: R15_BotRight; }
+.R12_TopLeft { grid-area: R12_TopLeft; }
+.R12_Top { grid-area: R12_Top; }
+.R12_TopRight { grid-area: R12_TopRight; }
+.R12_Left { grid-area: R12_Left; }
+.R12_Center { grid-area: R12_Center; }
+.R12_Right { grid-area: R12_Right; }
+.R12_BotLeft { grid-area: R12_BotLeft; }
+.R12_Bot { grid-area: R12_Bot; }
+.R12_BotRight { grid-area: R12_BotRight; }
+.Hall3_TopLeft { grid-area: Hall3_TopLeft; }
+.Hall3_Top { grid-area: Hall3_Top; }
+.Hall3_TopRight { grid-area: Hall3_TopRight; }
+.Hall3_Left { grid-area: Hall3_Left; }
+.Hall3_Center { grid-area: Hall3_Center; }
+.Hall3_Right { grid-area: Hall3_Right; }
+.Hall3_BotLeft { grid-area: Hall3_BotLeft; }
+.Hall3_Bot { grid-area: Hall3_Bot; }
+.Hall3_BotRight { grid-area: Hall3_BotRight; }
+.R16_TopLeft { grid-area: R16_TopLeft; }
+.R16_Top { grid-area: R16_Top; }
+.R16_TopRight { grid-area: R16_TopRight; }
+.R16_Left { grid-area: R16_Left; }
+.R16_Center { grid-area: R16_Center; }
+.R16_Right { grid-area: R16_Right; }
+.R16_BotLeft { grid-area: R16_BotLeft; }
+.R16_Bot { grid-area: R16_Bot; }
+.R16_BotRight { grid-area: R16_BotRight; }
+.Guide_Title { grid-area: Guide_Title; }
+.Guide { grid-area: Guide; }
+.Base_Title { grid-area: Base_Title; }
+.Base_Char { grid-area: Base_Char; }
+.Inv_Title { grid-area: Inv_Title; }
+.Base_Desc1 { grid-area: Base_Desc1; }
+
+.R10_TopLeft, .R10_Top, .R10_TopRight, 
+.R14_TopLeft, .R14_Top, .R14_TopRight, 
+.R11_TopLeft, .R11_Top, .R11_TopRight, 
+.R15_TopLeft, .R15_Top, .R15_TopRight, 
+.R12_TopLeft, .R12_Top, .R12_TopRight, 
+.R16_TopLeft, .R16_Top, .R16_TopRight {
+  border-top: 2px solid #654321;
+}
+
+.R10_TopLeft, .R11_TopLeft, .R12_TopLeft, 
+.R10_Left, .R11_Left, .R12_Left, 
+.R10_BotLeft, .R11_BotLeft, .R12_BotLeft {
+  border-left: 2px solid #654321;
+}
+
+.R10_TopRight, .R11_TopRight, .R12_TopRight, 
+.R14_TopRight, .R15_TopRight, .R16_TopRight, 
+.R10_Right, .R11_Right, .R12_Right, 
+.R14_Right, .R15_Right, .R16_Right, 
+.R10_BotRight, .R11_BotRight, .R12_BotRight, 
+.R14_BotRight, .R15_BotRight, .R16_BotRight {
+  border-right: 2px solid #654321;
+}
+
+.R10_BotLeft, .R10_Bot, .R10_BotRight, 
+.R14_BotLeft, .R14_Bot, .R14_BotRight, 
+.R11_BotLeft, .R11_Bot, .R11_BotRight, 
+.R15_BotLeft, .R15_Bot, .R15_BotRight, 
+.R12_BotLeft, .R12_Bot, .R12_BotRight, 
+.R16_BotLeft, .R16_Bot, .R16_BotRight {
+  border-bottom: 2px solid #654321;
+}
+
+.Guide {
+  background-color: #c0c0c0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.dice-section {
+  grid-area: dice-sect;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #404040;
+  padding: 10px;
+}
+
+.dice1, .dice2, .dice3, .dice-plus, .dice-res, .dice-minus {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #005b3d;
+  color: white;
+  border-radius: 8px;
+  border: 2px solid #000;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  margin: 0 5px;
+}
+
+.dice-plus, .dice-minus {
+  background-color: #0e221b;
+  width: 20px;;
+}
+
+.dice1, .dice2, .dice3 {
+  font-size: 1.5em;
+  background-color: #167857;
+}
+
+.dice-res {
+  width: 50px;
+  font-size: 1.8em;
+}
+
+.dice-btn {
+  background-color: #00ffaa;
+  color: rgb(0, 0, 0);
+  font-size: 1.2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid #000;
+  padding: 5px 10px;
+  margin: 5px auto;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+}
+
+.dice-title { 
+  grid-area: dice-title; 
+  background-color: #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+
+.button-wrap {
+  grid-area: button-wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #404040;
+  padding: 10px;
+}
+
+.R10_TopLeft, .R10_Top, .R10_TopRight,
+.R10_Left, .R10_Center, .R10_Right,
+.R10_BotLeft, .R10_Bot, .R10_BotRight {
+  background-color: #834333;
+}
+
+.R11_TopLeft, .R11_Top, .R11_TopRight,
+.R11_Left, .R11_Center, .R11_Right,
+.R11_BotLeft, .R11_Bot, .R11_BotRight {
+  background-color: #814141;
+}
+
+.R12_TopLeft, .R12_Top, .R12_TopRight,
+.R12_Left, .R12_Center, .R12_Right,
+.R12_BotLeft, .R12_Bot, .R12_BotRight {
+  background-color: #6F4E37;
+}
+
+.R14_TopLeft, .R14_Top, .R14_TopRight,
+.R14_Left, .R14_Center, .R14_Right,
+.R14_BotLeft, .R14_Bot, .R14_BotRight {
+  background-color: #814141;
+}
+
+.R15_TopLeft, .R15_Top, .R15_TopRight,
+.R15_Left, .R15_Center, .R15_Right,
+.R15_BotLeft, .R15_Bot, .R15_BotRight {
+  background-color: #6F4E37;
+}
+
+.R16_TopLeft, .R16_Top, .R16_TopRight,
+.R16_Left, .R16_Center, .R16_Right,
+.R16_BotLeft, .R16_Bot, .R16_BotRight {
+  background-color: #834333;
+}
+
+.Hall1_TopLeft, .Hall1_Top, .Hall1_TopRight,
+.Hall1_Left, .Hall1_Center, .Hall1_Right,
+.Hall1_BotLeft, .Hall1_Bot, .Hall1_BotRight,
+.Hall2_TopLeft, .Hall2_Top, .Hall2_TopRight,
+.Hall2_Left, .Hall2_Center, .Hall2_Right,
+.Hall2_BotLeft, .Hall2_Bot, .Hall2_BotRight,
+.Hall3_TopLeft, .Hall3_Top, .Hall3_TopRight,
+.Hall3_Left, .Hall3_Center, .Hall3_Right,
+.Hall3_BotLeft, .Hall3_Bot, .Hall3_BotRight {
+  background-color: #FFFFFF;
+}
+
+.R10_Center, .R10_Right,
+.R11_Center, .R11_Right,
+.R12_Center, .R12_Right,
+.R14_Center, .R14_Left,
+.R15_Center, .R15_Left,
+.R16_Center, .R16_Left {
+  background-color: brown;
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+}
+
+.R10_Center::before, .R10_Right::before, 
+.R11_Center::before, .R11_Right::before,
+.R12_Center::before, .R12_Right::before,
+.R14_Center::before, .R14_Left::before,
+.R15_Center::before, .R15_Left::before,
+.R16_Center::before, .R16_Left::before {
+  content: '';
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient( 
+    0deg,
+    brown,
+    tan 5px,
+    brown 5px,
+    brown 5px
+  );
+}
+
+.Room13N, .Room13L, .Room13D, .Room13R {
+  background-color: red;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CharSel_Title, .SelParty_Title, .Base_Title, .Guide_Title, .Inv_Title {
+  background-color: #808080;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.selected {
+  background-color: yellow;
+}
+
+.checked {
+  position: relative;
+}
+
+.checked::after {
+  content: "✔️";
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.5em;
+  color: green;
+}
+
+.Room13T, .CharSel_Char1, .CharSel_Char2, .Start, .SelParty_Char, .Base_Char, .Base_Desc1, .CharSel_Desc {
+  background-color: #404040;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.SelParty_Char {
+  background-color: #404040;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.circle {
+  width: 37px;
+  height: 37px;
+  background-color: green;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 10;
+}
+
+.circle-container .circle {
+  width: 37px;
+  height: 37px;
+  background-color: green;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  line-height: 37px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 10;
+}
+
+.history {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top:10px;
+}
+
+.history .circle {
+  width: 30px;
+  height: 30px;
+  background-color: green;
+  border-radius: 50%;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2em;
+  line-height: 1.2em;
+  text-align: center;
+  color: white;
+}
+
+.R10_Top, .R10_Left, .R10_Bot, .R10_Center,
+.R14_Top, .R14_Bot, .R14_Right, .R14_Center,
+.R11_Top, .R11_Left, .R11_Bot, .R11_Center,
+.R15_Top, .R15_Bot, .R15_Right, .R15_Center,
+.R12_Top, .R12_Left, .R12_Bot, .R12_Center,
+.R16_Top, .R16_Bot, .R16_Right, .R16_Center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.Hall1_Left, .Hall2_Left, .Hall3_Left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+}
+
+.Hall1_Left .circle, .Hall2_Left .circle, .Hall3_Left .circle {
+  margin-left: 0;
+}
+
+.Hall1_Right, .Hall2_Right, .Hall3_Right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+}
+
+.Hall1_Right .circle, .Hall2_Right .circle, .Hall3_Right .circle {
+  margin-right: 0;
+}
+
+.Hall1_Top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.CharSel_Char1 .circle, .CharSel_Char2 .circle, .SelParty_Char .circle, .Base_Char .circle {
+  margin: 0 5px;
+}
+
+.R10_Top .circle, .R10_Left .circle, .R10_Bot .circle, .R10_Center .circle,
+.R14_Top .circle, .R14_Bot .circle, .R14_Right .circle,
+.R11_Top .circle, .R11_Left .circle, .R11_Bot .circle, .R11_Center .circle,
+.R15_Top .circle, .R15_Bot .circle, .R15_Right .circle,
+.R12_Top .circle, .R12_Left .circle, .R12_Bot .circle, .R12_Center .circle,
+.R16_Top .circle, .R16_Bot .circle, .R16_Right .circle {
+  width: 100%;
+  height: 100%;
+  max-width: 37px;
+  max-height: 37px;
+  box-sizing: border-box;
+}
+
+.square {
+  width: 37px;
+  height: 37px;
+  background-color: green;
+  border-radius: 5px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.R10_Top .square, .R10_Left .square, .R10_Bot .square, .R10_Center .square,
+.R14_Top .square, .R14_Bot .square, .R14_Right .square,
+.R11_Top .square, .R11_Left .square, .R11_Bot .square, .R11_Center .square,
+.R15_Top .square, .R15_Bot .square, .R15_Right .square,
+.R12_Top .square, .R12_Left .square, .R12_Bot .square, .R12_Center .square,
+.R16_Top .square, .R16_Bot .square, .R16_Right .square {
+  width: 100%;
+  height: 100%;
+  max-width: 37px;
+  max-height: 37px;
+  box-sizing: border-box;
+}
+
+.emoji-door {
+  font-size: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.R10_Right, .R11_Right, .R12_Right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.R10_Right .emoji-door, .R11_Right .emoji-door, .R12_Right .emoji-door {
+  transform: rotate(90deg);
+  margin-right: -21px;
+}
+
+.R14_Left, .R15_Left, .R16_Left {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.R14_Left .emoji-door, .R15_Left .emoji-door, .R16_Left .emoji-door {
+  transform: rotate(-90deg);
+  margin-left: -16px;
+}
+
+.emoji-door13 {
+  font-size: 3em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: -8px;
+  margin-right: 42px;
+  letter-spacing: -40px;
+}
+
+.R10_TopRight, .R11_TopRight, .R12_TopRight, .R14_TopLeft, .R15_TopLeft, .R16_TopLeft {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.selected {
+  background-color: yellow;
+}
+
+.tooltip {
+  position: absolute;
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 5px;
+  font-size: 0.9em;
+  display: none;
+  z-index: 1000;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip.visible {
+  display: block;
+  opacity: 1;
+}
+
+.SelParty_Char .text {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.visible {
+  display: block;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.show-arrow {
+  opacity: 1;
+}
+
+.CharSel_Title,
+.SelParty_Title,
+.Guide_Title {
+  position: relative;
+}
+
+#arrow-char-sel, #arrow-sel-party, #arrow-guide, #arrow-dice {
+  font-size: 1em;
+  animation: float 2s infinite;
+  text-align: center;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.guide-score, .guide-13Roll {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 3px;
+}
+
+.room-number {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 2px;
+}
+
+.probability {
+  font-size: 0.9em;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin-top: 2px;
+}
+
+.R10_TopRight, .R11_TopRight, .R12_TopRight, .R14_TopLeft, .R15_TopLeft, .R16_TopLeft {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  text-align: center;
+}
+
+#thirteen-count, #score-count {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+.Hall2_Center {
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+}

@@ -1,0 +1,127 @@
+import { Camera } from "../camera";
+import { Ground } from "../ground";
+
+export class ViewGroundRepeat {
+  public canvas: HTMLCanvasElement;
+  public context: CanvasRenderingContext2D;
+  public imagedata: ImageData;
+
+  public bufarray: ArrayBuffer; // color data
+  public buf8: Uint8Array; // the same array but with bytes
+  public buf32: Uint32Array; // the same array but with 32-Bit words
+
+  public bgColor = 0xFFE09090;
+
+  public camera: Camera;
+  public ground: Ground;
+
+  constructor(
+    canvas: HTMLCanvasElement,
+    camera: Camera,
+    ground: Ground,
+  ) {
+    this.canvas = canvas;
+    const context = canvas.getContext("2d");
+
+    if (context === null) {
+      throw new Error('Could not load context 2d');
+    }
+
+    this.context = context;
+    this.camera = camera;
+    this.ground = ground;
+    this.resize();
+  }
+
+  drawVerticalLine(x: number, yTop: number, yBottom: number, col: number) {
+    x = x | 0;
+    yTop = yTop | 0;
+    yBottom = yBottom | 0;
+    col = col | 0;
+    const buf32 = this.buf32;
+    const screenwidth = this.canvas.width | 0;
+    if (yTop < 0) yTop = 0;
+    if (yTop > yBottom) return;
+
+    // get offset on screen for the vertical line
+    let offset = ((yTop * screenwidth) + x) | 0;
+    for (let k = yTop | 0; k < yBottom; k = k + 1) {
+      buf32[offset | 0] = col | 0;
+      offset = offset + screenwidth | 0;
+    }
+  }
+
+  drawBackground() {
+    const { buf32 } = this;
+    const color = this.bgColor | 0;
+
+    for (let i = 0; i < buf32.length; i++) {
+      buf32[i] = color | 0;
+    }
+  }
+
+  // Show the back buffer on screen
+  flip() {
+    this.imagedata.data.set(this.buf8);
+    this.context.putImageData(this.imagedata, 0, 0);
+  }
+
+  render() {
+    const mapwidthperiod = this.ground.width - 1;
+    const mapheightperiod = this.ground.height - 1;
+
+    const screenwidth = this.canvas.width | 0;
+    const sinang = Math.sin(this.camera.angle);
+    const cosang = Math.cos(this.camera.angle);
+
+    const hiddeny = new Int32Array(screenwidth);
+
+    for (let i = 0; i < screenwidth; i = i + 1) {
+      hiddeny[i] = this.canvas.height;
+    }
+
+    let deltaz = 1.;
+
+    // Draw from front to back
+    for (let z = 1; z < this.camera.distance; z += deltaz) {
+      // 90 degree field of view
+      let plx = -cosang * z - sinang * z;
+      let ply = sinang * z - cosang * z;
+      const prx = cosang * z - sinang * z;
+      const pry = -sinang * z - cosang * z;
+
+      const dx = (prx - plx) / screenwidth;
+      const dy = (pry - ply) / screenwidth;
+      plx += this.camera.x;
+      ply += this.camera.y;
+      const invz = 1. / z * 240.;
+
+      for (let i = 0; i < screenwidth; i = i + 1) {
+        const mapOffset = ((Math.floor(ply) & mapwidthperiod) << this.ground.shift) + (Math.floor(plx) & mapheightperiod) | 0;
+        const heightonscreen = (this.camera.height - this.ground.altitude[mapOffset]) * invz + this.camera.horizon | 0;
+        this.drawVerticalLine(i, heightonscreen | 0, hiddeny[i], this.ground.color[mapOffset]);
+
+        if (heightonscreen < hiddeny[i]) {
+          hiddeny[i] = heightonscreen;
+        }
+
+        plx += dx;
+        ply += dy;
+      }
+
+      deltaz += 0.005;
+    }
+  }
+
+  resize() {
+    let aspect = window.innerWidth / window.innerHeight;
+
+    this.canvas.width = window.innerWidth < 800 ? window.innerWidth : 800;
+    this.canvas.height = this.canvas.width / aspect;
+
+    this.imagedata = this.context.createImageData(this.canvas.width, this.canvas.height);
+    this.bufarray = new ArrayBuffer(this.imagedata.width * this.imagedata.height * 4);
+    this.buf8 = new Uint8Array(this.bufarray);
+    this.buf32 = new Uint32Array(this.bufarray);
+  }
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script>
+		const ctx = canvas.getContext("2d");
+		var img = new Image();
+		img.src = "other sea dolphin.png";
+		//var colors = [];
+		var colors = ["0,0,0,0","55,54,78,255","43,93,105,255","106,174,157,255","185,212,180,255","244,233,212,255","208,186,169,255","158,142,145,255","91,74,104,255"];
+		var result = [];
+		img.onload = function() {
+			canvas.width = img.width;
+			canvas.height = img.height;
+			ctx.drawImage(this, 0, 0);
+			var imageData = ctx.getImageData(0, 0, img.width, img.height);
+			for (var i = 0; i < imageData.data.length; i += 4) {
+				var color = `${imageData.data[i]},${imageData.data[i + 1]},${imageData.data[i + 2]},${imageData.data[i + 3]}`;
+				if (!colors.includes(color)) {
+					colors.push(color);
+				}
+				result.push(colors.indexOf(color));
+			}
+			console.log(result.join(""));
+		}
+	</script>
+</body>
+</html>

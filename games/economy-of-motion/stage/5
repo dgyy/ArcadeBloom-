@@ -1,0 +1,10 @@
+song dd
+bg 8ac
+hero 24 128
+win 200 60 32 16
+platform 148 96 32 80 0
+wall 0 128 256 16
+wall 200 76 32 8
+wall 72 28 28 100
+wall 144 0 28 84
+ladder 56 28 100

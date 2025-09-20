@@ -1,0 +1,18 @@
+song dd
+bg 8ac
+hero 16 28
+win 208 12 48 16
+wall 0 128 256 16
+wall 208 28 48 100
+wall 80 28 16 100
+wall 0 28 32 100
+wall 48 0 16 100
+wall 176 0 16 100
+wall 112 0 16 100
+wall 144 28 16 100
+ladder 192 28 100
+ladder 32 28 100
+ladder 64 28 100
+ladder 96 28 100
+ladder 128 28 100
+ladder 160 28 100

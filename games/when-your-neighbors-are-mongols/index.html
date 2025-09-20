@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+  <meta charset="utf-8">
+  <style id=D9>
+    * {
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      outline: 0;
+      overflow: hidden;
+      font-family: Arial;
+      color: #000;
+      text-align: center;
+    }
+
+    body {
+      cursor: pointer;
+      background-color: #000;
+    }
+
+    #FIELD_OF_BATTLE, #FOREGROUND, #UI, #BACKGROUND, #KEYPRESS {
+      transform-origin: top left;
+      position: fixed;
+    }
+
+    #BACKGROUND, #UI, #KEYPRESS {
+      width: 1920px;
+      height: 1080px;
+    }
+
+    #KEYPRESS {
+      background-color: #000d;
+      padding: 450px 0;
+      z-index: -1;
+    }
+
+    #GAMEOVER {
+      background-color: #600d;
+      padding: 100px 0;
+    }
+
+    #UI{
+    z-index:5;
+    }
+
+    #MENUS {
+      position:absolute;
+    }
+
+    #TEXTURE_ATLAS, #GAMEOVER {
+      display: none;
+    }
+
+    #HEALTH {
+      position: fixed;
+      right: 20px;
+      top: 16px;
+      background-color: #1af;
+      width: 40px;
+      height: 0;
+    }
+
+    h1, h2, h3, h4 {
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    h4 {
+      padding: 0 20px;
+      border-radius: 60px;
+      margin: 0 64px;
+    }
+
+    h4:hover {
+      outline: 16px solid red;
+    }
+
+    h4:active {
+      scale: .9;
+    }
+
+    .BLOOD_FILTER {
+      filter: url(#Z1);
+      -webkit-filter: url(#Z1);
+    }
+  </style>
+
+  <body oncontextmenu="return false" ondragstart="return false">
+    <div id=BACKGROUND></div>
+    <div id=UI>
+      <div id=MENUS>
+        <br><br><br>
+        <h2 class=BLOOD_FILTER>OPTIONS</h2>
+        <br><br><br>
+        <h4 id=TOGGLE_AUDIO_BUTTON class=BLOOD_FILTER>AUDIO</h4>
+        <h2 id=TOGGLE_AUDIO_LABEL class=BLOOD_FILTER>OFF</h2>
+        <br><br><br><h4 id=MOVE_UP_BUTTON class=BLOOD_FILTER>MOVE UP</h4>
+        <h2 id=MOVE_UP_LABEL class=BLOOD_FILTER>KeyZ</h2>
+        <br><br><br>
+        <h4 id=MOVE_DOWN_BUTTON class=BLOOD_FILTER>MOVE DOWN</h4>
+        <h2 id=MOVE_DOWN_LABEL class=BLOOD_FILTER>KeyZ</h2>
+        <br><br><br><br><br><br>
+        <h4 id=CONFIRM_OPTIONS_BUTTON class=BLOOD_FILTER>OKAY</h4>
+        <br><br><br><br><br><br>
+        <h2 id=BEST_SCORE_LABEL class=BLOOD_FILTER></h2>
+        <br><br><br><br>
+        <h4 id=PLAY_BUTTON class=BLOOD_FILTER>PLAY</h4>
+        <br><br><br><h4 id=OPTIONS_BUTTON class=BLOOD_FILTER>OPTIONS</h4>
+        <br><br><br><br><br><br>
+        <h3 class=BLOOD_FILTER>WHEN YOUR NEIGHBORS ARE</h3>
+        <h1 class=BLOOD_FILTER>MONGOLS</h1>
+        <br><br><br><br>
+        <h3 id=SCORE_LABEL class=BLOOD_FILTER>0</h3>
+        <div id="HEALTH" class=BLOOD_FILTER></div>
+        <br><br><br><br><br><br><br><br><br>
+        <div id=GAMEOVER>
+          <h1 class=BLOOD_FILTER>UI OVER</h1>
+          <br><br><br><br><h4 id=CONFIRM_GAMEOVER_BUTTON class=BLOOD_FILTER>OKAY</h4>
+        </div>
+      </div>
+    </div>
+    <div id="KEYPRESS">
+      <h2 class=BLOOD_FILTER>PRESS NEW KEY</h2>
+    </div>
+  </body>
+  <script src="game.js"></script>
+</html>

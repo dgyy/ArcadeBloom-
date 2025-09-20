@@ -1,0 +1,3 @@
+-cp src
+-js build/main.js
+-main Main

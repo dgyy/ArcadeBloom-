@@ -1,0 +1,32 @@
+{
+  "name": "cooler",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf dist && rimraf dist.zip && rimraf build-analysis.html",
+    "zip": "cd dist && 7z a ../dist.zip -mx9 && cd .. && advzip --recompress --shrink-extra dist.zip",
+    "dist": "pnpm build && vite-bundle-visualizer && pnpm zip",
+    "dev": "vite --port=3000",
+    "devc": "concurrently \"pnpm content\" \"pnpm dev\"",
+    "content": "node content.js",
+    "lint": "tsc --noEmit --watch",
+    "build": "pnpm clean && tsc && vite build",
+    "roadroller": "roadroller ./dist/assets/index.min.js -o ./dist/assets/index.min.js",
+    "preview": "pnpm build && vite preview --port=3000"
+  },
+  "devDependencies": {
+    "advzip-bin": "^2.0.0",
+    "chokidar": "^3.6.0",
+    "concurrently": "^8.2.2",
+    "imagemin": "^9.0.0",
+    "imagemin-advpng": "^6.0.0",
+    "jspngopt": "^0.2.0",
+    "rimraf": "^6.0.1",
+    "terser": "^5.31.6",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.1",
+    "vite-bundle-visualizer": "^1.2.1",
+    "vite-plugin-imagemin": "^0.6.1"
+  }
+}

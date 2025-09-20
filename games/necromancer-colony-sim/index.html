@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JS13k 2023</title>
+  <style>
+  /* Global */
+  * {
+    box-sizing: border-box;
+  }
+
+  [hidden] {
+    visibility: hidden !important;
+  }
+
+  /* Root level */
+  html,
+  body {
+    font: 18px arial;
+    margin: 0;
+    color: #222;
+    background: #fdfdfd;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr 0.5fr;
+    grid-template-areas:
+      "resources resources resources resources"
+      "actP bldP tskP tskP"
+  }
+
+  /* Resource group */
+  #resG {
+    grid-area: resources;
+    display: flex;
+    gap: 1.25rem;
+    background: #222;
+    color: #fdfdfd;
+    padding: 1rem;
+    position: relative;
+  }
+
+  .g {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.75rem;
+    width: 6rem;
+  }
+
+  .g > div {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .g > div[hidden] {
+    display: none;
+  }
+
+  #saved {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1rem;
+    opacity: 1;
+  }
+
+  #saved.hide {
+    opacity: 0;
+    transition: opacity 2s linear;
+  }
+
+  #atk {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: #FF4242;
+  }
+
+  #atk .cost {
+    color: #fdfdfd;
+    margin-top: 0.5rem;
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  /* Main body */
+  main > div:not(#resG) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  pre {
+    font-size: 0.6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 1rem 0 0;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    background: rgb(233, 233, 237);
+    border: 1px solid;
+    border-radius: 4px;
+    height: 2rem;
+    font-size: 1rem;
+  }
+
+  button:hover {
+    background: rgb(200, 200, 200);
+  }
+
+  button[aria-disabled="true"],
+  button[aria-disabled="true"]:focus,
+  button[aria-disabled="true"]:hover {
+    background: rgba(233, 233, 237, 0.5);
+    color: rgba(0, 0, 0, 0.5);
+    border-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .btn-r {
+    margin-left: auto;
+    display: inline-flex;
+  }
+
+  .cost {
+    display: inline-flex;
+    gap: 0.75rem;
+  }
+
+  .cost > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .lock {
+    background: #E62200;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    z-index: 2;
+    aspect-ratio: 1 / 1;
+    height: 100%;
+  }
+
+  .Research:not(.icon) {
+    margin-left: -0.65rem;
+    border: 1px solid black;
+    padding: 0 0.25rem 0 0.75rem;
+    margin-right: 0.5rem;
+    background: #fdfdfd;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  #tskP {
+    grid-area: tskP;
+  }
+
+  .win {
+    font-size: 2rem;
+    margin: 2rem;
+  }
+
+  /* Action group */
+  .cooldown {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0,0,0, 0.5);
+  }
+
+  #actG .btn-r {
+    min-width: 3rem;
+  }
+
+  /* Building group */
+  #bldG .locked .btn-r {
+    display: none;
+  }
+
+  /* Task group */
+  input {
+    width: 50%;
+    padding: 0;
+    font-size: 1rem;
+  }
+
+  input:focus {
+    outline: 0;
+  }
+
+  /* always show number arrows in Chrome */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+     opacity: 1;
+  }
+
+  #tskG > div,
+  #tskInpG input {
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    border: 0;
+  }
+
+  #tskG > div {
+    padding: 0.5rem;
+  }
+
+  #tskInpG > div {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  #tskInpT .icon {
+    width: auto;
+    height: auto;
+  }
+
+  #pop {
+    position: absolute;
+  }
+
+  .max {
+    white-space: nowrap;
+  }
+
+  /* Icons */
+  .icon,
+  .atkArmy .cost-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.35rem;
+    display: inline-flex;
+    align-items: center;
+    text-shadow:
+      1px 0px 0 #fdfdfd,
+      0px 1px 0 #fdfdfd,
+      0px -1px 0 #fdfdfd,
+      -1px 0px 0 #fdfdfd
+  }
+
+  .atkArmy .cost-icon {
+    margin: 0;
+  }
+
+  .cost-icon,
+  p span,
+  .lock {
+    text-shadow:
+      1px 0px 0 #222,
+      0px 1px 0 #222,
+      0px -1px 0 #222,
+      -1px 0px 0 #222;
+  }
+
+  .icon.Archers,
+  :is(.skeletons, .Archers) .cost-icon {
+    text-shadow: none;
+  }
+
+  .Archers {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  img {
+    filter: drop-shadow(1px 0 #fdfdfd) drop-shadow(-1px 0 #fdfdfd) drop-shadow(0 1px #fdfdfd) drop-shadow(0 -1px #fdfdfd);
+    width: 1rem;
+    height: auto;
+    vertical-align: text-bottom;
+  }
+
+  /* Tooltip */
+  .tipC {
+    position: relative;
+  }
+
+  .tip {
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    background: #fdfdfd;
+    box-shadow: -3px 5px 6px #222;
+    border: 1px solid #222;
+    border-radius: 4px;
+    padding: 0.5rem 0.5rem;
+    min-width: 100%;
+    bottom: 140%;
+    display: inline-flex;
+    align-items: start;
+    flex-direction: column;
+    gap: 0.5rem;
+    visibility: hidden;
+    font-size: 0.9rem;
+    opacity: 1;
+    color: #222;
+    font-weight: normal;
+  }
+
+  :is(.tipC:hover, .tipC:focus-visible) .tip:not(:hover) {
+    visibility: visible;
+  }
+
+  .tip.b {
+    top: 140%;
+    bottom: unset;
+  }
+
+  .tip.res {
+    display: block;
+    width: auto;
+    white-space: nowrap;
+  }
+
+  .tip.unit {
+    display: inline-grid;
+    grid-template-columns: 2;
+    grid-template-rows: auto;
+    gap: 0.5rem 1.5rem;
+    grid-template-areas:
+      'header header'
+  }
+
+  .tip.unit > b {
+    grid-area: header;
+  }
+
+  b {
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    text-align: left;
+  }
+
+  p span {
+    margin: 0 0.15rem;
+  }
+
+  /* Dialog */
+  dialog {
+    /* dialog has some odd defaults that make it hard to position and animate */
+    all: unset;
+    box-shadow: -3px 5px 6px #222;
+    border-radius: 4px;
+    background: #fdfdfd;
+    border: 0.15rem solid;
+    padding: 1rem;
+    opacity: 0;
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    max-width: 50vw;
+    visibility: hidden;
+    transition: opacity 0.25s;
+    overflow: hidden;
+  }
+
+  dialog[open] {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  dialog::backdrop {
+    background-color: rgba(0,0,0, 0.2);
+  }
+
+  dialog.to-tr {
+    animation: fadeout 0.75s ease-out, to-tr 0.5s ease-out forwards;
+    transition: none;
+  }
+
+  dialog button {
+    justify-content: center;
+  }
+
+  .head:not(:empty) {
+    margin-bottom: 1rem;
+  }
+
+  /*.body {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+  }*/
+
+  .body .Research {
+    all: unset;
+    font: 18px arial;
+  }
+
+  .foot {
+    display: flex;
+    justify-content: end;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .ok {
+    background: #0073E6;
+    color: white;
+    border-color: #004A94;
+  }
+
+  .ok:hover {
+    background: #004A94;
+  }
+
+  @keyframes to-tr {
+    0% {
+      top: 50%;
+      right: 50%;
+      transform: translate(50%, -50%);
+      max-width: 50vw;
+      max-height: 50vw;
+    }
+    100% {
+      top: 0;
+      right: 0;
+      transform: translate(0, 0);
+      max-width: 12rem;
+      max-height: 1rem;
+    }
+  }
+
+  @keyframes fadeout {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+  }
+  </style>
+</head>
+<body>
+  <main>
+    <div id="resG">
+      <div class="g" id="wG"></div> <!-- wood group -->
+      <div class="g" id="sG"></div> <!-- stone group -->
+      <div class="g" id="iG"></div> <!-- iron group -->
+      <div class="g" id="tG"></div> <!-- tools group -->
+      <div class="g" id="mG"></div> <!-- misc group -->
+      <div class="g" id="aG"></div> <!-- army group -->
+      <div id="atk" hidden>
+        <div>
+          <span>🎯 Attack Incoming</span>
+          <span id="atkTimer">01:20</span>
+        </div>
+        <div id="atkArmy" class="atkArmy"></div>
+      </div>
+      <div id="saved" class="hide">Game Saved</div>
+    </div>
+    <pre id="actP"><span>     __/\__
+. _  \\''//
+-( )-/_||_\
+ .'. \_()_/
+  |   | . \
+  |mrf| .  \
+ .'. ,\_____'.
+</span></pre>
+    <pre hidden id="bldP"><span>       _
+     _|=|__________
+    /              \
+   /                \
+  /__________________\
+   ||  || /--\ ||  ||
+   ||[]|| | .| ||[]||
+   ||__||_|__|_||__||</span></pre>
+    <pre hidden id="tskP"><span>               .---.
+     |________/     \________
+()===|_______( () () )_______>
+     | VK     \  M  /
+               |HHH|
+               `---'
+</span></pre>
+    <div id="actG"><h2>Actions</h2></div>
+    <div id="bldG"><h2 hidden id="bldT">Buildings</h2></div>
+    <div id="tskG"><h2 hidden id="tskT">Tasks</h2></div>
+    <div id="tskInpG">
+      <div hidden id="tskInpT">
+        <h2>&nbsp;</h2><div id="pop"></div>
+      </div>
+    </div>
+  </main>
+  <script src="./src/index.js" type="module"></script>
+</body>
+</html>

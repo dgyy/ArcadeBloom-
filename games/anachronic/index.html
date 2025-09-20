@@ -1,0 +1,383 @@
+<!doctype html>
+<html id=hH>
+<title>Anachronic</title>
+<style>
+[f]{display:inline-block;background:#789;width:300px;height:420px;color:#000;margin:4mm}
+[f] > img{height:200px;width:auto;object-fit:contain}
+input{transform:scale(3);margin:4mm}
+button{font:1in sans-serif}
+</style>
+<body style="background-image:url('bg.avif');background-size:cover;text-align:center;font:7mm serif;color:#fff" id=hB>
+<f id=it>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 233 45" style=width:40vw;height:auto><path fill="#fff" d="M20 12 9 21 5 42l2 1 3-13 17-1 3 15V24L20 12zm59 1-12 9-4 21h2l3-13h17l3 15V25l-9-12zm-57 4 2 11-11-1v-5l9-5zm58 1 2 11-11-1 1-6 8-4zm124 1-3 4 1 3 4-1-2-6zm-96 3 1 21 3-2 1-8h10v10l3-11v-3h-14l-4-7zm-2 1-13 9 1 8 8 3-7-5v-4l11-6v-5zm0 5v1l1-1h-1zm53-5-9 6v10l9 5 9-5V29l-9-6zm67 1-13 8 1 9 8 3-7-6v-3l11-6v-5zm0 5v1l1-2-1 1zm-87-3-1 3h-9l1 14 1-2v-8h12l2-3 1-3-7-1zm20 1 4 4v7l-5 4-4-4v-7l5-4zm25 0-11 6-1 10 3-8 10-4 6 6 3 7 1-9-11-8zM47 27l-11 6-2 10 4-8 9-4 7 6 3 7 1-9-11-8zm153 2 3 14 4 1-2-15h-5z"/></svg>
+
+<br>
+<br>
+Hi, you just finished your portal to the thirteenth century.<br>
+Only, as it happens, you don't have the necessary equipment at home (to live in the Middle Ages).<br>
+At the same time, you only have $750, so you have to think carefully about what you buy.<br>
+Controls: left screen tap: change direction to left,<br>
+middle screen tap: jump,<br>
+right screen tap: change direction to right, or you can use WASD<br>
+<h1>Remaining money : $<b id=rM></h1>
+<div style="display:flex;flex-wrap: wrap">
+	<b f>
+
+		<img src=drone.png id=drone><br>
+		<input type=checkbox id=i00 p=500 onclick=updateMoney()>
+		<br>
+		Drone, you can get interesting footage with it. (Score multiplier: 4)<br><i>Price:$500</i></b>
+	<b f>
+
+		<img src=stove.png><br>
+		<input type=checkbox id=i01 p=250 onclick=updateMoney()>
+		<br>
+		Camping stove, you can cook chicken with it and feed yourself<br><i>Price:$250</i>
+	</b>
+	<b f>
+
+		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='40.7' x2='30.7' y1='19.4' y2='33.1' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23cf00cf'/%3E%3Cstop offset='.9' stop-color='%23ffff09'/%3E%3C/linearGradient%3E%3Cpath id='a' d='m30 20 2 13h8l1-13z'/%3E%3C/defs%3E%3Cpath fill='%231d2441' stroke='%23000' stroke-width='6.9' d='m22 9-1 106 67-1L87 9z'/%3E%3Cuse xlink:href='%23a' fill='%2378ff0c'/%3E%3Cuse xlink:href='%23a' x='22' fill='%2336c7ff'/%3E%3Cuse xlink:href='%23a' x='41' y='1' fill='%2300b337'/%3E%3Cuse xlink:href='%23a' x='24' y='26' fill='url(%23b)'/%3E%3Cg fill='%23fff'%3E%3Cpath d='m31 99 7-5-1 13-6-7z'/%3E%3Cellipse cx='55.2' cy='100.4' rx='4.7' ry='5.9'/%3E%3Cpath d='M72 95h9v11h-9z'/%3E%3C/g%3E%3Cpath fill='none' stroke='%23000' stroke-width='.6' d='M32 23v4h2v-4zm5 1v4h2v-4z'/%3E%3Cpath fill='%23fff' d='m54 27 7-5v8h-3l2-5-4 3z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.9' d='m78 25-3 1 1 4 2-2-2 1v-2zm-5 8 1-5-1-4 7-2v7l-7 4z'/%3E%3Cpath fill='%23ff0505' d='m33 52-1-3 4-3 4 3z'/%3E%3Cpath fill='%23ffe305' d='m37 50 2-1 1 5-3 5z'/%3E%3Cpath fill='%2300b805' d='m38 56-2 3-4-3 1-7z'/%3E%3Cpath fill='%232466ff' d='m34 51 3 4v-5z'/%3E%3Cg fill='none' stroke='%23fff'%3E%3Cpath stroke-miterlimit='3.6' stroke-width='1.1' d='M56 49h7v8h-7z'/%3E%3Cellipse cx='59.3' cy='53.4' rx='1.7' ry='1.5'/%3E%3C/g%3E%3Ccircle cx='60.9' cy='50.9' r='.6' fill='%23fff'/%3E%3C/svg%3E"><br>
+		<input type=checkbox id=i02 p=200 onclick=updateMoney()>
+		<br>
+		Phone, the old one got stepped on while making the portal, for calling girlfriend in distress<br><i>Price:$200</i>
+	</b>
+	<b f>
+
+		<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Cpath fill='%233b3b3b' d='M16 31h95v79H16z'/%3E%3Cpath fill='%23d30000' d='M10 6v107l103 1-1-106zm33 46 52 4 15 23-15 13-52-2-21-17z'/%3E%3Cpath fill='%23fff' d='M19 17v38l3-3-1-18 15-12-15-6h-2zm45 1-9 14 14 6-10 11c1 1 2 3 3 1l10-13-13-5 7-11-1-3zm-19 1L32 49c1-1 3 0 3-2l6-13h6l2 16c2 1 1-1 1-2l-5-29zm45 1-21 1 1 3h9l-3 26 6 1 1-29 8 1-1-4zm-68 0 12 3-11 8v1l-1-12zm82 1L91 51c1 0 3 1 3-1l6-13h6l3 16v-2l-5-29zm-58 4 1 7-5 1 4-8zm58 3 1 7-5 1 4-8z'/%3E%3Cpath fill='%23b6881e' d='m45 54 2 4 1 1h-6l4 3 6-1 5 3-1-3h1l-3-2h-1l-8-5zm13 0 2 5 5 2-3 1-3 5-3 1 2 1-1 1-4-3 2 3-6-3 3-5-4 1-1 3-3-2 1 3-4 7 5-2 1-3 7 4-6 1 1-1-1 1h-6l2 1-1 1h-6l6-9h-3l4-6-4 1-7 11 3-1-3 5h-1 1l-1 2 2-1 2 1h6l-4 6 4-1 3-5h1l1 4 10 6-1-4-10-6h2l-2-2 11-1-1-1-1-2h1l9 5-3 5h-2 1l-1 2 2-1 3 1h12l-3-3-9 1 6-9 3-1 1 2 4 2-2 4 4-2 2 1-3 4h-1l1 1-1 1 2-1v1l-1 2 3-1h18l-3-3H86l5-7h-3l2-2h-4l-2 3v-1h-1l1-2 4-1 2-3v1l1 1-1 3 2-1 1 1 10 6-1-4-2-1-1-3-4-2 2-3h7l-3-3h-2l2-2-4 1-1 2h-2l4-7-4 1-2 3-1 1-2 2h-1 1l-1 1v1l-4 1-3 5-6-3 2-4h9l-3-3h-4l2-2-4 1-1 1-6 1 4 2-1 2-3-3-7 1 3-6 5 3-1-4-11-6zm-20 8-4 1-7 11 5-2 6-10zm53 7h2l-1 1-2-1h1zm-19 1-2 3-3 1-2 3v-3l-6-3h1v-1h12zm-17 1 1 1h-1v-1z'/%3E%3C/svg%3E"><br>
+		<input type=checkbox id=i03 p=50 onclick=updateMoney()>
+		<br>
+		Pasta, extra food<br><i>Price:$50</i>
+	</b>
+
+</div>
+<h1 onclick=start()>PLAY</h1>
+</f>
+<f hidden id=il>
+<h1>GAME OVER</h1>
+Score: <b id=scr></b><br>
+<b onclick=replay()>Replay</b>
+</f>
+<canvas id=hC></canvas>
+<button id=Mob hidden style="position:absolute;z-index:9;top:0;right:0" onclick="alert`No signal!`"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 120 120'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='40.7' x2='30.7' y1='19.4' y2='33.1' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23cf00cf'/%3E%3Cstop offset='.9' stop-color='%23ffff09'/%3E%3C/linearGradient%3E%3Cpath id='a' d='m30 20 2 13h8l1-13z'/%3E%3C/defs%3E%3Cpath fill='%231d2441' stroke='%23000' stroke-width='6.9' d='m22 9-1 106 67-1L87 9z'/%3E%3Cuse xlink:href='%23a' fill='%2378ff0c'/%3E%3Cuse xlink:href='%23a' x='22' fill='%2336c7ff'/%3E%3Cuse xlink:href='%23a' x='41' y='1' fill='%2300b337'/%3E%3Cuse xlink:href='%23a' x='24' y='26' fill='url(%23b)'/%3E%3Cg fill='%23fff'%3E%3Cpath d='m31 99 7-5-1 13-6-7z'/%3E%3Cellipse cx='55.2' cy='100.4' rx='4.7' ry='5.9'/%3E%3Cpath d='M72 95h9v11h-9z'/%3E%3C/g%3E%3Cpath fill='none' stroke='%23000' stroke-width='.6' d='M32 23v4h2v-4zm5 1v4h2v-4z'/%3E%3Cpath fill='%23fff' d='m54 27 7-5v8h-3l2-5-4 3z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.9' d='m78 25-3 1 1 4 2-2-2 1v-2zm-5 8 1-5-1-4 7-2v7l-7 4z'/%3E%3Cpath fill='%23ff0505' d='m33 52-1-3 4-3 4 3z'/%3E%3Cpath fill='%23ffe305' d='m37 50 2-1 1 5-3 5z'/%3E%3Cpath fill='%2300b805' d='m38 56-2 3-4-3 1-7z'/%3E%3Cpath fill='%232466ff' d='m34 51 3 4v-5z'/%3E%3Cg fill='none' stroke='%23fff'%3E%3Cpath stroke-miterlimit='3.6' stroke-width='1.1' d='M56 49h7v8h-7z'/%3E%3Cellipse cx='59.3' cy='53.4' rx='1.7' ry='1.5'/%3E%3C/g%3E%3Ccircle cx='60.9' cy='50.9' r='.6' fill='%23fff'/%3E%3C/svg%3E" width=100 height=100></button><br><br><br>
+<a hidden>
+<canvas id=r1 width=150 height=300></canvas>
+<canvas id=r2 width=150 height=300></canvas>
+<canvas id=r3 width=150 height=300></canvas>
+<canvas id=hST width=23 height=120></canvas>
+<img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAB4BAMAAADrpnQcAAAAGFBMVEUeFgBAQAArEgADAAAzCwCrMwDjYwD62QCfgntLAAAACHRSTlNFBIr76/f56Q9HT40AAAGDSURBVHjapdHXeRhVEAXgfw7hzWgWXMASChAVEAtQKZTigkgNOBXAx7oB6drWI+wlx0tm3iafkG1762r7ITpqD0DEM/hwEE1T205g53YiMNm9ThzE3KUF8vZd6lK8gqeNC3Fi66kiCtAvjnAACE8ALaCrbYRuxTAEaNoeoGpDoKoVwqB1T8Juo1Qf4RKarzpmFzBFDQ3uCVBoAYDAAITHaBCOBggoGELrBuu1UeAjYVRjIFw1JkRdFEa7J+4+bRQt8x0A8vLYoBnSnPfvP8Au784vHnL9YLiSz9zwXeap7HJhcn78eMR2+YRXG3s+r2uqGnLn+ph8fTBHfAkD5MTNhEg9xYBTXAPqoZgN3GnhUBsQmICwKziIOZhAvIaB7dc7IW7YNpzEyZi4IDDhIFBwrE+xJDtrByBCgb8eO1k7BwHQy87/TgoDCICx0J5+vdN/B2esnQGqiQmciLIeqL9BPf37nfLv1ZnA+W92wrqzGhxrJ+sOa+dcD8x/JlX+jQYrnG8A/Dd0rKIS9roAAAAASUVORK5CYII= id=torch>
+
+<img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABGBAMAAADIqCxaAAAAKlBMVEUAAAAFAwMMAwQMBQUSFhhYCQcvOzyVKg1UYGHOZQ19i4qlsrDK0s/t7+6CnDTxAAAAAXRSTlMAQObYZgAABFpJREFUeNrFlM9r02AYx1tXRPRSpyDopX2a1DEvdc4feJpv0zDmReNixGOJoVS8CLUELxJsCFEvAy3F29QaknkRlJE3XkXa9C6z+V983k5la5tATj6wrkn6yff5Pj/ezH8PLjVxVV9LSSxkThipkeP1Sjrk6DONFNIhx3aFtMhRTainRFZVVUiJCCIU0zaS8K20Reb1Xjslonftzp1UyJne/WivlgrRXz+K9kglHfIp+kpupSCy+utXYzNZ5YiQP+z+9bqjQoLKxaWdgZurH1DhwSEkacvE5fEoGg8ODCJsPBcgYWJurJb9IBxFw39jlYWnfYCEvcwR3nVpGI5C4y/DtwWApFa/MF54rheEUWjk91+iyFIicmz0oRH4PjLhoDhhrn/kiytJ7q9ZDzY9n/o0CMfvC0yEdqTC89sJyLrG15qWTX03mNg52UTvonUjARHg7pe7asOjmNvIV6+IfbC4HbWQ1Hrt3p5E1j1KqReO+8ufYfnnkqVuJiC53fu/asA1kHGDcFCuw4Xtb3uEryQcJ5371BCIaNMh9agBAJvL0aCW2MrLGw4OGJMJfaNscPLmp6hP+FKCyoOGVs1kFkU7oAa3YxpKOfqlAZRysdDZjiasoVjZcutL3o+bnRb/drcOEuAIcDB3Ojc6apX9B01aCkLDUVp2+y4B4NvyQ0rpu/ws0jT3V6UG4k74/cIH/cnogwwA7Xb7VRRFP0qz7jWxyIaztAINb6iG57v3/JYEILd7DBmPtysznRRZutkqbknDfv8yPL+ltDZZWr1elyHhYHZAOdaBVcyYaObGaMAQAFB0faIShcG2IEwJLXL5U6sVpsdxOwND2XrMAy/rPaYSYtCvsxt66dR+IReg4dYVeastg6z0MNovw/E4pLsQv2+cKMstZUtR0PsfJAyH1CHxBwHmI0voRca8un+RgDrY17hVWJFlm9YkWeIVfUolDiHQDMLtx4joE/etlwFGIrK4hAfNAGTWlDe9rlymdDik1KmuxCJHRMvyaF1G93q3K0svXEpRpX/jCAAXszmcZpl2XcIyYJQbvoUM9c0qInGLAGLD0giAqJmW2fQdwfIC6pqoIsWVmeBkvgfgbBpQ3zE1EG2POmYpByAVY8w0qesgotmub2kqfrNczzGrGYht5rlojH0DTtQapibAKUAZF5EsIpX5p0AwpH3AEDDYXBF2VvlMJWbMsp7rWibAxZOnYb95iyiDZtRMDv3PI5qOJqhkQTjgDQWbnlPPZ+ebaQhQma4/QL5sowpDinOOZlhjP5mqej63bqmVDEt1FiGAiZSmbuK7BU0tocycZqL2JXzp9M0S7rdK2NNMYXZbYM6ME8A/TV1bmIsgM4ss4q1c2awikp9X5RgE3ZACupo7YrNVIQwh7BMfzZcpHZZfmMxWjn2ejNmx6YaRyTXzHhtw2GWOXTKEy8THYZk/x0R2qiwzqZUOXHD7ZUlEDu0ffv2D5JMQdv5M13zlH/IbrtLAl9fbARwAAAAASUVORK5CYII= id=l>
+<img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgBAMAAAAQtmoLAAAAGFBMVEWqVVWGWBVDFQvw0x/iWB2hQhZfGwkYBQTF1TWaAAAACHRSTlMDVJ3q/v7+/iS3bmMAAALcSURBVHja7ZTNTttAEIDXoRLXOFRwJVYp11LzApVmwxXozvpcmpm9Fop3Xr8zJi2EhNR7qXrIF1tWpPl2frxet2fPnj3/hmp2Oi0SPsCXa1fAewAoESpQbgqEd6BcF1YUp0UV+STyUFDRIhNGkdPRFWXNYcZ0pHC19IwYkzyYUdV1PavrXUKHTICRrY+qITbkrpm+2UPHsgSPnYg0qES2m9O9WzFbF44SRYCAqKPqUSFEHlgZs2a+JrRdAIAlaBdk65O6aquQTp/iX1XXtgDePwZkwoh/0HjJqWnObof46vm9XbZtgKsQIBKiN009C2e2NOG2ma+NTYUOfEbvAawBsAd1OWXJzIgBG+P5rR60nyfUPWo8ejQYPceYUXOIJlD91pZ/IVy7E02w8MFazoyCHVHKURTksECcrgmXU3fSe7RKwiJzpNjrL3FmFQgZCNd2WVU7FbRnr5euSxQRhQdB4Rgiz90rDvtl8EABrCItCG1EYjDTYxe15XUmmYLXJOAHIVNKKlBkFXK/RaiEQlgSQMccsdOJWkFqiJK7tEXIKoAHiJxy0psliaLPnJPMN3buecaAGq9TYtZbWLsYDDHcBifC6D2B7XE1fq++ImtFGzVx9KCoIE8JXvBwuiWFZggEEFdL55fGD7fJoVAAj+DNUEHZbVTnlgI0RZJX2FbdliLTEj2B3xDcdqpMBANR1rh3bzDjGBGHQb1g13n4kUNA8MzWxmpOnHYcuZPEiGCg720LDlt81/F5zMJPxwAshm9D/w8F7SjKCAB6eY7MfOeUnUZ6UhBgTLxVpZCtH5CZv7m/MtOyUq8GajLteAR1w4kQ45BgHNXwTbDcubGcqKDSdLQwESG0w6ggRY/sCphwH+9KhIq/tzdlGX6201LBlXCcvl6UtZDaT24cdV27+oypHdlD1RqYrOcCYcHtRTWupqP5RV0ftYYKo6k1vi4LLxnqQVG8Mqvdnj3/Ib8Au1px/m/8iBwAAAAASUVORK5CYII id=Ch>
+<img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD4AAAB6BAMAAAAVJv0NAAAAGFBMVEUAAABSOCeVZ0RCOjHBpmvd2dREdB0rTg+iORh2AAAACHRSTlMA/fxd/v/9/N2lrx4AAAJwSURBVHja5dW3e9swEAXwU5CPs57bbFNJZjCFcwpp75GQ3e28pvPfj3Ds0AFMnfImffrhHVujPjklsuxmwR8t+HNn0+Pd62Q9p22yvqFXNlW3ZLbJOsmAeJ1kgM5Sjw7Ic6lHB+RSjw4wUh8GFMBxcOal3g54t2fAhjvf57EDEAyY1Mm0jpmf0xjsDt1O3b0PPM9p6rV7CzyJe+Wqi5Mq4bWrKiTcD0h67QCb8Mq9wTrixnu9w3HEV979AKt74T2HDNAcyPfxJ1Hx2u3T7J3ZVRUfuFOdAr/xXkmYuTlwvtG95Ls9A+wTuDD7BcCZ91zSuSyVNM21+I1runwJnGXB/W5kqsQfGp/vzAC4vhKRtD4wXwN3O+Gpt6PYB3BXjZ362zwXbv36yI118c1wddjHXSB4fgKP3P+m9ZojvhK/28W8EK8vmRvVAZz5esqlHnfwjiMufOQuk34q9cDt6PUHxc8HP3HPFN8MXltWPLedP93S4MHbWeJsgTakLTBbA8X9AjnGV0MdNlwgdUKfdfgKlzpxFxxTMMDSyy2NDgoHyPdR8BpAc/gJcrZzaC6PqenqZ6x75t1zxEupywm2mgu3/pGUeAWJf1EdvT80ChvZ87iv9tw5a16Ak44zGVzGnFg8i7scmEm4nJikW6Iy5USUxV3Oi1lwint7Xcq4y3XNZD9Vl7+NfgOYYax+A2SD6xe4XHCeOP9XHp6VUnMzeqZ5Nl4Vo3k5uari2t2bcKBpxt+/45j+xr/0YsFXAGzCDYB1wgnA8YJjzmbBVwtehB4sQdpN6C/mf6wCPw42WAAGFI0cXRF3GZaInM+0rxfcqvADlfRHnd3sMiAAAAAASUVORK5CYII= id=Arch>
+<img src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIkAAAARBAMAAAAbP5LUAAAAMFBMVEUAAABZTU3BwcG/v7+9vb29vb0xKSEhHBiDgYBbWlo5JREnHRIyIA4ZDARGRkUHBQV3dQTXAAAAEHRSTlMAFD6E3P8+bP320Zz+/f/Du/FUMgAAAOlJREFUeNql0iVQBVEUxvHvaX62m7E+aB+sz6x0nEpC+8xuLxycijest0sPSMfu0EjINdw5v3z2v9fAUWkwwJLrjbUAHFkV0TrB0RFbzWBoivkVZGMnKuFZpowfZcqaP6JNTCRWSmt9sDKjRLv9cMrlzMu0cqitGRvi2dGpcSLEjmukRCTPd1+mxV+s2nXMJgktSSnFr5y+dwMUp85VJSUVubIL/aUzqZCyOAYgM7K/JLWn7x9eO7QmXhsf0YZiJ4DlzzyoRRz3l41fv/8PV12euLst4W+qvR+fXQbavzIhOJ4zdWCptBl1j2+sE5KdG8MGAAAAAElFTkSuQmCC id=Arr>
+
+<img id=a1 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='150' viewBox='0 0 21 40'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.2' d='M8.1.6 4.4 3.2l.58 4.7 3.5 3.3 6.3.17 1.7-3.2v-4.2l-2-2.9z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.4' d='m13 3.5.14 1.7 1.5-.21-.04-1.5z'/%3E%3Cpath fill='%23fff' d='m16 5.4.71 1.9.67.02-.66-2.2z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.7' d='m12 10 1.6-.15.91-1.9'/%3E%3Cpath fill='%23fff' d='m9.8 11 .23 6.3-8.5 7.8 1.3 1.6 7.3-7.3-.15 8.9-9.2 9.8 1.6.11 8.7-8.7 2.4 8.6 1.9.04-2.8-8.9-.5-10 7.5-4.3-.83-.83-6.5 3.3-.03-6.2z'/%3E%3C/svg%3E%0A" height=150 width=50>
+<img id=a2 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='150' viewBox='0 0 21 40'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.2' d='M8.1.6 4.4 3.2l.58 4.7 3.5 3.3 6.3.17 1.7-3.2v-4.2l-2-2.9z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.4' d='m13 3.5.14 1.7 1.5-.21-.04-1.5z'/%3E%3Cpath fill='%23fff' d='m16 5.4.71 1.9.67.02-.66-2.2z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.7' d='m12 10 1.6-.15.91-1.9'/%3E%3Cpath fill='%23fff' d='m9.8 11 .23 6.3-8.5 7.8 1.3 1.6 7.3-7.3-.15 8.9-4.9 10h1.9l4-8.8 2.4 8.6 1.9.04-2.8-8.9-.5-10 7.5-4.3-.83-.83-6.5 3.3-.03-6.2z'/%3E%3C/svg%3E" height=150 width=50>
+<img id=a3 src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='150' viewBox='0 0 21 40'%3E%3Cpath fill='none' stroke='%23fff' stroke-width='1.2' d='M8.1.6 4.4 3.2l.58 4.7 3.5 3.3 6.3.17 1.7-3.2v-4.2l-2-2.9z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.4' d='m13 3.5.14 1.7 1.5-.21-.04-1.5z'/%3E%3Cpath fill='%23fff' d='m16 5.4.71 1.9.67.02-.66-2.2z'/%3E%3Cpath fill='none' stroke='%23fff' stroke-width='.7' d='m12 10 1.6-.15.91-1.9'/%3E%3Cpath fill='%23fff' d='m9.8 11 .23 6.3-8.5 7.8 1.3 1.6 7.3-7.3-.15 8.9-1.6 9.8 1.5.05 1.1-8.7.54 8.7 1.4.05-.46-9-.5-10 7.5-4.3-.83-.83-6.5 3.3-.03-6.2z'/%3E%3C/svg%3E"  height=150 width=50>
+
+
+<script>
+zzfxP=(...t)=>{let e=zzfxX.createBufferSource(),f=zzfxX.createBuffer(t.length,t[0].length,zzfxR);t.map((d,i)=>f.getChannelData(i).set(d)),e.buffer=f,e.connect(zzfxX.destination),e.start();return e}
+
+	// zzfxG() - the sound generator -- returns an array of sample data
+zzfxG=(q=1,k=.05,c=220,e=0,t=0,u=.1,r=0,F=1,v=0,z=0,w=0,A=0,l=0,B=0,x=0,G=0,d=0,y=1,m=0,C=0)=>{zzfxX=new AudioContext;let b=2*Math.PI,H=v*=500*b/zzfxR**2,I=(0<x?1:-1)*b/4,D=c*=(1+2*k*Math.random()-k)*b/zzfxR,Z=[],g=0,E=0,a=0,n=1,J=0,K=0,f=0,p,h;e=99+zzfxR*e;m*=zzfxR;t*=zzfxR;u*=zzfxR;d*=zzfxR;z*=500*b/zzfxR**3;x*=b/zzfxR;w*=b/zzfxR;A*=zzfxR;l=zzfxR*l|0;for(h=e+m+t+u+d|0;a<h;Z[a++]=f)++K%(100*G|0)||(f=r?1<r?2<r?3<r?Math.sin((g%b)**3):Math.max(Math.min(Math.tan(g),1),-1):1-(2*g/b%2+2)%2:1-4*Math.abs(Math.round(g/b)-g/b):Math.sin(g),f=(l?1-C+C*Math.sin(2*Math.PI*a/l):1)*(0<f?1:-1)*Math.abs(f)**F*q*zzfxV*(a<e?a/e:a<e+m?1-(a-e)/m*(1-y):a<e+m+t?y:a<h-d?(h-a-d)/u*y:0),f=d?f/2+(d>a?0:(a<h-d?1:(h-a)/d)*Z[a-d|0]/2):f),p=(c+=v+=z)*Math.sin(E*x-I),g+=p-p*B*(1-1E9*(Math.sin(a)+1)%2),E+=p-p*B*(1-1E9*(Math.sin(a)**2+1)%2),n&&++n>A&&(c+=w,D+=w,n=0),!l||++J%l||(c=D,v=H,n=n||1);return Z}
+
+// zzfxV - global volume
+zzfxV=.5
+
+
+// zzfxR - global sample rate
+zzfxR=44100
+
+
+
+//! ZzFXM (v2.0.3) | (C) Keith Clark | MIT | https://github.com/keithclark/ZzFXM
+zzfxM=(n,f,t,e=125)=>{let l,o,z,r,g,h,x,a,u,c,d,i,m,p,G,M=0,R=[],b=[],j=[],k=0,q=0,s=1,v={},w=zzfxR/e*60>>2;for(;s;k++)R=[s=a=d=m=0],t.map((e,d)=>{for(x=f[e][k]||[0,0,0],s|=!!f[e][k],G=m+(f[e][0].length-2-!a)*w,p=d==t.length-1,o=2,r=m;o<x.length+p;a=++o){for(g=x[o],u=o==x.length+p-1&&p||c!=(x[0]||0)|g|0,z=0;z<w&&a;z++>w-99&&u?i+=(i<1)/99:0)h=(1-i)*R[M++]/2||0,b[r]=(b[r]||0)-h*q+h,j[r]=(j[r++]||0)+h*q+h;g&&(i=g%1,q=x[1]||0,(g|=0)&&(R=v[[c=x[M=0]||0,g]]=v[[c,g]]||(l=[...n[c]],l[2]*=2**((g-12)/12),g>0?zzfxG(...l):[])))}m=G});return[b,j]}
+onclick=_=>{
+	onclick=null
+	menuMusic()
+}
+
+menuMusic=_=>{
+	md=[[[.2,0,1e4,,,,,,,,,,.01,6.8,-.2],[.7,0,84,,,,,.7,,,,.5,,6.7,1,.01],[,0,90,,.1,,2],[,0,360,,,.375,2,3.5],[1.2,0,490,,.25,,,,,,,,.2,,,,,,,.1],[.75,0,386,,,.25,6]],[[[1,-1,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,25,,,],[,1,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1,,1],[2,,5,,6,,10,8,6,5,3,,,,,,,,,,,,,,,,,,,,,,,,18,22,25,29,,,,,,22,20,,18,,17,,13,15,,,12,15,,17,15,18,,15,,12,,8,,,],[3,,,,,,,,,,8,6,5,3,1,,,,,,,,,,,,,,,,,,,,,,,,4,5,4,,5,3,,,,,,,,,,,,,,,,,,,,,,,,,],[4,,,,,,,,,,8,,5,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,],[5,,,,,,,,,,,,,,,6,5,3,1,3,,,5,3,1,3,,,3,1,,1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,]]],[0],90,{}]
+	
+	mb=zzfxM(...md)
+	mn=zzfxP(...mb)
+	mn.loop=1
+	if(typeof ln!=='undefined'){
+		ln.stop()
+	}
+}
+
+updateMoney=_=>{
+	i=0
+	m=750
+	while(elem=window["i0"+i]){
+		m-= +elem.getAttribute('p') * +elem.checked
+		i++
+	}
+	rM.innerHTML=m
+}
+replay=_=>{
+	menuMusic()
+	gn.stop()
+	it.hidden=0
+	il.hidden=1
+	onclick=0
+}
+updateMoney()
+klik=_=>{
+	hH.requestFullscreen()
+	move(Math.ceil((_.pageX/(innerWidth))*3))
+}
+var down=0
+var bodies,arrows
+var aWidth=150
+var aHeight=300
+start=_=>{
+	if(m>-1&&(innerWidth>innerHeight)){
+		sJump=zzfxG(...[1.06,,162,.01,.03,.116,2,1.96,-20,3.6,,,,,,,,.69,.06])
+		sHurt=zzfxG(...[2.3,,456,,.07,.11,4,2.36,-6.7,,,,.1,1.5,1.4,.2,.15,.76,.02,.12])
+		sHeal=zzfxG(...[4,0,130.8128,.1,.18,.49,2,1.7,.6,-1,,,.21,,,,.36,.28,.13])
+		sEnemyDie=zzfxG(...[2,,7,.02,.04,.05,1,,-26,,,,,,8,,,.92,.04])
+		sArrow=zzfxG(...[2,,330,,,.3,1,,1,,,,,1,20])
+		updateMoney()
+		onclick=klik
+		it.hidden=1
+		hC.hidden=0
+		Mob.hidden=!i02.checked
+		x=y=J=I=0
+		X=hC.getContext`2d`
+		cameraFrames=15
+		bodies=[{t:0,x:-200,y:700,w:3e5,h:innerHeight}]
+		M=_=>_>Math.random()
+		m=_=>(0|(_*Math.random()/10))*10
+		for(i=250;i--;){
+			if(M(.5)){
+				bodies.push({t:2,x:F=(300+m(3e5)),y:400,w:420,h:294,d:3e3-F})
+			}
+			if(M(.4)){
+				bodies.push({t:1,x:300+m(3e5),y:500,w:200,h:200})
+			}
+			if(M(.2)){
+				bodies.push({t:3,x:1e3+m(3e5),y:450,w:144,h:244})
+			}
+		}
+		console.log(bodies)
+		cameraArrayX=Array(cameraFrames).fill(x)
+		cameraArrayY=Array(cameraFrames).fill(y)
+		//sprite flip
+		w1=r1.getContext`2d`
+		w1.scale(-1,1)
+		w1.drawImage(a1,-aWidth,0,aWidth,aHeight)
+		
+		w2=r2.getContext`2d`
+		w2.scale(-1,1)
+		w2.drawImage(a2,-aWidth,0,aWidth,aHeight)
+		
+		w3=r3.getContext`2d`
+		w3.scale(-1,1)
+		w3.drawImage(a3,-aWidth,0,aWidth,aHeight)
+		
+		hX=hST.getContext`2d`
+		hX.scale(-1,1)
+		hX.drawImage(torch,-23,0)
+		
+		hB.style.overflow="hidden"
+		//hW.hidden=1
+		hC.hidden=0
+		if(typeof mn!=='undefined'){
+			mn.stop()
+		}
+		maxhp=hp=8+(5*i03.checked)
+		direct=1
+		ld=[[[2,0,200,,,.2,1,.7,,,,,,1.3],[.6,0,440,,,.25,1,.1],[.6,0,,,,.3,1,.7]],[[[,,5,,,5,5,,5,5,5,,,5,,,5,5,,5,5,5,,,5,,,5,5,,5,5,5,,,5,,,5,5,,5,5,5,,,5,,,5,5,,5,5,5,,,,,],[1,,,20,,5,,6,,8,,10,8,6,5,6,,8,,10,,8,6,5,3,1,6,5,3,3,6,8,6,8,10,,10,,6,,5,,1,,5,6,5,,3,,6,,8,,12,10,5,6,3],[2,,,20,,5,,6,,8,,10,8,6,5,6,,8,,10,,8,6,5,3,1,6,5,3,3,6,8,6,8,10,,10,,6,,5,,1,,5,6,5,,3,,6,,8,,12,10,5,6,3]],[[1,,,20,,5,,6,,8,,10,8,6,5,6,,8,,10,,8,6,5,3,1,6,5,3,3,6,8,6,8,10,,10,,6,,5,,1,,5,6,5,,3,,6,,8,,12,10,5,6,3],[2,,,20,,5,,6,,8,,10,8,6,5,6,,8,,10,,8,6,5,3,1,6,5,3,3,6,8,6,8,10,,10,,6,,5,,1,,5,6,5,,3,,6,,8,,12,10,5,6,3]]],[0,1],100,{}]
+		lb=zzfxM(...ld)
+		ln=zzfxP(...lb)
+		ln.loop=1
+		MainInterval=setInterval(main,20)
+	}else{
+		alert`Not enough money or rotate your device!`
+	}
+}
+onkeydown=e=>{G=e.which;if(G==37||G==65){move(1)}if(G==38||G==87){move(2)}if(G==39||G==68){move(3)}}
+var move=_=>{
+	navigator.vibrate(100)
+	if(_==1)direct=-1
+	if(_==2){
+		if(5>down){
+			J=52
+			zzfxP(sJump)
+		}
+	}
+	if(_==3)direct=1
+}
+
+var clrR=(clr,cX,cY,cW,cH)=>{
+	X.fillStyle=clr
+	X.fillRect(cX*zoomX,cY*zoomY,cW*zoomX,cH*zoomY)
+	X.fillStyle="#fff"
+}
+var hradby=(gx,gy,gw,gh)=>{
+	for(i=0;(0|gw/400)>i;i++){
+		clrR('#c84',gx+i*400,gy-200,200,400)
+		clrR('#b84',gx+200+i*400,gy,200,200)
+		if((i%3)==0){
+			if((0|(I/3))%2==0)dA=torch
+			else dA=hST
+			X.drawImage(dA,(gx+75+i*400)*zoomX,(gy-400)*zoomY,46*zoomX,240*zoomY)
+		}
+	}
+}
+
+var zoomX,zoomY
+main=_=>{
+	zoomX=innerWidth/1920
+	zoomY=innerHeight/1080
+	hC.width=innerWidth
+	hC.height=innerHeight
+	right=left=up=down=1e3
+
+	cameraArrayX[cI=I%cameraFrames]=x
+	cameraArrayY[cI]=y
+
+	cameraX=aWidth+(1920/-2)
+	cameraY=aHeight+(1080/-2)
+	for(i=0;cameraFrames>i;i++){
+		cameraX+=cameraArrayX[i]/cameraFrames
+		cameraY+=cameraArrayY[i]/cameraFrames
+	}	
+	
+	mi=0
+	for(B of bodies){
+		currentDown=currentLeft=currentRight=currentUp=9999
+		bodyVisibleX=B.x-cameraX
+		bodyVisibleY=B.y-cameraY
+		isVisible = !(-B.w>bodyVisibleX||bodyVisibleX>1920+B.w||-B.h>bodyVisibleY||bodyVisibleY>1080+B.h)
+		isCollidingY=B.y <= y+aHeight  && y <= B.y+B.h+17
+		if(isCollidingY){
+			currentRight=(x-B.x-B.w)
+			if(currentRight>-1){
+				right=Math.min(right,currentRight)
+			}
+			
+			currentLeft=(B.x-x-aWidth)
+			if(currentLeft>-1){
+				left=Math.min(left,currentLeft)
+			}
+		}
+		isCollidingX=B.x <= x+aWidth && x <= B.x+B.w
+		if(isCollidingX){
+			currentUp=(y-B.y-B.h)
+			//y-B.y-B.h
+			if(currentUp>-1){
+				up=Math.min(up,currentUp)
+			}
+			
+			currentDown=(B.y-y-aHeight)
+			if(currentDown>-1){
+				down=Math.min(down,currentDown)
+			}
+		}
+		//isCollidingNow=isCollidingNowX&&isCollidingNowY
+		if(isVisible){
+			console.log("Vidím typ "+B.t)
+			switch(B.t){
+				case 0:
+					hradby(bodyVisibleX,bodyVisibleY,B.w,B.h)
+				break;
+				case 2:
+					if(B.d>B.x){
+						bodies.splice(mi,1)
+					}
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sHurt)
+						x-=B.w*direct*2.2
+						y-=B.h
+						hp--
+						navigator.vibrate([50,50,50,50,50,50])
+					}
+					X.drawImage(l,bodyVisibleX*zoomX,bodyVisibleY*zoomY,B.w*zoomX,B.h*zoomY)
+					B.x-=7
+				break;
+				case 1:
+					if(isCollidingX&&isCollidingY&&i01.checked){
+						zzfxP(sHeal)
+						bodies.splice(mi,1)
+						hp++
+						navigator.vibrate([50,10,50,25,50,50,50])
+					}
+					X.drawImage(Ch,bodyVisibleX*zoomX,bodyVisibleY*zoomY,B.w*zoomX,B.h*zoomY)
+				break;
+				case 3:
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sEnemyDie)
+						bodies.splice(mi,1)
+					}
+					X.drawImage(Arch,bodyVisibleX*zoomX,bodyVisibleY*zoomY,B.w*zoomX,B.h*zoomY)
+					if((I%30)==0){
+						zzfxP(sArrow)
+						bodies.push({t:4,x:B.x-100,y:500,w:139,h:21,d:B.x-1e3,s:9+new Date%39,g:new Date%6})
+					}
+				break;
+				case 4:
+					if(B.despawnPosX>B.posX){
+						bodies.splice(mi,1)
+					}
+					if(isCollidingX&&isCollidingY){
+						zzfxP(sHurt)
+						bodies.splice(mi,1)
+						hp--
+						navigator.vibrate([50,50,50,50,50,50]);
+					}
+					X.drawImage(Arr,bodyVisibleX*zoomX,bodyVisibleY*zoomY,B.w*zoomX,B.h*zoomY)
+					B.x-=B.s
+					B.y+=B.g
+				break;
+			}
+		}
+		mi++
+	}
+	
+	x+=direct* (direct<0?Math.min(10,right):Math.min(10,left))
+	//console.log("  right:"+right+"  left:"+left+"	up:"+up+"	down:"+down)
+	if(J>0){
+		J--
+		if(up==17){
+			J*=.9
+		}
+		y-=Math.min(up,J)
+	}
+	y+=Math.min(down,17)
+	
+	
+	
+	if((1>hp) || (-2000>-y)){
+		clearInterval(MainInterval)
+		il.hidden=0
+		scr.innerHTML=x*(1+i00.checked*3)
+		hC.hidden=1
+		Mob.hidden=1
+		hB.style.overflow=""
+		ln.stop()
+		gd=[[[,0,330,.01,,.25,1,.3,,-.2,,,,.1],[1.7,0,419,,,.05,1,1.1,,-.1,-50,-.05,-.01,2]],[[[1,,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5,5,5,,5],[,,5,,4,,3,,2,,1,3,5,3,5,,3,6,,5,1,,3,2,1,,1,1,,9,7,5,7,4,10,9,7,5,2,,7,5,2,4,5,,,4,7,5,9,7,5,,4,,,,,,,]]],[0],120,{}]
+		gb=zzfxM(...gd)
+		gn=zzfxP(...gb)
+		gn.loop=1
+		return;
+	}
+	
+	
+	
+	
+	if(direct==1)dA=[a1,a2,a3,a2][(0|I/3)%4]
+	if(direct==-1)dA=[r1,r2,r3,r2][(0|I/3)%4]
+	X.drawImage(dA,(x-cameraX)*zoomX,((y-cameraY)+14)*zoomY,aWidth*zoomX,aHeight*zoomY)
+	I++
+	X.font=99*zoomX+'px sans-serif'
+	X.fillText(hp+" HP",25,85)
+	
+	
+}
+
+</script>

@@ -1,0 +1,37 @@
+{
+  "name": "okey23",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf dist && rimraf dist.zip && rimraf build-analysis.html",
+    "zip": "cd dist && zip -r ../dist.zip . -9 && cd .. && advzip --recompress --shrink-extra dist.zip && sh filesize.sh",
+    "dist": "pnpm build && pnpm zip",
+    "dev": "vite --port=3000",
+    "devc": "concurrently \"pnpm content\" \"pnpm dev\"",
+    "content": "node content.js",
+    "lint": "tsc --noEmit --watch",
+    "build": "pnpm clean && tsc && vite build && vite-bundle-visualizer",
+    "preview": "vite build && vite preview --port=3000"
+  },
+  "devDependencies": {
+    "advpng-bin": "^7.0.0",
+    "advzip-bin": "^2.0.0",
+    "aset": "link:..\\aset",
+    "chokidar": "^3.5.3",
+    "concurrently": "^8.2.0",
+    "http-server": "^14.1.1",
+    "imagemin": "^8.0.1",
+    "imagemin-advpng": "^6.0.0",
+    "jspngopt": "^0.2.0",
+    "rimraf": "^5.0.1",
+    "roadroller": "^2.1.0",
+    "rollup-plugin-sizes": "^1.0.5",
+    "terser": "^5.19.2",
+    "typescript": "^5.1.6",
+    "vite": "^4.4.7",
+    "vite-bundle-visualizer": "^0.8.1",
+    "vite-plugin-glsl": "^1.1.2",
+    "vite-plugin-imagemin": "^0.6.1"
+  }
+}
