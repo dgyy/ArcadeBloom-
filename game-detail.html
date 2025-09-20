@@ -169,6 +169,48 @@
 </head>
 <body class="bg-gray-50">
 
+    <script>
+    (function () {
+        const allowedHosts = [
+            'arcadebloom.com',
+            'www.arcadebloom.com',
+            'localhost',
+            '127.0.0.1'
+        ];
+
+        function renderReturnOverlay() {
+            document.body.innerHTML = '';
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100vh;background:radial-gradient(circle at 20% 20%, rgba(123,97,255,0.35), rgba(11,17,32,0.95));color:#fff;font-family:Inter, sans-serif;padding:24px;';
+
+            wrapper.innerHTML = `
+                <div style="max-width:420px;text-align:center;border-radius:18px;background:rgba(9,13,35,0.9);padding:28px 24px;box-shadow:0 30px 60px rgba(6,11,32,0.45);">
+                    <h1 style="font-size:1.6rem;font-weight:700;margin-bottom:12px;">访问受限</h1>
+                    <p style="font-size:0.95rem;line-height:1.6;margin-bottom:20px;opacity:0.85;">
+                        为了保护 ArcadeBloom 的游戏内容，请在官方站点打开该页面。
+                    </p>
+                    <a href="https://arcadebloom.com/" style="display:inline-flex;align-items:center;justify-content:center;padding:10px 22px;border-radius:9999px;background:linear-gradient(135deg,#ff4ec7,#6f58ff);color:#fff;font-weight:600;text-decoration:none;gap:8px;">
+                        返回 ArcadeBloom
+                    </a>
+                </div>
+            `;
+
+            document.body.appendChild(wrapper);
+        }
+
+        try {
+            if (window.self !== window.top) {
+                const topHost = window.top.location.hostname;
+                if (!allowedHosts.includes(topHost)) {
+                    renderReturnOverlay();
+                }
+            }
+        } catch (error) {
+            renderReturnOverlay();
+        }
+    })();
+    </script>
+
     <!-- Header -->
     <header class="bg-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
