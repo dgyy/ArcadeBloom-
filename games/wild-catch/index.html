@@ -1,0 +1,2830 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>'Wild Catch' 13K Game 2025</title>
+    <link rel="icon" type="image/svg+xml" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y="55%" x="50%" dominant-baseline="middle" text-anchor="middle" font-size="80">🐈‍⬛</text></svg>'>
+    <style>
+        /* Basic styles to make the canvas and joysticks fill the screen */
+        html, body {
+            margin: 0;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            touch-action: none; /* Prevents default touch actions like scrolling */
+        }
+
+        /* Styling for the virtual joysticks */
+        .joystick {
+            position: fixed;
+            width: 112px;
+            height: 112px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            z-index: 10;
+            display: none; /* Hidden by default, shown for touch devices */
+        }
+
+        /* The movable part of the joystick */
+        .joystick-handle {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* The handle itself doesn't capture clicks */
+        }
+
+        /* Positioning for left and right joysticks */
+        #leftJoy { bottom: 36px; left: 36px; }
+        #rightJoy { bottom: 36px; right: 36px; }
+
+        /* Media query to show joysticks only on touch-capable (coarse pointer) devices */
+        @media (pointer:coarse) {
+            .joystick { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <!-- The main canvas for WebGL rendering -->
+    <!-- <canvas id="C"></canvas> -->
+    <canvas id="canvas"></canvas>
+
+    <!-- HTML elements for the virtual joysticks -->
+    <div id="leftJoy" class="joystick"><div class="joystick-handle"></div></div>
+    <div id="rightJoy" class="joystick"><div class="joystick-handle"></div></div>
+
+    <script>
+    // -- FEATURE: Core --
+    // Expose Math functions to global scope
+    Object.getOwnPropertyNames(Math).forEach(n => window[n.toUpperCase()] = Math[n]);
+    // --- Math Library ---
+    const D2R = 0.0174532925 // or PI / 180;
+    const F32 = Float32Array;
+    const M4 = (v) => new F32(v || [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
+    const V3 = (v) => new F32(v || 3);
+    const T_V3_A = V3(), T_V3_B = V3(), T_V3_C = V3(); // Reusable temporary V3s
+    const T_V4_A = V3(4), T_V4_B = V3(4); // Reusable temporary V4s
+    const T_V3_RAY_O = V3(), T_V3_RAY_D = V3(); // For raycasting results (Origin, Direction)
+    const SUB=(t,n,r)=>(t[0]=n[0]-r[0],t[1]=n[1]-r[1],t[2]=n[2]-r[2],t);
+    const DOT=(t,n)=>t[0]*n[0]+t[1]*n[1]+t[2]*n[2];
+    const CROSS=(t,n,r)=>(t[0]=n[1]*r[2]-n[2]*r[1],t[1]=n[2]*r[0]-n[0]*r[2],t[2]=n[0]*r[1]-n[1]*r[0],t);
+    const LEN=(t)=>HYPOT(t[0],t[1],t[2]);
+    const NORM=(t,n)=>{var r=LEN(n);return r>0&&(t[0]=n[0]/r,t[1]=n[1]/r,t[2]=n[2]/r),t};
+    const MULTMAT4 = (o, a, b) => (o.set((new DOMMatrix(a)).multiply(new DOMMatrix(b)).toFloat32Array()), o);
+    const INV = (m) => (new DOMMatrix(m)).inverse().toFloat32Array();
+    const PERSP = (o, f, a, n, fa) => { const t = 1 / TAN(f * D2R / 2); o.set([t/a,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,(2*fa*n)/(n-fa),0]); return o; };
+    const LOOKAT = (o, e, c, u) => { SUB(T_V3_A,e,c); NORM(T_V3_A,T_V3_A); CROSS(T_V3_B,u,T_V3_A); NORM(T_V3_B,T_V3_B); CROSS(T_V3_C,T_V3_A,T_V3_B); o.set([T_V3_B[0],T_V3_C[0],T_V3_A[0],0, T_V3_B[1],T_V3_C[1],T_V3_A[1],0, T_V3_B[2],T_V3_C[2],T_V3_A[2],0, -DOT(T_V3_B,e),-DOT(T_V3_C,e),-DOT(T_V3_A,e),1]); return o; };
+    // --- World Matrices ---
+    const M = M4(), V = M4(), P = M4(); // Model, View, Projection
+    let PV = M4(), invPV = M4(); // Combined and inverse matrices for picking
+
+    // Multiplies a 3D point (w=1) by a 4x4 matrix
+    function mulPoint(m, p) { const x=p[0],y=p[1],z=p[2],w=1; return [m[0]*x+m[4]*y+m[8]*z+m[12]*w, m[1]*x+m[5]*y+m[9]*z+m[13]*w, m[2]*x+m[6]*y+m[10]*z+m[14]*w]; }
+
+    // Multiplies a 3D direction (w=0) by a 4x4 matrix
+    function mulDir(m, d) { const x=d[0],y=d[1],z=d[2],w=0; return [m[0]*x+m[4]*y+m[8]*z+m[12]*w, m[1]*x+m[5]*y+m[9]*z+m[13]*w, m[2]*x+m[6]*y+m[10]*z+m[14]*w]; }
+
+    //function mul4(m, v) { return [m[0]*v[0]+m[4]*v[1]+m[8]*v[2]+m[12]*v[3], m[1]*v[0]+m[5]*v[1]+m[9]*v[2]+m[13]*v[3], m[2]*v[0]+m[6]*v[1]+m[10]*v[2]+m[14]*v[3], m[3]*v[0]+m[7]*v[1]+m[11]*v[2]+m[15]*v[3]]; }
+    const mul4 = (out, m, v) => {
+        const v0=v[0], v1=v[1], v2=v[2], v3=v[3];
+        out[0] = m[0]*v0 + m[4]*v1 + m[8]*v2 + m[12]*v3;
+        out[1] = m[1]*v0 + m[5]*v1 + m[9]*v2 + m[13]*v3;
+        out[2] = m[2]*v0 + m[6]*v1 + m[10]*v2 + m[14]*v3;
+        out[3] = m[3]*v0 + m[7]*v1 + m[11]*v2 + m[15]*v3;
+        return out;
+    };
+    
+
+
+    // Creates a translation and scale matrix
+    function translateScale(x,y,z,sx,sy,sz) { return new F32([sx,0,0,0, 0,sy,0,0, 0,0,sz,0, x,y,z,1]); }
+
+    // const D = document
+    // const C = D.getElementById('canvas');
+    const canvas = document.getElementById('canvas');
+    
+   // State variables for the user/camera, rendering loop, and WebGL/WebXR contexts
+    let user = { x: 0, y: 1.6, z: 2, yaw: 0, pitch: 0.2 }; // User position and orientation
+    let prevUserX = user.x, prevUserZ = user.z; // previous frame planar position
+    let userVelX = 0, userVelZ = 0;             // planar velocity for cat pursuit
+    let last = 0; // Timestamp of the last frame for calculating delta time
+    let gl, xr = null, ref = null, off = null; // WebGL and WebXR objects
+
+    gl = canvas.getContext('webgl2', { antialias: true, xrCompatible: true });
+    if (!gl) { alert('WebGL2 is required for this application.'); }
+
+    // Resize the canvas to fill the window, accounting for device pixel ratio
+    function resize() {
+        const w = innerWidth, h = innerHeight, dpr = devicePixelRatio || 1;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+    }
+    addEventListener('resize', resize);
+    resize(); // Initial resize
+
+    // Helper function to compile and link a shader program
+    function prog(vs, fs) {
+        const p = gl.createProgram();
+        const v = gl.createShader(gl.VERTEX_SHADER);
+        const f = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(v, vs); gl.compileShader(v);
+        if (!gl.getShaderParameter(v, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(v);
+        gl.shaderSource(f, fs); gl.compileShader(f);
+        if (!gl.getShaderParameter(f, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(f);
+        gl.attachShader(p, v); gl.attachShader(p, f); gl.linkProgram(p);
+        if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw gl.getProgramInfoLog(p);
+        return p;
+    }
+    // -- /FEATURE: Core --
+    
+    // -- FEATURE: Input --
+    // -- MODULE: Input-Core --
+    // --- Unified Input Handling ---
+    // Check if the primary input is a coarse pointer (like a finger), indicating a mobile/touch device
+    const isMobile = matchMedia('(pointer:coarse)').matches;
+    // Unified input state object for keyboard, joysticks, pointer-look, and pointer coordinates
+    const input = {
+        keys: {},
+        joy: { left: { x: 0, y: 0, id: null }, right: { x: 0, y: 0, id: null } }, // 
+        look: { id: null, x: 0, y: 0 },
+        pointer: { x: 0, y: 0 }
+    };
+    const DZ = 0.1;    // Deadzone for joystick/gamepad axes to prevent drift
+    // A map to track the previous pressed state of VR controller buttons for edge detection (press/release)
+    const pressedMap = new Map();
+
+    // State for the raycast
+    let lastHit = null;
+    // -- /MODULE: Input-Core --
+    
+    // -- MODULE: Input-KeyPoint --
+    // Keyboard event listeners for movement and HUD toggle
+    document.addEventListener('keydown', e => {
+        const k = e.key.toLowerCase();
+        input.keys[k] = true;
+        if (k === 'h' || k === 'escape') {playClickSound(); hudVisible = !hudVisible;} // 'H' and escape key toggles HUD visibility
+        if (k === 'f') {playClickSound(); beastMode = !beastMode;} // 'F' key toggles beastMode
+    });
+    document.addEventListener('keyup', e => input.keys[e.key.toLowerCase()] = false);
+    
+    // Pointer event listeners on the canvas for mouse-look and interaction
+    canvas.addEventListener('pointerdown', e => {
+        initAudio(); // NEW: Initialize audio on first user interaction
+        // Start mouse-look on left-click
+        if (e.button === 0 && input.look.id === null) {
+            input.look.id = e.pointerId;
+            input.look.x = e.clientX;
+            input.look.y = e.clientY;
+            canvas.setPointerCapture(e.pointerId); // Lock the pointer to the canvas
+        }
+        // Always update pointer position for picking
+        input.pointer.x = e.clientX;
+        input.pointer.y = e.clientY;
+    });
+    
+    canvas.addEventListener('pointermove', e => {
+        // Update pointer position for hover effects
+        input.pointer.x = e.clientX;
+        input.pointer.y = e.clientY;
+        
+        // If we are in mouse-look mode, update camera orientation
+        if (e.pointerId === input.look.id) {
+            const dx = e.clientX - input.look.x;
+            const dy = e.clientY - input.look.y;
+            input.look.x = e.clientX;
+            input.look.y = e.clientY;
+            user.yaw += dx * 0.002;
+            user.pitch = MAX(-PI / 2+0.001, MIN(PI / 2-0.001, user.pitch - dy * 0.002));
+        }
+    });
+    
+    canvas.addEventListener('pointerup', e => {
+        // Stop mouse-look mode.
+        if (e.pointerId === input.look.id) {
+            input.look.id = null;
+        }
+        // Update pointer position and trigger an interaction check
+        input.pointer.x = e.clientX;
+        input.pointer.y = e.clientY;
+        interactDesktopAt(e.clientX, e.clientY);
+    });
+    
+    canvas.addEventListener('pointercancel', e => {
+        if (e.pointerId === input.look.id) {
+            input.look.id = null;
+        }
+    });
+    // -- /MODULE: Input-KeyPoint --
+    
+    // -- MODULE: Input-Joystick --
+    // --- Virtual Joysticks for Touch Devices ---
+    function initJoysticks() {
+        const joys = [
+            { side: 'left', el: document.getElementById('leftJoy') },
+            { side: 'right', el: document.getElementById('rightJoy') }
+        ];
+        const handleSel = s => document.querySelector('#' + s + 'Joy .joystick-handle');
+
+        for (const j of joys) {
+            const handle = handleSel(j.side);
+            j.el.addEventListener('pointerdown', e => { initAudio(); j.id = e.pointerId; j.el.setPointerCapture(e.pointerId); updateJoy(j, e, handle); });
+            j.el.addEventListener('pointermove', e => { if (e.pointerId === j.id) updateJoy(j, e, handle); });
+            j.el.addEventListener('pointerup', e => { if (e.pointerId === j.id) { resetJoy(j, handle); } });
+            j.el.addEventListener('pointercancel', e => { if (e.pointerId === j.id) { resetJoy(j, handle); } });
+        }
+
+        function updateJoy(j, e, handle) {
+            const r = j.el.getBoundingClientRect();
+            const cx = r.left + r.width / 2;
+            const cy = r.top + r.height / 2;
+            const R = r.width / 2 - 6; // Max radius for handle movement
+            const dx = e.clientX - cx;
+            const dy = e.clientY - cy;
+            const L = MIN(HYPOT(dx, dy), R);
+            const a = ATAN2(dy, dx);
+
+            // Normalize joystick output from -1 to 1
+            const x = L > DZ * 30 ? (L / R) * COS(a) : 0;
+            const y = L > DZ * 30 ? (L / R) * SIN(a) : 0;
+
+            input.joy[j.side].x = x;
+            input.joy[j.side].y = y;
+
+            // Update handle's visual position
+            handle.style.transform = `translate(calc(-50% + ${x * R}px), calc(-50% + ${y * R}px))`;
+        }
+
+        function resetJoy(j, handle) {
+            input.joy[j.side].x = 0;
+            input.joy[j.side].y = 0;
+            handle.style.transform = 'translate(-50%, -50%)';
+            j.id = null;
+        }
+    }
+    initJoysticks();
+    // -- /MODULE:Input-Joystick --
+    // -- MODULE: Input-Ray --
+    // --- Raycasting and Picking ---
+    // Checks if a world-space ray intersects with a button on the HUD
+    // -- SOLUTION: Input-Ray-Screen --
+    // Creates a world-space ray from screen coordinates (for desktop mouse picking)
+    function rayFromScreen(px, py) {
+        const r = canvas.getBoundingClientRect();
+        const x = ((px - r.left) / r.width) * 2 - 1;
+        const y = 1 - ((py - r.top) / r.height) * 2;
+        //const near = [x, y, -1, 1], far = [x, y, 1, 1];
+        // Use T_V4_A for the 'near' and T_V4_B for the 'far' vector4s
+        T_V4_A[0] = x; T_V4_A[1] = y; T_V4_A[2] = -1; T_V4_A[3] = 1;
+        T_V4_B[0] = x; T_V4_B[1] = y; T_V4_B[2] = 1;  T_V4_B[3] = 1;
+
+        // Unproject near and far points from clip space to world space
+        //const n4 = mul4(invPV, near),
+        //      f4 = mul4(invPV, far);
+        //const n = [n4[0] / n4[3], n4[1] / n4[3], n4[2] / n4[3]];
+        //const f = [f4[0] / f4[3], f4[1] / f4[3], f4[2] / f4[3]];
+        
+        // Unproject, writing the results back into our temporary V4s
+        mul4(T_V4_A, invPV, T_V4_A);
+        mul4(T_V4_B, invPV, T_V4_B);
+
+        // Convert to 3D points, writing to our dedicated ray vectors
+        T_V3_RAY_O[0] = T_V4_A[0] / T_V4_A[3]; T_V3_RAY_O[1] = T_V4_A[1] / T_V4_A[3]; T_V3_RAY_O[2] = T_V4_A[2] / T_V4_A[3]; // This is 'n' (the origin)
+        T_V3_A[0]    = T_V4_B[0] / T_V4_B[3]; T_V3_A[1]    = T_V4_B[1] / T_V4_B[3]; T_V3_A[2]    = T_V4_B[2] / T_V4_B[3]; // This is 'f' (the far point)
+
+
+        // Create a normalized direction vector.
+        //const d = [f[0] - n[0], f[1] - n[1], f[2] - n[2]];
+        //const il = 1 / HYPOT(d[0], d[1], d[2]);
+        //return { o: n, d: [d[0] * il, d[1] * il, d[2] * il] };
+
+        
+        // Calculate the direction vector into T_V3_RAY_D
+        SUB(T_V3_RAY_D, T_V3_A, T_V3_RAY_O);
+        NORM(T_V3_RAY_D, T_V3_RAY_D);
+            
+        return { o: T_V3_RAY_O, d: T_V3_RAY_D };
+
+
+    }
+    // Handles a click/tap interaction in desktop mode
+    function interactDesktopAt(px, py) {
+        const ui = currentUI();
+        const r = rayFromScreen(px, py);
+        if (!r) return;
+        const WH = HUD_WH_world;
+        const h = HUD_pick(WH, r, ui);
+
+        if (h && h.button) {
+            h.button.onClick(); // A button was clicked
+            return;
+        }
+
+        // If no button was clicked, check for a hit on the ground
+        const g = rayHitGround(r);
+        if (g) {
+            lastHit = g;
+            //log('ground ' + g.map(v => v.toFixed(2)).join(','));
+        }
+    }
+
+    // Creates a world-space ray from the camera or a VR controller
+    function rayFrom(mode, frame, src) {
+        if (mode === 'VR' && frame) {
+            // Use the controller's target ray space if available
+            if (src && src.targetRaySpace) {
+                const pose = frame.getPose(src.targetRaySpace, off || ref || null);
+                if (pose) {
+                    const m = pose.transform.matrix;
+                    const o = [m[12], m[13], m[14]];
+                    const d = [-m[8], -m[9], -m[10]]; // -Z is forward in WebXR.
+                    return { o, d };
+                }
+            }
+            // Fallback to any available controller
+            for (const s of xr.inputSources) {
+                if (s.targetRaySpace) {
+                    const pose = frame.getPose(s.targetRaySpace, off || ref || null);
+                    if (pose) {
+                        const m = pose.transform.matrix;
+                        const o = [m[12], m[13], m[14]];
+                        const d = [-m[8], -m[9], -m[10]];
+                        return { o, d };
+                    }
+                }
+            }
+            // Fallback to gaze/head pose
+            const pose = frame.getViewerPose(off || ref || null);
+            if (pose) {
+                const m = pose.views[0].transform.matrix;
+                return { o: [m[12], m[13], m[14]], d: [-m[8], -m[9], -m[10]] };
+            }
+        } else { // Desktop mode
+            const cy = COS(user.yaw), sy = SIN(user.yaw);
+            const cp = COS(user.pitch), sp = SIN(user.pitch);
+            T_V3_RAY_D[0] = -sy * cp; T_V3_RAY_D[1] = -sp; T_V3_RAY_D[2] = -cy * cp;
+            T_V3_RAY_O[0] = user.x; T_V3_RAY_O[1] = user.y; T_V3_RAY_O[2] = user.z;
+            return { o: T_V3_RAY_O, d: T_V3_RAY_D };
+        }
+        return null;
+    }
+    
+
+    // Calculates the intersection point of a ray with the ground plane (Y=0)
+    function rayHitGround(ray) {
+        if (!ray || ray.d[1] >= 0) return null; // Ray is parallel to or going away from the ground
+        const t = (0 - ray.o[1]) / ray.d[1];
+        if (t > 0) {
+            return [ray.o[0] + ray.d[0] * t, 0.001, ray.o[2] + ray.d[2] * t];
+        }
+        return null;
+    }
+
+    // Helper to get a ray from a VR controller
+    function controllerRay(frame, src) {
+        const pose = src.targetRaySpace ? frame.getPose(src.targetRaySpace, off || ref || null) : null;
+        if (pose) {
+            const m = pose.transform.matrix;
+            return { o: [m[12], m[13], m[14]], d: [-m[8], -m[9], -m[10]] };
+        }
+        return { o: [0, 0, 0], d: [0, 0, -1] }; // Fallback, ray from Head
+    }
+
+    //const d = [-sy * cp, -sp, -cy * cp];
+    //const o = [user.x, user.y, user.z];
+    //return { o, d };
+    //T_V3_RAY_D[0] = -sy * cp; T_V3_RAY_D[1] = -sp; T_V3_RAY_D[2] = -cy * cp;
+    //T_V3_RAY_O[0] = user.x; T_V3_RAY_O[1] = user.y; T_V3_RAY_O[2] = user.z;
+    //return { o: T_V3_RAY_O, d: T_V3_RAY_D };
+    
+    // -- /MODULE: Input-Ray --
+    // -- /FEATURE: Input --
+
+    // -- FEATURE: Gameplay --
+    let beastMode = false; // toggle beast mode
+    // -- MODULE: Gameplay-Item --
+    const BOOST_DURATION = 15;          // seconds per pickup
+    const BOOST_AMOUNT  = 0.3;        // +30% per stack
+    const MAX_BOOSTS    = 100;           // safety cap
+    const speedBoosts = [];            // {timeLeft, amount}
+    const items = [];                  // pickup spheres {x,y,z,r,active:true}
+    const obstacles = [];              // solid spheres for collision {x,y,z,r}
+    const traps = [];                  // spheres spawnned by cat {x,y,z,r}
+    const playerCapsule = { radius: 0.5, height: 1.6, eyeOffset: 1.6 };
+    let playerMoveMag = 0;             // cached player movement magnitude (for chase detection)
+
+    // -- MODULE: Gameplay-Cat --
+    // Stylized Black Cat entity the player must catch. Cat roams near center, avoids player, drops boosts & obstacles.
+    const cat = { x:0, y:0.6, z:0, vx:0, vz:0, caught:0, drop:1.2, baseS:3, anim:0, evade:0, yaw:0 };
+    const CAT_MAX_R = 1000;        // Hard clamp so cat never wanders too far
+    const CAT_PREF_R = 50;       // Preferred roaming radius from origin
+    const CAT_CATCH_R = 0.5;     // Distance threshold to count as caught
+    const CAT_FLEE_R = 10;       // Start fleeing if player within this distance
+    const CAT_SEEK_R = 50;      // Begin seeking player if beyond this distance
+    const CAT_EVADE_R = 3;     // Distance to trigger perpendicular dodge
+    const CAT_DROP_MIN = 1.9;    // Min seconds between drops (only while chased)
+    const CAT_DROP_VAR = 0.8;    // Added random variance
+    function resetCatPosition(){
+        // Random point within preferred radius
+        const a = RANDOM()*PI*2; const r = RANDOM()*CAT_PREF_R*0.8;
+        cat.x = COS(a)*r; cat.z = SIN(a)*r; cat.vx = cat.vz = 0;
+    }
+    function spawnDrop(x,z){
+        // Respect existing weighting (boost scarce), tweak slightly
+        if(RANDOM()<0.4){
+            items.push({x, y:0.5, z, r:0.4, active:true});
+            if(audioCtx) {
+                //playClickSound();
+                spawnBell(audioCtx.currentTime, 870, window.chipMusic, 0.1);
+            }
+        }else{
+            traps.push({x, y:0.6, z, r:0.6});
+            if(audioCtx) {
+                //playClickSound();
+                spawnBell(audioCtx.currentTime, 660, window.chipMusic, 0.2);
+            }
+        }
+        if(items.length>2) items.splice(0, items.length-2);
+        if(traps.length>3) traps.splice(0, traps.length-3);
+    }
+    function updateCat(dt){
+        const dxP = user.x - cat.x, dzP = user.z - cat.z;
+        const dP2 = dxP*dxP + dzP*dzP;
+        let fx = 0, fz = 0;
+        const dist = SQRT(dP2)||1;
+        // Behavior tiers:
+        // 1. Seek (player far) -> move toward predicted position
+        // 2. Orbit (mid range) -> tangential movement
+        // 3. Flee (close) -> run away + evasive handled below
+        if(dist > CAT_SEEK_R){
+            // Predictive pursuit: estimate lead time proportional to distance & relative speed
+            const relSpeed = HYPOT(userVelX, userVelZ) + 0.01;
+            const lead = MIN(3, dist / (cat.baseS + 2));
+            const targetX = user.x + userVelX * lead;
+            const targetZ = user.z + userVelZ * lead;
+            const tx = targetX - cat.x, tz = targetZ - cat.z;
+            const td = HYPOT(tx, tz)||1;
+            fx += (tx/td)*5; fz += (tz/td)*5;
+        } else if(dist > CAT_FLEE_R){
+            // Orbit band: push slightly toward player but add strong perpendicular drift
+            const nx = dxP/dist, nz = dzP/dist;
+            // Toward component keeps it from drifting away too much
+            fx += nx*1.1; fz += nz*1.1;
+            // Perpendicular (choose deterministic side using sign of sin of position sum)
+            const sign = SIN((cat.x+cat.z)*0.2) > 0 ? 1 : -1;
+            fx += (-nz*sign)*4; fz += (nx*sign)*4;
+        } else {
+            // Flee when very close
+            fx -= (dxP/dist)*5; fz -= (dzP/dist)*5;
+        }
+        // Centering band
+        const dc2 = cat.x*cat.x + cat.z*cat.z; const dc = SQRT(dc2)||1;
+        if(dc > CAT_PREF_R){ fx += (-cat.x/dc)*((dc-CAT_PREF_R)*1.0); fz += (-cat.z/dc)*((dc-CAT_PREF_R)*1.0); }
+        else if(dc < CAT_PREF_R*0.55){ fx += (cat.x/dc)*0.5; fz += (cat.z/dc)*0.5; }
+        // Obstacle avoidance (proximity repulsion + simple forward ray)
+        const spd = HYPOT(cat.vx, cat.vz) + 0.1;
+        const dirx = cat.vx/spd, dirz = cat.vz/spd;
+        const look = 2 + spd*0.6;
+        for(const ob of obstacles){
+            const ox = ob.x - cat.x, oz = ob.z - cat.z;
+            const dist2 = ox*ox + oz*oz; const rad = ob.r + 0.7;
+            if(dist2 < rad*rad){ // proximity push
+                const d = SQRT(dist2)||1; fx -= (ox/d)*2.4; fz -= (oz/d)*2.4;
+            } else if(dist2 < (look*look)){ // forward ray influence
+                const ahead = (ox*dirx + oz*dirz); // projection length
+                if(ahead>0 && ahead<look){
+                    const perpX = ox - dirx*ahead, perpZ = oz - dirz*ahead; // lateral offset
+                    const pd2 = perpX*perpX + perpZ*perpZ;
+                    if(pd2 < rad*rad){ // steer away
+                        const pd = SQRT(pd2)||1; fx -= (perpX/pd)*2; fz -= (perpZ/pd)*2; }
+                }
+            }
+        }
+        // Mild noise
+        fx += (RANDOM()*2-1)*0.9; fz += (RANDOM()*2-1)*0.9;
+        // Evasive perpendicular burst if very close
+        cat.evade -= dt;
+        if(dP2 < CAT_EVADE_R*CAT_EVADE_R && cat.evade<=0){
+            const d = SQRT(dP2)||1; const nx = dxP/d, nz = dzP/d;
+            // pick perpendicular sign based on random
+            const sign = (RANDOM()<0.5)?1:-1;
+            fx += (-nz*sign)*20; fz += (nx*sign)*20; // impulse-like
+            cat.evade = 0.2; // cooldown seconds
+        }
+        // Integrate velocity
+        cat.vx += fx*dt; cat.vz += fz*dt;
+        const maxS = cat.baseS + cat.caught*1.5;
+        let sp = HYPOT(cat.vx, cat.vz)||1;
+        if(sp>maxS){ cat.vx = cat.vx/sp*maxS; cat.vz = cat.vz/sp*maxS; sp = maxS; }
+        cat.x += cat.vx*dt; cat.z += cat.vz*dt;
+        // Face movement direction (only if moving sufficiently)
+        if(sp > 0.1){
+            const targetYaw = ATAN2(cat.vx, cat.vz); // note swapped to align forward with +Z
+            // Smooth interpolation
+            let dy = targetYaw - cat.yaw;
+            // wrap to [-PI,PI]
+            if(dy > PI) dy -= 2*PI; else if(dy < -PI) dy += 2*PI;
+            cat.yaw += dy * MIN(1, dt*10); // turn speed factor
+        }
+        const r2 = cat.x*cat.x + cat.z*cat.z; if(r2>CAT_MAX_R*CAT_MAX_R){ const r=SQRT(r2); cat.x*=CAT_MAX_R/r; cat.z*=CAT_MAX_R/r; }
+        // Friction
+        cat.vx *= (1 - 1.1*dt); cat.vz *= (1 - 1.1*dt);
+        // Chase detection (player near & moving)
+        const chased = (dP2 < CAT_FLEE_R*CAT_FLEE_R && playerMoveMag>0.15);
+        if(chased){ cat.drop -= dt; if(cat.drop<=0){ spawnDrop(cat.x, cat.z); cat.drop = CAT_DROP_MIN + RANDOM()*CAT_DROP_VAR; } }
+        // Animation clock
+        cat.anim += sp*dt*3.5;
+        // Catch detection
+        if(dP2 < (CAT_CATCH_R+playerCapsule.radius)*(CAT_CATCH_R+playerCapsule.radius)){
+            cat.caught++; log('Cat caught #' + cat.caught);
+            if(audioCtx) {
+                //playClickSound();
+                spawnBell(audioCtx.currentTime, 800, window.chipMusic, 0.5);
+                spawnBell(audioCtx.currentTime+0.1, 1000, window.chipMusic, 0.3);
+                spawnBell(audioCtx.currentTime+0.2, 1200, window.chipMusic, 0.4);
+            }
+            if(speedBoosts.length < MAX_BOOSTS) speedBoosts.push({timeLeft:BOOST_DURATION, amount:BOOST_AMOUNT});
+            resetCatPosition();
+            //for(let i=0;i<4;i++); //spawnDrop(cat.x + (RANDOM()*2-1), cat.z + (RANDOM()*2-1));
+        }
+    }
+    resetCatPosition();
+    // -- /MODULE: Gameplay-Cat --
+
+    function currentSpeedMult(){
+        let m = 1;
+        for (const b of speedBoosts) m += b.amount;
+        return m;
+    }
+
+    function updateBoosts(dt){
+        for (let i=speedBoosts.length-1;i>=0;i--){
+            speedBoosts[i].timeLeft -= dt;
+            if (speedBoosts[i].timeLeft<=0) speedBoosts.splice(i,1);
+        }
+    }
+
+    function tryPickupItems(){
+        // Closest point on capsule (horizontal only since player moves on XZ)
+        const baseY = user.y - playerCapsule.eyeOffset;
+        const topY  = baseY + playerCapsule.height;
+        for (const itm of items){
+            if (!itm.active) continue;
+            // Nearest Y on capsule segment
+            const ny = MAX(baseY, MIN(topY, itm.y));
+            const dx = itm.x - user.x;
+            const dy = itm.y - ny;
+            const dz = itm.z - user.z;
+            const dist = HYPOT(dx,dy,dz);
+            if (dist < itm.r + playerCapsule.radius){
+                itm.active = false;
+                if (speedBoosts.length < MAX_BOOSTS){
+                    speedBoosts.push({ timeLeft: BOOST_DURATION, amount: BOOST_AMOUNT });
+                }
+                if(audioCtx) {
+                    //playClickSound();
+                    spawnBell(audioCtx.currentTime, 880 * POW(2, ((RANDOM()*6)|0)/6), window.chipMusic, 0.2);
+                }
+            }
+        }
+    }
+
+    function resolveCollisions(prevX, prevZ){
+        // Capsule vs sphere obstacles
+        const baseY = user.y - playerCapsule.eyeOffset;
+        const topY  = baseY + playerCapsule.height;
+        for (const o of obstacles.concat(traps)){
+            const ny = MAX(baseY, MIN(topY, o.y));
+            let dx = user.x - o.x;
+            let dy = ny - o.y;
+            let dz = user.z - o.z;
+            const dist = HYPOT(dx,dy,dz);
+            const minDist = playerCapsule.radius + o.r;
+            if (dist < minDist){
+                if (dist < 1e-4){ // avoid division by zero
+                    user.x = prevX; user.z = prevZ;
+                } else {
+                    const push = (minDist - dist);
+                    dx /= dist; dz /= dist; // horizontal push preferred
+                    user.x += dx * push;
+                    user.z += dz * push;
+                }
+            }
+        }
+        // Ground collision (keep eye at least capsule height above 0)
+        if (user.y - playerCapsule.eyeOffset < 0) user.y = playerCapsule.eyeOffset;
+    }
+    // -- /MODULE: Gameplay-Items --
+
+    // -- MODULE: Gameplay-Movement --
+    // --- Movement Logic ---
+    // Movement and input constants
+    const MOVES = 3;    // Movement speed in meters per second
+    const TURNS = 2;    // Turning speed in radians per second
+
+    // Consolidates input from keyboard, joysticks, and VR controllers into a single movement vector
+    function getMove(session) {
+        let vx = 0, vy = 0, vt = 0;
+        // -- SOLUTION: Gameplay-Movement-Keyboard --
+        // Keyboard input (WASD for move, QE for turn)
+        const kx = (+!!input.keys.d) - (+!!input.keys.a);
+        const ky = (+!!input.keys.w) - (+!!input.keys.s);
+        const kt = (+!!input.keys.q) - (+!!input.keys.e);
+        // -- /SOLUTION: Gameplay-Movement-Keyboard --
+    
+        // -- SOLUTION: Gameplay-Movement-Joystick --
+        // Virtual joystick input
+        const jx = input.joy.left.x;
+        const jy = -input.joy.left.y;
+        const jt = -input.joy.right.x;
+        // -- /SOLUTION: Gameplay-Movement-Joystick --
+
+        // -- SOLUTION: Gameplay-Movement-VR --
+        // VR gamepad input
+        if (session) {
+            for (const src of session.inputSources) {
+                const a = src.gamepad?.axes;
+                if (!a || a.length < 4) continue;
+                const dz = v => ABS(v) > DZ ? v : 0; // Apply deadzone
+                const x = dz(a[2]);
+                const y = dz(a[3]);
+                
+                if (src.handedness === 'left') { vx = x; vy = -y; }
+                else if (src.handedness === 'right') { vt = -x; }
+                else if (!vx && !vy) { vx = x; vy = -y; } // Fallback for undefined handedness
+            }
+        }
+        // -- /SOLUTION: Gameplay-Movement-VR --
+
+        // Return combined movement, prioritizing VR, then keyboard, then joystick
+        return { x: vx || kx || jx, y: vy || ky || jy, t: vt || kt || jt };
+    }
+
+    // -- SOLUTION: Gameplay-Movement-Step --
+    // Updates the user's position and orientation based on movement input and delta time
+    function step(dt, mv) {
+        // New movement logic
+        updateBoosts(dt);
+        const speed = MOVES * (currentSpeedMult());
+        // Apply movement
+        const now = performance.now();
+        const moveMagnitude = HYPOT(mv.x, mv.y); playerMoveMag = moveMagnitude;
+        // Trigger movement music activation (only sets flag / lazy init)
+        if(moveMagnitude > 0.1 && now - lastStepTime > stepInterval){
+            playStepSound(); // now activates loop system
+            lastStepTime = now;
+        }
+        user.yaw += mv.t * TURNS * dt; // Apply turning
+        
+        // Calculate forward and right vectors based on current yaw
+        const cy = COS(user.yaw);
+        const sy = SIN(user.yaw);
+        T_V3_A[0] = -sy; T_V3_A[1] = 0; T_V3_A[2] = -cy; // 'f' vector
+        T_V3_B[0] = cy;  T_V3_B[1] = 0; T_V3_B[2] = -sy;  // 'r' vector
+        //const sp = MOVES * dt;
+        const sp = speed * dt;
+        // collision resolution
+        const prevX = user.x, prevZ = user.z;
+
+        // Apply movement along forward and right vectors
+        user.x += (T_V3_B[0] * mv.x + T_V3_A[0] * mv.y) * sp;
+        user.z += (T_V3_B[2] * mv.x + T_V3_A[2] * mv.y) * sp;
+    // Update velocity using previous stored position
+    userVelX = (user.x - prevUserX) / dt;
+    userVelZ = (user.z - prevUserZ) / dt;
+    prevUserX = user.x; prevUserZ = user.z;
+        // Resolve collisions with obstacles
+        resolveCollisions(prevX, prevZ);
+        tryPickupItems();
+
+    }
+    // -- /SOLUTION: Gameplay-Movement-Step --
+    // -- /MODULE: Gameplay-Movement --
+    // -- /FEATURE: Gameplay --
+    
+    // -- FEATURE: Scene --
+    // -- MODULE: Scene-Audio --
+    // todo: implement stereo sources to get spatial audio (directional wind sound)
+    let audioCtx = null;
+    let lastStepTime = 0;
+    const stepInterval = 500; // ms between walking sounds
+    // Global toggle for step/adaptive music sounds
+    let music = true;
+    
+    function initAudio(){
+      if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!window.windPlaying) { window.windPlaying = true; playWindSound(); }
+
+    }
+    // -- SOLUTION: Scene-Audio-Wind --
+    function playWindSound(){
+        if(!audioCtx) return;
+        
+        const t = audioCtx.currentTime;
+        const bufferSize = audioCtx.sampleRate * 3; // 3 seconds of audio
+        const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        const data = buffer.getChannelData(0);
+        
+        // Generate brown noise (filtered white noise for wind-like sound)
+        let lastOut = 0;
+        for (let i = 0; i < bufferSize; i++) {
+            const white = RANDOM() * 2 - 1;
+            const brown = (lastOut + (0.01 * white)) / 1.03;
+            data[i] = brown; //  *3 Amplify
+            lastOut = brown;
+        }
+        
+        const source = audioCtx.createBufferSource();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain(); // legacy (kept for compatibility / master)
+        // NEW: stereo nodes
+        const leftDelay = audioCtx.createDelay(0.01);   // up to 10ms (we will use < 1ms)
+        const rightDelay = audioCtx.createDelay(0.01);
+        const leftGain  = audioCtx.createGain();
+        const rightGain = audioCtx.createGain();
+        const merger    = audioCtx.createChannelMerger(2);
+        const master    = audioCtx.createGain();
+        
+        source.buffer = buffer;
+        source.loop = true;
+        filter.type = 'lowpass';
+        filter.frequency.value = 200;
+        filter.Q.value = 1.1;
+        // Wiring (duplicate mono to two ears with independent delay/gain)
+        source.connect(filter);
+        filter.connect(leftDelay);
+        filter.connect(rightDelay);
+        leftDelay.connect(leftGain);
+        rightDelay.connect(rightGain);
+        leftGain.connect(merger, 0, 0);
+        rightGain.connect(merger, 0, 1);
+        merger.connect(master);
+        master.connect(audioCtx.destination);
+        // Fade-in
+        master.gain.setValueAtTime(0, t);
+        master.gain.linearRampToValueAtTime(0.2, t + 4);
+        source.start();
+        // expose nodes for updates
+        audioCtx.windSource = source;
+        audioCtx.windFilter = filter;
+        audioCtx.windMaster = master;
+        audioCtx.windLeftGain = leftGain;
+        audioCtx.windRightGain = rightGain;
+        audioCtx.windLeftDelay = leftDelay;
+        audioCtx.windRightDelay = rightDelay;
+    }
+
+    // Reuse existing gust computation
+    // --- Wind gust math (mirror of grass shader) ---
+        // in serch of smple and efficient periodic functions
+        // Compute gust/sway values using same vectors and time constants as the grass vertex shader
+        function computeGustAt(x, z, timeSec) {
+            // same direction vectors used in the grass vertex shader
+            const w1x = 0.07, w1y = 0.05;
+            const w2x = -0.03, w2y = 0.04;
+
+            const dot1 = x * w1x + z * w1y;
+            const dot2 = x * w2x + z * w2y;
+
+            const g = 0.6 * SIN(dot1 + timeSec * 0.7) + 0.4 * SIN(dot2 - timeSec * 1.2);
+            // small global phase term similar to per-blade phase in shader
+            const sway = 0.25 * g + 0.07 * SIN(timeSec * 1.7 + 0.0);
+            return { gust: g, sway: sway };
+        }
+
+    // NEW: approximate local wind vector from gust field gradient (finite difference)
+    function computeWindVector(x, z, timeSec){
+        const eps = 0.5;
+        const gX1 = computeGustAt(x + eps, z, timeSec).gust;
+        const gX0 = computeGustAt(x - eps, z, timeSec).gust;
+        const gZ1 = computeGustAt(x, z + eps, timeSec).gust;
+        const gZ0 = computeGustAt(x, z - eps, timeSec).gust;
+        // gradient
+        let gx = (gX1 - gX0) / (2*eps);
+        let gz = (gZ1 - gZ0) / (2*eps);
+        // Flow taken perpendicular to gradient (simulate flow along isobars)
+        let vx = -gz;
+        let vz =  gx;
+        const len = HYPOT(vx, vz) || 1;
+        vx /= len; vz /= len;
+        // Slowly rotate vector for variety
+        const rot = 0.2 * SIN(timeSec * 0.05);
+        const cr = COS(rot), sr = SIN(rot);
+        const rvx = vx*cr - vz*sr;
+        const rvz = vx*sr + vz*cr;
+        return {x:rvx, z:rvz, speed: len};
+    }
+
+    // Enhanced wind update with stereo spatialization
+    function updateWind(timeSec, camX, camZ, yaw) {
+        if (!audioCtx || !audioCtx.windMaster) return;
+        const now = audioCtx.currentTime;
+        const s = computeGustAt(camX, camZ, timeSec);
+        const wind = computeWindVector(camX, camZ, timeSec);
+        // Loudness & brightness from sway (as before)
+        const baseGain = 0.08;
+        const gainScale = 0.6;
+        let targetGain = baseGain + gainScale * s.sway;
+        targetGain = MAX(0.01, MIN(1.0, targetGain));
+        audioCtx.windMaster.gain.setTargetAtTime(targetGain, now, 0.25);
+        // Filter brightness from sway
+        const baseFreq = 200;
+        const norm = (s.sway + 0.32) / 0.64;
+        const freq = baseFreq + norm * 1200;
+        audioCtx.windFilter.frequency.setTargetAtTime(freq, now, 0.25);
+        // --- Stereo cues ---
+        // Relative angle: wind vector vs listener forward (yaw)
+        const relAngle = ATAN2(wind.x, wind.z) - yaw;
+        // Wrap to [-PI, PI]
+        const a = ATAN2(SIN(relAngle), COS(relAngle));
+        const pan = SIN(a); // -1 (left) .. +1 (right)
+        // ILD (small): modify per-ear gains
+        const ildAmt = 0.3; // strength of level difference
+        const leftLevel = 1 - ildAmt * pan;
+        const rightLevel = 1 + ildAmt * pan;
+        audioCtx.windLeftGain.gain.setTargetAtTime(leftLevel, now, 0.15);
+        audioCtx.windRightGain.gain.setTargetAtTime(rightLevel, now, 0.15);
+        // ITD (max ~0.7ms)
+        const maxITD = 0.0007;
+        const itd = maxITD * pan;
+        const dL = itd > 0 ? itd : 0;
+        const dR = itd < 0 ? -itd : 0;
+        audioCtx.windLeftDelay.delayTime.setTargetAtTime(dL, now, 0.05);
+        audioCtx.windRightDelay.delayTime.setTargetAtTime(dR, now, 0.05);
+        // Optional subtle extra high-frequency boost when facing wind
+        // (Could add an additional peaking filter; kept simple here)
+    }
+    // -- /SOLUTION: Scene-Audio-Wind --
+    // -- SOLUTION: Scene-Audio-Click --
+    function playClickSound(){
+        if(!audioCtx) return;
+        const t = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(300, t);
+        gain.gain.setValueAtTime(0.3, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+        osc.start(t);
+        osc.stop(t + 0.1);    
+    }
+    // -- /SOLUTION: Scene-Audio-Click --
+    // -- SOLUTION: Scene-Audio-Step --
+    function playStepSound(){
+        // Chiptune-style engine bootstrap (bells + simple drums + cat melody)
+        if(!audioCtx) return;
+        if(!window.chipMusic){
+            const master = audioCtx.createGain();
+            master.gain.setValueAtTime(0, audioCtx.currentTime);
+            master.connect(audioCtx.destination);
+            window.chipMusic = {
+                g: master,
+                energy: 0,
+                lastActive: audioCtx.currentTime,
+                tempoBase: 90, // upbeat baseline
+                tempoMax: 190,  // faster when very active
+                beatDur: 60/140,
+                nextBeat: audioCtx.currentTime + 0.05,
+                step: 0,
+                // Drum patterns (1=hit,0=rest). 16-step base grid.
+                kickPat:  [1,0,0,0, 0,0,1,0, 1,0,1,0, 0,0,1,0],
+                snarePat: [0,0,0,0, 1,0,0,0, 0,0,0,0, 1,0,0,0], // backbeat on 5 and 13 (0-indexed)
+                // Bell arpeggio (indexes into bellScale; -1 = rest)
+                bellSeq:  [0,-1,1,-1, 2,1,2,-1,1,-1, 0,-1,1,-1, 0,2,0,-1,-1,0,3,4,3,-1], // 17 steps (prime-ish)
+                // Cat voice melody (indexes into catScale; -1 = rest)
+                catSeq:   [0,0,0,-1, 0,0,0,1, 2,3,0,-1, 3,5,7,-1,0, -1],
+                bellScale:[0,-1,2,3,5,7], // degrees in semitones relative to root (C-like minor feel)
+                catScale: [0,0,0,0,0,0,0,0,0,0,0,0,0],
+            };
+        }
+    }
+    function updateAdaptiveMusic(moveMag, dt){ // reusing loop name for integration
+        if(!audioCtx || !window.chipMusic) return;
+        const m = window.chipMusic;
+        const now = audioCtx.currentTime;
+        // Energy logic
+        const rise = 0.05; // faster build
+        const fall = 0.2; // moderate decay
+        if(moveMag > 0.1){
+            m.energy = MIN(1, m.energy + rise * dt);
+            m.lastActive = now;
+        } else if(now - m.lastActive > 0.8){
+            m.energy = MAX(0, m.energy - fall * dt);
+        }
+        // Tempo modulation
+        const tempo = m.tempoBase + (m.tempoMax - m.tempoBase) * POW(m.energy,0.7);
+        m.beatDur = 60/tempo; // 1 beat = quarter note
+        const targetGain = (m.energy===0)?0: (0.05 + 0.2*m.energy);
+        m.g.gain.setTargetAtTime(targetGain, now, 0.2);
+        while(music && now >= m.nextBeat){
+            emitChipBeat(m);
+            m.nextBeat += m.beatDur/2; // 8th-note resolution for more activity
+        }
+        if(m.energy===0 && now - m.lastActive > 5){
+            m.g.gain.setTargetAtTime(0.0001, now, 1.0);
+        }
+    }
+    function emitChipBeat(m){
+        const now = audioCtx.currentTime;
+        m.step++;
+        const beat16 = m.step % 16; // index for drums
+        // Kick
+        if(m.kickPat[beat16] && m.energy > 0.2){ spawnKick(now, m); }
+        // Snare (appears after some energy)
+        if(m.snarePat[beat16] && m.energy > 0.35){ spawnSnare(now, m); }
+        // Bells (appear early)
+        const bIdx = m.step % m.bellSeq.length;
+        const bellNote = m.bellSeq[bIdx];
+        if(bellNote >= 0 && m.energy > 0.3){
+            const semis = m.bellScale[bellNote % m.bellScale.length];
+            spawnBell(now, 980 * POW(2, semis/12), m); // base root ~ B5
+        }
+        // Cat melody (gated by speedboosts)
+        //const cIdx = m.step % m.catSeq.length;
+        //const catNote = m.catSeq[cIdx];
+        //if(catNote >= 0 && m.energy > 1.9){
+        //    const semis = m.catScale[catNote % m.catScale.length];
+        //    spawnCatVoice(now, 880* POW(2, semis/12), m); // root ~ G4
+        //}
+        // Occasional extra bell at max energy for sparkle
+        //if(m.energy > 0.5 && RANDOM() < 0.1){
+        //    spawnBell(now, 880 * POW(2, ((RANDOM()*12)|0)/12), m, 0.12); // random twinkle
+        //}
+    }
+    // --- Instrument spawners ---
+    function spawnKick(t, m){
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type='sine';
+        o.frequency.setValueAtTime(120, t);
+        o.frequency.exponentialRampToValueAtTime(40, t+0.18);
+        g.gain.setValueAtTime(0.001, t);
+        g.gain.exponentialRampToValueAtTime(0.6*(0.4+0.6*m.energy), t+0.01);
+        g.gain.exponentialRampToValueAtTime(0.0001, t+0.22);
+        o.connect(g); g.connect(m.g);
+        o.start(t); o.stop(t+0.25);
+    }
+    function spawnSnare(t, m){
+        const noise = audioCtx.createBufferSource();
+        const buf = audioCtx.createBuffer(1, audioCtx.sampleRate*0.2, audioCtx.sampleRate);
+        const data = buf.getChannelData(0);
+        for(let i=0;i<data.length;i++){ data[i] = (RANDOM()*2-1)*POW(1-i/data.length, 1.8); }
+        noise.buffer=buf;
+        const bp = audioCtx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.setValueAtTime(1800, t);
+        const g = audioCtx.createGain(); g.gain.setValueAtTime(0.001,t); g.gain.exponentialRampToValueAtTime(0.4*(0.4+0.6*m.energy), t+0.008); g.gain.exponentialRampToValueAtTime(0.0001, t+0.18);
+        noise.connect(bp); bp.connect(g); g.connect(m.g);
+        noise.start(t); noise.stop(t+0.2);
+    }
+    function spawnBell(t, f, m, vol){
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type='triangle';
+        o.frequency.setValueAtTime(f, t);
+        g.gain.setValueAtTime(0.001,t);
+        const peak = (vol||0.18) * (0.5+0.2*m.energy);
+        g.gain.exponentialRampToValueAtTime(peak, t+0.02);
+        g.gain.exponentialRampToValueAtTime(0.0002, t+0.6);
+        o.connect(g); g.connect(m.g);
+        o.start(t); o.stop(t+0.65);
+    }
+    function spawnCatVoice(t, f, m){
+        // Simple formant-ish meow made from two detuned oscillators fading quickly
+        const carrier = audioCtx.createOscillator();
+        const formant = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        carrier.type='square'; formant.type='sine';
+        carrier.frequency.setValueAtTime(f, t);
+        formant.frequency.setValueAtTime(f*2.01, t);
+        // mild vibrato
+        const lfo = audioCtx.createOscillator();
+        const lfoGain = audioCtx.createGain(); lfoGain.gain.value = 6; // semitone-ish wobble
+        lfo.frequency.value = 5;
+        lfo.connect(lfoGain); lfoGain.connect(carrier.frequency);
+        g.gain.setValueAtTime(0.001,t);
+        g.gain.exponentialRampToValueAtTime(0.1*(0.2+0.4*m.energy), t+0.05);
+        g.gain.exponentialRampToValueAtTime(0.0003, t+0.55);
+        carrier.connect(g); formant.connect(g); g.connect(m.g);
+        carrier.start(t); formant.start(t); lfo.start(t);
+        carrier.stop(t+0.6); formant.stop(t+0.6); lfo.stop(t+0.6);
+    }
+    // -- /SOLUTION: Scene-Audio-Step --
+    // -- /MODULE: Scene-Audio --
+
+    // -- MODULE: Scene-HUD --
+    // --- Log and HUD UI State ---
+    const LOG = [];
+    const LOG_MAX = 200;
+    let logScroll = 0;
+    let logVisible = true;
+    let hudVisible = true;
+    // Temporary congrats overlay state (third HUD drawn on top)
+    let congratsTimer = 0;           // seconds to show
+    const CONGRATS_DURATION = 3.5;   // show for 3.5s
+    let lastCaughtShown = 0;         // last cat.caught value shown
+
+    // State for HUD interaction.
+    let HUD_WH_world = M4(); // World matrix of the HUD quad
+    let hoverBtn = null; // The button currently being hovered over
+
+    function log(s) { LOG.push(s); if (LOG.length > LOG_MAX) LOG.shift(); }
+    function logClear() { LOG.length = 0; log('log cleared'); }
+
+    // UI button definitions. Each object defines a button's ID, position (in UV space), label, and click handler
+    let uiEnterLabel = 'Enter VR';
+    const UI_MAIN = [
+        { id: 'reset', u0: 0.4, v0: 0.1, u1: 0.7, v1: 0.2, label: 'Reset', onClick: () => { playClickSound(); user.x = 0; user.z = 2; user.yaw = 0; user.pitch = 0.2; resetCatPosition(); log('reset position'); } },
+        { id: 'vr', u0: 0.4, v0: 0.3, u1: 0.7, v1: 0.4, label: () => uiEnterLabel, onClick: () => { playClickSound(); toggleXRFromUI(); } },
+        { id: 'music', u0: 0.8, v0: 0.3, u1: 0.98, v1: 0.4, label: () => 'Music: ' + (music ? 'ON' : 'OFF'), onClick: () => { playClickSound(); music = !music; log('music ' + (music ? 'on' : 'off')); } },
+        { id: 'logtog', u0: 0.85, v0: 0.5, u1: 0.98, v1: 0.6 , label: 'LOG', onClick: () => { playClickSound(); logVisible = !logVisible; } },
+        { id: 'logdn', u0: 0.85, v0: 0.8, u1: 0.98, v1: 0.9, label: 'Down', onClick: () => { playClickSound(); logScroll = MAX(0, logScroll - 1); } },
+        { id: 'logup', u0: 0.85, v0: 0.7, u1: 0.98, v1: 0.8, label: 'Up', onClick: () => { playClickSound(); logScroll = MIN(MAX(0, LOG.length - 1), logScroll + 1); } },
+        { id: 'hudx', u0: 0.8, v0: 0.04, u1: 0.98, v1: 0.2, label: 'Close       X', onClick: () => { playClickSound(); hudVisible = false; } }
+    ];
+    const UI_TAB = [
+        { id: 'hudopen', u0: 0.4, v0: 0, u1: 0.6, v1: 0.12, label: 'HUD', onClick: () => { playClickSound(); hudVisible = true; } }
+    ];
+
+    // Returns the currently active set of UI buttons
+    function currentUI() { return hudVisible ? UI_MAIN : UI_TAB; }
+
+    // Returns the correct local transform for the HUD based on its visibility state
+    function getHudTransform() {
+        if (hudVisible) { // Centered panel
+            return new DOMMatrix([1,0,0,0, 0,1,0,0, 0,0,1,0, 0, -0.05, -1.15, 1]).toFloat32Array();
+        }
+        // Top tab.
+        return new DOMMatrix([1,0,0,0, 0,1,0,0, 0,0,1,0, 0, 0.5, -1.15, 1]).toFloat32Array();
+    }
+
+    // --- HUD Interaction Needs Input-ray ---
+    function HUD_pick(WH, ray, uiSet) {
+        const ui = uiSet || currentUI();
+        const inv = INV(WH);
+        const o = mulPoint(inv, ray.o); // Transform ray to HUD's local space
+        const d = mulDir(inv, ray.d);
+        const t = -o[2] / d[2]; // Intersect with the Z=0 plane
+        if (t <= 0) return null;
+
+        const x = o[0] + d[0] * t;
+        const y = o[1] + d[1] * t;
+
+        // Check if the hit is within the quad's bounds
+        if (x < -0.26 || x > 0.26 || y < -0.15 || y > 0.15) return null;
+        
+        // Convert local coordinates to UV coordinates
+        const u = (x + 0.26) / (0.26 * 2);
+        const v = (0.15 - y) / (0.15 * 2);
+
+        // Check against each button's UV bounds
+        for (const b of ui) {
+            if (u >= b.u0 && u <= b.u1 && v >= b.v0 && v <= b.v1) {
+                return { id: b.id, u, v, button: b, t };
+            }
+        }
+        return { id: null, u, v, button: null, t }; // Hit the panel but not a button
+    }
+
+    // --- HUD Drawing ---
+    // Draws the entire HUD onto the 2D canvas
+    function drawHUDCanvas(mode, hit, uiSet, dt) {
+        const ui = uiSet || currentUI();
+        hudCtx.clearRect(0, 0, hudCan.width, hudCan.height);
+
+        if (!hudVisible) {
+            // Draw the small "HUD" tab at the top of the screen
+            const b = ui[0];
+            const x = b.u0 * hudCan.width,
+                  y = b.v0 * hudCan.height,
+                  w = (b.u1 - b.u0) * hudCan.width,
+                  h = (b.v1 - b.v0) * hudCan.height;
+            const hov = hoverBtn && hoverBtn.id === 'hudopen';
+            hudCtx.fillStyle = hov ? 'rgba(160,200,160,.28)' : 'rgba(120,160,120,.18)';
+            hudCtx.strokeStyle = hov ? 'rgba(190,220,190,.95)' : 'rgba(160,200,160,.55)';
+            hudCtx.lineWidth = 2;
+            hudCtx.beginPath();
+            hudCtx.roundRect(x, y, w, h, 10);
+            hudCtx.fill();
+            hudCtx.stroke();
+            hudCtx.fillStyle = hov ? '#fff' : '#eef';
+            hudCtx.font = '16px system-ui';
+            hudCtx.textAlign = 'center';
+            hudCtx.textBaseline = 'middle';
+            hudCtx.fillText('HUD', x + w / 2, y + h / 2);
+            hudCtx.textAlign = 'left';
+            hudCtx.textBaseline = 'alphabetic';
+        } else {
+            // Draw the full HUD panel
+            hudCtx.fillStyle = 'rgba(40,30,20,.90)';
+            hudCtx.strokeStyle = 'rgba(255,255,255,.12)';
+            hudCtx.lineWidth = 2;
+            hudCtx.beginPath();
+            hudCtx.roundRect(6, 6, hudCan.width - 12, hudCan.height - 12, 16);
+            hudCtx.fill();
+            hudCtx.stroke();
+
+            // Header text
+            hudCtx.fillStyle = '#9f9';
+            hudCtx.font = '24px system-ui';
+            hudCtx.fillText('HUD', 20, 34);
+            hudCtx.fillStyle = '#fff';
+            hudCtx.font = '16px system-ui';
+            hudCtx.fillText(`Mode: ${mode}${isMobile ? ' (Touch)' : ''}`, 20, 60);
+            hudCtx.fillText(`FPS: ${ROUND(1/dt)}`, 20, 80);
+            hudCtx.fillText(`MS: ${dt.toFixed(3)}`, 100, 80);
+            hudCtx.fillText(`Pos: (${user.x.toFixed(1)}, ${user.z.toFixed(1)})`, 100, 100);
+            hudCtx.fillText(`Yaw: ${(user.yaw * 180 / PI | 0)}°`, 20, 100);
+            hudCtx.fillText(`Cat Caught: ${cat.caught}`, 20, 120);
+            hudCtx.fillText(`Boosts: ${speedBoosts.length}`, 150, 120);
+            if (hit) { hudCtx.fillStyle = '#afa';
+            hudCtx.fillText(`Hit @ ground: (${hit[0].toFixed(2)}, ${hit[2].toFixed(2)})`, 20, 140); }
+
+            // Log box
+            if (logVisible) {
+                const x = 18,
+                      y = 150,
+                      w = hudCan.width - 120,
+                      h = hudCan.height - 160;
+                hudCtx.fillStyle = 'rgba(0,0,0,.35)';
+                hudCtx.strokeStyle = 'rgba(255,255,255,.1)';
+                hudCtx.beginPath();
+                hudCtx.roundRect(x, y, w, h, 10);
+                hudCtx.fill();
+                hudCtx.stroke();
+                hudCtx.save();
+                hudCtx.beginPath();
+                hudCtx.rect(x + 8, y + 8, w - 16, h - 16);
+                hudCtx.clip();
+                hudCtx.fillStyle = '#eee';
+                hudCtx.font = '14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+                const lines = LOG.slice(MAX(0, LOG.length - 8 - logScroll), LOG.length - logScroll);
+                for (let i = 0; i < lines.length; i++)
+                    hudCtx.fillText(lines[i], x + 12, y + 24 + i * 16);
+                hudCtx.restore();
+            }
+
+            // Buttons
+            for (const b of UI_MAIN) {
+                const lab = (typeof b.label === 'function') ? b.label() : b.label;
+                const x = b.u0 * hudCan.width,
+                      y = b.v0 * hudCan.height,
+                      w = (b.u1 - b.u0) * hudCan.width,
+                      h = (b.v1 - b.v0) * hudCan.height;
+                const hov = hoverBtn && hoverBtn.id === b.id;
+                hudCtx.fillStyle = hov ? 'rgba(150,190,150,.25)' : 'rgba(120,160,120,.12)';
+                hudCtx.strokeStyle = hov ? 'rgba(190,220,190,.9)' : 'rgba(160,200,160,.4)';
+                hudCtx.lineWidth = 1;
+                hudCtx.beginPath();
+                hudCtx.roundRect(x, y, w, h, 8);
+                hudCtx.fill(); hudCtx.stroke();
+                hudCtx.fillStyle = hov ? '#fff' : '#eef';
+                hudCtx.font = '18px system-ui';
+                //hudCtx.textAlign = 'center';
+                hudCtx.textBaseline = 'middle';
+                //hudCtx.fillText(lab, x + w / 2, y + h / 2);
+                //hudCtx.textAlign = 'left';
+                // Center text vertically and with a slight left padding
+                hudCtx.fillText(lab, x + 10, y + h * 0.5);
+            }
+        }
+
+        // --- Third HUD variant: temporary overlay on top (minimal) ---
+        if (congratsTimer > 0) {
+            hudCtx.save();
+            // Smooth fade near the end
+            const fadeT = 0.5;
+            const alpha = (congratsTimer > fadeT) ? 1 : MAX(0, congratsTimer / fadeT);
+            hudCtx.globalAlpha = alpha;
+
+            // Position (clean, unobtrusive near upper center)
+            const x = hudCan.width * 0.5 + 10;
+            const y = hudCan.height * 0.4;
+            const text = `CAT #${cat.caught} CAUGHT`;
+
+            // Typography
+            hudCtx.textAlign = 'center';
+            hudCtx.textBaseline = 'middle';
+            hudCtx.font = 'bold 44px system-ui';
+
+            // Gentle vertical gradient fill
+            const g = hudCtx.createLinearGradient(0, y - 10, 0, y + 10);
+            g.addColorStop(0, '#c0e0f0'); // bluish top
+            g.addColorStop(1, '#e0d0a0'); // yellowish bottom
+
+            // Thin soft stroke for readability
+            hudCtx.lineWidth = 7;
+            hudCtx.strokeStyle = 'rgba(0,0,0,0.5)';
+            hudCtx.strokeText(text, x, y);
+            hudCtx.fillStyle = g;
+            hudCtx.fillText(text, x, y);
+
+            // Minimal accent underline
+            //const w = hudCtx.measureText(text).width;
+            //const ug = hudCtx.createLinearGradient(x - w / 2, y + 20, x + w / 2, y + 20);
+            //ug.addColorStop(0, '#fffff0');
+            //ug.addColorStop(1, '#f0f0ff');
+            //hudCtx.shadowBlur = 0;
+            //hudCtx.beginPath();
+            //hudCtx.moveTo(x - w / 2, y + 24);
+            //hudCtx.lineTo(x + w / 2, y + 24);
+            //hudCtx.lineWidth = 2;
+            //hudCtx.strokeStyle = ug;
+            //hudCtx.stroke();
+
+            // Text below
+            //hudCtx.font = '44px system-ui';
+            hudCtx.strokeText('Hunt continues?', x, y + 60);
+            hudCtx.fillText('Hunt continues?', x, y + 60);
+
+            hudCtx.restore();
+        }
+
+        // Upload the canvas content to the WebGL texture
+        gl.bindTexture(gl.TEXTURE_2D, hudTex);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, hudCan);
+    }
+
+    
+    // --- HUD Shader ---
+    // The HUD is a 2D canvas drawn in the DOM, then uploaded to a WebGL texture to be displayed on a 3D quad
+
+    let hudTex = gl.createTexture();
+    let hudCan = document.createElement('canvas');
+    let hudCtx = hudCan.getContext('2d');
+    hudCan.width = 640;
+    hudCan.height = 320;
+
+    gl.bindTexture(gl.TEXTURE_2D, hudTex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+    // Simple textured quad shader for the HUD
+    const vsH = `#version 300 es
+    precision highp float;
+    layout(location=0) in vec3 p;
+    layout(location=1) in vec2 uv;
+    uniform mat4 M, V, P;
+    out vec2 U;
+    void main(){
+        U = uv;
+        gl_Position = P * V * M * vec4(p, 1.0);
+    }`;
+    const fsH = `#version 300 es
+    precision highp float;
+    #define UNIFORM uniform
+    in vec2 U;
+    UNIFORM sampler2D T;
+    out vec4 o;
+    void main(){
+        vec4 c = texture(T, U);
+        if(c.a < 0.01) discard; // Discard fully transparent pixels.
+        o = c;
+    }`;
+    const PH = prog(vsH, fsH);
+    const uMH = gl.getUniformLocation(PH, 'M'),
+          uVH = gl.getUniformLocation(PH, 'V'),
+          uPH = gl.getUniformLocation(PH, 'P'),
+          uT = gl.getUniformLocation(PH, 'T');
+
+    const vboH = gl.createBuffer(), vaoH = gl.createVertexArray();
+    gl.bindVertexArray(vaoH);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vboH);
+    // Vertex data for the HUD quad (position and UV coordinates).
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([-0.26,0.15,0, 0,1,  0.26,0.15,0, 1,1,  0.26,-0.15,0, 1,0,  -0.26,0.15,0, 0,1,  0.26,-0.15,0, 1,0,  -0.26,-0.15,0, 0,0]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); 
+    gl.vertexAttribPointer(0, 3, 
+    gl.FLOAT, false, 20, 0);
+    gl.enableVertexAttribArray(1); 
+    gl.vertexAttribPointer(1, 2, 
+    gl.FLOAT, false, 20, 12);
+
+    // -- /MODULE: Scene-HUD --
+    // -- MODULE: Scene-Sky --
+    // --- Sky Shader ---
+    let noiseTex = gl.createTexture();
+    let cloudCoverage = 0.25;      // threshold knob -> more/less cloud
+    let cloudSharpness = 0.52;     // edge softness knob
+    let shadowSamples = 3;        // cheap self-shadow sampling count
+    let cloudHeight = 100.0;      // height (world units) of the cloud layer (controls horizon)
+    let cloudScale = 0.0001;      // global mapping scale from world XZ -> cloud texture space (MAIN SIZE LEVER)
+    let cloudMotionSpeed = 0.02;   // global motion speed scalar
+
+    function makeTileableNoise(size) {
+
+        const n = size|0;
+        // make a small random grid then bilinearly sample with wrap to create smooth tileable texture
+        const grid = new Float32Array(n * n);
+        for (let i = 0; i < grid.length; i++) grid[i] = RANDOM();
+
+        // bilinear sampling helper with wrap
+        function sampleGrid(u, v) {
+            const x = u * n;
+            const y = v * n;
+            const x0 = ((x|0) + n) % n;
+            const y0 = ((y|0) + n) % n;
+            const x1 = (x0 + 1) % n;
+            const y1 = (y0 + 1) % n;
+            const fx = x - FLOOR(x);
+            const fy = y - FLOOR(y);
+            const a = grid[y0 * n + x0];
+            const b = grid[y0 * n + x1];
+            const c = grid[y1 * n + x0];
+            const d = grid[y1 * n + x1];
+            const ab = a * (1 - fx) + b * fx;
+            const cd = c * (1 - fx) + d * fx;
+            return ab * (1 - fy) + cd * fy;
+        }
+
+        const img = new Uint8Array(n * n * 4);
+        for (let y = 0; y < n; y++) {
+            for (let x = 0; x < n; x++) {
+                const u = (x + 0.5) / n;
+                const v = (y + 0.5) / n;
+                // sample at multiple fractional offsets then combine to get smoother noise
+                const v0 = sampleGrid(u, v);
+                const v1 = sampleGrid(u + 0.5 / n, v + 0.3 / n);
+                const val = MAX(0, MIN(1, (v0 * 0.6 + v1 * 0.4)));
+                const idx = (y * n + x) * 4;
+                const c = (val * 255) | 0;
+                img[idx + 0] = c;
+                img[idx + 1] = c;
+                img[idx + 2] = c;
+                img[idx + 3] = 255;
+            }
+        }
+
+        gl.bindTexture(gl.TEXTURE_2D, noiseTex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, n, n, 0, gl.RGBA, gl.UNSIGNED_BYTE, img);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+    }
+    // Try: makeTileableNoise(256) or (512) for crisper small-scale details (optional)
+    makeTileableNoise(128);
+
+    // A procedural skybox rendered using a single full-screen triangle
+    const vsSky = `#version 300 es
+    precision highp float;
+    // Hardcoded vertices for a full-screen triangle.
+    const vec2 v[3] = vec2[3](vec2(-1.0,-1.0), vec2(3.0,-1.0), vec2(-1.0,3.0));
+    out vec2 uv; // Pass UV coordinates to the fragment shader.
+    void main(){
+        uv = v[gl_VertexID] * 0.5 + 0.5; // Convert vertex ID to UV coords [0,1].
+        gl_Position = vec4(v[gl_VertexID], 0.0, 1.0); // Output clip space position.
+    }`;
+
+    // Replaced fragment shader: perspective-correct cloud mapping (plane intersection), reduced velocities
+    const fsSky = `#version 300 es
+    precision highp float;
+    in vec2 uv;
+    out vec4 o;
+    uniform vec3 sunDir;    // Direction of the sun in world space.
+    uniform mat4 Vinv;      // Inverse of the view matrix (world-from-view).
+    uniform mat4 invPV;     // Inverse of the combined projection*view matrix.
+    uniform sampler2D uNoise;
+    uniform float uTime;
+    uniform float uCloudCoverage;
+    uniform float uCloudSharpness;
+    uniform int   uCloudShadowSamples;
+    uniform float uCloudHeight;
+    uniform float uCloudScale;
+    uniform float uCloudMotionSpeed;
+
+    // Color palette for the sky.
+    const vec3 zen = vec3(0.2, 0.2, 0.4); // Zenith color (top of the sky).
+    const vec3 hor = vec3(0.20, 0.28, 0.36); // Horizon color.
+    const vec3 sunTint = vec3(0.8, 0.6, 0.1); // Color of the sun's glow.
+
+    // simple noise sample wrapper (texture is tileable and repeated)
+    float n2(vec2 p) {
+        return texture(uNoise, p).r;
+    }
+
+    // 4-octave fBm
+    float fbm4(vec2 p) {
+        float sum = 0.0;
+        float amp = 0.5;
+
+        // OPTIONAL DOMAIN WARP (uncomment to add non-uniformity before sampling):
+        // vec2 warp = vec2(n2(p + 13.1), n2(p + 7.7)) * 0.8 - 0.4; // [-0.4..0.4] offset
+        // p += warp;
+
+        // Base velocities for each octave (edit speeds/directions for different motion patterns)
+        vec2 baseVel0 = vec2(0.012, 0.007);
+        vec2 baseVel1 = vec2(-0.008, 0.015);
+        vec2 baseVel2 = vec2(0.017, -0.011);
+        vec2 baseVel3 = vec2(-0.011, -0.018);
+
+        // Octaves
+        sum += amp * n2(p + uTime * baseVel0 * uCloudMotionSpeed);
+
+        p *= 2.0;    // LACUNARITY: try 2.2 or 2.5 for more size separation
+        amp *= 0.5;  // GAIN: try 0.55..0.65 to keep more small-scale detail
+        sum += amp * n2(p + uTime * baseVel1 * uCloudMotionSpeed);
+
+        p *= 2.0;    // Another scale jump (edit to taste)
+        amp *= 0.5;  // Another gain drop
+        sum += amp * n2(p + uTime * baseVel2 * uCloudMotionSpeed);
+
+        p *= 2.0;
+        amp *= 0.5;
+        sum += amp * n2(p + uTime * baseVel3 * uCloudMotionSpeed);
+
+        return sum;
+    }
+
+    void main(){
+        // reconstruct view ray in world space
+        vec3 ro = (Vinv * vec4(0.0,0.0,0.0,1.0)).xyz;
+        vec2 ndc = uv * 2.0 - 1.0;
+        vec4 clipFar = vec4(ndc, 1.0, 1.0);
+        vec4 worldFar4 = invPV * clipFar;
+        vec3 worldFar = worldFar4.xyz / worldFar4.w;
+        vec3 rd = normalize(worldFar - ro);
+
+        // base sky gradient and sun glow (unchanged)
+        float t = pow(max(rd.y * 0.5 + 0.5, 0.0), 1.2);
+        vec3 sky = mix(hor, zen, t);
+        vec3 s = normalize(sunDir);
+        float sd = max(dot(rd, s), 0.0);
+        float sun = smoothstep(0.995, 1.0, sd);
+        float glow = pow(sd, 60.0) + 0.4 * pow(sd, 12.0);
+        vec3 col = sky + sunTint * glow + vec3(1.0) * sun * 0.15;
+
+        // --- perspective-correct cloud mapping: intersect ray with horizontal cloud plane ---
+        vec2 samplePos;
+        float tCloud = (uCloudHeight - ro.y) / rd.y;
+        if (tCloud > 0.0) {
+            vec3 p = ro + rd * tCloud;
+            samplePos = p.xz;
+        } else {
+            // ray goes upward or doesn't hit plane: fallback sample far along ray (keeps sky-top reasonable)
+            vec3 p = ro + rd * 1000.0;
+            samplePos = p.xz;
+        }
+
+        // map world XZ to cloud texture UV, apply global scale
+        vec2 cloudUV = samplePos * uCloudScale;
+
+        // BUILD NOISE- fBm - 4D Perlin noise function
+        float f = fbm4(cloudUV);
+
+        // COVERAGE / EDGE SOFTNESS
+        float coverage = clamp(uCloudCoverage, 0.0, 1.0);
+        float sharp = max(0.001, uCloudSharpness);
+        float cloudMask = smoothstep(coverage, coverage + sharp, f);
+
+        // SHADOW TUNING:
+        vec2 sunStep = normalize(s.xz + 0.0001);
+        float occ = 0.0;
+        int samples = max(1, uCloudShadowSamples);
+        float stepSize = 8.0 * uCloudScale; // tie to scale so softness stays consistent when size changes
+        for (int i = 1; i <= 8; ++i) {
+            if (i > samples) break;
+            vec2 p = cloudUV + sunStep * float(i) * stepSize;
+            occ += fbm4(p);
+        }
+        occ /= float(samples);
+        float lightFactor = 1.0 - clamp(occ * 1.6, 0.0, 1.0);
+
+        // shade clouds and blend
+        vec3 cloudBase = vec3(0.95, 0.98, 1.0);
+        vec3 cloudShaded = cloudBase * (0.45 + 0.55 * lightFactor);
+        float facingSun = clamp(dot(normalize(vec3(s.x, s.y, s.z)), normalize(rd)), 0.0, 1.0);
+        cloudShaded += 0.25 * sun * facingSun;
+
+        float cloudAlpha = cloudMask * 0.95;
+        col = mix(col, cloudShaded, cloudAlpha);
+
+        o = vec4(col, 1.0);
+    }`;
+
+    const PSKY = prog(vsSky, fsSky);
+    const vaoSky = gl.createVertexArray();
+    const uVinv = gl.getUniformLocation(PSKY, 'Vinv');
+    const uInvPV = gl.getUniformLocation(PSKY, 'invPV');
+    const uSun = gl.getUniformLocation(PSKY, 'sunDir');
+
+    // --- new: sky shader uniform locations for noise & cloud params ---
+    const uNoiseSky = gl.getUniformLocation(PSKY, 'uNoise');
+    const uTimeSky = gl.getUniformLocation(PSKY, 'uTime');
+    const uCoverage = gl.getUniformLocation(PSKY, 'uCloudCoverage');
+    const uSharpness = gl.getUniformLocation(PSKY, 'uCloudSharpness');
+    const uShadowSamples = gl.getUniformLocation(PSKY, 'uCloudShadowSamples');
+    const uCloudHeightLoc = gl.getUniformLocation(PSKY, 'uCloudHeight');
+    const uCloudScaleLoc = gl.getUniformLocation(PSKY, 'uCloudScale');
+    const uCloudMotionSpeedLoc = gl.getUniformLocation(PSKY, 'uCloudMotionSpeed');
+
+    // -- /MODULE: Scene-Sky --
+    // -- MODULE: Scene-Ground --
+    // --- Grid Shader ---
+    // A simple shader to draw a grid on the ground plane
+    const vsG = `#version 300 es
+    precision highp float;
+    layout(location=0) in vec3 p;
+    uniform mat4 M, V, P;
+    out vec3 w;
+    void main(){
+        w = (M * vec4(p,1.)).xyz;
+        gl_Position = P * V * vec4(w,1.);
+    }`;
+    const fsG = `#version 300 es
+    precision highp float;
+    in vec3 w;
+    out vec4 o;
+    float h(vec2 v){return fract(sin(dot(v,vec2(41.,289.)))*9000.);}
+    void main(){
+        vec2 q = floor(w.xz / .6);
+        float r = h(q), r2 = h(q + 13.);
+        // Base tile color with occasional lighter specks
+        vec3 c = mix(vec3(.08,.05,.02), vec3(.3,.2,.1), r) + step(.97, r2) * vec3(.1,.08,.04);
+        // Removed distance-based darkening to keep texture infinite
+        o = vec4(c, 1.);
+    }`;
+
+    const PG = prog(vsG, fsG);
+    const uM = gl.getUniformLocation(PG, 'M');
+    const uV = gl.getUniformLocation(PG, 'V');
+    const uP = gl.getUniformLocation(PG, 'P');
+    const vbo = gl.createBuffer();
+    const vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+    // A large quad to serve as the ground plane.
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([-1e3,0,-1e3, 1e3,0,-1e3, 1e3,0,1e3, -1e3,0,-1e3, 1e3,0,1e3, -1e3,0,1e3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+
+    // -- /MODULE: Scene-Ground --
+    
+    // -- MODULE: Gameplay-item --
+    // NEW: Sphere (items/obstacles) minimal shader + geometry
+    const vsSphere = `#version 300 es
+    layout(location=0) in vec3 p;
+    uniform mat4 V,P;
+    uniform vec3 uPos;
+    uniform float uS;
+    void main(){
+        vec3 wp = p * uS + uPos;
+        gl_Position = P * V * vec4(wp,1.0);
+    }`;
+    const fsSphere = `#version 300 es
+    precision highp float;
+    uniform vec3 uColor;
+    out vec4 o;
+    void main(){ o = vec4(uColor,1.0); }`;
+
+    function buildSphere(lat=10, lon=12){
+        const v=[];
+        for(let i=0;i<lat;i++){
+            const t1=PI*i/lat, t2=PI*(i+1)/lat;
+            for(let j=0;j<lon;j++){
+                const p1=2*PI*j/lon, p2=2*PI*(j+1)/lon;
+                const quad=[
+                    sph(t1,p1),sph(t2,p1),sph(t2,p2),
+                    sph(t1,p1),sph(t2,p2),sph(t1,p2)
+                ];
+                for(const q of quad) v.push(q[0],q[1],q[2]);
+            }
+        }
+        return new Float32Array(v);
+    }
+    function sph(t,p){ return [SIN(t)*COS(p), COS(t), SIN(t)*SIN(p)]; }
+
+    const PS = prog(vsSphere, fsSphere);
+    const sphereVao = gl.createVertexArray();
+    const sphereBuf = gl.createBuffer();
+    gl.bindVertexArray(sphereVao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, sphereBuf);
+    const sphereVerts = buildSphere();
+    gl.bufferData(gl.ARRAY_BUFFER, sphereVerts, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+    const uS_V = gl.getUniformLocation(PS,'V');
+    const uS_P = gl.getUniformLocation(PS,'P');
+    const uS_Pos = gl.getUniformLocation(PS,'uPos');
+    const uS_S = gl.getUniformLocation(PS,'uS');
+    const uS_Color = gl.getUniformLocation(PS,'uColor');
+
+    // -- /MODULE: Gameplay-item --
+
+    // -- MODULE: Scene-Rocks --
+    // Stylized low-poly rocks: deterministic placement, flat-ish shading, and collision integration
+    const rocks = []; // currently active rock descriptors {x,y,z,r,seed}
+
+    // Simple deterministic hash for rock placement
+    function rockHash(ix, iz, salt){
+        const s = SIN(ix*127.1 + iz*311.7 + salt*13.13) * 43758.5453;
+        return s - FLOOR(s);
+    }
+
+    // Build a low-res sphere for rock base (coarse facets)
+    const rockVerts = buildSphere(6, 8); // fewer subdivisions -> larger facets
+    const PRock_vs = `#version 300 es
+    layout(location=0) in vec3 p;
+    uniform mat4 V, P;
+    uniform vec3 uPos;
+    uniform float uS;
+    uniform float uSeed;
+    out vec3 vLocal;
+    // cheap hash noise
+    float h(float x){ return fract(sin(x)*43758.5453); }
+    void main(){
+        // Displace vertex along its normal-ish direction using a cheap noise based on seed and vertex
+        vec3 local = p * uS;
+        float n = h((local.x + local.y*1.7 + local.z*2.3) * (uSeed + 1.0));
+        float off = (n - 0.5) * (0.5 * uS); // displacement magnitude
+        // push outward roughly by position vector (acts like normal)
+        vec3 wp = (local + normalize(local) * off) + uPos;
+        vLocal = local;
+        gl_Position = P * V * vec4(wp, 1.0);
+    }`;
+
+    const PRock_fs = `#version 300 es
+    precision highp float;
+    in vec3 vLocal;
+    out vec4 o;
+    uniform float uSeed;
+    // quantize shading to get flat bands
+    void main(){
+        vec3 baseA = vec3(0.35, 0.3, 0.2);
+        vec3 baseB = vec3(0.15, 0.1, 0.1);
+        // fake normal from position
+        vec3 n = normalize(vLocal + vec3(0.0,0.0,-2.5));
+        float shade = dot(n, normalize(vec3(0.0,0.1,-0.5)));
+        shade = clamp(shade, 0.0, 1.0);
+        // quantize into 4 levels
+        float q = floor(shade * 4.0) / 4.0;
+        // subtle pattern variation
+        //float grain = fract(sin((vLocal.x+vLocal.y*7.7+vLocal.z*13.3) * (uSeed+1.0)) * 43758.5453) * 0.06;
+        vec3 col = mix(baseB, baseA, q);// + grain;
+        o = vec4(col, 1.0);
+    }`;
+
+    const PROCK = prog(PRock_vs, PRock_fs);
+    const rockVao = gl.createVertexArray();
+    const rockBuf = gl.createBuffer();
+    gl.bindVertexArray(rockVao);
+    gl.bindBuffer(gl.ARRAY_BUFFER, rockBuf);
+    gl.bufferData(gl.ARRAY_BUFFER, rockVerts, gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+    const uR_V = gl.getUniformLocation(PROCK, 'V');
+    const uR_P = gl.getUniformLocation(PROCK, 'P');
+    const uR_Pos = gl.getUniformLocation(PROCK, 'uPos');
+    const uR_S = gl.getUniformLocation(PROCK, 'uS');
+    const uR_Seed = gl.getUniformLocation(PROCK, 'uSeed');
+
+    // Parameters for rock field
+    const ROCK_CELL = 5;
+    const ROCK_RADIUS = 200.0; // generation radius
+    const ROCK_PROB = 0.01;   // spawn probability per cell
+
+    // Update rocks around camera and sync to obstacles array (mark obstacles with _isRock)
+    function updateRocks(camX, camZ){
+        // remove previous rock-marked obstacles
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            if (obstacles[i]._isRock) obstacles.splice(i, 1);
+        }
+        rocks.length = 0;
+        const c = ROCK_CELL; const r = ROCK_RADIUS;
+        const minX = FLOOR((camX - r)/c);
+        const maxX = FLOOR((camX + r)/c);
+        const minZ = FLOOR((camZ - r)/c);
+        const maxZ = FLOOR((camZ + r)/c);
+        for(let gz=minZ; gz<=maxZ; gz++){
+            for(let gx=minX; gx<=maxX; gx++){
+                const h = rockHash(gx, gz, 0.0);
+                if (h < ROCK_PROB){
+                    const jx = rockHash(gx, gz, 1.0) - 0.5;
+                    const jz = rockHash(gx, gz, 2.0) - 0.5;
+                    const px = gx*c + (jx * c * 0.6) + c*0.5;
+                    const pz = gz*c + (jz * c * 0.6) + c*0.5;
+                    const dx = px - camX, dz = pz - camZ;
+                    if (dx*dx + dz*dz <= r*r){
+                        const seed = rockHash(gx, gz, -7.0) * 1000.0;
+                        const scale = 4.0 + rockHash(gx, gz, 5.0) * 2.; // 1.0 .. 6.0 meters
+                        const rx = px, rz = pz, ry = scale * 0.45; // small y offset
+                        const radius = scale * 1.2; // collision radius
+                        const rock = { x: rx, y: ry, z: rz, r: radius, seed, scale };
+                        rocks.push(rock);
+                        // also add to obstacles so collision code picks it up
+                        obstacles.push({ x: rx, y: ry, z: rz, r: radius, _isRock: true });
+                    }
+                }
+            }
+        }
+    }
+
+    // -- /MODULE: Scene-Rocks --
+
+    // -- MODULE: Scene-Grass --
+    // --- Grass Shaders ---
+    // Grass rendering constants.
+    const GRASS_SEG = 4; // Number of segments per blade of grass
+    const GRASS_VCOUNT = (GRASS_SEG + 1) * 2; // Total vertices per blade
+
+    // Uses instanced rendering to draw many blades of grass efficiently
+    const vsGrass = `#version 300 es
+    precision highp float;
+    #define NORMALIZE normalize
+    uniform mat4 V, P;
+    uniform vec2 uCamXZ;
+    uniform vec3 uCamRight;
+    uniform float uTime;
+    uniform float uCell;
+    uniform int uGridN;
+    uniform float uSeed;
+    // NEW: biome noise
+    uniform sampler2D uNoise;
+    uniform float uNoiseScale;
+    out vec3 vCol;
+
+    // Simple hash functions for procedural generation.
+    float hash12(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453123); }
+    vec2  hash22(vec2 p){ float n = sin(dot(p, vec2(1.0,113.0))); return fract(vec2(262144.0*n, 32768.0*n)); }
+
+    void main(){
+        // Determine the world-space cell for this instance.
+        int N = uGridN;
+        int iid = gl_InstanceID;
+        int ix = iid % N - N/2;
+        int iz = iid / N - N/2;
+
+        vec2 camCellF = floor(uCamXZ / uCell);
+        vec2 cellF = camCellF + vec2(float(ix), float(iz));
+        vec2 baseCenter = (cellF + vec2(0.5)) * uCell;
+
+        // Per-cell randomization for grass placement, height, width, etc.
+        vec2 tileKey = floor(baseCenter / uCell) + vec2(uSeed);
+        vec2 jitter = (hash22(tileKey) - 0.5) * (uCell * 90.9);
+        float hRand = hash12(tileKey * 3.1);
+        float wRand = hash12(tileKey * 7.7);
+        float ph = hash12(tileKey * 5.3) * 6.2831853; // Phase for wind sway.
+
+        // NEW: sample biome noise (0..1) - low values = dry, high = lush
+        float biome = texture(uNoise, baseCenter * uNoiseScale).r;
+
+        // Cull instances outside the radius.
+        //float dist = length(baseCenter - uCamXZ);
+        //float inRadius = step(dist, uRadius);
+
+        // Define the shape of a single grass blade (a triangle strip).
+        float H = mix(0.6, 0.9, hRand);
+        float t = float(gl_VertexID / 2) / float(${GRASS_SEG});
+        float side = (gl_VertexID % 2 == 0) ? -1.0 : 1.0;
+        
+        // Make blades wider when close to the camera to hide gaps.
+        float nearWScale = mix(1.9, 1.0, smoothstep(0.0, 2.0, 1.0));
+        float width = 0.05 * (1.0 - t) * (0.6 + 0.6 * wRand) * nearWScale;
+
+        // Animate wind using a coherent noise field.
+        vec2 w1 = vec2(0.07, 0.05);
+        vec2 w2 = vec2(-0.03, 0.04);
+        float gust = 0.6 * sin(dot(baseCenter, w1) + uTime * 0.7) + 0.4 * sin(dot(baseCenter, w2) - uTime * 1.2);
+        float sway = (0.25 * gust) + 0.07 * sin(uTime * 1.7 + ph);
+        float bend = (t * t) * sway;
+
+        // Construct the final vertex position.
+        vec2 baseXZ = baseCenter + jitter;
+        vec3 base = vec3(baseXZ.x, 0.0, baseXZ.y);
+        vec3 right = NORMALIZE(uCamRight); // Billboard the blade towards the camera.
+        vec2 w = vec2(cos(0.3 * uTime), sin(0.32 * uTime)); // Two phases out of sync
+        w *= inversesqrt(dot(w,w) + 1e-3);   // add  0.001 to not mult by near 0
+        vec2 windDir = w; // consider calculating once per frame
+        vec3 bendOff = vec3(windDir.x, 0.0, windDir.y) * bend * H;
+        vec3 pos = base + right * (side * width) + vec3(0.0, t * H, 0.0) + bendOff;
+
+        // Biome-based color gradients
+        vec3 dry_c0 = vec3(0.12, 0.10, 0.01);
+        vec3 dry_c1 = vec3(0.45, 0.38, 0.05);
+        vec3 lush_c0 = vec3(0.05, 0.12, 0.02);
+        vec3 lush_c1 = vec3(0.30, 0.70, 0.22);
+        vec3 c0 = mix(dry_c0, lush_c0, biome);
+        vec3 c1 = mix(dry_c1, lush_c1, biome);
+        // Preserve original vertical gradient & slight random tint
+        vCol = mix(c0, c1, smoothstep(0.0, 1.0, t)) * (0.85 + 0.15 * hash12(tileKey * 11.1));
+
+        gl_Position = P * V * vec4(pos, 1.0);
+    }`;
+    const fsGrass = `#version 300 es
+    precision highp float;
+    in vec3 vCol;
+    out vec4 o;
+    void main(){ o = vec4(vCol, 1.0); }`;
+
+    const PGRASS = prog(vsGrass, fsGrass);
+    const uVG = gl.getUniformLocation(PGRASS, 'V'), uPG = gl.getUniformLocation(PGRASS, 'P');
+    const uCamXZ = gl.getUniformLocation(PGRASS, 'uCamXZ');
+    const uCamRight = gl.getUniformLocation(PGRASS, 'uCamRight');
+    const uTimeG = gl.getUniformLocation(PGRASS, 'uTime');
+    const uCell = gl.getUniformLocation(PGRASS, 'uCell');
+    const uGridN = gl.getUniformLocation(PGRASS, 'uGridN');
+    //const uRadius = gl.getUniformLocation(PGRASS, 'uRadius');
+    const uSeed = gl.getUniformLocation(PGRASS, 'uSeed');
+    // NEW biome uniforms
+    const uNoise = gl.getUniformLocation(PGRASS, 'uNoise');
+    const uNoiseScale = gl.getUniformLocation(PGRASS, 'uNoiseScale');
+
+    // The grass VAO is minimal since all vertex data is generated procedurally in the shader
+    const vaoGrass = gl.createVertexArray(), vboGrass = gl.createBuffer();
+    gl.bindVertexArray(vaoGrass);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vboGrass);
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([0]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 1, gl.FLOAT, false, 0, 0);
+
+    // -- /MODULE: Scene-Grass --
+    // -- MODULE: Scene-Plant --
+    // --- L-System Plant Shader ---
+    // -- SOLUTION: Scene-Plant--
+    // Positions and scales for the scattered L-system plants.
+    // --- Procedural plant field (infinite-style) ---
+    const PLANT_CELL = 6.0;          // World size of one plant decision cell
+    const PLANT_PROB = 0.3;         // Spawn probability per cell
+    const PLANT_RADIUS = 55.0;       // Active radius around camera (render window)
+    const PLANT_SCALE_MIN = 1.8;
+    const PLANT_SCALE_MAX = 3.0;
+    
+    // Fast small hash (deterministic)
+    function plantHash(ix, iz, salt){
+        const s = SIN(ix*127.1 + iz*311.7 + salt*17.17)*43758.5453;
+        return s - FLOOR(s);
+    }
+    
+    // Generate plants near (cx,cz); returns array of objects
+    function genPlants(cx, cz){
+        const r = PLANT_RADIUS;
+        const c = PLANT_CELL;
+        const minX = FLOOR((cx - r)/c);
+        const maxX = FLOOR((cx + r)/c);
+        const minZ = FLOOR((cz - r)/c);
+        const maxZ = FLOOR((cz + r)/c);
+        const out = [];
+        for(let gz=minZ; gz<=maxZ; gz++){
+            for(let gx=minX; gx<=maxX; gx++){
+                const h = plantHash(gx, gz, 0.0);
+                if(h < PLANT_PROB){
+                    // Stable jitter inside cell
+                    const jx = plantHash(gx, gz, 1.0) - 0.5;
+                    const jz = plantHash(gx, gz, 2.0) - 0.5;
+                    const px = gx*c + (jx * c * 0.85) + c*0.5;
+                    const pz = gz*c + (jz * c * 0.85) + c*0.5;
+                    const dx = px - cx, dz = pz - cz;
+                    if(dx*dx + dz*dz <= r*r){
+                        const sc = PLANT_SCALE_MIN + (plantHash(gx, gz, 3.0) * (PLANT_SCALE_MAX - PLANT_SCALE_MIN));
+                        out.push({px, pz, scale: sc, gx, gz});
+                    }
+                }
+            }
+        }
+        return out;
+    }
+    
+    const vsPlants = `#version 300 es
+    precision highp float; // Use high precision for all float operations
+    layout(location=0) in vec3 p; // Input vertex position attribute at location 0
+    layout(location=1) in vec2 uv_in; // Input UV texture coordinate attribute at location 1
+    uniform mat4 M, V, P; // Model, View, and Projection matrices
+    out vec2 uv; // Pass UV coordinates to fragment shader
+    void main() { // Main vertex shader function
+        uv = uv_in; // Pass through UV coordinates unchanged
+        gl_Position = P * V * M * vec4(p, 1.0); // Transform vertex position to clip space
+    }`;
+
+    const fsPlants = `#version 300 es
+    precision highp float; // Use high precision for all float operations
+    in vec2 uv; // UV coordinates received from vertex shader
+    out vec4 o; // Output color for this fragment
+    uniform float uTime; // Time uniform for animation
+    uniform int uMaxIterations; // Control the quality/complexity
+    uniform vec3 uPlantPos; // World position of the plant
+    uniform float uPlantSeed; // Seed for this plant
+
+    #define PI 3.14159 // Define PI constant for mathematical calculations
+
+    mat3 Rot(float angle) { float c = cos(angle); float s = sin(angle); return mat3(vec3(c, s, 0), vec3(-s, c, 0), vec3(0, 0, 1)); }
+    mat3 Disp(vec2 displacement) { return mat3(vec3(1, 0, 0), vec3(0, 1, 0), vec3(displacement, 1)); }
+
+    float sdCappedCylinder(vec2 p, vec2 h) {
+        p -= vec2(0., h.y);
+        vec2 d = abs(vec2(length(p.x), p.y)) - h;
+        return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
+    }
+
+    // small hash helper inside shader
+    float hashf(float x){ return fract(sin(x)*43758.5453); }
+    float hash2(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+
+    float center(vec2 pt) {
+        float baseAngle = 25.7 + uPlantSeed * 10.0;
+        mat3 posR = Rot(-(baseAngle / 360.) * 2. * PI);
+        mat3 negR = Rot(baseAngle / 360. * 2. * PI);
+
+        // Vary depth using seed (3..7)
+        int depth = 3 + int(uPlantSeed * 4.0);
+        const int branches = 3;
+        int maxDepth = 1; for(int i=0;i<depth;i++) maxDepth *= branches;
+        float len = 1.5;
+        float wid = .02;
+        pt = pt + vec2(0, 2);
+        float trunk = sdCappedCylinder(pt - vec2(0., 0.), vec2(wid, len));
+        float d = 500.;
+        int c = 0;
+
+        // Wind like grass
+        vec2 w1 = vec2(0.07, 0.05);
+        vec2 w2 = vec2(-0.03, 0.04);
+        float gust = 0.6 * sin(dot(uPlantPos.xz, w1) + uTime * 0.7) + 0.4 * sin(dot(uPlantPos.xz, w2) - uTime * 1.2);
+        float ph = fract(sin(dot(uPlantPos.xz, vec2(12.9898,78.233))) * 43758.5453) * 6.283;
+        float sway = (0.25 * gust) + 0.07 * sin(uTime * 1.7 + ph);
+        mat3 windMatrix = Rot(sway * 0.5);
+
+        for (int count = 0; count <  uMaxIterations; ++count) {
+            int off = 1; for(int i=0;i<depth;i++) off *= branches;
+            vec2 pt_n = pt;
+            for (int i = 1; i <= depth; ++i) {
+                float l = len / pow(2., float(i));
+                off /= branches;
+                int dec = c / off;
+                int path = dec - branches * (dec / branches);
+                mat3 mx;
+                if (path == 0) {
+                    mx = posR * Disp(vec2(0, -2. * l));
+                } else if (path == 1) {
+                    mx = windMatrix * negR * Disp(vec2(0, -2. * l));
+                } else {
+                    mx = windMatrix * Disp(vec2(0, -4. * l));
+                }
+                pt_n = (mx * vec3(pt_n, 1)).xy;
+                float y = sdCappedCylinder(pt_n, vec2(wid, l));
+                if (y - 2.0 * l > 0.0) { c += off - 1; break; }
+                d = min(d, y);
+                if (d < 0.01) break; // Early exit if we are inside a shape
+            }
+            if (d < 0.01) break; // And check again here to exit outer loop
+            ++c;
+            if (c > maxDepth) break;
+        }
+        return min(d, trunk);
+    }
+
+    void main() {
+        // compute distance field
+        vec2 p = (uv * 2.0 - 1.0) * 5.0;
+        p.y += 3.0;
+        float d = center(p);
+
+        // alpha from distance (same approach as before)
+        float t = clamp(d, 0.0, .04) * 2. * 12.5;
+        float alpha = 1.0 - t;
+        if (alpha < 0.05) discard;
+
+        // vertical gradient factor from vertex UV (0..1)
+        float height = clamp(uv.y, 0.0, 1.0);
+
+        // base green and orange palettes
+        vec3 green = vec3(0.3, 0.4, 0.1);
+        vec3 orange = vec3(0.5, 0.4, 0.2);
+
+        // random tint 0..1 from seed -> bias towards green or orange
+        float tint = hashf(uPlantSeed * 37.17);
+
+        // per-plant subtle brightness variation
+        float varb = 0.85 + 0.3 * hash2(uPlantPos.xz + vec2(uPlantSeed));
+
+        // mix base color between green and orange, then apply vertical gradient
+        vec3 base = mix(green, orange, smoothstep(0.0, 1.0, tint));
+        vec3 top = base * 1.;
+        vec3 bottom = base * 0.4;
+        vec3 col = mix(bottom, top, smoothstep(0.0, 1.0, height)) * varb;
+
+        // slight per-pixel noise to avoid banding
+        float n = hash2(uPlantPos.xz + uv*12.34);
+        col *= (0.97 + 0.06 * n);
+
+        o = vec4(col * alpha, alpha);
+    }`;
+
+    const PPLANTS = prog(vsPlants, fsPlants); // Compile and link plant shader program
+    const uMPla = gl.getUniformLocation(PPLANTS, 'M'); // Get location of Model matrix uniform
+    const uVPla = gl.getUniformLocation(PPLANTS, 'V'); // Get location of View matrix uniform
+    const uPPla = gl.getUniformLocation(PPLANTS, 'P'); // Get location of Projection matrix uniform
+    const uTimePla = gl.getUniformLocation(PPLANTS, 'uTime'); // Get location of time uniform for animation
+    const uMaxIterationsPla = gl.getUniformLocation(PPLANTS, 'uMaxIterations'); // Get location of max iterations uniform
+    const uPlantPosPla = gl.getUniformLocation(PPLANTS, 'uPlantPos');
+    const uPlantSeedPla = gl.getUniformLocation(PPLANTS, 'uPlantSeed');
+
+    const vboPlants = gl.createBuffer(), vaoPlants = gl.createVertexArray(); // Create vertex buffer and vertex array objects
+    gl.bindVertexArray(vaoPlants); // Bind the vertex array object
+    gl.bindBuffer(gl.ARRAY_BUFFER, vboPlants); // Bind the vertex buffer object
+    // Vertex data for a quad (position and UV coordinates).
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([-1,2,0, 0,1,  1,2,0, 1,1,  1,0,0, 1,0,  -1,2,0, 0,1,  1,0,0, 1,0,  -1,0,0, 0,0]), gl.STATIC_DRAW); // Upload vertex data: 6 vertices forming 2 triangles for a quad, each with position (x,y,z) and UV (u,v)
+    gl.enableVertexAttribArray(0); // Enable vertex attribute array at location 0 (position)
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 20, 0); // Set vertex attribute pointer for position: 3 floats, stride 20 bytes, offset 0
+    gl.enableVertexAttribArray(1); // Enable vertex attribute array at location 1 (UV)
+    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 20, 12); // Set vertex attribute pointer for UV: 2 floats, stride 20 bytes, offset 12 bytes
+    // -- /SOLUTION: Scene-Plant--
+    // -- SOLUTION: Scene-Plant1--
+    // -- /SOLUTION: Scene-Plant1--
+    // -- /MODULE: Scene-Plant --
+    
+    // -- MODULE: Scene-Reticle --
+    // --- Reticle Shader ---
+    // A small disc drawn on the ground where the user is looking
+    const vsR = `#version 300 es
+    precision highp float;
+    layout(location=0) in vec2 p;
+    uniform mat4 M, V, P;
+    out vec2 uv;
+    void main(){
+        uv = p * 0.5 + 0.5;
+        gl_Position = P * V * M * vec4(p.x, 0.0, p.y, 1.0);
+    }`;
+    const fsR = `#version 300 es
+    precision highp float;
+    in vec2 uv;
+    out vec4 o;
+    void main(){
+        float d = distance(uv, vec2(0.5));
+        float ring = smoothstep(0.5, 0.4, d) - smoothstep(0.4, 0.3, d);
+        o = vec4(0.9, 1.0, 0.9, ring * 0.95);
+        if(o.a < 0.02) discard;
+    }`;
+    const PR = prog(vsR, fsR);
+    const uMR = gl.getUniformLocation(PR, 'M'), uVR = gl.getUniformLocation(PR, 'V'), uPR = gl.getUniformLocation(PR, 'P');
+    const vboR = gl.createBuffer(), vaoR = gl.createVertexArray();
+    gl.bindVertexArray(vaoR);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vboR);
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([-1,-1, 1,-1, 1,1, -1,-1, 1,1, -1,1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    // -- MODULE: Scene-Reticle --
+
+    // -- MODULE: Scene-VR --
+    // --- Controller Indicator Shaders ---
+    // Disc for hand position
+    const vsDisc = `#version 300 es
+    precision highp float;
+    layout(location=0) in vec2 p;
+    uniform mat4 M,V,P;
+    out vec2 uv;
+    void main(){
+        uv=p*0.5+0.5;
+        gl_Position=P*V*M*vec4(p.x,0.,p.y,1.);
+    }`;
+    const fsDisc = `#version 300 es
+    precision highp float;
+    in vec2 uv;
+    uniform vec4 col;
+    out vec4 o; 
+    void main(){
+        float d=distance(uv,vec2(0.5));
+        float ring=smoothstep(0.5,0.4,d)-smoothstep(0.4,0.3,d);
+        o=vec4(col.rgb, col.a*ring);
+        if(o.a<0.02) discard;
+    }`;
+
+    const PDisc = prog(vsDisc, fsDisc);
+    const uMDisc = gl.getUniformLocation(PDisc, 'M'), uVDisc = gl.getUniformLocation(PDisc, 'V'), uPDisc = gl.getUniformLocation(PDisc, 'P'), uColDisc = gl.getUniformLocation(PDisc, 'col');
+
+    // Beam for pointing ray.
+    const vsBeam = `#version 300 es
+    precision highp float;
+    layout(location=0) in vec3 p;
+    uniform mat4 M,V,P;
+    void main(){
+        gl_Position=P*V*M*vec4(p,1.);
+    }`;
+    const fsBeam = `#version 300 es
+    precision highp float;
+    uniform vec4 col;
+    out vec4 o;
+    void main(){ o=col; }`;
+    const PBeam = prog(vsBeam, fsBeam);
+    const uMBeam = gl.getUniformLocation(PBeam, 'M'), uVBeam = gl.getUniformLocation(PBeam, 'V'), uPBeam = gl.getUniformLocation(PBeam, 'P'), uColBeam = gl.getUniformLocation(PBeam, 'col');
+    const vboBeam = gl.createBuffer(), vaoBeam = gl.createVertexArray();
+    gl.bindVertexArray(vaoBeam);
+    gl.bindBuffer(gl.ARRAY_BUFFER, vboBeam);
+    // A simple quad scaled to form the beam
+    gl.bufferData(gl.ARRAY_BUFFER, new F32([0,0,0, 1,0,0, 1,0,1, 0,0,0, 1,0,1, 0,0,1]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+    // -- /MODULE: Scene-VR --
+    // -- /FEATURE: Scene --
+    
+    // -- CORE: render --
+    // --- Main Render Loop (Desktop) ---
+
+    function loop(t) {
+        // If an immersive XR session is active, stop the desktop loop chain.
+        if (xr) return;  // prevents scheduling the next frame; XR loop takes over
+        
+        // Calculate delta time
+        const dt = ((t - last) / 1000) || 0;
+        last = t;
+        // Ensure rocks near the player are generated and present in obstacles for collision resolution
+        updateRocks && updateRocks(user.x, user.z);
+
+        // Update user position
+        const mv = getMove();
+        step(dt, mv);
+        // Update black cat AI & drops
+        updateCat(dt);
+
+        // Trigger congrats overlay on catch
+        if (cat.caught > lastCaughtShown) {
+            lastCaughtShown = cat.caught;
+            congratsTimer = CONGRATS_DURATION;
+        }
+
+        const moveMag = HYPOT(mv.x, mv.y);
+        updateAdaptiveMusic(moveMag, dt);
+        
+        // Update camera matrices
+        buildViewProj();
+        // NEW: update wind stereo each frame (after camera matrix updated)
+        if(audioCtx) updateWind(t/1000, user.x, user.z, user.yaw);
+        // --- Rendering ---
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+        // Render Sky
+        gl.useProgram(PSKY);
+        gl.bindVertexArray(vaoSky);
+        gl.disable(gl.DEPTH_TEST);
+        const Vinv = INV(V);
+        gl.uniformMatrix4fv(uVinv, false, Vinv);
+        gl.uniformMatrix4fv(uInvPV, false, invPV);
+        gl.uniform3fv(uSun, [0.1, 0.1, -0.9]);
+
+        // Noise texture for clouds
+        gl.activeTexture(gl.TEXTURE1);
+        gl.bindTexture(gl.TEXTURE_2D, noiseTex);
+        gl.uniform1i(uNoiseSky, 1);
+        gl.uniform1f(uTimeSky, t * 0.001);
+        gl.uniform1f(uCoverage, cloudCoverage);
+        gl.uniform1f(uSharpness, cloudSharpness);
+        gl.uniform1i(uShadowSamples, shadowSamples);
+        gl.uniform1f(uCloudHeightLoc, cloudHeight);
+        gl.uniform1f(uCloudScaleLoc, cloudScale);
+        gl.uniform1f(uCloudMotionSpeedLoc, cloudMotionSpeed);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        gl.enable(gl.DEPTH_TEST);
+
+        // Render Grid
+        gl.useProgram(PG);
+        gl.bindVertexArray(vao);
+        gl.uniformMatrix4fv(uM, false, M);
+        gl.uniformMatrix4fv(uV, false, V);
+        gl.uniformMatrix4fv(uP, false, P);
+        if (beastMode===true){
+        gl.enable(gl.CULL_FACE);
+        gl.cullFace(gl.FRONT)}
+        else {gl.disable(gl.CULL_FACE);};
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+        // --- NEW: Render Items & Obstacles (now works because drawSphere exists) ---
+        for(const itm of items) if (itm.active) drawSphere(V,P,itm.x,itm.y,itm.z,itm.r,[0.2,1.0,0.3]);
+        for(const o of obstacles) if(!o._isRock) drawSphere(V,P,o.x,o.y,o.z,o.r,[0.9,0.2,0.2]);
+        for(const t of traps) drawSphere(V,P,t.x,t.y,t.z,t.r,[0.8,0.5,0.1]);
+        // Render Black Cat
+        const c=[0.02,0.02,0.02];
+        const yaw = cat.yaw-20; const cy = COS(yaw), sy = SIN(yaw);
+        // helper to rotate local offsets (forward = +Z local)
+        function place(lx, ly, lz, r){
+            const wx = cat.x + lx*cy + lz*sy;
+            const wz = cat.z + lz*cy - lx*sy;
+            drawSphere(V, P, wx, cat.y + ly, wz, r, c);
+        }
+        // Body core (chain)
+        place(0.10,0,0,0.25); place(-0.05,0,0,0.25); place(-0.20,0,0,0.24);
+        // Head
+        place(0.38,0.18,0,0.20);
+        // Legs (animated)
+        const amp=0.08, a=cat.anim, cyc=(v)=>SIN(v)*amp, cy0=cyc(a), cy1=cyc(a+PI), baseY=-0.30;
+        place(0.15, baseY + cy0, 0.14, 0.09); // FR
+        place(0.15, baseY + cy1,-0.14, 0.09); // FL
+        place(-0.25, baseY + cy1, 0.15, 0.09); // BR
+        place(-0.25, baseY + cy0,-0.15, 0.09); // BL
+        // Tail segments (use leg phases for subtle motion)
+        place(-0.40,0.15, cy0*0.4,0.14);
+        place(-0.55,0.25, 0,0.12);
+        place(-0.70,0.30, cy1*0.5,0.11);
+
+        // Draw procedural rocks (flat-shaded, stylized)
+        for(const r of rocks)
+        gl.useProgram(PROCK);
+        gl.bindVertexArray(rockVao);
+        gl.uniformMatrix4fv(uR_V, false, V);
+        gl.uniformMatrix4fv(uR_P, false, P);
+        for(const rk of rocks){
+            gl.uniform3f(uR_Pos, rk.x, rk.y, rk.z);
+            gl.uniform1f(uR_S, rk.scale);
+            gl.uniform1f(uR_Seed, rk.seed);
+            gl.drawArrays(gl.TRIANGLES, 0, rockVerts.length / 3);
+            gl.enable(gl.DEPTH_TEST);
+        }
+
+        // Render Grass in multiple passes for density and LOD
+        {
+            const cy = COS(user.yaw), sy = SIN(user.yaw);
+            const camRight = [cy, 0, -sy];
+            const timeSec = t * 0.001;
+            drawGrassPass(V, P, [user.x, user.z], camRight, timeSec, 0.8, 170, /*30.0,*/ 1.0); // Cell size, Strands number, Radius(bad), Seed
+            drawGrassPass(V, P, [user.x, user.z], camRight, timeSec, 0.3, 170, /*20.0,*/ 2.0);
+            drawGrassPass(V, P, [user.x, user.z], camRight, timeSec, 0.1, 170, /*10.0,*/ 3.0);
+        }
+
+        // Render L-System Plants
+        {
+            gl.useProgram(PPLANTS);
+            gl.bindVertexArray(vaoPlants);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.depthMask(false); // Render transparent objects without writing to depth buffer
+
+            const camX = user.x;
+            const camZ = user.z;
+            const plants = genPlants(camX, camZ);
+
+            for(const p of plants){
+                const px = p.px, pz = p.pz, scale = p.scale;
+
+                // Distance & LOD
+                const dx = camX - px, dz = camZ - pz;
+                const dist = HYPOT(dx, dz);
+
+                const NEAR_HIDE = 4.0;
+                const NEAR_FULL = 6.0;
+                const FAR_START = 18.0;
+                const FAR_HIDE  = 50.0;
+                if(dist < NEAR_HIDE || dist > FAR_HIDE) continue;
+
+                const MIN_ITER = 2, MAX_ITER = 14;
+                const sstep = x => x*x*(3-2*x);
+                let a = (dist - NEAR_HIDE)/(NEAR_FULL-NEAR_HIDE); a = sstep(MIN(1, MAX(0,a)));
+                let b = (FAR_HIDE - dist)/(FAR_HIDE - FAR_START); b = sstep(MIN(1, MAX(0,b)));
+                let q = a * b;
+                if(q < 0.05) continue;
+
+                const key = p.gx + ',' + p.gz;
+                const target = MIN_ITER + q*(MAX_ITER - MIN_ITER);
+                const iterations = MAX(MIN_ITER, MIN(MAX_ITER, target)) | 0;
+                const plantSeed = plantHash(p.gx, p.gz, 4.0);
+
+                const angle = ATAN2(camX - px, camZ - pz);
+                const MPlants = new DOMMatrix()
+                    .translate(px, 0, pz)
+                    .rotate(0, angle * 57.295775 /*180 / PI*/, 0) // DOMMatrix uses degrees
+                    .scale(scale, scale, scale)
+                    .toFloat32Array();
+
+                gl.uniformMatrix4fv(uMPla, false, MPlants);
+                gl.uniformMatrix4fv(uVPla, false, V);
+                gl.uniformMatrix4fv(uPPla, false, P);
+                gl.uniform1f(uTimePla, t * 0.001);
+                gl.uniform1i(uMaxIterationsPla, iterations);
+                gl.uniform3f(uPlantPosPla, px, 0, pz);
+                gl.uniform1f(uPlantSeedPla, plantSeed);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+            }
+
+            gl.depthMask(true);
+            gl.disable(gl.BLEND);
+        }
+
+        // Render Reticle if there's a ground hit
+        if (lastHit) {
+            const T = translateScale(lastHit[0], 0.001, lastHit[2], 0.15, 1, 0.15);
+            gl.useProgram(PR);
+            gl.bindVertexArray(vaoR);
+            gl.uniformMatrix4fv(uMR, false, T);
+            gl.uniformMatrix4fv(uVR, false, V);
+            gl.uniformMatrix4fv(uPR, false, P);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.disable(gl.DEPTH_TEST);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            gl.enable(gl.DEPTH_TEST);
+            gl.disable(gl.BLEND);
+        }
+
+
+        // Render HUD
+        const T = getHudTransform();
+        const W = INV(V); // Get world-from-view matrix
+        const WH = new DOMMatrix(W).multiply(new DOMMatrix(T)).toFloat32Array(); // Combine to get HUD's world matri
+        HUD_WH_world = WH;
+        hoverBtn = null;
+
+        // Check for hover state if not in mouse-look mode
+        if (input.look.id === null) {
+            const r = rayFromScreen(input.pointer.x, input.pointer.y);
+            const h = HUD_pick(WH, r, currentUI());
+            if (h && h.button) hoverBtn = h.button;
+        }
+
+        updHUD('Desktop', lastHit, currentUI(), dt); // Redraw and upload HUD texture
+
+        gl.useProgram(PH);
+        gl.bindVertexArray(vaoH);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, hudTex);
+        gl.uniform1i(uT, 0);
+        gl.uniformMatrix4fv(uMH, false, WH);
+        gl.uniformMatrix4fv(uVH, false, V);
+        gl.uniformMatrix4fv(uPH, false, P);
+        gl.disable(gl.DEPTH_TEST);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        gl.disable(gl.BLEND);
+        gl.enable(gl.DEPTH_TEST);
+
+        requestAnimationFrame(loop);
+    }
+
+    // Helper to update the HUD canvas content
+    function updHUD(mode, hit, uiSet, dt) {
+    // Update overlay timer
+    if (congratsTimer > 0) congratsTimer = MAX(0, congratsTimer - dt);
+        drawHUDCanvas(mode, hit, uiSet, dt);
+    }
+
+    // Helper to submit a sphere draw call
+    function drawSphere(V,P,x,y,z,r,col){
+        gl.useProgram(PS);
+        gl.bindVertexArray(sphereVao);
+        gl.uniformMatrix4fv(uS_V,false,V);
+        gl.uniformMatrix4fv(uS_P,false,P);
+        gl.uniform3f(uS_Pos,x,y,z);
+        gl.uniform1f(uS_S,r);
+        gl.uniform3f(uS_Color,col[0],col[1],col[2]);
+        gl.drawArrays(gl.TRIANGLES,0,sphereVerts.length/3);
+    }
+
+    // Helper to submit a grass draw call
+    function drawGrassPass(Vmat, Pmat, camXZ, camRight, timeSec, cell, gridN, /*radius,*/ seed) {
+        gl.useProgram(PGRASS);
+        gl.bindVertexArray(vaoGrass);
+        gl.uniformMatrix4fv(uVG, false, Vmat);
+        gl.uniformMatrix4fv(uPG, false, Pmat);
+        gl.uniform2f(uCamXZ, camXZ[0], camXZ[1]);
+        gl.uniform3f(uCamRight, camRight[0], camRight[1], camRight[2]);
+        gl.uniform1f(uTimeG, timeSec);
+        gl.uniform1f(uCell, cell);
+        gl.uniform1i(uGridN, gridN | 0);
+        gl.uniform1f(uSeed, seed);
+        // Bind noise texture once per pass
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, noiseTex);
+        gl.uniform1i(uNoise, 0);
+        gl.uniform1f(uNoiseScale, 0.0002); // adjust for biome size (smaller = larger biomes)
+        gl.enable(gl.DEPTH_TEST);
+        gl.drawArraysInstanced(gl.TRIANGLE_STRIP, 0, GRASS_VCOUNT, gridN * gridN);
+    }
+
+    // Computes the view and projection matrices for desktop mode
+    function buildViewProj() {
+        const cy = COS(user.yaw),
+              sy = SIN(user.yaw);
+        const cp = COS(user.pitch),
+              sp = SIN(user.pitch);
+        const eye = [user.x, user.y, user.z];
+        const center = [user.x - sy * cp, user.y - sp, user.z - cy * cp];
+        LOOKAT(V, eye, center, [0, 1, 0]);
+        PERSP(P, 60, canvas.width / canvas.height, 0.01, 1e3);
+        PV = MULTMAT4(M4(), P, V);
+        invPV = INV(PV);
+    }
+    // -- /CORE: Render --
+
+    // -- FEATURE: VR --
+    // --- WebXR ---
+
+    // Checks for WebXR support
+    function initXR() {
+        if (!('xr' in navigator)) {
+            log('WebXR not available');
+            return;
+        }
+        navigator.xr.isSessionSupported('immersive-vr').then(s => log(s ? 'VR supported' : 'VR not supported'));
+    }
+    // if vr not avalable we split screen in to stereo view
+
+    // Toggles an immersive VR session
+    async function toggleXRFromUI() {
+        try {
+            if (xr) {
+                //cancelAnimationFrame(loop); // Stop desktop loop
+                await xr.end(); // End the current session
+                return;
+            }
+            // Request a new session
+            xr = await navigator.xr.requestSession('immersive-vr', { optionalFeatures: ['local-floor', 'hand-tracking'] });
+            uiEnterLabel = 'Exit VR';
+
+            await gl.makeXRCompatible();
+            xr.updateRenderState({ baseLayer: new XRWebGLLayer(xr, gl) });
+            ref = await xr.requestReferenceSpace('local-floor');
+
+            xr.addEventListener('end', () => {
+                //cancelAnimationFrame(onXR); // Stop XR loop
+                xr = null;
+                uiEnterLabel = 'Enter VR';
+                gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+                gl.viewport(0,0,canvas.width,canvas.height);
+                requestAnimationFrame(loop); // Resume desktop loop
+            });
+
+            last = 0;
+            xr.requestAnimationFrame(onXR); // Start the XR render loop
+
+        } catch (e) {
+            log('XR start fail: ' + e.message);
+            //requestAnimationFrame(loop); // Resume desktop loop
+        }
+    }
+
+    // -- Main Render Loop (WebXR) --
+
+    function onXR(t, frame) {
+        const s = frame.session;
+        //if (s !== xr) return;
+        s.requestAnimationFrame(onXR);
+
+        const dt = ((t - last) / 1000) || 0;
+        last = t;
+
+        const pose = frame.getViewerPose(ref);
+        if (!pose) return;
+        
+        // NEW: update wind stereo each frame (after camera matrix updated)
+        if(audioCtx) updateWind(t/1000, user.x, user.z, user.yaw);
+
+        // Apply movement based on controller input
+        const mv = getMove(s);
+        step(dt, mv);
+        // Update black cat AI & drops
+        updateCat(dt);
+
+        // Trigger congrats overlay on catch
+        if (cat.caught > lastCaughtShown) {
+            lastCaughtShown = cat.caught;
+            congratsTimer = CONGRATS_DURATION;
+        }
+
+        const moveMag = HYPOT(mv.x, mv.y);
+        updateAdaptiveMusic(moveMag, dt);
+
+        // Create an offset reference space to account for user-controlled movement
+        const half = -user.yaw * 0.5;
+        const rot = new XRRigidTransform({ x: 0, y: 0, z: 0 }, { x: 0, y: SIN(half), z: 0, w: COS(half) });
+        const rRef = ref.getOffsetReferenceSpace(rot);
+        off = rRef.getOffsetReferenceSpace(new XRRigidTransform({ x: -user.x, y: 0, z: -user.z }));
+        const rel = frame.getViewerPose(off);
+        if (!rel) return;
+
+        // -- VR Input and Interaction --
+
+        for (const src of s.inputSources) {
+            const gp = src.gamepad;
+            if (!gp || !gp.buttons || !gp.buttons.length) continue;
+
+            const now = !!gp.buttons[0].pressed;
+            const prev = pressedMap.get(src) || false;
+
+            // On button press (edge detection)
+            if (now && !prev) {
+                playClickSound();
+                const r = rayFrom('VR', frame, src);
+                const viewer = frame.getViewerPose(off);
+                if (viewer) {
+                    const T = getHudTransform();
+                    // World-from-viewer in offset space (consistent for both eyes)
+                    const WH = new DOMMatrix(rel.transform.matrix).multiply(new DOMMatrix(T)).toFloat32Array();
+                    //HUD_WH_world = WH;
+                    const h = HUD_pick(WH, r, currentUI());
+
+                    if (h && h.button) {
+                        h.button.onClick();
+                    } else {
+                        const g = rayHitGround(r);
+                        if (g) { lastHit = g; log('ground ' + g.map(v => v.toFixed(2)).join(',')); }
+                    }
+                }
+            }
+            pressedMap.set(src, now);
+        }
+
+        // -- VR Rendering --
+
+        gl.bindFramebuffer(gl.FRAMEBUFFER, s.renderState.baseLayer.framebuffer);
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        gl.enable(gl.DEPTH_TEST);
+
+        // Render the scene for each eye
+        for (const v of rel.views) {
+            const vp = s.renderState.baseLayer.getViewport(v);
+            gl.viewport(vp.x, vp.y, vp.width, vp.height);
+
+            // Per-eye matrices
+            const Veye = v.transform.inverse.matrix;
+            const VinvEye = INV(Veye);
+            const PVeye = MULTMAT4(M4(), v.projectionMatrix, Veye);
+            const invPVEye = INV(PVeye);
+
+            // Render Sky
+            gl.useProgram(PSKY);
+            gl.bindVertexArray(vaoSky);
+            gl.disable(gl.DEPTH_TEST);
+            gl.uniformMatrix4fv(uVinv, false, VinvEye);
+            gl.uniformMatrix4fv(uInvPV, false, invPVEye);
+            gl.uniform3fv(uSun, [0.1, 0.1, -0.9]);
+
+            // Sky uniforms per-eye (same tuning rules apply)
+            gl.activeTexture(gl.TEXTURE1);
+            gl.bindTexture(gl.TEXTURE_2D, noiseTex);
+            gl.uniform1i(uNoiseSky, 1);
+            gl.uniform1f(uTimeSky, t * 0.001);
+            gl.uniform1f(uCoverage, cloudCoverage);
+            gl.uniform1f(uSharpness, cloudSharpness);
+            gl.uniform1i(uShadowSamples, shadowSamples);
+            gl.uniform1f(uCloudHeightLoc, cloudHeight);
+            gl.uniform1f(uCloudScaleLoc, cloudScale);       // adjust for global cloud size
+            gl.uniform1f(uCloudMotionSpeedLoc, cloudMotionSpeed);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+            gl.enable(gl.DEPTH_TEST);
+
+            // Render Grid
+            gl.useProgram(PG);
+            gl.bindVertexArray(vao);
+            gl.uniformMatrix4fv(uM, false, M);
+            gl.uniformMatrix4fv(uV, false, v.transform.inverse.matrix);
+            gl.uniformMatrix4fv(uP, false, v.projectionMatrix);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+            // --- NEW: Render Items & Obstacles (now works because drawSphere exists) ---
+            for(const itm of items) if (itm.active) drawSphere(v.transform.inverse.matrix,v.projectionMatrix,itm.x,itm.y,itm.z,itm.r,[0.2,1.0,0.3]);
+            for(const o of obstacles)  if(!o._isRock) drawSphere(v.transform.inverse.matrix,v.projectionMatrix,o.x,o.y,o.z,o.r,[0.9,0.2,0.2]);
+            for(const t of traps) drawSphere(v.transform.inverse.matrix,v.projectionMatrix,t.x,t.y,t.z,t.r,[0.8,0.5,0.1]);
+
+            // Render Black Cat
+            const c=[0.02,0.02,0.02];
+            const yaw = cat.yaw-20; const cy = COS(yaw), sy = SIN(yaw);
+            // helper to rotate local offsets (forward = +Z local)
+            function place(lx, ly, lz, r){
+                const wx = cat.x + lx*cy + lz*sy;
+                const wz = cat.z + lz*cy - lx*sy;
+                drawSphere(v.transform.inverse.matrix,v.projectionMatrix, wx, cat.y + ly, wz, r, c);
+            }
+            // Body core (chain)
+            place(0.10,0,0,0.25); place(-0.05,0,0,0.25); place(-0.20,0,0,0.24);
+            // Head
+            place(0.38,0.18,0,0.20);
+            // Legs (animated)
+            const amp=0.08, a=cat.anim, cyc=(v)=>SIN(v)*amp, cy0=cyc(a), cy1=cyc(a+PI), baseY=-0.30;
+            place(0.15, baseY + cy0, 0.14, 0.09); // FR
+            place(0.15, baseY + cy1,-0.14, 0.09); // FL
+            place(-0.25, baseY + cy1, 0.15, 0.09); // BR
+            place(-0.25, baseY + cy0,-0.15, 0.09); // BL
+            // Tail segments (use leg phases for subtle motion)
+            place(-0.40,0.15, cy0*0.4,0.14);
+            place(-0.55,0.25, 0,0.12);
+            place(-0.70,0.30, cy1*0.5,0.11);
+
+            // Draw procedural rocks (flat-shaded, stylized)
+            for(const r of rocks)
+            gl.useProgram(PROCK);
+            gl.bindVertexArray(rockVao);
+            gl.uniformMatrix4fv(uR_V, false, v.transform.inverse.matrix);
+            gl.uniformMatrix4fv(uR_P, false, v.projectionMatrix);
+            for(const rk of rocks){
+                gl.uniform3f(uR_Pos, rk.x, rk.y, rk.z);
+                gl.uniform1f(uR_S, rk.scale);
+                gl.uniform1f(uR_Seed, rk.seed);
+                gl.drawArrays(gl.TRIANGLES, 0, rockVerts.length / 3);
+                gl.enable(gl.DEPTH_TEST);
+            }
+
+
+            // Render Grass
+            {
+                const worldFromView = v.transform.matrix;
+                const camXZ = [worldFromView[12], worldFromView[14]];
+                const camRight = [worldFromView[0], worldFromView[1], worldFromView[2]];
+                const timeSec = t * 0.001;
+                drawGrassPass(v.transform.inverse.matrix, v.projectionMatrix, camXZ, camRight, timeSec, 0.8, 170, /*30.0,*/ 1.0); 
+                drawGrassPass(v.transform.inverse.matrix, v.projectionMatrix, camXZ, camRight, timeSec, 0.3, 170, /*20.0,*/ 2.0);
+                drawGrassPass(v.transform.inverse.matrix, v.projectionMatrix, camXZ, camRight, timeSec, 0.1, 170, /*10.0,*/ 3.0);
+            }
+
+            // Render L-System Plants
+            {
+                gl.useProgram(PPLANTS);
+                gl.bindVertexArray(vaoPlants);
+                gl.enable(gl.BLEND);
+                gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                gl.depthMask(false); // Render transparent objects without writing to depth buffer
+
+                const worldFromView = v.transform.matrix;
+                const camX = worldFromView[12];
+                const camZ = worldFromView[14];
+                const plants = genPlants(camX, camZ);
+
+            for(const p of plants){
+                const px = p.px, pz = p.pz, scale = p.scale;
+
+                // Distance & LOD
+                const dx = camX - px, dz = camZ - pz;
+                const dist = HYPOT(dx, dz);
+
+                const NEAR_HIDE = 4.0;
+                const NEAR_FULL = 6.0;
+                const FAR_START = 18.0;
+                const FAR_HIDE  = 80.0;
+                if(dist < NEAR_HIDE || dist > FAR_HIDE) continue;
+
+                const MIN_ITER = 2, MAX_ITER = 16;
+                const sstep = x => x*x*(3-2*x);
+                let a = (dist - NEAR_HIDE)/(NEAR_FULL-NEAR_HIDE); a = sstep(MIN(1, MAX(0,a)));
+                let b = (FAR_HIDE - dist)/(FAR_HIDE - FAR_START); b = sstep(MIN(1, MAX(0,b)));
+                let q = a * b;
+                if(q < 0.05) continue;
+
+                const key = p.gx + ',' + p.gz;
+                const target = MIN_ITER + q*(MAX_ITER - MIN_ITER);
+                const iterations = MAX(MIN_ITER, MIN(MAX_ITER, target)) | 0;
+                const plantSeed = plantHash(p.gx, p.gz, 4.0);
+
+                const angle = ATAN2(camX - px, camZ - pz);
+                const MPlants = new DOMMatrix()
+                    .translate(px, 0, pz)
+                    .rotate(0, angle * 57.295775 /*180 / PI*/, 0) // DOMMatrix uses degrees
+                    .scale(scale, scale, scale)
+                    .toFloat32Array();
+
+                gl.uniformMatrix4fv(uMPla, false, MPlants);
+                gl.uniformMatrix4fv(uVPla, false, v.transform.inverse.matrix);
+                gl.uniformMatrix4fv(uPPla, false, v.projectionMatrix);
+                gl.uniform1f(uTimePla, t * 0.001);
+                gl.uniform1i(uMaxIterationsPla, iterations);
+                gl.uniform3f(uPlantPosPla, px, 0, pz);
+                gl.uniform1f(uPlantSeedPla, plantSeed);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+            }
+
+            gl.depthMask(true);
+            gl.disable(gl.BLEND);
+            }
+
+            // Render Reticle
+            if (lastHit) {
+                const Tm = translateScale(lastHit[0], 0.001, lastHit[2], 0.15, 1, 0.15);
+                gl.useProgram(PR);
+                gl.bindVertexArray(vaoR);
+                gl.uniformMatrix4fv(uMR, false, Tm);
+                gl.uniformMatrix4fv(uVR, false, v.transform.inverse.matrix);
+                gl.uniformMatrix4fv(uPR, false, v.projectionMatrix);
+                gl.enable(gl.BLEND); 
+                gl.blendFunc(gl.SRC_ALPHA, 
+                gl.ONE_MINUS_SRC_ALPHA);
+                gl.disable(gl.DEPTH_TEST); 
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                gl.enable(gl.DEPTH_TEST); 
+                gl.disable(gl.BLEND);
+            }
+            
+            // Render HUD
+            const T = getHudTransform();
+            // World-from-viewer in offset space (consistent for both eyes)
+            const WH = new DOMMatrix(rel.transform.matrix).multiply(new DOMMatrix(T)).toFloat32Array(); // Hud snaped to eyes, bad
+            HUD_WH_world = WH;
+            hoverBtn = null;
+            for (const src of s.inputSources) {
+                const r = controllerRay(frame, src);
+                const h = HUD_pick(WH, r, currentUI());
+                if (h && h.button) { hoverBtn = h.button; break; }
+            }
+            updHUD('VR', lastHit, currentUI(), dt);
+            gl.useProgram(PH);
+            gl.bindVertexArray(vaoH);
+            gl.activeTexture(gl.TEXTURE0);
+            gl.bindTexture(gl.TEXTURE_2D, hudTex);
+            gl.uniform1i(uT, 0);
+            gl.uniformMatrix4fv(uMH, false, WH);
+            gl.uniformMatrix4fv(uVH, false, v.transform.inverse.matrix);
+            gl.uniformMatrix4fv(uPH, false, v.projectionMatrix);
+            gl.disable(gl.DEPTH_TEST);
+            gl.enable(gl.BLEND);
+            gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+            gl.drawArrays(gl.TRIANGLES, 0, 6);
+            gl.disable(gl.BLEND);
+            gl.enable(gl.DEPTH_TEST);
+
+            // Render Controller Indicators and Rays
+            for (const src of s.inputSources) {
+                const col = src.handedness === 'left' ? [0, 0.8, 1] : src.handedness === 'right' ? [1, 0, 0.8] : [0.5, 0.5, 1];
+
+                // Hand grip indicator
+                const grip = src.gripSpace ? frame.getPose(src.gripSpace, off) : null;
+                if (grip) {
+                    const Mhand = new DOMMatrix(grip.transform.matrix).multiply(new DOMMatrix([0.06,0,0,0, 0,0.06,0,0, 0,0,0.06,0, 0,0,0,1])).toFloat32Array();
+                    gl.useProgram(PDisc);
+                    gl.bindVertexArray(vaoR);
+
+                    gl.uniformMatrix4fv(uMDisc, false, Mhand);
+                    gl.uniformMatrix4fv(uVDisc, false, v.transform.inverse.matrix); 
+                    gl.uniformMatrix4fv(uPDisc, false, v.projectionMatrix);
+                    gl.uniform4f(uColDisc, col[0], col[1], col[2], 0.95);
+                    gl.disable(gl.DEPTH_TEST); 
+                    gl.enable(gl.BLEND); 
+                    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+                    gl.disable(gl.BLEND); 
+                    gl.enable(gl.DEPTH_TEST);
+                }
+
+                // Laser beam
+                const targ = src.targetRaySpace ? frame.getPose(src.targetRaySpace, off) : null;
+                if (targ) {
+                    const r = controllerRay(frame, src);
+                    const triggerVal = (src.gamepad && src.gamepad.buttons && src.gamepad.buttons[0]) ? (src.gamepad.buttons[0].value || 0) : 0;
+                    const w = 0.004 + 0.01 * triggerVal; // Beam gets thicker when trigger is pressed
+                    let len = 3.0;
+                    const tGround = (0 - r.o[1]) / r.d[1];
+                    if (tGround > 0) len = MIN(len, MIN(5.0, tGround));
+                    const h = HUD_pick(WH, r, currentUI());
+                    if (h) len = MIN(len, h.t); // Shorten beam if it hits the HUD
+                    
+                    const S = new DOMMatrix([w,0,0,0, 0,w,0,0, 0,0,-len,0, 0,0,0,1]);
+                    const Mbeam = new DOMMatrix(targ.transform.matrix).multiply(S).toFloat32Array();
+                    gl.useProgram(PBeam); 
+                    gl.bindVertexArray(vaoBeam);
+                    gl.uniformMatrix4fv(uMBeam, false, Mbeam); 
+                    gl.uniformMatrix4fv(uVBeam, false, v.transform.inverse.matrix); 
+                    gl.uniformMatrix4fv(uPBeam, false, v.projectionMatrix);
+                    gl.uniform4f(uColBeam, col[0], col[1], col[2], 0.8);
+                    gl.disable(gl.DEPTH_TEST); 
+                    gl.enable(gl.BLEND); 
+                    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                    gl.drawArrays(gl.TRIANGLES, 0, 6);
+                    gl.disable(gl.BLEND); 
+                    gl.enable(gl.DEPTH_TEST);
+
+                    // Ground hit indicator for the controller ray
+                    const g = rayHitGround(r);
+                    if (g) {
+                        const Mhit = translateScale(g[0], 0.001, g[2], 0.09, 1, 0.09);
+                        gl.useProgram(PDisc); 
+                        gl.bindVertexArray(vaoR);
+                        gl.uniformMatrix4fv(uMDisc, false, Mhit); 
+                        gl.uniformMatrix4fv(uVDisc, false, v.transform.inverse.matrix); 
+                        gl.uniformMatrix4fv(uPDisc, false, v.projectionMatrix);
+                        gl.uniform4f(uColDisc, 1.0, 0.95, 0.3, 0.95);
+                        gl.disable(gl.DEPTH_TEST); 
+                        gl.enable(gl.BLEND); 
+                        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+                        gl.drawArrays(gl.TRIANGLES, 0, 6);
+                        gl.disable(gl.BLEND); 
+                        gl.enable(gl.DEPTH_TEST);
+                    }
+                }
+            }
+        }
+    }
+
+    // -- /FEATURE: VR --
+    
+    // -- FEATURE: CORE --
+    // --- Application Entry Point ---
+    (function main() {
+        initXR();
+        requestAnimationFrame(loop);
+        log(`Welcome Catch the black cat!`);
+        log('close HUD using Close button X (H & Esc)');
+        if (!isMobile) log('Use (WASD) to move and (Q & E) to rotate');
+        if (isMobile) log('Use left joystick to move and right joystick to rotate');
+        log('Use touch-drag to Look around');
+    })();
+    
+    // -- /FEATURE: CORE --
+    </script>
+</body>
+</html>
