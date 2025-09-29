@@ -1,0 +1,53 @@
+<html>
+<head>
+<link rel="icon" href="data:image/bmp;base64,Qk1+AAAAAAAAAD4AAAAoAAAAEAAAABAAAAABAAEAAAAAAAAAAADEDgAAxA4AAAIAAAACAAAA/////wAAAP8P8AAAH/gAAD/8AAB//gAAf/4AAH/+AABxjgAAcY4AAHGOAAB//gAAP/wAAD/8AAA+fAAAHDgAABw4AAAIEAAA">
+<script src="https://js13kgames.com/2025/webxr/aframe.js"></script>
+<title>Kittens Crossing</title>
+
+<script src="voxelmodel.js"></script>
+<script src="svoxmodel.js"></script>
+<script src="svoxmeshgenerator.js"></script>
+<script src="svox.js"></script>
+<script src="city.js"></script>
+<script src="avoidbuildings.js"></script>
+<script src="vehicles.js"></script>
+<script src="catwalk.js"></script>
+<script src="spray.js"></script>
+<script src="movecontrols.js"></script>
+<script src="thirdpersoncamera.js"></script>
+<script src="kitten.js"></script>
+<script src="score.js"></script>
+<script src="music.js" defer="true"></script>
+<script src="sounds.js" defer="true"></script>
+<script src="scene.js"></script>
+
+<script>
+  // Put Roadroller code here and remove scripts above
+</script>
+<style>
+body{background:#000;min-height:100vh;margin:0;padding:0;overflow:hiddden;}
+.c{position:fixed;top:0;left:0;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(#00FFFF,#0094FF,#0094FF);}
+.b{font-family:'Brush Script MT',cursive}
+.s{font-size:1rem;font-style:italic;color:white;font-weight:300;margin:0 0 2rem}
+.start{background:#db2777;color:white;font-weight:600;padding:0.5rem 1.5rem;border-radius:9999px;border:none;cursor:pointer;}
+.hide{display:none}
+</style>
+</head>
+</html>
+</head>
+<body>
+<div class="c">
+<svg viewBox="0 0 2000 500" style="width:50%;height:auto;margin:0 0 0.5rem">
+<path id="p" d="M 50 400 Q 1000 100 1950 400" fill="none" stroke="none"/>
+<text class="b" fill="white" style="font-size:300px">
+<textPath href="#p" startOffset="50%" text-anchor="middle">
+Kittens Crossing
+</textPath>
+</text>
+</svg>
+<p class="s">PG-13: You can't save them all...</p>
+<p id="wait" class="s">Generating the city may take a minute...</p>
+<button id="start" class="start hide">Start</button>
+</div>
+</body>
+</html>
