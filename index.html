@@ -1,46 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- SEO Meta Tags -->
     <title>ArcadeBloom - Free Online Browser Games | Play Instantly</title>
-    <meta name="description" content="Discover thousands of free online browser games at ArcadeBloom. Play action, puzzle, strategy, and casual games instantly. No downloads required - just click and play!">
-    <meta name="keywords" content="online games, browser games, free games, html5 games, web games, action games, puzzle games, strategy games, casual games, arcade games">
+    <meta name="description"
+        content="Discover thousands of free online browser games at ArcadeBloom. Play action, puzzle, strategy, and casual games instantly. No downloads required - just click and play!">
+    <meta name="keywords"
+        content="online games, browser games, free games, html5 games, web games, action games, puzzle games, strategy games, casual games, arcade games">
     <meta name="author" content="ArcadeBloom">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://arcadebloom.com/">
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="ArcadeBloom - Free Online Browser Games">
-    <meta property="og:description" content="Play thousands of free online browser games instantly. Action, puzzle, strategy & casual games available now!">
+    <meta property="og:description"
+        content="Play thousands of free online browser games instantly. Action, puzzle, strategy & casual games available now!">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://arcadebloom.com/">
     <meta property="og:image" content="https://arcadebloom.com/images/og-image.jpg">
-    
+
     <!-- Twitter Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ArcadeBloom - Free Online Browser Games">
-    <meta name="twitter:description" content="Play thousands of free online browser games instantly. No downloads required!">
+    <meta name="twitter:description"
+        content="Play thousands of free online browser games instantly. No downloads required!">
     <meta name="twitter:image" content="https://arcadebloom.com/images/twitter-image.jpg">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -56,30 +62,34 @@
       }
     }
     </script>
-    
+
     <!-- Custom Styles -->
     <style>
         :root {
             color-scheme: dark;
         }
+
         body {
             font-family: 'Inter', sans-serif;
             background: radial-gradient(circle at 15% 20%, rgba(131, 56, 236, 0.38), transparent 55%),
-                        radial-gradient(circle at 85% 12%, rgba(37, 211, 255, 0.32), transparent 45%),
-                        linear-gradient(135deg, #1a1040 0%, #29176f 35%, #0f5bf3 70%, #0bd3ff 100%);
+                radial-gradient(circle at 85% 12%, rgba(37, 211, 255, 0.32), transparent 45%),
+                linear-gradient(135deg, #1a1040 0%, #29176f 35%, #0f5bf3 70%, #0bd3ff 100%);
             background-attachment: fixed;
             color: #f5f7ff;
             min-height: 100vh;
         }
+
         a {
             color: inherit;
         }
+
         .hero-gradient {
             position: relative;
             overflow: hidden;
             background: linear-gradient(135deg, rgba(116, 30, 255, 0.94) 0%, rgba(0, 180, 255, 0.85) 100%);
             box-shadow: 0 40px 80px rgba(6, 10, 33, 0.45);
         }
+
         .hero-gradient::before,
         .hero-gradient::after {
             content: "";
@@ -90,23 +100,28 @@
             opacity: 0.6;
             pointer-events: none;
         }
+
         .hero-gradient::before {
             top: -160px;
             left: -160px;
         }
+
         .hero-gradient::after {
             bottom: -200px;
             right: -120px;
             background: radial-gradient(circle, rgba(255, 77, 196, 0.32) 0%, rgba(255, 255, 255, 0) 70%);
         }
+
         .hero-title {
             text-shadow: 0 12px 30px rgba(10, 16, 45, 0.45);
         }
+
         .nav-shell {
             background: linear-gradient(90deg, rgba(17, 24, 39, 0.78), rgba(30, 64, 175, 0.38));
             backdrop-filter: blur(18px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.16);
         }
+
         .nav-link {
             position: relative;
             padding-bottom: 4px;
@@ -115,12 +130,15 @@
             letter-spacing: 0.01em;
             transition: color 0.2s ease, opacity 0.2s ease;
         }
+
         .nav-link:hover {
             color: #ffffff;
         }
+
         .nav-link-active {
             color: #ffffff;
         }
+
         .nav-link-active::after,
         .nav-link:hover::after {
             content: "";
@@ -132,6 +150,7 @@
             border-radius: 9999px;
             background: linear-gradient(135deg, #ff60d7, #6a5bff);
         }
+
         .cta-pill {
             display: inline-flex;
             align-items: center;
@@ -145,17 +164,21 @@
             color: #ffffff;
             gap: 0.5rem;
         }
+
         .cta-pill:hover {
             transform: translateY(-2px);
             box-shadow: 0 18px 38px rgba(17, 24, 39, 0.4);
             background: rgba(255, 255, 255, 0.22);
         }
+
         .cta-pill.primary {
             background: linear-gradient(135deg, #ff4ec7, #6f58ff);
         }
+
         .cta-pill.secondary {
             background: linear-gradient(135deg, #25d7ff, #3b82f6);
         }
+
         .primary-button {
             background: linear-gradient(135deg, #ff4ec7, #6f58ff);
             color: #ffffff;
@@ -165,39 +188,48 @@
             padding: 0.55rem 1.1rem;
             font-size: 0.85rem;
         }
+
         .primary-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 18px 38px rgba(79, 70, 229, 0.45);
         }
+
         .button-sm {
             padding: 0.4rem 0.85rem;
             font-size: 0.75rem;
         }
+
         .button-md {
             padding: 0.65rem 1.25rem;
             font-size: 0.9rem;
         }
+
         .button-lg {
             padding: 0.75rem 1.8rem;
             font-size: 1rem;
         }
+
         .search-focus {
             background: rgba(8, 14, 34, 0.76);
             border: 1px solid rgba(255, 255, 255, 0.12);
             color: #f1f5ff;
             box-shadow: 0 18px 45px rgba(6, 11, 32, 0.45);
         }
+
         .search-focus::placeholder {
             color: rgba(209, 213, 255, 0.54);
         }
+
         .search-focus:focus {
             border-color: rgba(255, 255, 255, 0.45);
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35);
         }
+
         .search-dropdown {
             background: rgba(8, 14, 34, 0.92);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         .glass-card {
             background: rgba(9, 13, 35, 0.78);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -205,24 +237,30 @@
             overflow: hidden;
             box-shadow: 0 28px 55px rgba(7, 12, 29, 0.35);
         }
+
         .game-card {
             transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         .game-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 35px 65px rgba(15, 23, 42, 0.5);
         }
+
         .game-thumb {
             position: relative;
             overflow: hidden;
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
+
         .game-thumb img {
             transition: transform 0.35s ease;
         }
+
         .game-card:hover .game-thumb img {
             transform: scale(1.05);
         }
+
         .tag-pill {
             display: inline-flex;
             align-items: center;
@@ -234,10 +272,12 @@
             gap: 0.5rem;
             transition: background 0.2s ease, transform 0.2s ease;
         }
+
         .tag-pill:hover {
             background: rgba(255, 255, 255, 0.22);
             transform: translateY(-2px);
         }
+
         .category-btn {
             position: relative;
             border-radius: 9999px;
@@ -249,16 +289,19 @@
             font-size: 0.8rem;
             transition: all 0.25s ease;
         }
+
         .category-btn:hover {
             color: #ffffff;
             border-color: rgba(255, 255, 255, 0.35);
         }
+
         .category-btn.active {
             color: #ffffff;
             background: linear-gradient(135deg, #ff4ec7, #6f58ff);
             box-shadow: 0 20px 40px rgba(79, 70, 229, 0.45);
             border-color: rgba(255, 255, 255, 0.45);
         }
+
         .view-toggle {
             display: inline-flex;
             border-radius: 9999px;
@@ -266,6 +309,7 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             background: rgba(8, 14, 34, 0.76);
         }
+
         .view-toggle button {
             padding: 0.45rem 0.85rem;
             color: rgba(226, 232, 255, 0.65);
@@ -273,10 +317,12 @@
             font-size: 0.8rem;
             transition: all 0.2s ease;
         }
+
         .view-toggle button.active {
             color: #ffffff;
             background: rgba(255, 255, 255, 0.18);
         }
+
         .filter-select {
             background: rgba(8, 14, 34, 0.76);
             border: 1px solid rgba(255, 255, 255, 0.12);
@@ -285,12 +331,14 @@
             padding: 0.45rem 0.9rem;
             font-size: 0.8rem;
         }
+
         .filter-panel {
             background: rgba(9, 12, 32, 0.78);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             box-shadow: 0 16px 40px rgba(8, 11, 27, 0.35);
         }
+
         .loading-spinner {
             border: 3px solid rgba(255, 255, 255, 0.12);
             border-top: 3px solid #38bdf8;
@@ -299,20 +347,31 @@
             height: 20px;
             animation: spin 1s linear infinite;
         }
+
         footer {
             background: rgba(8, 11, 27, 0.88);
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
     </style>
-    <!-- Google tag (gtag.js) --> 
-     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRKXGJZ9R4"></script> 
-     <script> 
-        window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-KRKXGJZ9R4'); 
-     </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRKXGJZ9R4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-KRKXGJZ9R4'); 
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625"
+        crossorigin="anonymous"></script>
+
 </head>
+
 <body class="antialiased text-white">
 
     <!-- Header -->
@@ -322,15 +381,16 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="index.html" class="flex items-center">
-                        <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+                        <div
+                            class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                         <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
                     </a>
                 </div>
-                
+
                 <!-- Navigation -->
                 <nav class="hidden md:flex items-center space-x-8">
                     <a href="index.html" class="nav-link nav-link-active">Home</a>
@@ -339,22 +399,25 @@
                     <a href="about.html" class="nav-link">About</a>
                     <a href="contact.html" class="nav-link">Contact</a>
                 </nav>
-                
+
                 <!-- Mobile menu button -->
                 <button class="md:hidden text-white" id="mobile-menu-button">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                 </button>
             </div>
         </div>
-        
+
         <!-- Mobile Navigation -->
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="px-4 pt-4 pb-5 space-y-2 bg-slate-950/90 border-t border-white/10 backdrop-blur">
                 <a href="index.html" class="block px-3 py-2 text-white font-semibold">Home</a>
-                <a href="all-games.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">All Games</a>
-                <a href="#categories-section" class="block px-3 py-2 text-white/80 hover:text-white font-medium mobile-link">Categories</a>
+                <a href="all-games.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">All
+                    Games</a>
+                <a href="#categories-section"
+                    class="block px-3 py-2 text-white/80 hover:text-white font-medium mobile-link">Categories</a>
                 <a href="about.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">About</a>
                 <a href="contact.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">Contact</a>
             </div>
@@ -365,14 +428,16 @@
         <!-- Hero Section -->
         <section class="hero-gradient py-4 lg:py-6">
             <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                <span class="inline-flex items-center justify-center px-2.5 py-0.5 text-[0.55rem] md:text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/70 bg-white/10 rounded-full mb-2">
+                <span
+                    class="inline-flex items-center justify-center px-2.5 py-0.5 text-[0.55rem] md:text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/70 bg-white/10 rounded-full mb-2">
                     Curated HTML5 Library
                 </span>
                 <h1 class="hero-title text-xl md:text-3xl lg:text-[2.25rem] font-extrabold leading-snug">
                     High-Voltage Games, One Click Away
                 </h1>
                 <p class="mt-2 text-[0.7rem] md:text-sm text-white/70 max-w-2xl mx-auto">
-                    ArcadeBloom tests and curates cross-platform titles so you can jump straight into the action. Browse editor picks, trending releases, and walkthroughs updated daily.
+                    ArcadeBloom tests and curates cross-platform titles so you can jump straight into the action. Browse
+                    editor picks, trending releases, and walkthroughs updated daily.
                 </p>
                 <div class="mt-3 flex flex-wrap justify-center gap-1.5">
                     <a href="#games-section" class="cta-pill primary text-[0.65rem] md:text-xs">Editor's Picks</a>
@@ -383,21 +448,16 @@
                 <!-- Search Bar -->
                 <div class="max-w-lg mx-auto mt-3">
                     <div class="relative">
-                        <input 
-                            type="search" 
-                            id="search-input"
-                            placeholder="Search for games, genres, or creators..."
+                        <input type="search" id="search-input" placeholder="Search for games, genres, or creators..."
                             class="w-full px-4 py-2 text-[0.75rem] md:text-sm rounded-full border-0 search-focus focus:outline-none focus:ring-0"
-                            autocomplete="off"
-                        >
-                        <button 
-                            id="search-button"
-                            class="primary-button button-sm absolute right-1 top-1 text-[0.65rem] md:text-xs"
-                        >
+                            autocomplete="off">
+                        <button id="search-button"
+                            class="primary-button button-sm absolute right-1 top-1 text-[0.65rem] md:text-xs">
                             Search
                         </button>
                     </div>
-                    <div id="search-suggestions" class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-2"></div>
+                    <div id="search-suggestions"
+                        class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-2"></div>
                 </div>
             </div>
         </section>
@@ -413,29 +473,34 @@
                     </div>
                     <div class="flex flex-wrap justify-center md:justify-end gap-3">
                         <span class="tag-pill">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223c.2-2.512 2.269-4.5 4.79-4.5 2.523 0 4.592 1.988 4.791 4.5.014.179-.052.355-.178.481l-1.367 1.367a8.9 8.9 0 014.264 4.263l1.367-1.366a.675.675 0 01.48-.18c2.512.2 4.5 2.269 4.5 4.791 0 2.522-1.988 4.591-4.5 4.79-.179.015-.355-.051-.481-.177l-2.598-2.599c-3.346.542-6.96-.64-9.582-3.262s-3.804-6.235-3.262-9.582L3.8 8.703a.675.675 0 01-.178-.48z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3.98 8.223c.2-2.512 2.269-4.5 4.79-4.5 2.523 0 4.592 1.988 4.791 4.5.014.179-.052.355-.178.481l-1.367 1.367a8.9 8.9 0 014.264 4.263l1.367-1.366a.675.675 0 01.48-.18c2.512.2 4.5 2.269 4.5 4.791 0 2.522-1.988 4.591-4.5 4.79-.179.015-.355-.051-.481-.177l-2.598-2.599c-3.346.542-6.96-.64-9.582-3.262s-3.804-6.235-3.262-9.582L3.8 8.703a.675.675 0 01-.178-.48z" />
                             </svg>
                             Daily curated
                         </span>
                         <span class="tag-pill">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2.293 2.293a1 1 0 001.414 0L12 9l5.293 5.293a1 1 0 001.414 0L21 12M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 12l2.293 2.293a1 1 0 001.414 0L12 9l5.293 5.293a1 1 0 001.414 0L21 12M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
                             </svg>
                             One-click play
                         </span>
                     </div>
                 </div>
-                <div id="games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8">
+                <div id="games-grid"
+                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8">
                     <!-- Games will be loaded here dynamically -->
                 </div>
-                
+
                 <!-- Loading Spinner -->
                 <div id="loading" class="flex justify-center items-center py-12 text-white/70">
                     <div class="loading-spinner"></div>
                     <span class="ml-3">Loading games...</span>
                 </div>
-                
+
                 <!-- Load More Button -->
                 <div class="text-center mt-12">
                     <button id="load-more" class="primary-button button-lg font-semibold hidden">
@@ -454,19 +519,24 @@
                             <div>
                                 <h2 class="text-2xl font-bold tracking-tight">Browse the Catalog</h2>
                                 <p class="text-white/60 text-sm mt-2 max-w-lg">
-                                    Use quick filters, sort controls, and layout options to find the next game worth your session.
+                                    Use quick filters, sort controls, and layout options to find the next game worth
+                                    your session.
                                 </p>
                             </div>
                             <div class="flex flex-wrap gap-2 justify-center md:justify-end text-[0.75rem]">
                                 <span class="tag-pill px-3 py-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L20 11l-6.5 6.5M4 12h16" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M13.5 4.5L20 11l-6.5 6.5M4 12h16" />
                                     </svg>
                                     1,500+ titles
                                 </span>
                                 <span class="tag-pill px-3 py-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     Fresh drops weekly
                                 </span>
@@ -492,8 +562,10 @@
 
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                             <div class="flex items-center gap-2 text-[0.75rem] text-white/60">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 4.5L21 9m0 0l-4.5 4.5M21 9H3" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M16.5 4.5L21 9m0 0l-4.5 4.5M21 9H3" />
                                 </svg>
                                 <span>Tip: combine filters with search for laser-focused results.</span>
                             </div>
@@ -507,12 +579,16 @@
                                 <div class="view-toggle">
                                     <button id="grid-view" class="active" aria-label="Grid view">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4z" clip-rule="evenodd"/>
+                                            <path fill-rule="evenodd"
+                                                d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                     </button>
                                     <button id="list-view" aria-label="List view">
                                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z" clip-rule="evenodd"/>
+                                            <path fill-rule="evenodd"
+                                                d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z"
+                                                clip-rule="evenodd" />
                                         </svg>
                                     </button>
                                 </div>
@@ -531,7 +607,9 @@
                     </div>
                 </div>
 
-                <div id="all-games-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 lg:gap-6 mt-6"></div>
+                <div id="all-games-grid"
+                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 lg:gap-6 mt-6">
+                </div>
 
                 <div id="no-results" class="hidden text-center py-12">
                     <p class="text-white/70 text-lg">No games found. Try a different filter or keyword.</p>
@@ -544,7 +622,7 @@
                 </div>
             </div>
         </section>
-        
+
     </main>
 
     <!-- Footer -->
@@ -553,32 +631,36 @@
             <div class="glass-card p-8 sm:p-10 grid grid-cols-1 md:grid-cols-4 gap-10">
                 <div class="md:col-span-2">
                     <div class="flex items-center mb-6">
-                        <div class="w-10 h-10 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
                             <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
                         <span class="text-2xl font-bold">ArcadeBloom</span>
                     </div>
                     <p class="text-white/70 mb-6">
-                        Your HQ for high-impact browser games. Launch in seconds, share with friends, and stay ahead of the next viral hit.
+                        Your HQ for high-impact browser games. Launch in seconds, share with friends, and stay ahead of
+                        the next viral hit.
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-white/60 hover:text-white transition">
                             <span class="sr-only">Facebook</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
                             </svg>
                         </a>
                         <a href="#" class="text-white/60 hover:text-white transition">
                             <span class="sr-only">Twitter</span>
                             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                <path
+                                    d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
                             </svg>
                         </a>
                     </div>
                 </div>
-                
+
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2 text-white/70">
@@ -588,7 +670,7 @@
                         <li><a href="all-games.html" class="hover:text-white transition">Browse Games</a></li>
                     </ul>
                 </div>
-                
+
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Company</h3>
                     <ul class="space-y-2 text-white/70">
@@ -608,14 +690,14 @@
 
     <!-- Game Data -->
     <script src="games-data.js"></script>
-    
+
     <!-- JavaScript -->
     <script>
         // Use external game data
         let currentCategory = 'all';
         let displayedGames = 12;
         let filteredGames = [];
-        
+
         // Function to get game data
         function getGameData() {
             if (typeof GameUtils !== 'undefined') {
@@ -626,7 +708,7 @@
             // If data not yet loaded, return empty array
             return [];
         }
-        
+
         // DOM Elements
         const gamesGrid = document.getElementById('games-grid');
         const loading = document.getElementById('loading');
@@ -636,28 +718,28 @@
         const categoryButtons = document.querySelectorAll('.category-btn');
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
-        
+
         // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             loadGames();
             setupEventListeners();
         });
-        
+
         function setupEventListeners() {
-            
+
             // Search functionality
             searchButton.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', function(e) {
+            searchInput.addEventListener('keypress', function (e) {
                 if (e.key === 'Enter') {
                     performSearch();
                 }
             });
-            
+
             // Load more button
             loadMoreBtn.addEventListener('click', loadMoreGames);
-            
+
             // Mobile menu
-            mobileMenuButton.addEventListener('click', function() {
+            mobileMenuButton.addEventListener('click', function () {
                 mobileMenu.classList.toggle('hidden');
             });
 
@@ -691,7 +773,7 @@
                 filteredGames = allGames.filter(game => game.category === currentCategory);
             }
         }
-        
+
         function performSearch() {
             const query = searchInput.value.toLowerCase().trim();
             if (query) {
@@ -712,17 +794,17 @@
             const value = Number(plays);
             return Number.isFinite(value) ? value.toLocaleString() : '0';
         }
-        
+
         function loadGames() {
             loading.classList.remove('hidden');
-            
+
             // Simulate loading delay
             setTimeout(() => {
                 const gamesToShow = filteredGames.slice(0, displayedGames);
                 renderGames(gamesToShow);
-                
+
                 loading.classList.add('hidden');
-                
+
                 // Show/hide load more button
                 if (displayedGames < filteredGames.length) {
                     loadMoreBtn.classList.remove('hidden');
@@ -731,12 +813,12 @@
                 }
             }, 500);
         }
-        
+
         function loadMoreGames() {
             displayedGames += 12;
             loadGames();
         }
-        
+
         function renderGames(games) {
             gamesGrid.innerHTML = games.map(game => `
                 <div class="game-card glass-card">
@@ -770,7 +852,7 @@
                 </div>
             `).join('');
         }
-        
+
         // Initialize page
         function initializePage() {
             // Ensure game data is loaded
@@ -782,12 +864,12 @@
                 setTimeout(initializePage, 50);
             }
         }
-        
+
         // Initialize after page load
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             initializePage();
         });
-        
+
         function playGame(gameId) {
             if (typeof GameUtils !== 'undefined') {
                 const game = GameUtils.getGameById(gameId);
@@ -805,136 +887,136 @@
     </script>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // 所有游戏数据处理
-        let allGames = [];
-        let filteredAllGames = [];
-        let allCategory = 'all';
-        let allSort = 'name';
-        let allView = 'grid';
-        let allDisplayed = 12;
+        document.addEventListener('DOMContentLoaded', function () {
+            // 所有游戏数据处理
+            let allGames = [];
+            let filteredAllGames = [];
+            let allCategory = 'all';
+            let allSort = 'name';
+            let allView = 'grid';
+            let allDisplayed = 12;
 
-        // 元素
-        const allGrid = document.getElementById('all-games-grid');
-        const allLoadBtn = document.getElementById('all-load-more');
-        const allLoading = document.getElementById('all-loading');
-        const allResultCount = document.getElementById('results-count');
-        const allNoResult = document.getElementById('no-results');
+            // 元素
+            const allGrid = document.getElementById('all-games-grid');
+            const allLoadBtn = document.getElementById('all-load-more');
+            const allLoading = document.getElementById('all-loading');
+            const allResultCount = document.getElementById('results-count');
+            const allNoResult = document.getElementById('no-results');
 
-        const categoryBtns = document.querySelectorAll('.category-btn');
-        const sortSelect = document.getElementById('sort-select');
-        const gridBtn = document.getElementById('grid-view');
-        const listBtn = document.getElementById('list-view');
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            const sortSelect = document.getElementById('sort-select');
+            const gridBtn = document.getElementById('grid-view');
+            const listBtn = document.getElementById('list-view');
 
-        // 初始化加载数据
-        function initAllGames() {
-            if (typeof GameUtils === 'undefined') {
-                setTimeout(initAllGames, 50);
-                return;
-            }
-
-            allGames = GameUtils.getAllGames();
-            applyAllFilters();
-            bindAllListeners();
-        }
-
-        function bindAllListeners() {
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    allCategory = btn.dataset.category;
-                    allDisplayed = 12;
-
-                    // 激活按钮状态
-                    categoryBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-
-                    applyAllFilters();
-                });
-            });
-
-            sortSelect.addEventListener('change', () => {
-                allSort = sortSelect.value;
-                applyAllFilters();
-            });
-
-            gridBtn.addEventListener('click', () => {
-                allView = 'grid';
-                updateViewToggle();
-                renderAllGames();
-            });
-
-            listBtn.addEventListener('click', () => {
-                allView = 'list';
-                updateViewToggle();
-                renderAllGames();
-            });
-
-            allLoadBtn.addEventListener('click', () => {
-                allDisplayed += 12;
-                renderAllGames();
-            });
-        }
-
-        function applyAllFilters() {
-            let query = ""; // 可扩展为搜索关键词
-            filteredAllGames = allGames.filter(g => {
-                const matchCategory = allCategory === 'all' || g.category === allCategory;
-                const matchSearch = !query || g.name.toLowerCase().includes(query);
-                return matchCategory && matchSearch;
-            });
-
-            sortAllGames();
-            renderAllGames();
-        }
-
-        function sortAllGames() {
-            switch (allSort) {
-                case 'name':
-                    filteredAllGames.sort((a, b) => a.name.localeCompare(b.name));
-                    break;
-                case 'category':
-                    filteredAllGames.sort((a, b) => a.category.localeCompare(b.category));
-                    break;
-                case 'popular':
-                    filteredAllGames.sort((a, b) => b.plays - a.plays);
-                    break;
-                case 'newest':
-                    filteredAllGames.sort((a, b) => b.id - a.id);
-                    break;
-            }
-        }
-
-        function updateViewToggle() {
-            if (allView === 'grid') {
-                allGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8 mt-10';
-            } else {
-                allGrid.className = 'space-y-4 mt-10';
-            }
-
-            gridBtn.classList.toggle('active', allView === 'grid');
-            listBtn.classList.toggle('active', allView === 'list');
-        }
-
-        function renderAllGames() {
-            allLoading.classList.remove('hidden');
-
-            setTimeout(() => {
-                const showGames = filteredAllGames.slice(0, allDisplayed);
-                allResultCount.textContent = filteredAllGames.length;
-
-                if (filteredAllGames.length === 0) {
-                    allGrid.innerHTML = '';
-                    allNoResult.classList.remove('hidden');
-                    allLoadBtn.classList.add('hidden');
-                    allLoading.classList.add('hidden');
+            // 初始化加载数据
+            function initAllGames() {
+                if (typeof GameUtils === 'undefined') {
+                    setTimeout(initAllGames, 50);
                     return;
                 }
 
-                allNoResult.classList.add('hidden');
+                allGames = GameUtils.getAllGames();
+                applyAllFilters();
+                bindAllListeners();
+            }
 
-                allGrid.innerHTML = showGames.map(game => {
-                    if (allView === 'grid') {
-                        return `
+            function bindAllListeners() {
+                categoryBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        allCategory = btn.dataset.category;
+                        allDisplayed = 12;
+
+                        // 激活按钮状态
+                        categoryBtns.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+
+                        applyAllFilters();
+                    });
+                });
+
+                sortSelect.addEventListener('change', () => {
+                    allSort = sortSelect.value;
+                    applyAllFilters();
+                });
+
+                gridBtn.addEventListener('click', () => {
+                    allView = 'grid';
+                    updateViewToggle();
+                    renderAllGames();
+                });
+
+                listBtn.addEventListener('click', () => {
+                    allView = 'list';
+                    updateViewToggle();
+                    renderAllGames();
+                });
+
+                allLoadBtn.addEventListener('click', () => {
+                    allDisplayed += 12;
+                    renderAllGames();
+                });
+            }
+
+            function applyAllFilters() {
+                let query = ""; // 可扩展为搜索关键词
+                filteredAllGames = allGames.filter(g => {
+                    const matchCategory = allCategory === 'all' || g.category === allCategory;
+                    const matchSearch = !query || g.name.toLowerCase().includes(query);
+                    return matchCategory && matchSearch;
+                });
+
+                sortAllGames();
+                renderAllGames();
+            }
+
+            function sortAllGames() {
+                switch (allSort) {
+                    case 'name':
+                        filteredAllGames.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'category':
+                        filteredAllGames.sort((a, b) => a.category.localeCompare(b.category));
+                        break;
+                    case 'popular':
+                        filteredAllGames.sort((a, b) => b.plays - a.plays);
+                        break;
+                    case 'newest':
+                        filteredAllGames.sort((a, b) => b.id - a.id);
+                        break;
+                }
+            }
+
+            function updateViewToggle() {
+                if (allView === 'grid') {
+                    allGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8 mt-10';
+                } else {
+                    allGrid.className = 'space-y-4 mt-10';
+                }
+
+                gridBtn.classList.toggle('active', allView === 'grid');
+                listBtn.classList.toggle('active', allView === 'list');
+            }
+
+            function renderAllGames() {
+                allLoading.classList.remove('hidden');
+
+                setTimeout(() => {
+                    const showGames = filteredAllGames.slice(0, allDisplayed);
+                    allResultCount.textContent = filteredAllGames.length;
+
+                    if (filteredAllGames.length === 0) {
+                        allGrid.innerHTML = '';
+                        allNoResult.classList.remove('hidden');
+                        allLoadBtn.classList.add('hidden');
+                        allLoading.classList.add('hidden');
+                        return;
+                    }
+
+                    allNoResult.classList.add('hidden');
+
+                    allGrid.innerHTML = showGames.map(game => {
+                        if (allView === 'grid') {
+                            return `
                             <div class="game-card glass-card">
                                 <div class="game-thumb h-44">
                                     <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
@@ -964,8 +1046,8 @@
                                 </div>
                             </div>
                         `;
-                    } else {
-                        return `
+                        } else {
+                            return `
                             <div class="game-card glass-card p-3 sm:p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                                 <div class="game-thumb w-full sm:w-28 h-24 sm:h-20">
                                     <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
@@ -996,23 +1078,24 @@
                                 </button>
                             </div>
                         `;
+                        }
+                    }).join('');
+
+                    // Load more toggle
+                    if (allDisplayed < filteredAllGames.length) {
+                        allLoadBtn.classList.remove('hidden');
+                    } else {
+                        allLoadBtn.classList.add('hidden');
                     }
-                }).join('');
 
-                // Load more toggle
-                if (allDisplayed < filteredAllGames.length) {
-                    allLoadBtn.classList.remove('hidden');
-                } else {
-                    allLoadBtn.classList.add('hidden');
-                }
+                    allLoading.classList.add('hidden');
+                }, 300);
+            }
 
-                allLoading.classList.add('hidden');
-            }, 300);
-        }
-
-        initAllGames();
-    });
+            initAllGames();
+        });
     </script>
 
 </body>
-</html> 
+
+</html>
