@@ -502,11 +502,11 @@
                 </div>
 
                 <!-- Load More Button -->
-                <div class="text-center mt-12">
+                <!-- <div class="text-center mt-12">
                     <button id="load-more" class="primary-button button-lg font-semibold hidden">
                         Load More Games
                     </button>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -695,7 +695,7 @@
     <script>
         // Use external game data
         let currentCategory = 'all';
-        let displayedGames = 12;
+        let displayedGames = 9;
         let filteredGames = [];
 
         // Function to get game data
@@ -820,38 +820,89 @@
         }
 
         function renderGames(games) {
-            gamesGrid.innerHTML = games.map(game => `
-                <div class="game-card glass-card">
-                    <div class="game-thumb h-32">
-                        <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
+            // 只显示最多 9 个
+            games = (games || []).slice(0, 9);
+
+            if (games.length === 0) {
+                gamesGrid.innerHTML = '<p class="text-center text-white/70">No games available.</p>';
+                return;
+            }
+
+            const first = games[0];
+            const rest = games.slice(1);
+
+            // 最外层加上 col-span-full 让这个容器横跨父 grid 的所有列，避免被压扁
+            gamesGrid.innerHTML = `
+            <div class="col-span-full w-full">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
+
+                <div class="lg:col-span-1">
+                    <div class="game-card glass-card h-full flex flex-col">
+                    <div class="game-thumb relative h-80 rounded-md overflow-hidden">
+                        <img src="${first.image}" alt="${first.name}" class="w-full h-full object-cover block">
+                        <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
+                        ${first.category || 'Arcade'}
+                        </span>
+                        <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
+                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        ${formatRating(first.rating)}
+                        </span>
+                    </div>
+
+                    <div class="p-6 flex-1 flex flex-col gap-3">
+                        <h3 class="font-semibold text-lg md:text-xl text-white truncate">${first.name}</h3>
+                        <p class="text-white/70 text-sm line-clamp-2">${first.description}</p>
+                        <div class="flex items-center justify-between text-xs text-white/60">
+                        <span class="inline-flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
+                            </svg>
+                            ${formatPlays(first.plays)} plays
+                        </span>
+                        <span>${first.releaseDate || 'New drop'}</span>
+                        </div>
+                        <button onclick="playGame(${first.id})" class="primary-button button-lg w-full mt-2">
+                        Play Now
+                        </button>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6">
+                    ${rest.map(game => `
+                    <div class="game-card glass-card flex flex-col">
+                        <div class="game-thumb relative h-36 rounded-md overflow-hidden">
+                        <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover block">
                         <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
                             ${game.category || 'Arcade'}
                         </span>
                         <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
                             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
                             ${formatRating(game.rating)}
                         </span>
-                    </div>
-                    <div class="p-4 flex flex-col gap-2">
-                        <h3 class="font-semibold text-white text-base truncate">${game.name}</h3>
+                        </div>
+                        <div class="p-3 flex flex-col gap-2">
+                        <h3 class="font-semibold text-white text-sm truncate">${game.name}</h3>
                         <div class="flex items-center justify-between text-[0.7rem] text-white/60">
-                            <span class="inline-flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
-                                </svg>
-                                ${formatPlays(game.plays)} plays
-                            </span>
+                            <span>${formatPlays(game.plays)} plays</span>
                             <span>${game.releaseDate || 'New drop'}</span>
                         </div>
-                        <button onclick="playGame(${game.id})" class="primary-button button-md w-full">
-                            Play Now
+                        <button onclick="playGame(${game.id})" class="primary-button button-sm w-full mt-2">
+                            Play
                         </button>
+                        </div>
                     </div>
+                    `).join('')}
                 </div>
-            `).join('');
+                </div>
+            </div>
+            `;
         }
+
 
         // Initialize page
         function initializePage() {
@@ -1030,7 +1081,7 @@
                                 </div>
                                 <div class="p-5 flex flex-col gap-3">
                                     <h3 class="text-white font-semibold text-lg truncate">${game.name}</h3>
-                                
+                            
                                     <div class="flex items-center justify-between text-xs text-white/60">
                                         <span class="inline-flex items-center gap-1">
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
