@@ -5600,7 +5600,7 @@ const GAMES_DATABASE = [
 
     {
         id: 412,
-        name: "",
+        name: "catway-xr",
         slug: "catway-xr",
         category: "action",
         image: "./pic/logo/catway-xr.png",
