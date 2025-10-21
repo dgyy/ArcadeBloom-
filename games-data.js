@@ -5598,24 +5598,6 @@ const GAMES_DATABASE = [
         gameUrl: "./games/roll-for-mischief/index.html",
     },
 
-    {
-        id: 412,
-        name: "catway-xr",
-        slug: "catway-xr",
-        category: "action",
-        image: "./pic/logo/catway-xr.png",
-        description: "The cat is living in a special world made of 2D and 3D elements. Your goal is to help it to find its way to its cozy pillow.",
-        instructions: "The cat can walk and jump. Action and direction keys should be pressed simultaneously. Keyboard uses direction arrows for directions and X and C keys for action. Gamepad use axes 0 and 1 for directions (usually joystick) and buttons 0 and 1 for action. I let you find where it is on yours. Mouse, touchscreen or laser controller in XR allows to designate a specific location in the 3D world, which can also be used to play. A click-drag on the screen moves the camera around. Grab in XR moves the world around. Wheel or two fingers pinch are used to zoom.",
-        releaseDate: "2025",
-        rating: 4.3,
-        plays: 0,
-        featured: false,
-        tags: ["js13k2025", "action"],
-        gameUrl: "./games/catway-xr/index.html",
-    },
-
-
-
 ];
 
 // Game category configuration
