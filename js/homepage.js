@@ -1,6 +1,7 @@
 (function () {
     const RECENT_KEY = 'arcadebloom_recently_played';
     const NAV_ITEMS = [
+        { id: 'home', label: 'Home', target: '#top-picks' },
         { id: 'picks', label: 'Top Picks', target: '#top-picks' },
         { id: 'featured', label: 'Featured Games', target: '#featured-spotlight' },
         { id: 'new', label: 'New Releases', target: '#new-releases' },
