@@ -1,14 +1,14 @@
 (function () {
     const RECENT_KEY = 'arcadebloom_recently_played';
     const NAV_ITEMS = [
-        { id: 'home', label: 'Home', icon: '🏠', target: '#top-picks' },
-        { id: 'recent', label: 'Recently Played', icon: '🕐', target: '#recently-played' },
-        { id: 'featured', label: 'Featured', icon: '✨', target: '#featured-spotlight' },
-        { id: 'new', label: 'New Games', icon: '⚡', target: '#new-releases' },
-        { id: 'action', label: 'Action', icon: '⚔️', target: '#rail-action', categoryId: 'action' },
-        { id: 'puzzle', label: 'Puzzle', icon: '🧩', target: '#rail-puzzle', categoryId: 'puzzle' },
-        { id: 'casual', label: 'Casual', icon: '🌴', target: '#rail-casual', categoryId: 'casual' },
-        { id: 'sports', label: 'Sports', icon: '🏆', target: '#rail-sports', categoryId: 'sports' }
+        { id: 'picks', label: 'Top Picks', target: '#top-picks' },
+        { id: 'featured', label: 'Featured Games', target: '#featured-spotlight' },
+        { id: 'new', label: 'New Releases', target: '#new-releases' },
+        { id: 'recent', label: 'Recently Played', target: '#recently-played' },
+        { id: 'action', label: 'Action', target: '#rail-action', categoryId: 'action' },
+        { id: 'puzzle', label: 'Puzzle', target: '#rail-puzzle', categoryId: 'puzzle' },
+        { id: 'casual', label: 'Casual', target: '#rail-casual', categoryId: 'casual' },
+        { id: 'sports', label: 'Sports', target: '#rail-sports', categoryId: 'sports' }
     ];
 
     let activeNavItems = [];
@@ -38,38 +38,47 @@
     function renderNav() {
         const sidebarNav = document.getElementById('sidebar-nav');
         const mobileNav = document.getElementById('mobile-nav');
-        if (!sidebarNav || !mobileNav) {
-            return;
-        }
-
         const filteredItems = NAV_ITEMS.filter(shouldRenderNavItem);
         activeNavItems = filteredItems;
 
-        sidebarNav.innerHTML = '';
-        mobileNav.innerHTML = '';
+        if (sidebarNav) {
+            sidebarNav.innerHTML = '';
+        }
+        if (mobileNav) {
+            mobileNav.innerHTML = '';
+        }
 
         filteredItems.forEach((item, index) => {
-            const sidebarBtn = document.createElement('button');
-            sidebarBtn.type = 'button';
-            sidebarBtn.className = `sidebar-link${index === 0 ? ' active' : ''}`;
-            sidebarBtn.dataset.target = item.target;
-            sidebarBtn.innerHTML = `<span class="text-lg">${item.icon}</span><span>${item.label}</span>`;
-            sidebarBtn.addEventListener('click', () => {
-                scrollToSection(item.target);
-                setActiveNav(item.target);
-            });
-            sidebarNav.appendChild(sidebarBtn);
+            if (sidebarNav) {
+                const sidebarBtn = document.createElement('button');
+                sidebarBtn.type = 'button';
+                sidebarBtn.className = `sidebar-link${index === 0 ? ' active' : ''}`;
+                sidebarBtn.dataset.target = item.target;
+                const sidebarSegments = [];
+                if (item.icon) {
+                    sidebarSegments.push(`<span class="text-lg">${item.icon}</span>`);
+                }
+                sidebarSegments.push(`<span>${item.label}</span>`);
+                sidebarBtn.innerHTML = sidebarSegments.join('');
+                sidebarBtn.addEventListener('click', () => {
+                    scrollToSection(item.target);
+                    setActiveNav(item.target);
+                });
+                sidebarNav.appendChild(sidebarBtn);
+            }
 
-            const mobileBtn = document.createElement('button');
-            mobileBtn.type = 'button';
-            mobileBtn.className = `mobile-nav-pill${index === 0 ? ' active' : ''}`;
-            mobileBtn.dataset.target = item.target;
-            mobileBtn.innerHTML = `<span>${item.icon}</span><span>${item.label}</span>`;
-            mobileBtn.addEventListener('click', () => {
-                scrollToSection(item.target);
-                setActiveNav(item.target);
-            });
-            mobileNav.appendChild(mobileBtn);
+            if (mobileNav) {
+                const mobileBtn = document.createElement('button');
+                mobileBtn.type = 'button';
+                mobileBtn.className = `mobile-nav-pill${index === 0 ? ' active' : ''}`;
+                mobileBtn.dataset.target = item.target;
+                mobileBtn.textContent = item.label;
+                mobileBtn.addEventListener('click', () => {
+                    scrollToSection(item.target);
+                    setActiveNav(item.target);
+                });
+                mobileNav.appendChild(mobileBtn);
+            }
         });
 
         if (filteredItems.length) {
@@ -89,9 +98,10 @@
         if (!element) {
             return;
         }
-        const offset = 80;
+        const header = document.querySelector('.nav-shell');
+        const offset = header ? header.getBoundingClientRect().height + 24 : 80;
         const top = element.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top, behavior: 'smooth' });
+        window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
     }
 
     function setActiveNav(target) {
@@ -130,41 +140,43 @@
 
         const cards = popularGames.slice(0, 8).map((game, index) =>
             createRailCard(game, {
-                statusType: index < 3 ? 'top' : null,
                 size: index < 2 ? 'wide' : 'default'
             })
         );
 
         const wrapper = buildRail(cards, {
             wrapperClass: 'mt-6',
-            prevLabel: 'Previous hot games',
-            nextLabel: 'Next hot games'
+            prevLabel: 'Previous picks',
+            nextLabel: 'Next picks'
         });
 
         container.appendChild(wrapper);
     }
 
     function renderFeaturedSpotlight() {
-        const grid = document.getElementById('featured-grid');
-        if (!grid) {
+        const container = document.getElementById('featured-rail');
+        if (!container) {
             return;
         }
-        grid.innerHTML = '';
+        container.innerHTML = '';
 
         const featuredGames = GameUtils.getFeaturedGames();
         const fallback = GameUtils.getPopularGames(4).filter(game => !featuredGames.some(item => item.slug === game.slug));
         const picks = (featuredGames.length ? featuredGames : fallback).slice(0, 4);
 
         if (!picks.length) {
-            grid.innerHTML = '<p class="text-white/60 text-sm">Add featured games in games-data.js to populate this spotlight.</p>';
+            container.innerHTML = '<p class="text-white/60 text-sm">Add featured games in games-data.js to populate this spotlight.</p>';
             return;
         }
 
-        picks.forEach((game, index) => {
-            const statusType = index === 0 ? 'hot' : index === 1 ? 'updated' : 'top';
-            const card = createSpotlightCard(game, statusType);
-            grid.appendChild(card);
+        const cards = picks.map(game => createRailCard(game));
+        const wrapper = buildRail(cards, {
+            wrapperClass: 'mt-4',
+            prevLabel: 'Previous featured games',
+            nextLabel: 'Next featured games'
         });
+
+        container.appendChild(wrapper);
     }
 
     function renderNewReleases() {
@@ -180,7 +192,7 @@
             return;
         }
 
-        const cards = newestGames.map(game => createRailCard(game, { statusType: 'new' }));
+        const cards = newestGames.map(game => createRailCard(game));
         const wrapper = buildRail(cards, {
             wrapperClass: 'mt-6',
             prevLabel: 'Previous new releases',
@@ -254,7 +266,7 @@
         emptyState.classList.add('hidden');
         clearButton.classList.remove('hidden');
 
-        const nodes = games.map(game => createRailCard(game, { statusType: 'updated' }));
+        const nodes = games.map(game => createRailCard(game));
         const wrapper = buildRail(nodes, {
             wrapperClass: 'mt-6',
             prevLabel: 'Previous recently played games',
