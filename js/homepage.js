@@ -5,7 +5,6 @@
         { id: 'recent', label: 'Recently Played', icon: '🕐', target: '#recently-played' },
         { id: 'featured', label: 'Featured', icon: '✨', target: '#featured-spotlight' },
         { id: 'new', label: 'New Games', icon: '⚡', target: '#new-releases' },
-        { id: 'partner', label: 'Play on Comet', icon: '🚀', target: '#partner-zone' },
         { id: 'action', label: 'Action', icon: '⚔️', target: '#rail-action', categoryId: 'action' },
         { id: 'puzzle', label: 'Puzzle', icon: '🧩', target: '#rail-puzzle', categoryId: 'puzzle' },
         { id: 'casual', label: 'Casual', icon: '🌴', target: '#rail-casual', categoryId: 'casual' },
