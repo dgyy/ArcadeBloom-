@@ -219,9 +219,14 @@
 
             const header = document.createElement('div');
             header.className = 'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3';
+            const headingPieces = [];
+            if (item.icon) {
+                headingPieces.push(item.icon);
+            }
+            headingPieces.push(item.label);
             header.innerHTML = `
                 <div>
-                    <h3 class="text-xl font-semibold">${item.icon} ${item.label}</h3>
+                    <h3 class="text-xl font-semibold">${headingPieces.join(' ')}</h3>
                     <p class="text-white/60 text-sm mt-1">Scroll to explore ${item.label.toLowerCase()} picks.</p>
                 </div>
                 <span class="status-badge status-updated self-start sm:self-auto">ArcadeBloom</span>
