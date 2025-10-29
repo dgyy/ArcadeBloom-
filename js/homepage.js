@@ -18,11 +18,11 @@
         if (!Number.isFinite(numeric) || numeric <= 0) {
             return '0 plays';
         }
-        if (numeric >= 1_000_000) {
-            return `${(numeric / 1_000_000).toFixed(1)}M plays`;
+        if (numeric >= 1000000) {
+            return `${(numeric / 1000000).toFixed(1)}M plays`;
         }
-        if (numeric >= 1_000) {
-            return `${(numeric / 1_000).toFixed(1)}K plays`;
+        if (numeric >= 1000) {
+            return `${(numeric / 1000).toFixed(1)}K plays`;
         }
         return `${numeric} plays`;
     }
@@ -281,6 +281,9 @@
         }
 
         limitedGames.forEach(game => {
+            if (!game) {
+                return;
+            }
             const card = createCollectionCard(game);
             collectionGrid.appendChild(card);
         });

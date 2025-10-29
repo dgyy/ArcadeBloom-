@@ -552,7 +552,7 @@
 
     <main>
         <!-- Hub Layout -->
-        <section id="home-view" class="py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
+        <section class="py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
             <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
                 <div class="lg:hidden mb-8">
                     <div class="flex items-center justify-between mb-4">
@@ -629,7 +629,8 @@
                             </div>
                         </div>
                     </aside>
-                    <div class="space-y-12">
+                    <div class="w-full">
+                        <div id="home-view" class="space-y-12">
                         <section id="top-picks" class="glass-card p-6 sm:p-8">
                             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                                 <div>
@@ -692,6 +693,17 @@
                             <div id="recently-empty" class="text-white/60 text-sm mt-4">Launch a game to see it appear
                                 here.</div>
                         </section>
+                        </div>
+                        <div id="collection-view" class="hidden space-y-8">
+                            <div class="glass-card p-6 sm:p-8 space-y-6">
+                                <div id="collection-header" class="space-y-3">
+                                    <h2 id="collection-title" class="text-3xl font-extrabold tracking-tight"></h2>
+                                    <p id="collection-description" class="text-white/70 text-sm max-w-3xl hidden"></p>
+                                </div>
+                                <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                                <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
