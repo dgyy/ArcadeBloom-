@@ -279,89 +279,233 @@
             transform: translateY(-2px);
         }
 
-        .category-btn {
-            position: relative;
-            border-radius: 9999px;
-            padding: 0.45rem 0.9rem;
-            background: rgba(8, 14, 34, 0.76);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(236, 242, 255, 0.78);
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: all 0.25s ease;
-        }
-
-        .category-btn:hover {
-            color: #ffffff;
-            border-color: rgba(255, 255, 255, 0.35);
-        }
-
-        .category-btn.active {
-            color: #ffffff;
-            background: linear-gradient(135deg, #ff4ec7, #6f58ff);
-            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.45);
-            border-color: rgba(255, 255, 255, 0.45);
-        }
-
-        .view-toggle {
-            display: inline-flex;
-            border-radius: 9999px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(8, 14, 34, 0.76);
-        }
-
-        .view-toggle button {
-            padding: 0.45rem 0.85rem;
-            color: rgba(226, 232, 255, 0.65);
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
-        }
-
-        .view-toggle button.active {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.18);
-        }
-
-        .filter-select {
-            background: rgba(8, 14, 34, 0.76);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #f8fafc;
-            border-radius: 9999px;
-            padding: 0.45rem 0.9rem;
-            font-size: 0.8rem;
-        }
-
-        .filter-panel {
-            background: rgba(9, 12, 32, 0.78);
+        .sidebar-card {
+            background: rgba(9, 13, 35, 0.82);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            box-shadow: 0 16px 40px rgba(8, 11, 27, 0.35);
+            border-radius: 20px;
+            box-shadow: 0 28px 55px rgba(7, 12, 29, 0.35);
         }
 
-        .loading-spinner {
-            border: 3px solid rgba(255, 255, 255, 0.12);
-            border-top: 3px solid #38bdf8;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.65rem 0.9rem;
+            border-radius: 14px;
+            font-weight: 600;
+            color: rgba(226, 232, 255, 0.72);
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        .sidebar-link.active {
+            background: linear-gradient(135deg, rgba(111, 88, 255, 0.65), rgba(37, 215, 255, 0.65));
+            color: #ffffff;
+            box-shadow: 0 16px 28px rgba(79, 70, 229, 0.35);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.28rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(15, 23, 42, 0.78);
+            color: #ffffff;
+        }
+
+        .status-hot {
+            background: linear-gradient(135deg, rgba(255, 96, 218, 0.92), rgba(255, 137, 84, 0.92));
+        }
+
+        .status-new {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.92), rgba(56, 189, 248, 0.92));
+        }
+
+        .status-updated {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.92), rgba(129, 140, 248, 0.92));
+        }
+
+        .status-top {
+            background: linear-gradient(135deg, rgba(250, 204, 21, 0.92), rgba(234, 179, 8, 0.92));
+            color: #111827;
+        }
+
+        .rail-wrapper {
+            position: relative;
+        }
+
+        .rail-track {
+            display: flex;
+            gap: 1.25rem;
+            overflow: hidden;
+            padding-bottom: 0.25rem;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .rail-item {
+            scroll-snap-align: start;
+            min-width: 180px;
+        }
+
+        .rail-item.wide {
+            min-width: 260px;
+        }
+
+        .rail-item.tall {
+            min-width: 320px;
+        }
+
+        .rail-button {
+            position: absolute;
+            top: 50%;
+            width: 38px;
+            height: 64px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(9, 13, 35, 0.85);
+            color: #f8fafc;
+            z-index: 10;
+            box-shadow: 0 18px 36px rgba(6, 12, 35, 0.45);
+            transition: opacity 0.2s ease, background 0.2s ease, transform 0.2s ease;
+            transform: translateY(-50%);
+        }
+
+        .rail-button:hover {
+            background: rgba(59, 130, 246, 0.85);
+        }
+
+        .rail-button:active {
+            transform: translateY(-50%) scale(0.96);
+        }
+
+        .rail-button:focus-visible {
+            outline: 2px solid rgba(99, 102, 241, 0.65);
+            outline-offset: 2px;
+        }
+
+        .rail-button[disabled] {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .rail-button-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .rail-button-prev {
+            left: -1.5rem;
+        }
+
+        .rail-button-next {
+            right: -1.5rem;
+        }
+
+        .mobile-nav-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.85rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            background: rgba(9, 13, 35, 0.78);
+            color: rgba(226, 232, 255, 0.8);
+            font-weight: 600;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .mobile-nav-pill.active {
+            background: linear-gradient(135deg, rgba(111, 88, 255, 0.9), rgba(37, 215, 255, 0.9));
+            color: #ffffff;
+        }
+
+        .spotlight-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(9, 13, 35, 0.82);
+            box-shadow: 0 28px 50px rgba(8, 12, 32, 0.45);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .spotlight-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 45px 70px rgba(6, 12, 35, 0.55);
+        }
+
+        .spotlight-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .spotlight-card:hover img {
+            transform: scale(1.07);
+        }
+
+        .spotlight-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(9, 13, 35, 0) 0%, rgba(9, 13, 35, 0.85) 80%);
+        }
+
+        .game-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: rgba(226, 232, 255, 0.7);
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 1023px) {
+            .rail-button-prev {
+                left: -0.75rem;
+            }
+
+            .rail-button-next {
+                right: -0.75rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .rail-button {
+                width: 32px;
+                height: 48px;
+            }
+
+            .rail-button-prev {
+                left: -0.25rem;
+            }
+
+            .rail-button-next {
+                right: -0.25rem;
+            }
         }
 
         footer {
             background: rgba(8, 11, 27, 0.88);
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
     </style>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KRKXGJZ9R4"></script>
@@ -376,9 +520,8 @@
 
     <!-- Header -->
     <header class="nav-shell sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
+        <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
+            <div class="flex items-center gap-6 h-16">
                 <div class="flex-shrink-0">
                     <a href="index.html" class="flex items-center">
                         <div
@@ -390,235 +533,191 @@
                         <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
                     </a>
                 </div>
-
-                <!-- Navigation -->
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="index.html" class="nav-link nav-link-active">Home</a>
-                    <a href="all-games.html" class="nav-link">All Games</a>
-                    <a href="#categories-section" class="nav-link">Categories</a>
-                    <a href="about.html" class="nav-link">About</a>
-                    <a href="contact.html" class="nav-link">Contact</a>
-                </nav>
-
-                <!-- Mobile menu button -->
-                <button class="md:hidden text-white" id="mobile-menu-button">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div class="md:hidden hidden" id="mobile-menu">
-            <div class="px-4 pt-4 pb-5 space-y-2 bg-slate-950/90 border-t border-white/10 backdrop-blur">
-                <a href="index.html" class="block px-3 py-2 text-white font-semibold">Home</a>
-                <a href="all-games.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">All
-                    Games</a>
-                <a href="#categories-section"
-                    class="block px-3 py-2 text-white/80 hover:text-white font-medium mobile-link">Categories</a>
-                <a href="about.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">About</a>
-                <a href="contact.html" class="block px-3 py-2 text-white/80 hover:text-white font-medium">Contact</a>
+                <div class="flex-1 flex justify-center">
+                    <div class="relative w-full max-w-2xl">
+                        <input type="search" id="search-input" placeholder="Search for games, genres, or creators"
+                            class="w-full px-4 py-2.5 text-sm md:text-base rounded-full border-0 search-focus focus:outline-none focus:ring-0"
+                            autocomplete="off">
+                        <button id="search-button"
+                            class="primary-button button-sm absolute right-1 top-1.5 text-xs md:text-sm">
+                            Search
+                        </button>
+                        <div id="search-suggestions"
+                            class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-3 overflow-hidden"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-gradient py-4 lg:py-6">
-            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-                <span
-                    class="inline-flex items-center justify-center px-2.5 py-0.5 text-[0.55rem] md:text-[0.65rem] font-semibold uppercase tracking-[0.35em] text-white/70 bg-white/10 rounded-full mb-2">
-                    Curated HTML5 Library
-                </span>
-                <h1 class="hero-title text-xl md:text-3xl lg:text-[2.25rem] font-extrabold leading-snug">
-                    High-Voltage Games, One Click Away
-                </h1>
-                <p class="mt-2 text-[0.7rem] md:text-sm text-white/70 max-w-2xl mx-auto">
-                    ArcadeBloom tests and curates cross-platform titles so you can jump straight into the action. Browse
-                    editor picks, trending releases, and walkthroughs updated daily.
-                </p>
-                <div class="mt-3 flex flex-wrap justify-center gap-1.5">
-                    <a href="#games-section" class="cta-pill primary text-[0.65rem] md:text-xs">Editor's Picks</a>
-                    <a href="all-games.html" class="cta-pill secondary text-[0.65rem] md:text-xs">Games Catalog</a>
-                    <a href="all-games.html#all-games-grid" class="cta-pill text-[0.65rem] md:text-xs">Walkthroughs</a>
-                </div>
-
-                <!-- Search Bar -->
-                <div class="max-w-lg mx-auto mt-3">
-                    <div class="relative">
-                        <input type="search" id="search-input" placeholder="Search for games, genres, or creators..."
-                            class="w-full px-4 py-2 text-[0.75rem] md:text-sm rounded-full border-0 search-focus focus:outline-none focus:ring-0"
-                            autocomplete="off">
-                        <button id="search-button"
-                            class="primary-button button-sm absolute right-1 top-1 text-[0.65rem] md:text-xs">
-                            Search
-                        </button>
+        <!-- Hub Layout -->
+        <section class="py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
+            <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
+                <div class="lg:hidden mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold">Quick Jump</h2>
+                        <span class="text-xs uppercase tracking-[0.3em] text-white/50">Swipe to explore</span>
                     </div>
-                    <div id="search-suggestions"
-                        class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-2"></div>
+                    <div id="mobile-nav" class="flex overflow-x-auto gap-2 pb-2 -mx-1 px-1"></div>
                 </div>
-            </div>
-        </section>
-        <!-- Featured Games -->
-        <section class="pt-20" id="games-section">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
-                    <div class="text-left">
-                        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Hot Games</h2>
-                        <p class="mt-3 text-white/70 max-w-xl">
-                            Fresh drops and all-time crowd favorites handpicked by the ArcadeBloom editors.
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap justify-center md:justify-end gap-3">
-                        <span class="tag-pill">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3.98 8.223c.2-2.512 2.269-4.5 4.79-4.5 2.523 0 4.592 1.988 4.791 4.5.014.179-.052.355-.178.481l-1.367 1.367a8.9 8.9 0 014.264 4.263l1.367-1.366a.675.675 0 01.48-.18c2.512.2 4.5 2.269 4.5 4.791 0 2.522-1.988 4.591-4.5 4.79-.179.015-.355-.051-.481-.177l-2.598-2.599c-3.346.542-6.96-.64-9.582-3.262s-3.804-6.235-3.262-9.582L3.8 8.703a.675.675 0 01-.178-.48z" />
-                            </svg>
-                            Daily curated
-                        </span>
-                        <span class="tag-pill">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M3 12l2.293 2.293a1 1 0 001.414 0L12 9l5.293 5.293a1 1 0 001.414 0L21 12M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                            </svg>
-                            One-click play
-                        </span>
-                    </div>
-                </div>
-                <div id="games-grid"
-                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8">
-                    <!-- Games will be loaded here dynamically -->
-                </div>
-
-                <!-- Loading Spinner -->
-                <div id="loading" class="flex justify-center items-center py-12 text-white/70">
-                    <div class="loading-spinner"></div>
-                    <span class="ml-3">Loading games...</span>
-                </div>
-
-                <!-- Load More Button -->
-                <!-- <div class="text-center mt-12">
-                    <button id="load-more" class="primary-button button-lg font-semibold hidden">
-                        Load More Games
-                    </button>
-                </div> -->
-            </div>
-        </section>
-
-        <!-- All Games Section -->
-        <section class="py-20" id="all-games">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="categories-section">
-                <div class="filter-panel p-4 sm:p-5 lg:p-6">
-                    <div class="flex flex-col gap-4">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div class="lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-12 2xl:gap-16">
+                    <aside class="hidden lg:block">
+                        <div class="sidebar-card p-6 space-y-6 sticky top-24 flex flex-col h-[calc(100vh-6rem)]">
                             <div>
-                                <h2 class="text-2xl font-bold tracking-tight">Browse the Catalog</h2>
-                                <p class="text-white/60 text-sm mt-2 max-w-lg">
-                                    Use quick filters, sort controls, and layout options to find the next game worth
-                                    your session.
-                                </p>
+                                <p class="text-xs uppercase tracking-[0.3em] text-white/50">Navigation</p>
+                                <h2 class="text-2xl font-bold mt-2">Game Finder</h2>
+                                <p class="text-white/60 text-sm mt-2">Jump between curated rails and discover fresh
+                                    releases without leaving the homepage.</p>
                             </div>
-                            <div class="flex flex-wrap gap-2 justify-center md:justify-end text-[0.75rem]">
-                                <span class="tag-pill px-3 py-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M13.5 4.5L20 11l-6.5 6.5M4 12h16" />
+                            <nav id="sidebar-nav" class="flex flex-col gap-1.5 flex-1 overflow-auto pr-1"></nav>
+                            <div class="border-t border-white/10 pt-6">
+                                <h3 class="text-sm font-semibold uppercase tracking-wide text-white/60">Arcade Snapshot
+                                </h3>
+                                <dl class="mt-4 space-y-3 text-sm text-white/70">
+                                    <div class="flex items-center justify-between">
+                                        <dt>Total games</dt>
+                                        <dd id="stat-total-games" class="font-semibold text-white">0</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <dt>Featured titles</dt>
+                                        <dd id="stat-featured" class="font-semibold text-white">0</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <dt>Total plays</dt>
+                                        <dd id="stat-total-plays" class="font-semibold text-white">0</dd>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <dt>Avg rating</dt>
+                                        <dd id="stat-average-rating" class="font-semibold text-white">0</dd>
+                                    </div>
+                                </dl>
+                            </div>
+                            <div class="border-t border-white/10 pt-6 space-y-3">
+                                <a href="about.html" class="sidebar-link text-sm justify-between group">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-white/70 group-hover:text-white" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 11c1.657 0 3-1.567 3-3.5S13.657 4 12 4 9 5.567 9 7.5 10.343 11 12 11z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.5 20a7.5 7.5 0 10-15 0" />
+                                        </svg>
+                                        About
+                                    </span>
+                                    <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                                     </svg>
-                                    1,500+ titles
-                                </span>
-                                <span class="tag-pill px-3 py-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 6v6l3.5 3.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </a>
+                                <a href="contact.html" class="sidebar-link text-sm justify-between group">
+                                    <span class="flex items-center gap-2">
+                                        <svg class="w-4 h-4 text-white/70 group-hover:text-white" fill="none"
+                                            stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4.5 4h15a.5.5 0 01.5.5v11a.5.5 0 01-.5.5h-15a.5.5 0 01-.5-.5v-11A.5.5 0 014.5 4z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4 6l8 5 8-5" />
+                                        </svg>
+                                        Contact
+                                    </span>
+                                    <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" fill="none"
+                                        stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                                     </svg>
-                                    Fresh drops weekly
-                                </span>
+                                </a>
                             </div>
                         </div>
-
-                        <div class="flex flex-wrap gap-2">
-                            <button class="category-btn active" data-category="all">All</button>
-                            <button class="category-btn" data-category="action">Action</button>
-                            <button class="category-btn" data-category="adventure">Adventure</button>
-                            <button class="category-btn" data-category="arcade">Arcade</button>
-                            <button class="category-btn" data-category="bejeweled">Bejeweled</button>
-                            <button class="category-btn" data-category="boys">Boys</button>
-                            <button class="category-btn" data-category="clicker">Clicker</button>
-                            <button class="category-btn" data-category="girls">Girls</button>
-                            <button class="category-btn" data-category="hypercasual">Hypercasual</button>
-                            <button class="category-btn" data-category="puzzle">Puzzle</button>
-                            <button class="category-btn" data-category="strategy">Strategy</button>
-                            <button class="category-btn" data-category="casual">Casual</button>
-                            <button class="category-btn" data-category="sports">Sports</button>
-                            <button class="category-btn" data-category="racing">Racing</button>
-                        </div>
-
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                            <div class="flex items-center gap-2 text-[0.75rem] text-white/60">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                    stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M16.5 4.5L21 9m0 0l-4.5 4.5M21 9H3" />
-                                </svg>
-                                <span>Tip: combine filters with search for laser-focused results.</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <select id="sort-select" class="filter-select">
-                                    <option value="name">Sort by Name</option>
-                                    <option value="category">Sort by Category</option>
-                                    <option value="popular">Most Popular</option>
-                                    <option value="newest">Newest First</option>
-                                </select>
-                                <div class="view-toggle">
-                                    <button id="grid-view" class="active" aria-label="Grid view">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 13a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zM12 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1V4z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
-                                    <button id="list-view" aria-label="List view">
-                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd"
-                                                d="M3 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3zm0 4a1 1 0 000 2h14a1 1 0 100-2H3z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </button>
+                    </aside>
+                    <div class="w-full">
+                        <div id="home-view" class="space-y-12">
+                        <section id="top-picks" class="glass-card p-6 sm:p-8">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div>
+                                    <h2 class="text-3xl font-extrabold tracking-tight">Top Picks for You</h2>
+                                    <p class="text-white/70 text-sm mt-2 max-w-2xl">Trending hot titles curated by the
+                                        ArcadeBloom editors. Scroll sideways to see everything in the rail.</p>
                                 </div>
                             </div>
+                            <div id="top-rail"></div>
+                        </section>
+
+                        <section id="featured-spotlight" class="space-y-6">
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-3">
+                                    <span class="status-badge status-hot">Featured</span>
+                                    <span class="text-sm text-white/60">Spotlight from the editorial team</span>
+                                </div>
+                                <h2 class="text-3xl font-extrabold">Featured Games</h2>
+                                <p class="text-white/70 text-sm max-w-2xl">Scroll through curated editor picks using the same streamlined card rail layout.</p>
+                            </div>
+                            <div id="featured-rail"></div>
+                        </section>
+
+        
+
+                        <section id="new-releases" class="glass-card p-6 sm:p-8">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <h2 class="text-2xl font-bold">New Releases</h2>
+                                    <p class="text-white/70 text-sm max-w-xl">Fresh uploads from the latest submission
+                                        wave. Check back often for new drops.</p>
+                                </div>
+                                <span class="status-badge status-new self-start sm:self-auto">Updated Daily</span>
+                            </div>
+                            <div id="new-rail"></div>
+                        </section>
+
+                        <section id="category-hub" class="space-y-10">
+                            <div class="flex flex-col gap-2">
+                                <h2 class="text-2xl font-bold">Browse by Genre</h2>
+                                <p class="text-white/70 text-sm max-w-2xl">Pick a lane and explore horizontal rails tuned
+                                    to your favourite styles.</p>
+                            </div>
+                            <div id="category-rails" class="space-y-8"></div>
+                        </section>
+
+                        <section id="recently-played" class="glass-card p-6 sm:p-8">
+                            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                                <div>
+                                    <h2 class="text-2xl font-bold">Recently Played</h2>
+                                    <p class="text-white/70 text-sm max-w-xl">Jump back into the games you opened most
+                                        recently. Stored locally for your device only.</p>
+                                </div>
+                                <button id="clear-recently"
+                                    class="text-xs font-semibold text-sky-300 hover:text-white transition hidden">
+                                    Clear History
+                                </button>
+                            </div>
+                            <div id="recently-rail"></div>
+                            <div id="recently-empty" class="text-white/60 text-sm mt-4">Launch a game to see it appear
+                                here.</div>
+                        </section>
+                        </div>
+                        <div id="collection-view" class="hidden space-y-8">
+                            <div class="glass-card p-6 sm:p-8 space-y-6">
+                                <div id="collection-header" class="space-y-3">
+                                    <h2 id="collection-title" class="text-3xl font-extrabold tracking-tight"></h2>
+                                    <p id="collection-description" class="text-white/70 text-sm max-w-3xl hidden"></p>
+                                </div>
+                                <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                                <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mt-6">
-                    <h3 class="text-xl font-semibold">
-                        <span id="results-count">0</span> Games Found
-                    </h3>
-                    <div id="all-loading" class="flex items-center gap-3 hidden text-white/70">
-                        <div class="loading-spinner"></div>
-                        <span>Loading games...</span>
+        <section id="collection-view" class="hidden py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
+            <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
+                <div class="glass-card p-6 sm:p-8 space-y-8">
+                    <div id="collection-header" class="space-y-3">
+                        <h2 id="collection-title" class="text-3xl font-extrabold tracking-tight"></h2>
+                        <p id="collection-description" class="text-white/70 text-sm max-w-3xl hidden"></p>
                     </div>
-                </div>
-
-                <div id="all-games-grid"
-                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5 lg:gap-6 mt-6">
-                </div>
-
-                <div id="no-results" class="hidden text-center py-12">
-                    <p class="text-white/70 text-lg">No games found. Try a different filter or keyword.</p>
-                </div>
-
-                <div class="text-center mt-8">
-                    <button id="all-load-more" class="primary-button button-lg font-semibold hidden">
-                        Load More
-                    </button>
+                    <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                    <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
                 </div>
             </div>
         </section>
@@ -664,10 +763,15 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2 text-white/70">
-                        <li><a href="#all-games" class="hover:text-white transition">All Games</a></li>
-                        <li><a href="#categories-section" class="hover:text-white transition">Categories</a></li>
-                        <li><a href="#games-section" class="hover:text-white transition">Featured Games</a></li>
-                        <li><a href="all-games.html" class="hover:text-white transition">Browse Games</a></li>
+                        <li><a href="#" data-nav-target="home" class="hover:text-white transition text-white/70">Home</a></li>
+                        <li><a href="#" data-nav-target="picks" class="hover:text-white transition text-white/70">Top Picks</a></li>
+                        <li><a href="#" data-nav-target="featured" class="hover:text-white transition text-white/70">Featured Games</a></li>
+                        <li><a href="#" data-nav-target="new" class="hover:text-white transition text-white/70">New Releases</a></li>
+                        <li><a href="#" data-nav-target="recent" class="hover:text-white transition text-white/70">Recently Played</a></li>
+                        <li><a href="#" data-nav-target="action" class="hover:text-white transition text-white/70">Action Games</a></li>
+                        <li><a href="#" data-nav-target="puzzle" class="hover:text-white transition text-white/70">Puzzle Games</a></li>
+                        <li><a href="#" data-nav-target="casual" class="hover:text-white transition text-white/70">Casual Games</a></li>
+                        <li><a href="#" data-nav-target="sports" class="hover:text-white transition text-white/70">Sports Games</a></li>
                     </ul>
                 </div>
 
@@ -692,461 +796,9 @@
     <script src="games-data.js"></script>
 
     <!-- JavaScript -->
-    <script>
-        // Use external game data
-        let currentCategory = 'all';
-        let displayedGames = 9;
-        let filteredGames = [];
-
-        // Function to get game data
-        function getGameData() {
-            if (typeof GameUtils !== 'undefined') {
-                // Prioritize featured games, if no featured games show first 12
-                const featuredGames = GameUtils.getFeaturedGames();
-                return featuredGames.length > 0 ? featuredGames : GameUtils.getAllGames().slice(0, 12);
-            }
-            // If data not yet loaded, return empty array
-            return [];
-        }
-
-        // DOM Elements
-        const gamesGrid = document.getElementById('games-grid');
-        const loading = document.getElementById('loading');
-        const loadMoreBtn = document.getElementById('load-more');
-        const searchInput = document.getElementById('search-input');
-        const searchButton = document.getElementById('search-button');
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function () {
-            loadGames();
-            setupEventListeners();
-        });
-
-        function setupEventListeners() {
-
-            // Search functionality
-            searchButton.addEventListener('click', performSearch);
-            searchInput.addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-
-            // Load more button
-            loadMoreBtn.addEventListener('click', loadMoreGames);
-
-            // Mobile menu
-            mobileMenuButton.addEventListener('click', function () {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Close mobile menu when clicking on mobile links
-            document.querySelectorAll('.mobile-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                });
-            });
-
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) {
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }
-                });
-            });
-        }
-
-        function filterGames() {
-            const allGames = getGameData();
-            if (currentCategory === 'all') {
-                filteredGames = allGames;
-            } else {
-                filteredGames = allGames.filter(game => game.category === currentCategory);
-            }
-        }
-
-        function performSearch() {
-            const query = searchInput.value.toLowerCase().trim();
-            if (query) {
-                // Redirect to all-games page with search query
-                window.location.href = `all-games.html?search=${encodeURIComponent(query)}`;
-            } else {
-                // If no query, just go to all games
-                window.location.href = 'all-games.html';
-            }
-        }
-
-        function formatRating(rating) {
-            const value = Number(rating);
-            return Number.isFinite(value) ? value.toFixed(1) : '—';
-        }
-
-        function formatPlays(plays) {
-            const value = Number(plays);
-            return Number.isFinite(value) ? value.toLocaleString() : '0';
-        }
-
-        function loadGames() {
-            loading.classList.remove('hidden');
-
-            // Simulate loading delay
-            setTimeout(() => {
-                const gamesToShow = filteredGames.slice(0, displayedGames);
-                renderGames(gamesToShow);
-
-                loading.classList.add('hidden');
-
-                // Show/hide load more button
-                if (displayedGames < filteredGames.length) {
-                    loadMoreBtn.classList.remove('hidden');
-                } else {
-                    loadMoreBtn.classList.add('hidden');
-                }
-            }, 500);
-        }
-
-        function loadMoreGames() {
-            displayedGames += 12;
-            loadGames();
-        }
-
-        function renderGames(games) {
-            // 只显示最多 9 个
-            games = (games || []).slice(0, 9);
-
-            if (games.length === 0) {
-                gamesGrid.innerHTML = '<p class="text-center text-white/70">No games available.</p>';
-                return;
-            }
-
-            const first = games[0];
-            const rest = games.slice(1);
-
-            // 最外层加上 col-span-full 让这个容器横跨父 grid 的所有列，避免被压扁
-            gamesGrid.innerHTML = `
-            <div class="col-span-full w-full">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 w-full">
-
-                <div class="lg:col-span-1">
-                    <div class="game-card glass-card h-full flex flex-col">
-                    <div class="game-thumb relative h-80 rounded-md overflow-hidden">
-                        <img src="${first.image}" alt="${first.name}" class="w-full h-full object-cover block">
-                        <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
-                        ${first.category || 'Arcade'}
-                        </span>
-                        <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
-                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        ${formatRating(first.rating)}
-                        </span>
-                    </div>
-
-                    <div class="p-6 flex-1 flex flex-col gap-3">
-                        <h3 class="font-semibold text-lg md:text-xl text-white truncate">${first.name}</h3>
-                        <p class="text-white/70 text-sm line-clamp-2">${first.description}</p>
-                        <div class="flex items-center justify-between text-xs text-white/60">
-                        <span class="inline-flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
-                            </svg>
-                            ${formatPlays(first.plays)} plays
-                        </span>
-                        <span>${first.releaseDate || 'New drop'}</span>
-                        </div>
-                        <button onclick="playGame(${first.id})" class="primary-button button-lg w-full mt-2">
-                        Play Now
-                        </button>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2 grid grid-cols-2 sm:grid-cols-4 gap-4 lg:gap-6">
-                    ${rest.map(game => `
-                    <div class="game-card glass-card flex flex-col">
-                        <div class="game-thumb relative h-36 rounded-md overflow-hidden">
-                        <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover block">
-                        <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">
-                            ${game.category || 'Arcade'}
-                        </span>
-                        <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
-                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                            </svg>
-                            ${formatRating(game.rating)}
-                        </span>
-                        </div>
-                        <div class="p-3 flex flex-col gap-2">
-                        <h3 class="font-semibold text-white text-sm truncate">${game.name}</h3>
-                        <div class="flex items-center justify-between text-[0.7rem] text-white/60">
-                            <span>${formatPlays(game.plays)} plays</span>
-                            <span>${game.releaseDate || 'New drop'}</span>
-                        </div>
-                        <button onclick="playGame(${game.id})" class="primary-button button-sm w-full mt-2">
-                            Play
-                        </button>
-                        </div>
-                    </div>
-                    `).join('')}
-                </div>
-                </div>
-            </div>
-            `;
-        }
-
-
-        // Initialize page
-        function initializePage() {
-            // Ensure game data is loaded
-            if (typeof GameUtils !== 'undefined') {
-                filterGames();
-                loadGames();
-            } else {
-                // If data not loaded, retry after short delay
-                setTimeout(initializePage, 50);
-            }
-        }
-
-        // Initialize after page load
-        document.addEventListener('DOMContentLoaded', function () {
-            initializePage();
-        });
-
-        function playGame(gameId) {
-            if (typeof GameUtils !== 'undefined') {
-                const game = GameUtils.getGameById(gameId);
-                if (game) {
-                    // Create a URL with game parameters for the detail page
-                    const gameUrl = `game-detail.html?name=${encodeURIComponent(game.name)}&category=${game.category}&id=${gameId}`;
-                    window.open(gameUrl, '_blank');
-                } else {
-                    alert('Game not found! Please check the game ID.');
-                }
-            } else {
-                alert('Game data not loaded yet. Please try again.');
-            }
-        }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // 所有游戏数据处理
-            let allGames = [];
-            let filteredAllGames = [];
-            let allCategory = 'all';
-            let allSort = 'name';
-            let allView = 'grid';
-            let allDisplayed = 12;
-
-            // 元素
-            const allGrid = document.getElementById('all-games-grid');
-            const allLoadBtn = document.getElementById('all-load-more');
-            const allLoading = document.getElementById('all-loading');
-            const allResultCount = document.getElementById('results-count');
-            const allNoResult = document.getElementById('no-results');
-
-            const categoryBtns = document.querySelectorAll('.category-btn');
-            const sortSelect = document.getElementById('sort-select');
-            const gridBtn = document.getElementById('grid-view');
-            const listBtn = document.getElementById('list-view');
-
-            // 初始化加载数据
-            function initAllGames() {
-                if (typeof GameUtils === 'undefined') {
-                    setTimeout(initAllGames, 50);
-                    return;
-                }
-
-                allGames = GameUtils.getAllGames();
-                applyAllFilters();
-                bindAllListeners();
-            }
-
-            function bindAllListeners() {
-                categoryBtns.forEach(btn => {
-                    btn.addEventListener('click', () => {
-                        allCategory = btn.dataset.category;
-                        allDisplayed = 12;
-
-                        // 激活按钮状态
-                        categoryBtns.forEach(b => b.classList.remove('active'));
-                        btn.classList.add('active');
-
-                        applyAllFilters();
-                    });
-                });
-
-                sortSelect.addEventListener('change', () => {
-                    allSort = sortSelect.value;
-                    applyAllFilters();
-                });
-
-                gridBtn.addEventListener('click', () => {
-                    allView = 'grid';
-                    updateViewToggle();
-                    renderAllGames();
-                });
-
-                listBtn.addEventListener('click', () => {
-                    allView = 'list';
-                    updateViewToggle();
-                    renderAllGames();
-                });
-
-                allLoadBtn.addEventListener('click', () => {
-                    allDisplayed += 12;
-                    renderAllGames();
-                });
-            }
-
-            function applyAllFilters() {
-                let query = ""; // 可扩展为搜索关键词
-                filteredAllGames = allGames.filter(g => {
-                    const matchCategory = allCategory === 'all' || g.category === allCategory;
-                    const matchSearch = !query || g.name.toLowerCase().includes(query);
-                    return matchCategory && matchSearch;
-                });
-
-                sortAllGames();
-                renderAllGames();
-            }
-
-            function sortAllGames() {
-                switch (allSort) {
-                    case 'name':
-                        filteredAllGames.sort((a, b) => a.name.localeCompare(b.name));
-                        break;
-                    case 'category':
-                        filteredAllGames.sort((a, b) => a.category.localeCompare(b.category));
-                        break;
-                    case 'popular':
-                        filteredAllGames.sort((a, b) => b.plays - a.plays);
-                        break;
-                    case 'newest':
-                        filteredAllGames.sort((a, b) => b.id - a.id);
-                        break;
-                }
-            }
-
-            function updateViewToggle() {
-                if (allView === 'grid') {
-                    allGrid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 lg:gap-8 mt-10';
-                } else {
-                    allGrid.className = 'space-y-4 mt-10';
-                }
-
-                gridBtn.classList.toggle('active', allView === 'grid');
-                listBtn.classList.toggle('active', allView === 'list');
-            }
-
-            function renderAllGames() {
-                allLoading.classList.remove('hidden');
-
-                setTimeout(() => {
-                    const showGames = filteredAllGames.slice(0, allDisplayed);
-                    allResultCount.textContent = filteredAllGames.length;
-
-                    if (filteredAllGames.length === 0) {
-                        allGrid.innerHTML = '';
-                        allNoResult.classList.remove('hidden');
-                        allLoadBtn.classList.add('hidden');
-                        allLoading.classList.add('hidden');
-                        return;
-                    }
-
-                    allNoResult.classList.add('hidden');
-
-                    allGrid.innerHTML = showGames.map(game => {
-                        if (allView === 'grid') {
-                            return `
-                            <div class="game-card glass-card">
-                                <div class="game-thumb h-44">
-                                    <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
-                                    <span class="absolute top-3 left-3 inline-flex items-center text-xs font-semibold bg-white/20 text-white px-3 py-1 rounded-full">${game.category}</span>
-                                    <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs font-semibold bg-slate-950/60 text-white px-2.5 py-1 rounded-full">
-                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        ${formatRating(game.rating)}
-                                    </span>
-                                </div>
-                                <div class="p-5 flex flex-col gap-3">
-                                    <h3 class="text-white font-semibold text-lg truncate">${game.name}</h3>
-                            
-                                    <div class="flex items-center justify-between text-xs text-white/60">
-                                        <span class="inline-flex items-center gap-1">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
-                                            </svg>
-                                            ${formatPlays(game.plays)} plays
-                                        </span>
-                                        <span>${game.releaseDate || 'New drop'}</span>
-                                    </div>
-                                    <button onclick="playGame(${game.id})" class="primary-button button-md w-full mt-1">
-                                        Play Now
-                                    </button>
-                                </div>
-                            </div>
-                        `;
-                        } else {
-                            return `
-                            <div class="game-card glass-card p-3 sm:p-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-                                <div class="game-thumb w-full sm:w-28 h-24 sm:h-20">
-                                    <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
-                                </div>
-                                <div class="flex-1 space-y-2">
-                                    <div class="flex flex-wrap items-center gap-3">
-                                        <h3 class="text-white font-semibold text-base">${game.name}</h3>
-                                        <span class="tag-pill text-[0.65rem] px-3 py-1">${game.category}</span>
-                                    </div>
-                                    <div class="flex flex-wrap items-center gap-3 text-[0.7rem] text-white/60">
-                                        <span class="inline-flex items-center gap-1">
-                                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                            </svg>
-                                            ${formatRating(game.rating)}
-                                        </span>
-                                        <span class="inline-flex items-center gap-1">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25V6a3 3 0 013-3h0a3 3 0 013 3v2.25M9 17.25v.75A2.25 2.25 0 0011.25 20h1.5A2.25 2.25 0 0015 18v-.75m3 0h.75a2.25 2.25 0 002.25-2.25v-6A2.25 2.25 0 0018.75 6H18m-3 0V4.5A2.25 2.25 0 0012.75 2.25h-1.5A2.25 2.25 0 009 4.5V6m-3 0h-.75A2.25 2.25 0 003 8.25v6A2.25 2.25 0 005.25 16.5H6" />
-                                            </svg>
-                                            ${formatPlays(game.plays)} plays
-                                        </span>
-                                        <span>${game.releaseDate || 'New drop'}</span>
-                                    </div>
-                                </div>
-                                <button onclick="playGame(${game.id})" class="primary-button button-sm">
-                                    Play
-                                </button>
-                            </div>
-                        `;
-                        }
-                    }).join('');
-
-                    // Load more toggle
-                    if (allDisplayed < filteredAllGames.length) {
-                        allLoadBtn.classList.remove('hidden');
-                    } else {
-                        allLoadBtn.classList.add('hidden');
-                    }
-
-                    allLoading.classList.add('hidden');
-                }, 300);
-            }
-
-            initAllGames();
-        });
-    </script>
+    <script src="js/homepage.js"></script>
 
 </body>
 
 </html>
+
