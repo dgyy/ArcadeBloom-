@@ -147,6 +147,65 @@
             font-size: 1rem;
         }
 
+        .game-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(168, 85, 247, 0.3));
+            color: rgba(226, 232, 255, 0.85);
+            text-align: center;
+            pointer-events: none;
+            z-index: 6;
+        }
+
+        .placeholder-pulse {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.18);
+            box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.65);
+            animation: placeholderPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes placeholderPulse {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.45);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 1.5rem rgba(37, 211, 255, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(37, 211, 255, 0);
+            }
+        }
+
+        .game-loading {
+            z-index: 12;
+            background: rgba(9, 13, 35, 0.72);
+            backdrop-filter: blur(8px);
+        }
+
+        .game-error {
+            z-index: 16;
+            background: rgba(9, 13, 35, 0.85);
+        }
+
+        .collection-sentinel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            color: rgba(226, 232, 255, 0.65);
+        }
+
         .mobile-nav-pill {
             display: inline-flex;
             align-items: center;
@@ -350,10 +409,17 @@
 
                         <div class="game-frame" id="game-container">
                             <iframe id="game-iframe" title="ArcadeBloom Game"></iframe>
+                            <div id="game-placeholder" class="game-placeholder">
+                                <div class="placeholder-pulse"></div>
+                                <div class="space-y-1">
+                                    <p class="text-sm font-semibold">Warming up the game canvas...</p>
+                                    <p class="text-xs text-white/60">Hang tight while we load the latest build.</p>
+                                </div>
+                            </div>
                             <div id="game-loading" class="game-loading absolute inset-0 flex flex-col items-center justify-center gap-3 text-white/80">
                                 <div class="h-6 w-6 border-3 border-white/20 border-t-sky-400 rounded-full animate-spin"></div>
-                                                            </div>
-                            <div id="game-error" class="absolute inset-0 hidden flex-col items-center justify-center gap-4 bg-slate-950/92 text-white/80">
+                            </div>
+                            <div id="game-error" class="game-error absolute inset-0 hidden flex-col items-center justify-center gap-4 text-white/80">
                                 <p class="text-sm">This game might have been moved, renamed, or deleted. Try reloading or open the original version.</p>
                                 <div class="flex flex-wrap gap-3">
                                     <button id="btn-error-retry" class="badge bg-white/15 hover:bg-white/25 transition">Retry</button>
@@ -400,6 +466,10 @@
                                 <p id="collection-meta" class="text-white/50 text-xs uppercase tracking-[0.3em] hidden"></p>
                             </div>
                             <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                            <div id="collection-sentinel" class="collection-sentinel hidden">
+                                <div class="h-5 w-5 border-3 border-white/20 border-t-sky-400 rounded-full animate-spin"></div>
+                                <span class="text-xs uppercase tracking-[0.25em]">Loading more games</span>
+                            </div>
                             <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
                         </div>
                     </div>

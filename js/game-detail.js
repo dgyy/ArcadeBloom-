@@ -11,6 +11,8 @@
         { id: 'sports', label: 'Sports Games', target: '#rail-sports', categoryId: 'sports' }
     ];
 
+    const COLLECTION_BATCH_SIZE = 18;
+
     function categoryConfig(id, title, description) {
         return {
             title,
@@ -88,6 +90,7 @@ const COLLECTION_CONFIG = {
     const sidebarNav = document.getElementById('sidebar-nav');
     const mobileNav = document.getElementById('mobile-nav');
     const collectionMeta = document.getElementById('collection-meta');
+    const collectionSentinel = document.getElementById('collection-sentinel');
 
     const gameName = document.getElementById('game-name');
     const gameCategory = document.getElementById('game-category');
@@ -112,9 +115,19 @@ const COLLECTION_CONFIG = {
     const btnCopyLink = document.getElementById('btn-copy-link');
     const btnFullscreen = document.getElementById('btn-fullscreen');
     const btnRetry = document.getElementById('btn-retry');
+    const gamePlaceholder = document.getElementById('game-placeholder');
+
+    let collectionObserver = null;
+    const collectionState = {
+        navId: null,
+        games: [],
+        rendered: 0,
+        total: 0
+    };
 
     let activeNavId = 'home';
     let currentGame = null;
+    let placeholderHideTimeout = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         bindToolbar();
@@ -314,31 +327,62 @@ const COLLECTION_CONFIG = {
             return;
         }
 
+        showGamePlaceholder();
         gameLoading.classList.remove('hidden');
         gameLoading.classList.add('flex');
         gameError.classList.add('hidden');
+        if (btnErrorOpen) {
+            btnErrorOpen.classList.add('hidden');
+        }
+        iframe.onload = null;
+        iframe.onerror = null;
         iframe.src = '';
 
         requestAnimationFrame(() => {
+            iframe.onload = () => {
+                gameLoading.classList.add('hidden');
+                gameLoading.classList.remove('flex');
+                hideGamePlaceholder();
+            };
+            iframe.onerror = () => {
+                showGameError();
+            };
             iframe.src = url;
         });
-
-        iframe.onload = () => {
-            gameLoading.classList.add('hidden');
-            gameLoading.classList.remove('flex');
-        };
-        iframe.onerror = () => {
-            showGameError();
-        };
 
         if (forceReload) {
             iframe.contentWindow?.location.reload?.();
         }
     }
 
+    function showGamePlaceholder() {
+        if (!gamePlaceholder) {
+            return;
+        }
+        if (placeholderHideTimeout) {
+            clearTimeout(placeholderHideTimeout);
+            placeholderHideTimeout = null;
+        }
+        gamePlaceholder.classList.remove('hidden');
+    }
+
+    function hideGamePlaceholder(delay = 200) {
+        if (!gamePlaceholder) {
+            return;
+        }
+        if (placeholderHideTimeout) {
+            clearTimeout(placeholderHideTimeout);
+        }
+        placeholderHideTimeout = setTimeout(() => {
+            gamePlaceholder.classList.add('hidden');
+            placeholderHideTimeout = null;
+        }, Math.max(0, delay));
+    }
+
     function showGameError() {
         gameLoading.classList.add('hidden');
         gameLoading.classList.remove('flex');
+        hideGamePlaceholder(0);
         gameError.classList.remove('hidden');
         if (btnErrorOpen) {
             btnErrorOpen.classList.toggle('hidden', !currentGame?.gameUrl);
@@ -390,12 +434,15 @@ const COLLECTION_CONFIG = {
         }
 
         items.forEach(item => {
+            const count = getNavItemCount(item);
             if (sidebarNav) {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = `sidebar-link${activeNavId === item.id ? ' active' : ''}`;
                 button.dataset.navId = item.id;
-                button.innerHTML = `<span>${item.label}</span>`;
+                button.innerHTML = count === null
+                    ? `<span>${item.label}</span>`
+                    : `<span>${item.label}</span><span class="ml-auto text-xs font-semibold text-white/60">${count}</span>`;
                 button.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(button);
             }
@@ -405,7 +452,7 @@ const COLLECTION_CONFIG = {
                 pill.type = 'button';
                 pill.className = `mobile-nav-pill${activeNavId === item.id ? ' active' : ''}`;
                 pill.dataset.navId = item.id;
-                pill.textContent = item.label;
+                pill.textContent = count === null ? item.label : `${item.label} (${count})`;
                 pill.addEventListener('click', () => handleNavSelection(item.id));
                 mobileNav.appendChild(pill);
             }
@@ -415,16 +462,14 @@ const COLLECTION_CONFIG = {
     }
 
     function shouldRenderNavItem(item) {
-        if (!item) {
-            return false;
+        return Boolean(item);
+    }
+
+    function getNavItemCount(item) {
+        if (!item || item.id === 'home') {
+            return null;
         }
-        if (item.requiresRecent) {
-            return getRecentlyPlayed().length > 0;
-        }
-        if (item.categoryId && typeof GameUtils !== 'undefined') {
-            return GameUtils.getGamesByCategory(item.categoryId).length > 0;
-        }
-        return true;
+        return getCollectionGames(item).length;
     }
 
     function handleNavSelection(navId) {
@@ -448,6 +493,10 @@ const COLLECTION_CONFIG = {
         }
         if (homeView) {
             homeView.classList.remove('hidden');
+        }
+        destroyCollectionObserver();
+        if (collectionMeta) {
+            collectionMeta.classList.add('hidden');
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -474,6 +523,9 @@ const COLLECTION_CONFIG = {
             return;
         }
 
+        destroyCollectionObserver();
+        toggleCollectionSentinel(false);
+
         const games = getCollectionGames(navItem);
         const totalGames = games.length;
         const limit = Number.isFinite(config.limit) ? config.limit : totalGames;
@@ -491,27 +543,18 @@ const COLLECTION_CONFIG = {
             }
         }
 
-        if (collectionMeta) {
-            if (totalGames > 0) {
-                const label = visibleGames.length === totalGames
-                    ? `${totalGames} games`
-                    : `Showing ${visibleGames.length} of ${totalGames} games`;
-                collectionMeta.textContent = label;
-                collectionMeta.classList.remove('hidden');
-            } else {
-                collectionMeta.classList.add('hidden');
-            }
-        }
-
         if (collectionGrid) {
             collectionGrid.innerHTML = '';
         }
 
-        if (!visibleGames.length) {
+        resetCollectionState(navItem.id, visibleGames);
+
+        if (!collectionState.total) {
             if (collectionEmpty) {
                 collectionEmpty.textContent = 'No games found for this category yet.';
                 collectionEmpty.classList.remove('hidden');
             }
+            updateCollectionMeta();
             return;
         }
 
@@ -519,13 +562,13 @@ const COLLECTION_CONFIG = {
             collectionEmpty.classList.add('hidden');
         }
 
-        visibleGames.forEach(game => {
-            if (!game) {
-                return;
-            }
-            const card = createCollectionCard(game);
-            collectionGrid.appendChild(card);
-        });
+        renderCollectionBatch();
+
+        if (collectionState.rendered < collectionState.total) {
+            initCollectionObserver();
+        } else {
+            toggleCollectionSentinel(false);
+        }
     }
 
     function getCollectionGames(navItem) {
@@ -573,6 +616,103 @@ const COLLECTION_CONFIG = {
             </div>
         `;
         return link;
+    }
+
+    function resetCollectionState(navId, games) {
+        collectionState.navId = navId;
+        collectionState.games = Array.isArray(games) ? games : [];
+        collectionState.rendered = 0;
+        collectionState.total = collectionState.games.length;
+    }
+
+    function renderCollectionBatch() {
+        if (!collectionGrid || collectionState.navId !== activeNavId) {
+            return;
+        }
+        const games = collectionState.games;
+        if (!Array.isArray(games) || !games.length) {
+            toggleCollectionSentinel(false);
+            updateCollectionMeta();
+            return;
+        }
+        if (collectionState.rendered >= games.length) {
+            toggleCollectionSentinel(false);
+            destroyCollectionObserver();
+            return;
+        }
+
+        const nextItems = games.slice(collectionState.rendered, collectionState.rendered + COLLECTION_BATCH_SIZE);
+        nextItems.forEach(game => {
+            if (!game) {
+                return;
+            }
+            const card = createCollectionCard(game);
+            collectionGrid.appendChild(card);
+        });
+
+        collectionState.rendered += nextItems.length;
+        updateCollectionMeta();
+
+        if (collectionState.rendered >= games.length) {
+            toggleCollectionSentinel(false);
+            destroyCollectionObserver();
+        } else {
+            toggleCollectionSentinel(true);
+        }
+    }
+
+    function updateCollectionMeta() {
+        if (!collectionMeta) {
+            return;
+        }
+        const total = collectionState.total || 0;
+        if (!total) {
+            collectionMeta.classList.add('hidden');
+            return;
+        }
+        const rendered = Math.min(collectionState.rendered, total);
+        const label = rendered >= total
+            ? `${total} games`
+            : `Showing ${rendered} of ${total} games`;
+        collectionMeta.textContent = label;
+        collectionMeta.classList.remove('hidden');
+    }
+
+    function initCollectionObserver() {
+        if (!collectionSentinel || collectionState.navId !== activeNavId) {
+            return;
+        }
+        if (collectionState.rendered >= collectionState.games.length) {
+            toggleCollectionSentinel(false);
+            return;
+        }
+        destroyCollectionObserver();
+        collectionObserver = new IntersectionObserver(entries => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                renderCollectionBatch();
+            }
+        }, { root: null, rootMargin: '200px 0px', threshold: 0.05 });
+        collectionObserver.observe(collectionSentinel);
+        toggleCollectionSentinel(true);
+    }
+
+    function destroyCollectionObserver() {
+        if (collectionObserver) {
+            collectionObserver.disconnect();
+            collectionObserver = null;
+        }
+        toggleCollectionSentinel(false);
+    }
+
+    function toggleCollectionSentinel(show) {
+        if (!collectionSentinel) {
+            return;
+        }
+        if (show) {
+            collectionSentinel.classList.remove('hidden');
+        } else {
+            collectionSentinel.classList.add('hidden');
+        }
     }
 
     function setActiveNav(navId) {
@@ -714,6 +854,7 @@ const COLLECTION_CONFIG = {
         } catch (error) {
             console.warn('Unable to persist recently played games.', error);
         }
+        renderNavigation();
     }
 
     function showUnavailableState() {

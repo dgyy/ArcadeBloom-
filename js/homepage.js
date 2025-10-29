@@ -129,6 +129,8 @@
         }
 
         filteredItems.forEach((item) => {
+            const count = getNavItemCount(item);
+            const formattedCount = count === null ? null : formatNumber(count);
             if (sidebarNav) {
                 const sidebarBtn = document.createElement('button');
                 sidebarBtn.type = 'button';
@@ -137,7 +139,9 @@
                 if (item.target) {
                     sidebarBtn.dataset.target = item.target;
                 }
-                sidebarBtn.innerHTML = `<span>${item.label}</span>`;
+                sidebarBtn.innerHTML = formattedCount === null
+                    ? `<span>${item.label}</span>`
+                    : `<span>${item.label}</span><span class="ml-auto text-xs font-semibold text-white/60">${formattedCount}</span>`;
                 sidebarBtn.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(sidebarBtn);
             }
@@ -147,12 +151,13 @@
                 mobileBtn.type = 'button';
                 mobileBtn.className = `mobile-nav-pill${activeNavId === item.id ? ' active' : ''}`;
                 mobileBtn.dataset.navId = item.id;
-                mobileBtn.textContent = item.label;
+                mobileBtn.textContent = formattedCount === null ? item.label : `${item.label} (${formattedCount})`;
                 mobileBtn.addEventListener('click', () => handleNavSelection(item.id));
                 mobileNav.appendChild(mobileBtn);
             }
         });
 
+        setActiveNav(activeNavId);
     }
 
     function shouldRenderNavItem(item) {
@@ -160,6 +165,33 @@
             return true;
         }
         return GameUtils.getGamesByCategory(item.categoryId).length > 0;
+    }
+
+    function getNavItemCount(item) {
+        if (!item || item.id === 'home') {
+            return null;
+        }
+        if (item.id === 'recent') {
+            return getRecentlyPlayed().length;
+        }
+        const games = getNavCollection(item);
+        return games.length;
+    }
+
+    function getNavCollection(item) {
+        if (!item) {
+            return [];
+        }
+        const config = COLLECTION_CONFIG[item.id];
+        if (config && typeof config.getGames === 'function') {
+            const result = config.getGames();
+            return Array.isArray(result) ? result.filter(Boolean) : [];
+        }
+        if (item.categoryId) {
+            const result = GameUtils.getGamesByCategory(item.categoryId) || [];
+            return Array.isArray(result) ? result.filter(Boolean) : [];
+        }
+        return [];
     }
 
     function bindQuickLinks() {
@@ -785,6 +817,7 @@
         } catch (error) {
             console.warn('Unable to persist recently played games.', error);
         }
+        renderNav();
     }
 
     function clearRecentlyPlayed() {
@@ -793,6 +826,7 @@
         } catch (error) {
             console.warn('Unable to clear history.', error);
         }
+        renderNav();
     }
 
     function getStoredRecents() {
