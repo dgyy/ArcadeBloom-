@@ -15,7 +15,6 @@
         return {
             title,
             description,
-            limit: 30,
             getGames: () => GameUtils.getGamesByCategory(id)
         };
     }
@@ -88,6 +87,7 @@ const COLLECTION_CONFIG = {
     const collectionEmpty = document.getElementById('collection-empty');
     const sidebarNav = document.getElementById('sidebar-nav');
     const mobileNav = document.getElementById('mobile-nav');
+    const collectionMeta = document.getElementById('collection-meta');
 
     const gameName = document.getElementById('game-name');
     const gameCategory = document.getElementById('game-category');
@@ -395,7 +395,7 @@ const COLLECTION_CONFIG = {
                 button.type = 'button';
                 button.className = `sidebar-link${activeNavId === item.id ? ' active' : ''}`;
                 button.dataset.navId = item.id;
-                button.textContent = item.label;
+                button.innerHTML = `<span>${item.label}</span>`;
                 button.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(button);
             }
@@ -422,8 +422,7 @@ const COLLECTION_CONFIG = {
             return getRecentlyPlayed().length > 0;
         }
         if (item.categoryId && typeof GameUtils !== 'undefined') {
-            const games = GameUtils.getGamesByCategory(item.categoryId) || [];
-            return games.length > 0;
+            return GameUtils.getGamesByCategory(item.categoryId).length > 0;
         }
         return true;
     }
@@ -475,9 +474,10 @@ const COLLECTION_CONFIG = {
             return;
         }
 
-        const sources = config.getGames ? config.getGames() : [];
-        const games = Array.isArray(sources) ? sources : [];
-        const limitedGames = games.filter(Boolean).slice(0, config.limit || 30);
+        const games = getCollectionGames(navItem);
+        const totalGames = games.length;
+        const limit = Number.isFinite(config.limit) ? config.limit : totalGames;
+        const visibleGames = limit < totalGames ? games.slice(0, limit) : games;
 
         if (collectionTitle) {
             collectionTitle.textContent = config.title || navItem.label;
@@ -491,11 +491,23 @@ const COLLECTION_CONFIG = {
             }
         }
 
+        if (collectionMeta) {
+            if (totalGames > 0) {
+                const label = visibleGames.length === totalGames
+                    ? `${totalGames} games`
+                    : `Showing ${visibleGames.length} of ${totalGames} games`;
+                collectionMeta.textContent = label;
+                collectionMeta.classList.remove('hidden');
+            } else {
+                collectionMeta.classList.add('hidden');
+            }
+        }
+
         if (collectionGrid) {
             collectionGrid.innerHTML = '';
         }
 
-        if (!limitedGames.length) {
+        if (!visibleGames.length) {
             if (collectionEmpty) {
                 collectionEmpty.textContent = 'No games found for this category yet.';
                 collectionEmpty.classList.remove('hidden');
@@ -507,13 +519,25 @@ const COLLECTION_CONFIG = {
             collectionEmpty.classList.add('hidden');
         }
 
-        limitedGames.forEach(game => {
+        visibleGames.forEach(game => {
             if (!game) {
                 return;
             }
             const card = createCollectionCard(game);
             collectionGrid.appendChild(card);
         });
+    }
+
+    function getCollectionGames(navItem) {
+        if (!navItem) {
+            return [];
+        }
+        const config = COLLECTION_CONFIG[navItem.id];
+        if (!config || typeof config.getGames !== 'function') {
+            return [];
+        }
+        const raw = config.getGames();
+        return Array.isArray(raw) ? raw.filter(Boolean) : [];
     }
 
     function decorateLink(link, game) {

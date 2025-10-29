@@ -117,6 +117,36 @@
             box-shadow: 0 18px 32px rgba(17, 24, 39, 0.45);
         }
 
+        .primary-button {
+            background: linear-gradient(135deg, #ff4ec7, #6f58ff);
+            color: #ffffff;
+            font-weight: 700;
+            border-radius: 9999px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            padding: 0.55rem 1.1rem;
+            font-size: 0.85rem;
+        }
+
+        .primary-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(79, 70, 229, 0.45);
+        }
+
+        .button-sm {
+            padding: 0.4rem 0.85rem;
+            font-size: 0.75rem;
+        }
+
+        .button-md {
+            padding: 0.65rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .button-lg {
+            padding: 0.75rem 1.8rem;
+            font-size: 1rem;
+        }
+
         .mobile-nav-pill {
             display: inline-flex;
             align-items: center;
@@ -222,25 +252,27 @@
     <header class="nav-shell sticky top-0 z-50">
         <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
             <div class="flex items-center gap-6 h-16">
-                <a href="index.html" class="flex items-center gap-3">
-                    <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl flex items-center justify-center shadow-lg shadow-fuchsia-500/35">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
-                </a>
+                <div class="flex-shrink-0">
+                    <a href="index.html" class="flex items-center">
+                        <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
+                    </a>
+                </div>
                 <div class="flex-1 flex justify-center">
                     <div class="relative w-full max-w-2xl">
-                        <input type="search" id="search-input" placeholder="Search games, genres, or creators"
+                        <input type="search" id="search-input" placeholder="Search for games, genres, or creators"
                             class="w-full px-4 py-2.5 text-sm md:text-base rounded-full border-0 search-focus focus:outline-none focus:ring-0"
                             autocomplete="off">
                         <button id="search-button"
-                            class="absolute right-1 top-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-fuchsia-500 to-sky-500 text-sm font-semibold">
+                            class="primary-button button-sm absolute right-1 top-1.5 text-xs md:text-sm">
                             Search
                         </button>
                         <div id="search-suggestions"
-                            class="search-dropdown hidden absolute z-40 w-full rounded-2xl shadow-2xl mt-3 overflow-hidden"></div>
+                            class="search-dropdown hidden absolute z-10 w-full rounded-2xl shadow-2xl mt-3 overflow-hidden"></div>
                     </div>
                 </div>
             </div>
@@ -365,6 +397,7 @@
                             <div id="collection-header" class="space-y-3">
                                 <h2 id="collection-title" class="text-3xl font-extrabold tracking-tight"></h2>
                                 <p id="collection-description" class="text-white/70 text-sm max-w-3xl hidden"></p>
+                                <p id="collection-meta" class="text-white/50 text-xs uppercase tracking-[0.3em] hidden"></p>
                             </div>
                             <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
                             <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
