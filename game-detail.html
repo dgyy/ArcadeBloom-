@@ -204,6 +204,33 @@
             justify-content: center;
             gap: 0.75rem;
             color: rgba(226, 232, 255, 0.65);
+            padding: 1rem 0;
+        }
+
+        .load-more-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.55rem 1.2rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(59, 130, 246, 0.45);
+            background: rgba(37, 99, 235, 0.25);
+            color: #e2e8f0;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            transition: background 0.2s ease, transform 0.2s ease, border 0.2s ease;
+        }
+
+        .load-more-button:hover {
+            background: rgba(59, 130, 246, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .load-more-button:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
         }
 
         .mobile-nav-pill {
@@ -467,18 +494,22 @@
                             </div>
                             <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
                             <div id="collection-sentinel" class="collection-sentinel hidden">
-                                <div class="h-5 w-5 border-3 border-white/20 border-t-sky-400 rounded-full animate-spin"></div>
-                                <span class="text-xs uppercase tracking-[0.25em]">Loading more games</span>
+                                <button id="collection-load-more" type="button" class="load-more-button">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 5v14M5 12h14"></path>
+                                    </svg>
+                                    Load More Games
+                                </button>
+                                <div class="h-5 w-5 border-3 border-white/20 border-t-sky-400 rounded-full animate-spin hidden" id="collection-loading-spinner"></div>
                             </div>
                             <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
                         </div>
                     </div>
                 </section>
 
-                <aside class="panel-card p-6 space-y-6 self-start">
+                <aside id="related-aside" class="panel-card p-6 space-y-6 self-start">
                     <div class="flex items-center justify-between">
                         <h2 class="text-xl font-semibold">More in this Category</h2>
-                        <a id="related-more" href="all-games.html" class="text-xs uppercase tracking-[0.25em] text-white/50 hover:text-white transition">View all</a>
                     </div>
                     <div id="related-list" class="space-y-4"></div>
                 </aside>

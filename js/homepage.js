@@ -3,7 +3,6 @@
         return {
             title,
             description,
-            limit: 24,
             getGames: () => GameUtils.getGamesByCategory(id)
         };
     }
@@ -129,8 +128,8 @@
         }
 
         filteredItems.forEach((item) => {
-            const count = getNavItemCount(item);
-            const formattedCount = count === null ? null : formatNumber(count);
+            const countData = getNavCountData(item);
+            const formattedCount = countData === null ? null : formatNumber(countData);
             if (sidebarNav) {
                 const sidebarBtn = document.createElement('button');
                 sidebarBtn.type = 'button';
@@ -139,9 +138,12 @@
                 if (item.target) {
                     sidebarBtn.dataset.target = item.target;
                 }
-                sidebarBtn.innerHTML = formattedCount === null
-                    ? `<span>${item.label}</span>`
-                    : `<span>${item.label}</span><span class="ml-auto text-xs font-semibold text-white/60">${formattedCount}</span>`;
+                sidebarBtn.innerHTML = `
+                    <span>${item.label}</span>
+                    <span class="ml-auto text-xs font-semibold text-white/60${formattedCount === null ? ' hidden' : ''}" data-nav-count="${item.id}">
+                        ${formattedCount ?? ''}
+                    </span>
+                `;
                 sidebarBtn.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(sidebarBtn);
             }
@@ -151,6 +153,7 @@
                 mobileBtn.type = 'button';
                 mobileBtn.className = `mobile-nav-pill${activeNavId === item.id ? ' active' : ''}`;
                 mobileBtn.dataset.navId = item.id;
+                mobileBtn.dataset.navLabel = item.label;
                 mobileBtn.textContent = formattedCount === null ? item.label : `${item.label} (${formattedCount})`;
                 mobileBtn.addEventListener('click', () => handleNavSelection(item.id));
                 mobileNav.appendChild(mobileBtn);
@@ -158,6 +161,7 @@
         });
 
         setActiveNav(activeNavId);
+        updateNavCountDisplays();
     }
 
     function shouldRenderNavItem(item) {
@@ -167,7 +171,7 @@
         return GameUtils.getGamesByCategory(item.categoryId).length > 0;
     }
 
-    function getNavItemCount(item) {
+    function getNavCountData(item) {
         if (!item || item.id === 'home') {
             return null;
         }
@@ -176,6 +180,24 @@
         }
         const games = getNavCollection(item);
         return games.length;
+    }
+
+    function getNavLimit(item) {
+        if (!item) {
+            return Infinity;
+        }
+        if (item.id === 'recent') {
+            const config = COLLECTION_CONFIG[item.id];
+            return config && Number.isFinite(config.limit) ? config.limit : Infinity;
+        }
+        const config = COLLECTION_CONFIG[item.id];
+        if (config && Number.isFinite(config.limit)) {
+            return config.limit;
+        }
+        if (item.categoryId) {
+            return 24;
+        }
+        return Infinity;
     }
 
     function getNavCollection(item) {
@@ -192,6 +214,37 @@
             return Array.isArray(result) ? result.filter(Boolean) : [];
         }
         return [];
+    }
+
+    function updateNavCountDisplays() {
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const mobileNav = document.getElementById('mobile-nav');
+        if (!sidebarNav && !mobileNav) {
+            return;
+        }
+        activeNavItems.forEach(item => {
+            const countData = getNavCountData(item);
+            const formatted = countData === null ? null : formatNumber(countData);
+            if (sidebarNav) {
+                const span = sidebarNav.querySelector(`[data-nav-count="${item.id}"]`);
+                if (span) {
+                    if (formatted === null) {
+                        span.textContent = '';
+                        span.classList.add('hidden');
+                    } else {
+                        span.textContent = formatted;
+                        span.classList.remove('hidden');
+                    }
+                }
+            }
+            if (mobileNav) {
+                const button = mobileNav.querySelector(`[data-nav-id="${item.id}"]`);
+                if (button) {
+                    const baseLabel = button.dataset.navLabel || item.label;
+                    button.textContent = formatted === null ? baseLabel : `${baseLabel} (${formatted})`;
+                }
+            }
+        });
     }
 
     function bindQuickLinks() {
@@ -282,7 +335,8 @@
 
         const source = config.getGames ? config.getGames() : [];
         const games = Array.isArray(source) ? source : [];
-        const limitedGames = games.slice(0, config.limit || 24);
+        const limit = Number.isFinite(config.limit) ? config.limit : Infinity;
+        const limitedGames = limit === Infinity ? games : games.slice(0, limit);
 
         if (collectionTitle) {
             collectionTitle.textContent = config.title || item.label;
@@ -305,6 +359,7 @@
                 collectionEmpty.textContent = 'No games available yet.';
                 collectionEmpty.classList.remove('hidden');
             }
+            updateNavCountDisplays();
             return;
         }
 
@@ -319,25 +374,22 @@
             const card = createCollectionCard(game);
             collectionGrid.appendChild(card);
         });
+
+        updateNavCountDisplays();
     }
 
     function createCollectionCard(game) {
         const link = document.createElement('a');
         link.className = 'glass-card overflow-hidden flex flex-col transition duration-200 hover:-translate-y-1';
         decorateLink(link, game);
-        const description = (game.description || '').slice(0, 180);
         link.innerHTML = `
             <div class="relative h-44 bg-slate-900/60">
                 <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
-            </div>
-            <div class="p-4 space-y-2">
-                <h3 class="text-lg font-semibold text-white truncate">${game.name}</h3>
-                <p class="text-white/60 text-sm leading-relaxed h-[3.6rem] overflow-hidden">${description}</p>
-                <div class="flex items-center justify-between text-xs text-white/50">
-                    <span>${formatCategory(game.category)}</span>
-                    <span>Rating ${formatRating(game.rating)}</span>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 p-4 space-y-2">
+                    <h3 class="text-base font-semibold text-white leading-snug">${game.name}</h3>
+                    <span class="inline-flex items-center text-[0.65rem] uppercase tracking-[0.3em] text-white/70 bg-white/10 px-2 py-1 rounded-full">${formatCategory(game.category)}</span>
                 </div>
-                <div class="text-xs text-white/50">${formatPlays(game.plays)}</div>
             </div>
         `;
         return link;
@@ -437,7 +489,9 @@
 
         const categoryItems = activeNavItems.filter(item => item.categoryId);
         categoryItems.forEach(item => {
-            const games = GameUtils.getGamesByCategory(item.categoryId).slice(0, 8);
+            const limit = getNavLimit(item);
+            const rawGames = GameUtils.getGamesByCategory(item.categoryId) || [];
+            const games = Number.isFinite(limit) ? rawGames.slice(0, limit) : rawGames;
             const section = document.createElement('section');
             const sectionId = item.target.startsWith('#') ? item.target.substring(1) : item.target;
             section.id = sectionId;

@@ -11,7 +11,7 @@
         { id: 'sports', label: 'Sports Games', target: '#rail-sports', categoryId: 'sports' }
     ];
 
-    const COLLECTION_BATCH_SIZE = 18;
+    const COLLECTION_BATCH_SIZE = 60;
 
     function categoryConfig(id, title, description) {
         return {
@@ -45,6 +45,11 @@
             return 'Game';
         }
         return category.split(/[-_\s]+/).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+    }
+
+    function formatNumber(value) {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) ? numeric.toLocaleString() : '0';
     }
 
 const COLLECTION_CONFIG = {
@@ -91,6 +96,8 @@ const COLLECTION_CONFIG = {
     const mobileNav = document.getElementById('mobile-nav');
     const collectionMeta = document.getElementById('collection-meta');
     const collectionSentinel = document.getElementById('collection-sentinel');
+    const collectionLoadMoreBtn = document.getElementById('collection-load-more');
+    const collectionLoadingSpinner = document.getElementById('collection-loading-spinner');
 
     const gameName = document.getElementById('game-name');
     const gameCategory = document.getElementById('game-category');
@@ -108,6 +115,7 @@ const COLLECTION_CONFIG = {
     const btnErrorRetry = document.getElementById('btn-error-retry');
     const btnErrorOpen = document.getElementById('btn-error-open');
 
+    const relatedAside = document.getElementById('related-aside');
     const relatedList = document.getElementById('related-list');
 
     const btnBack = document.getElementById('btn-back');
@@ -132,6 +140,7 @@ const COLLECTION_CONFIG = {
     document.addEventListener('DOMContentLoaded', () => {
         bindToolbar();
         bindQuickLinks();
+        setupCollectionLoadMore();
         waitForData();
     });
 
@@ -139,7 +148,6 @@ const COLLECTION_CONFIG = {
         return {
             title,
             description,
-            limit: 30,
             getGames: () => GameUtils.getGamesByCategory(id)
         };
     }
@@ -179,7 +187,6 @@ const COLLECTION_CONFIG = {
         recordRecentlyPlayed(game.slug);
         renderNavigation();
         populateGameData(game);
-        renderRelatedGames(game);
         handleNavSelection('home');
     }
 
@@ -254,6 +261,19 @@ const COLLECTION_CONFIG = {
                     handleNavSelection(navId);
                 }
             });
+        });
+    }
+
+    function setupCollectionLoadMore() {
+        if (!collectionLoadMoreBtn) {
+            return;
+        }
+        collectionLoadMoreBtn.addEventListener('click', () => {
+            if (collectionState.rendered >= collectionState.total) {
+                toggleCollectionSentinel(false);
+                return;
+            }
+            renderCollectionBatch();
         });
     }
 
@@ -394,19 +414,22 @@ const COLLECTION_CONFIG = {
             return;
         }
         relatedList.innerHTML = '';
-        const related = (GameUtils.getGamesByCategory(game.category) || [])
-            .filter(item => item.id !== game.id)
-            .slice(0, 6);
-
-        if (!related.length) {
+        if (!game || !game.category) {
+            relatedList.innerHTML = '<p class="text-white/60 text-sm">No related games available.</p>';
+            return;
+        }
+        const pool = (GameUtils.getGamesByCategory(game.category) || []).filter(item => item.id !== game.id);
+        if (!pool.length) {
             const empty = document.createElement('p');
             empty.className = 'text-white/60 text-sm';
             empty.textContent = 'No more games in this category yet. Check back soon!';
             relatedList.appendChild(empty);
             return;
         }
-
-        related.forEach(item => {
+        const selection = [...pool]
+            .sort(() => 0.5 - Math.random())
+            .slice(0, Math.min(10, pool.length));
+        selection.forEach(item => {
             const card = document.createElement('a');
             card.className = 'related-card flex gap-4 p-3 hover:bg-white/10 transition';
             card.href = buildDetailUrl(item);
@@ -434,15 +457,17 @@ const COLLECTION_CONFIG = {
         }
 
         items.forEach(item => {
-            const count = getNavItemCount(item);
+            const countData = getNavCountData(item);
+            const formattedCount = countData === null ? null : formatNumber(countData);
             if (sidebarNav) {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = `sidebar-link${activeNavId === item.id ? ' active' : ''}`;
                 button.dataset.navId = item.id;
-                button.innerHTML = count === null
-                    ? `<span>${item.label}</span>`
-                    : `<span>${item.label}</span><span class="ml-auto text-xs font-semibold text-white/60">${count}</span>`;
+                button.innerHTML = `
+                    <span>${item.label}</span>
+                    <span class="ml-auto text-xs font-semibold text-white/60${formattedCount === null ? ' hidden' : ''}" data-nav-count="${item.id}">${formattedCount ?? ''}</span>
+                `;
                 button.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(button);
             }
@@ -452,24 +477,60 @@ const COLLECTION_CONFIG = {
                 pill.type = 'button';
                 pill.className = `mobile-nav-pill${activeNavId === item.id ? ' active' : ''}`;
                 pill.dataset.navId = item.id;
-                pill.textContent = count === null ? item.label : `${item.label} (${count})`;
+                pill.dataset.navLabel = item.label;
+                pill.textContent = formattedCount === null ? item.label : `${item.label} (${formattedCount})`;
                 pill.addEventListener('click', () => handleNavSelection(item.id));
                 mobileNav.appendChild(pill);
             }
         });
 
         setActiveNav(activeNavId);
+        updateNavigationCounts();
     }
 
     function shouldRenderNavItem(item) {
         return Boolean(item);
     }
 
-    function getNavItemCount(item) {
+    function getNavCountData(item) {
         if (!item || item.id === 'home') {
             return null;
         }
-        return getCollectionGames(item).length;
+        const games = getCollectionGames(item);
+        return games.length;
+    }
+
+    function updateNavigationCounts() {
+        const items = NAV_ITEMS.filter(shouldRenderNavItem);
+        if (sidebarNav) {
+            items.forEach(item => {
+                const span = sidebarNav.querySelector(`[data-nav-count="${item.id}"]`);
+                if (!span) {
+                    return;
+                }
+                const countData = getNavCountData(item);
+                const formatted = countData === null ? null : formatNumber(countData);
+                if (formatted === null) {
+                    span.textContent = '';
+                    span.classList.add('hidden');
+                } else {
+                    span.textContent = formatted;
+                    span.classList.remove('hidden');
+                }
+            });
+        }
+        if (mobileNav) {
+            items.forEach(item => {
+                const pill = mobileNav.querySelector(`[data-nav-id="${item.id}"]`);
+                if (!pill) {
+                    return;
+                }
+                const countData = getNavCountData(item);
+                const formatted = countData === null ? null : formatNumber(countData);
+                const label = pill.dataset.navLabel || item.label;
+                pill.textContent = formatted === null ? label : `${label} (${formatted})`;
+            });
+        }
     }
 
     function handleNavSelection(navId) {
@@ -494,9 +555,15 @@ const COLLECTION_CONFIG = {
         if (homeView) {
             homeView.classList.remove('hidden');
         }
+        if (relatedAside) {
+            relatedAside.classList.remove('hidden');
+        }
         destroyCollectionObserver();
         if (collectionMeta) {
             collectionMeta.classList.add('hidden');
+        }
+        if (currentGame) {
+            renderRelatedGames(currentGame);
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -509,6 +576,9 @@ const COLLECTION_CONFIG = {
             homeView.classList.add('hidden');
         }
         collectionView.classList.remove('hidden');
+        if (relatedAside) {
+            relatedAside.classList.add('hidden');
+        }
         renderCollectionView(navItem);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -568,6 +638,7 @@ const COLLECTION_CONFIG = {
             initCollectionObserver();
         } else {
             toggleCollectionSentinel(false);
+            destroyCollectionObserver();
         }
     }
 
@@ -600,19 +671,14 @@ const COLLECTION_CONFIG = {
         const link = document.createElement('a');
         link.className = 'glass-card overflow-hidden flex flex-col transition duration-200 hover:-translate-y-1';
         decorateLink(link, game);
-        const description = (game.description || '').slice(0, 180);
         link.innerHTML = `
             <div class="relative h-44 bg-slate-900/60">
                 <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
-            </div>
-            <div class="p-4 space-y-2">
-                <h3 class="text-lg font-semibold text-white truncate">${game.name}</h3>
-                <p class="text-white/60 text-sm leading-relaxed h-[3.6rem] overflow-hidden">${description}</p>
-                <div class="flex items-center justify-between text-xs text-white/50">
-                    <span>${formatCategory(game.category)}</span>
-                    <span>Rating ${formatRating(game.rating)}</span>
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/15 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 p-4 space-y-2">
+                    <h3 class="text-base font-semibold text-white leading-snug">${game.name}</h3>
+                    <span class="inline-flex items-center text-[0.65rem] uppercase tracking-[0.3em] text-white/70 bg-white/10 px-2 py-1 rounded-full">${formatCategory(game.category)}</span>
                 </div>
-                <div class="text-xs text-white/50">${formatPlays(game.plays)}</div>
             </div>
         `;
         return link;
@@ -623,21 +689,28 @@ const COLLECTION_CONFIG = {
         collectionState.games = Array.isArray(games) ? games : [];
         collectionState.rendered = 0;
         collectionState.total = collectionState.games.length;
+        updateNavigationCounts();
     }
 
     function renderCollectionBatch() {
         if (!collectionGrid || collectionState.navId !== activeNavId) {
             return;
         }
+        const sentinelVisible = collectionSentinel && !collectionSentinel.classList.contains('hidden');
+        if (sentinelVisible) {
+            setLoadMoreState(true);
+        }
         const games = collectionState.games;
         if (!Array.isArray(games) || !games.length) {
             toggleCollectionSentinel(false);
             updateCollectionMeta();
+            setLoadMoreState(false);
             return;
         }
         if (collectionState.rendered >= games.length) {
             toggleCollectionSentinel(false);
             destroyCollectionObserver();
+            setLoadMoreState(false);
             return;
         }
 
@@ -652,6 +725,8 @@ const COLLECTION_CONFIG = {
 
         collectionState.rendered += nextItems.length;
         updateCollectionMeta();
+        updateNavigationCounts();
+        setLoadMoreState(false);
 
         if (collectionState.rendered >= games.length) {
             toggleCollectionSentinel(false);
@@ -694,6 +769,7 @@ const COLLECTION_CONFIG = {
         }, { root: null, rootMargin: '200px 0px', threshold: 0.05 });
         collectionObserver.observe(collectionSentinel);
         toggleCollectionSentinel(true);
+        setLoadMoreState(false);
     }
 
     function destroyCollectionObserver() {
@@ -702,6 +778,7 @@ const COLLECTION_CONFIG = {
             collectionObserver = null;
         }
         toggleCollectionSentinel(false);
+        setLoadMoreState(false);
     }
 
     function toggleCollectionSentinel(show) {
@@ -710,8 +787,29 @@ const COLLECTION_CONFIG = {
         }
         if (show) {
             collectionSentinel.classList.remove('hidden');
+            setLoadMoreState(false);
         } else {
             collectionSentinel.classList.add('hidden');
+            setLoadMoreState(false);
+        }
+    }
+
+    function setLoadMoreState(isLoading) {
+        if (!collectionLoadMoreBtn || !collectionLoadingSpinner) {
+            return;
+        }
+        if (!collectionSentinel || collectionSentinel.classList.contains('hidden')) {
+            collectionLoadMoreBtn.disabled = true;
+            collectionLoadingSpinner.classList.add('hidden');
+            return;
+        }
+        if (isLoading) {
+            collectionLoadMoreBtn.disabled = true;
+            collectionLoadingSpinner.classList.remove('hidden');
+        } else {
+            const exhausted = collectionState.rendered >= collectionState.total;
+            collectionLoadMoreBtn.disabled = exhausted;
+            collectionLoadingSpinner.classList.add('hidden');
         }
     }
 
@@ -864,3 +962,4 @@ const COLLECTION_CONFIG = {
         }
     }
 })();
+
