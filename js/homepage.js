@@ -1,7 +1,42 @@
 (function () {
+    function categoryConfig(id, title, description) {
+        return {
+            title,
+            description,
+            limit: 24,
+            getGames: () => GameUtils.getGamesByCategory(id)
+        };
+    }
+
+    function formatRating(value) {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) ? numeric.toFixed(1) : 'N/A';
+    }
+
+    function formatPlays(value) {
+        const numeric = Number(value);
+        if (!Number.isFinite(numeric) || numeric <= 0) {
+            return '0 plays';
+        }
+        if (numeric >= 1_000_000) {
+            return `${(numeric / 1_000_000).toFixed(1)}M plays`;
+        }
+        if (numeric >= 1_000) {
+            return `${(numeric / 1_000).toFixed(1)}K plays`;
+        }
+        return `${numeric} plays`;
+    }
+
+    function formatCategory(category) {
+        if (!category) {
+            return 'Game';
+        }
+        return category.split(/[-_\s]+/).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+    }
+
     const RECENT_KEY = 'arcadebloom_recently_played';
     const NAV_ITEMS = [
-        { id: 'home', label: 'Home', target: '#top-picks' },
+        { id: 'home', label: 'Home', target: '#home-view' },
         { id: 'picks', label: 'Top Picks', target: '#top-picks' },
         { id: 'featured', label: 'Featured Games', target: '#featured-spotlight' },
         { id: 'new', label: 'New Releases', target: '#new-releases' },
@@ -12,7 +47,50 @@
         { id: 'sports', label: 'Sports', target: '#rail-sports', categoryId: 'sports' }
     ];
 
+    const COLLECTION_CONFIG = {
+        home: { type: 'home' },
+        picks: {
+            title: 'Top Picks',
+            description: 'Editor-curated standouts that blend instant fun with long-term replay value.',
+            limit: 24,
+            getGames: () => GameUtils.getPopularGames(24)
+        },
+        featured: {
+            title: 'Featured Games',
+            description: 'High-impact launches and refreshed classics highlighted by the ArcadeBloom team.',
+            limit: 24,
+            getGames: () => {
+                const games = GameUtils.getFeaturedGames();
+                return games.length ? games : GameUtils.getPopularGames(24);
+            }
+        },
+        new: {
+            title: 'New Releases',
+            description: 'Fresh uploads and seasonal drops - check back often to catch the latest arrivals.',
+            limit: 24,
+            getGames: () => GameUtils.getNewestGames(24)
+        },
+        recent: {
+            title: 'Recently Played',
+            description: 'Picked up where you left off. Stored locally for this device only.',
+            limit: 24,
+            getGames: () => getRecentlyPlayed()
+        },
+        action: categoryConfig('action', 'Action Games', 'High-intensity battles, reflex challenges, and hero moments.'),
+        puzzle: categoryConfig('puzzle', 'Puzzle Games', 'Logic tests, brainteasers, and clever mechanics to unwind with.'),
+        casual: categoryConfig('casual', 'Casual Games', 'Relaxed sessions with easy onboarding and endless replay potential.'),
+        sports: categoryConfig('sports', 'Sports Games', 'Competitive matches and athletic sims for score chasers.')
+    };
+
+    const homeView = document.getElementById('home-view');
+    const collectionView = document.getElementById('collection-view');
+    const collectionTitle = document.getElementById('collection-title');
+    const collectionDescription = document.getElementById('collection-description');
+    const collectionGrid = document.getElementById('collection-grid');
+    const collectionEmpty = document.getElementById('collection-empty');
+
     let activeNavItems = [];
+    let activeNavId = 'home';
     const railRegistry = new Set();
 
     window.addEventListener('resize', () => {
@@ -33,7 +111,8 @@
         renderCategoryRails();
         renderRecentlyPlayed();
         setupSearch();
-        setupScrollSpy();
+        bindQuickLinks();
+        handleNavSelection('home');
     });
 
     function renderNav() {
@@ -49,42 +128,31 @@
             mobileNav.innerHTML = '';
         }
 
-        filteredItems.forEach((item, index) => {
+        filteredItems.forEach((item) => {
             if (sidebarNav) {
                 const sidebarBtn = document.createElement('button');
                 sidebarBtn.type = 'button';
-                sidebarBtn.className = `sidebar-link${index === 0 ? ' active' : ''}`;
-                sidebarBtn.dataset.target = item.target;
-                const sidebarSegments = [];
-                if (item.icon) {
-                    sidebarSegments.push(`<span class="text-lg">${item.icon}</span>`);
+                sidebarBtn.className = `sidebar-link${activeNavId === item.id ? ' active' : ''}`;
+                sidebarBtn.dataset.navId = item.id;
+                if (item.target) {
+                    sidebarBtn.dataset.target = item.target;
                 }
-                sidebarSegments.push(`<span>${item.label}</span>`);
-                sidebarBtn.innerHTML = sidebarSegments.join('');
-                sidebarBtn.addEventListener('click', () => {
-                    scrollToSection(item.target);
-                    setActiveNav(item.target);
-                });
+                sidebarBtn.innerHTML = `<span>${item.label}</span>`;
+                sidebarBtn.addEventListener('click', () => handleNavSelection(item.id));
                 sidebarNav.appendChild(sidebarBtn);
             }
 
             if (mobileNav) {
                 const mobileBtn = document.createElement('button');
                 mobileBtn.type = 'button';
-                mobileBtn.className = `mobile-nav-pill${index === 0 ? ' active' : ''}`;
-                mobileBtn.dataset.target = item.target;
+                mobileBtn.className = `mobile-nav-pill${activeNavId === item.id ? ' active' : ''}`;
+                mobileBtn.dataset.navId = item.id;
                 mobileBtn.textContent = item.label;
-                mobileBtn.addEventListener('click', () => {
-                    scrollToSection(item.target);
-                    setActiveNav(item.target);
-                });
+                mobileBtn.addEventListener('click', () => handleNavSelection(item.id));
                 mobileNav.appendChild(mobileBtn);
             }
         });
 
-        if (filteredItems.length) {
-            setActiveNav(filteredItems[0].target);
-        }
     }
 
     function shouldRenderNavItem(item) {
@@ -94,27 +162,150 @@
         return GameUtils.getGamesByCategory(item.categoryId).length > 0;
     }
 
-    function scrollToSection(target) {
-        const element = document.querySelector(target);
-        if (!element) {
-            return;
-        }
-        const header = document.querySelector('.nav-shell');
-        const offset = header ? header.getBoundingClientRect().height + 24 : 80;
-        const top = element.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+    function bindQuickLinks() {
+        document.querySelectorAll('[data-nav-target]').forEach(link => {
+            link.addEventListener('click', event => {
+                event.preventDefault();
+                const navId = link.dataset.navTarget;
+                if (navId) {
+                    handleNavSelection(navId);
+                }
+            });
+        });
     }
 
-    function setActiveNav(target) {
-        if (!target) {
+    function handleNavSelection(navId) {
+        const item = NAV_ITEMS.find(nav => nav.id === navId);
+        if (!item) {
             return;
         }
+
+        setActiveNav(navId);
+
+        if (navId === 'home') {
+            showHomeView();
+        } else {
+            showCollectionView(item);
+        }
+    }
+
+    function setActiveNav(navId) {
+        activeNavId = navId;
         document.querySelectorAll('#sidebar-nav .sidebar-link').forEach(button => {
-            button.classList.toggle('active', button.dataset.target === target);
+            button.classList.toggle('active', button.dataset.navId === navId);
         });
         document.querySelectorAll('#mobile-nav .mobile-nav-pill').forEach(button => {
-            button.classList.toggle('active', button.dataset.target === target);
+            button.classList.toggle('active', button.dataset.navId === navId);
         });
+        document.querySelectorAll('[data-nav-target]').forEach(link => {
+            const isActive = link.dataset.navTarget === navId;
+            if (isActive) {
+                link.classList.add('text-white', 'font-semibold');
+                link.classList.remove('text-white/70');
+            } else {
+                link.classList.remove('text-white', 'font-semibold');
+                if (!link.classList.contains('text-white/70')) {
+                    link.classList.add('text-white/70');
+                }
+            }
+        });
+    }
+
+    function showHomeView() {
+        if (collectionView) {
+            collectionView.classList.add('hidden');
+        }
+        if (homeView) {
+            homeView.classList.remove('hidden');
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showCollectionView(item) {
+        if (homeView) {
+            homeView.classList.add('hidden');
+        }
+        if (collectionView) {
+            collectionView.classList.remove('hidden');
+        }
+        renderCollectionView(item);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderCollectionView(item) {
+        if (!collectionView) {
+            return;
+        }
+        const config = COLLECTION_CONFIG[item.id];
+        if (!config) {
+            if (collectionGrid) {
+                collectionGrid.innerHTML = '';
+            }
+            if (collectionEmpty) {
+                collectionEmpty.textContent = 'No games available yet.';
+                collectionEmpty.classList.remove('hidden');
+            }
+            return;
+        }
+
+        const source = config.getGames ? config.getGames() : [];
+        const games = Array.isArray(source) ? source : [];
+        const limitedGames = games.slice(0, config.limit || 24);
+
+        if (collectionTitle) {
+            collectionTitle.textContent = config.title || item.label;
+        }
+        if (collectionDescription) {
+            if (config.description) {
+                collectionDescription.textContent = config.description;
+                collectionDescription.classList.remove('hidden');
+            } else {
+                collectionDescription.classList.add('hidden');
+            }
+        }
+
+        if (collectionGrid) {
+            collectionGrid.innerHTML = '';
+        }
+
+        if (!limitedGames.length) {
+            if (collectionEmpty) {
+                collectionEmpty.textContent = 'No games available yet.';
+                collectionEmpty.classList.remove('hidden');
+            }
+            return;
+        }
+
+        if (collectionEmpty) {
+            collectionEmpty.classList.add('hidden');
+        }
+
+        limitedGames.forEach(game => {
+            const card = createCollectionCard(game);
+            collectionGrid.appendChild(card);
+        });
+    }
+
+    function createCollectionCard(game) {
+        const link = document.createElement('a');
+        link.className = 'glass-card overflow-hidden flex flex-col transition duration-200 hover:-translate-y-1';
+        decorateLink(link, game);
+        const description = (game.description || '').slice(0, 180);
+        link.innerHTML = `
+            <div class="relative h-44 bg-slate-900/60">
+                <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover">
+            </div>
+            <div class="p-4 space-y-2">
+                <h3 class="text-lg font-semibold text-white truncate">${game.name}</h3>
+                <p class="text-white/60 text-sm leading-relaxed h-[3.6rem] overflow-hidden">${description}</p>
+                <div class="flex items-center justify-between text-xs text-white/50">
+                    <span>${formatCategory(game.category)}</span>
+                    <span>Rating ${formatRating(game.rating)}</span>
+                </div>
+                <div class="text-xs text-white/50">${formatPlays(game.plays)}</div>
+            </div>
+        `;
+        return link;
     }
 
     function renderStats() {
@@ -219,14 +410,9 @@
 
             const header = document.createElement('div');
             header.className = 'flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3';
-            const headingPieces = [];
-            if (item.icon) {
-                headingPieces.push(item.icon);
-            }
-            headingPieces.push(item.label);
             header.innerHTML = `
                 <div>
-                    <h3 class="text-xl font-semibold">${headingPieces.join(' ')}</h3>
+                    <h3 class="text-xl font-semibold">${item.label}</h3>
                     <p class="text-white/60 text-sm mt-1">Scroll to explore ${item.label.toLowerCase()} picks.</p>
                 </div>
                 <span class="status-badge status-updated self-start sm:self-auto">ArcadeBloom</span>
@@ -279,6 +465,13 @@
             nextLabel: 'Next recently played games'
         });
         container.appendChild(wrapper);
+
+        if (activeNavId === 'recent') {
+            const recentNav = NAV_ITEMS.find(nav => nav.id === 'recent');
+            if (recentNav) {
+                renderCollectionView(recentNav);
+            }
+        }
 
         clearButton.onclick = () => {
             clearRecentlyPlayed();
@@ -463,38 +656,7 @@
         });
     }
 
-    function setupScrollSpy() {
-        if (!('IntersectionObserver' in window)) {
-            return;
-        }
-
-        const sections = activeNavItems
-            .map(item => {
-                const element = document.querySelector(item.target);
-                return element ? { element, target: item.target } : null;
-            })
-            .filter(Boolean);
-
-        if (!sections.length) {
-            return;
-        }
-
-        const observer = new IntersectionObserver(entries => {
-            const visibleEntry = entries
-                .filter(entry => entry.isIntersecting)
-                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-            if (visibleEntry && visibleEntry.target.id) {
-                setActiveNav(`#${visibleEntry.target.id}`);
-            }
-        }, {
-            rootMargin: '-35% 0px -55% 0px',
-            threshold: [0.2, 0.4, 0.6]
-        });
-
-        sections.forEach(({ element }) => observer.observe(element));
-    }
-
+    
     function createRailCard(game, options = {}) {
         if (!game) {
             return document.createElement('div');

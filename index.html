@@ -552,7 +552,7 @@
 
     <main>
         <!-- Hub Layout -->
-        <section class="py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
+        <section id="home-view" class="py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
             <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
                 <div class="lg:hidden mb-8">
                     <div class="flex items-center justify-between mb-4">
@@ -697,6 +697,19 @@
             </div>
         </section>
 
+        <section id="collection-view" class="hidden py-12 lg:py-16 min-h-[calc(100vh-4rem)]">
+            <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
+                <div class="glass-card p-6 sm:p-8 space-y-8">
+                    <div id="collection-header" class="space-y-3">
+                        <h2 id="collection-title" class="text-3xl font-extrabold tracking-tight"></h2>
+                        <p id="collection-description" class="text-white/70 text-sm max-w-3xl hidden"></p>
+                    </div>
+                    <div id="collection-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"></div>
+                    <div id="collection-empty" class="hidden text-white/60 text-sm"></div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- Footer -->
@@ -738,12 +751,15 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2 text-white/70">
-                        <li><a href="#top-picks" class="hover:text-white transition">Home</a></li>
-                        <li><a href="#top-picks" class="hover:text-white transition">Top Picks</a></li>
-                        <li><a href="#featured-spotlight" class="hover:text-white transition">Featured Games</a></li>
-                        <li><a href="#new-releases" class="hover:text-white transition">New Releases</a></li>
-                        <li><a href="#category-hub" class="hover:text-white transition">Browse by Genre</a></li>
-                        <li><a href="#recently-played" class="hover:text-white transition">Recently Played</a></li>
+                        <li><a href="#" data-nav-target="home" class="hover:text-white transition text-white/70">Home</a></li>
+                        <li><a href="#" data-nav-target="picks" class="hover:text-white transition text-white/70">Top Picks</a></li>
+                        <li><a href="#" data-nav-target="featured" class="hover:text-white transition text-white/70">Featured Games</a></li>
+                        <li><a href="#" data-nav-target="new" class="hover:text-white transition text-white/70">New Releases</a></li>
+                        <li><a href="#" data-nav-target="recent" class="hover:text-white transition text-white/70">Recently Played</a></li>
+                        <li><a href="#" data-nav-target="action" class="hover:text-white transition text-white/70">Action Games</a></li>
+                        <li><a href="#" data-nav-target="puzzle" class="hover:text-white transition text-white/70">Puzzle Games</a></li>
+                        <li><a href="#" data-nav-target="casual" class="hover:text-white transition text-white/70">Casual Games</a></li>
+                        <li><a href="#" data-nav-target="sports" class="hover:text-white transition text-white/70">Sports Games</a></li>
                     </ul>
                 </div>
 
@@ -770,8 +786,7 @@
     <!-- JavaScript -->
     <script src="js/homepage.js"></script>
 
-
-
 </body>
 
 </html>
+
