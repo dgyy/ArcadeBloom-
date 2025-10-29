@@ -719,7 +719,7 @@ const COLLECTION_CONFIG = {
     function showUnavailableState() {
         const host = document.getElementById('main-column');
         if (host) {
-            host.innerHTML = '<div class="glass-card p-8 text-center space-y-3"><h2 class="text-2xl font-bold">Game unavailable</h2><p class="text-white/70 text-sm">We could not find the requested game. Return to the homepage and browse another title.</p></div>';
+            host.innerHTML = '<div class="glass-card p-8 text-center space-y-3"><h2 class="text-2xl font-bold">Game unavailable</h2><p class="text-white/70 text-sm">This game might have been moved, renamed, or deleted. Head back to the homepage to pick another title.</p></div>';
         }
     }
 })();
