@@ -92,6 +92,14 @@
     let activeNavId = 'home';
     const railRegistry = new Set();
 
+    function scheduleIdle(work, timeout = 1500) {
+        if (typeof window.requestIdleCallback === 'function') {
+            window.requestIdleCallback(work, { timeout });
+        } else {
+            setTimeout(work, 0);
+        }
+    }
+
     window.addEventListener('resize', () => {
         railRegistry.forEach(entry => entry.update());
     });
@@ -104,14 +112,18 @@
 
         renderNav();
         renderStats();
-        renderTopPicks();
-        renderFeaturedSpotlight();
-        renderNewReleases();
-        renderCategoryRails();
-        renderRecentlyPlayed();
         setupSearch();
         bindQuickLinks();
         handleNavSelection('home');
+
+        renderTopPicks();
+        renderFeaturedSpotlight();
+        renderNewReleases();
+        renderRecentlyPlayed();
+
+        scheduleIdle(() => {
+            renderCategoryRails();
+        });
     });
 
     function renderNav() {

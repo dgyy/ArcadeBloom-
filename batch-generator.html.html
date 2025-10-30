@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batch Game Generator - ArcadeBloom</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html[data-tw-preload] body {
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        document.documentElement.setAttribute('data-tw-preload', 'true');
+    </script>
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.removeAttribute('data-tw-preload');
+        });
+    </script>
 </head>
 <body class="bg-gray-50 p-8">
     <div class="max-w-4xl mx-auto">

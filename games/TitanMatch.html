@@ -4,7 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Titan Match - Greek Mythology Match-3 Adventure</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html[data-tw-preload] body {
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        document.documentElement.setAttribute('data-tw-preload', 'true');
+    </script>
+    <script defer src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.documentElement.removeAttribute('data-tw-preload');
+        });
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
         
