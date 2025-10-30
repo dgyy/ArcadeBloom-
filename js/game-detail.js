@@ -28,16 +28,14 @@
 
     function formatPlays(value) {
         const numeric = Number(value);
-        if (!Number.isFinite(numeric) || numeric <= 0) {
-            return '0 plays';
+        const baseline = Number.isFinite(numeric) && numeric > 0 ? Math.max(numeric, 20000) : 20000;
+        if (baseline >= 1000000) {
+            return `${(baseline / 1000000).toFixed(1)}M plays`;
         }
-        if (numeric >= 1000000) {
-            return `${(numeric / 1000000).toFixed(1)}M plays`;
+        if (baseline >= 1000) {
+            return `${(baseline / 1000).toFixed(1)}K plays`;
         }
-        if (numeric >= 1000) {
-            return `${(numeric / 1000).toFixed(1)}K plays`;
-        }
-        return `${numeric} plays`;
+        return `${baseline} plays`;
     }
 
     function formatCategory(category) {

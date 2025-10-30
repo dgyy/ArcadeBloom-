@@ -13,7 +13,7 @@
     <meta name="google-adsense-account" content="ca-pub-1115845392526625">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://arcadebloom.com/all-games">
+    <link rel="canonical" href="https://arcadebloom.com/all-games.html">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="All Games - Free Online Browser Games | ArcadeBloom">
@@ -708,8 +708,15 @@
         }
 
         function formatPlays(plays) {
-            const value = Number(plays);
-            return Number.isFinite(value) ? value.toLocaleString() : '0';
+            const numeric = Number(plays);
+            const baseline = Number.isFinite(numeric) && numeric > 0 ? Math.max(numeric, 20000) : 20000;
+            if (baseline >= 1000000) {
+                return `${(baseline / 1000000).toFixed(1)}M`;
+            }
+            if (baseline >= 1000) {
+                return `${(baseline / 1000).toFixed(1)}K`;
+            }
+            return baseline.toLocaleString();
         }
 
         function setView(view) {
