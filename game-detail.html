@@ -4,25 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>[GAME_NAME] - Play Free Online | ArcadeBloom</title>
-    <meta name="description" content="Play [GAME_NAME] free online at ArcadeBloom. [GAME_DESCRIPTION]">
-    <meta name="keywords" content="[GAME_NAME], [CATEGORY] games, free online games, browser games, html5 games">
+    <title>ArcadeBloom Game Detail | Play Free Online</title>
+    <meta name="description" content="Play this browser game free online at ArcadeBloom. Launch instantly and explore similar titles.">
+    <meta name="keywords" content="arcadebloom game, free browser game, html5 game, play online">
     <meta name="author" content="ArcadeBloom">
     <meta name="robots" content="index, follow">
     <meta name="google-adsense-account" content="ca-pub-1115845392526625">
 
-    <link rel="canonical" href="https://arcadebloom.com/game/[GAME_SLUG]">
-    <meta property="og:title" content="[GAME_NAME] - Play Free Online">
-    <meta property="og:description" content="Play [GAME_NAME] free online. [GAME_DESCRIPTION]">
+    <link rel="canonical" href="https://arcadebloom.com/game-detail.html">
+    <meta property="og:title" content="ArcadeBloom Game Detail">
+    <meta property="og:description" content="Play this free browser game instantly on ArcadeBloom.">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="https://arcadebloom.com/game/[GAME_SLUG]">
-    <meta property="og:image" content="[GAME_IMAGE_URL]">
+    <meta property="og:url" content="https://arcadebloom.com/game-detail.html">
+    <meta property="og:image" content="https://arcadebloom.com/images/og-image.jpg">
     <meta property="og:site_name" content="ArcadeBloom">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="[GAME_NAME] - Play Free Online">
-    <meta name="twitter:description" content="[GAME_DESCRIPTION]">
-    <meta name="twitter:image" content="[GAME_IMAGE_URL]">
+    <meta name="twitter:title" content="ArcadeBloom Game Detail">
+    <meta name="twitter:description" content="Jump into the latest browser games curated by ArcadeBloom.">
+    <meta name="twitter:image" content="https://arcadebloom.com/images/twitter-image.jpg">
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -39,6 +39,75 @@
     <script>
         document.documentElement.setAttribute('data-tw-preload', 'true');
     </script>
+    <script>
+        (function () {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const slug = params.get('slug') || '';
+                const id = params.get('id') || '';
+                if (!slug && !id) {
+                    return;
+                }
+
+                const formatName = (value) => value
+                    .replace(/[-_]+/g, ' ')
+                    .replace(/\s+/g, ' ')
+                    .trim()
+                    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+                const baseName = slug ? formatName(slug) : `Game ${id}`;
+                const pageUrl = slug
+                    ? `https://arcadebloom.com/game-detail.html?slug=${encodeURIComponent(slug)}`
+                    : `https://arcadebloom.com/game-detail.html?id=${encodeURIComponent(id)}`;
+
+                document.title = `${baseName} - Play Free Online | ArcadeBloom`;
+
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', `Play ${baseName} free online at ArcadeBloom. Launch instantly and explore similar games.`);
+                }
+
+                const canonicalLink = document.querySelector('link[rel="canonical"]');
+                if (canonicalLink) {
+                    canonicalLink.setAttribute('href', pageUrl);
+                }
+
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) {
+                    ogTitle.setAttribute('content', `${baseName} - Play Free Online`);
+                }
+
+                const ogDescription = document.querySelector('meta[property="og:description"]');
+                if (ogDescription) {
+                    ogDescription.setAttribute('content', `Play ${baseName} free online at ArcadeBloom.`);
+                }
+
+                const ogUrl = document.querySelector('meta[property="og:url"]');
+                if (ogUrl) {
+                    ogUrl.setAttribute('content', pageUrl);
+                }
+
+                const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+                if (twitterTitle) {
+                    twitterTitle.setAttribute('content', `${baseName} - Play Free Online`);
+                }
+
+                const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+                if (twitterDescription) {
+                    twitterDescription.setAttribute('content', `Play ${baseName} instantly at ArcadeBloom.`);
+                }
+            } catch (error) {
+                console.warn('Metadata bootstrap failed', error);
+            }
+        })();
+    </script>
+    <noscript>
+        <style>
+            html[data-tw-preload] body {
+                visibility: visible;
+            }
+        </style>
+    </noscript>
     <script defer src="https://cdn.tailwindcss.com"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

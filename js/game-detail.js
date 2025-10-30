@@ -317,23 +317,74 @@ const COLLECTION_CONFIG = {
     }
 
     function updateHeadMetadata(game) {
-        document.title = `${game.name} - Play Free Online | ArcadeBloom`;
-        const desc = document.querySelector('meta[name="description"]');
-        if (desc) {
-            desc.setAttribute('content', `Play ${game.name} free online at ArcadeBloom. ${game.description || 'Instant browser gameplay.'}`);
+        const displayName = game.name || 'ArcadeBloom Game';
+        const slug = typeof game.slug === 'string' ? game.slug : '';
+        const identifier = Number.isFinite(game.id) ? game.id : slug;
+        const canonicalUrl = slug
+            ? `https://arcadebloom.com/game-detail.html?slug=${encodeURIComponent(slug)}`
+            : `https://arcadebloom.com/game-detail.html?id=${encodeURIComponent(identifier)}`;
+        const descriptionText = game.description
+            ? `Play ${displayName} free online at ArcadeBloom. ${game.description}`
+            : `Play ${displayName} free online at ArcadeBloom. Instant browser gameplay.`;
+        const resolvedImage = resolveImageUrl(game.image, 'https://arcadebloom.com/images/og-image.jpg');
+
+        document.title = `${displayName} - Play Free Online | ArcadeBloom`;
+
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', descriptionText);
         }
+
+        const canonicalLink = document.querySelector('link[rel="canonical"]');
+        if (canonicalLink) {
+            canonicalLink.setAttribute('href', canonicalUrl);
+        }
+
         const ogTitle = document.querySelector('meta[property="og:title"]');
         if (ogTitle) {
-            ogTitle.setAttribute('content', `${game.name} - Play Free Online`);
+            ogTitle.setAttribute('content', `${displayName} - Play Free Online`);
         }
+
         const ogDesc = document.querySelector('meta[property="og:description"]');
         if (ogDesc) {
-            ogDesc.setAttribute('content', game.description || 'Instant browser gameplay.');
+            ogDesc.setAttribute('content', descriptionText);
         }
+
+        const ogUrl = document.querySelector('meta[property="og:url"]');
+        if (ogUrl) {
+            ogUrl.setAttribute('content', canonicalUrl);
+        }
+
         const ogImage = document.querySelector('meta[property="og:image"]');
         if (ogImage) {
-            ogImage.setAttribute('content', game.image || '/pic/logo/default.png');
+            ogImage.setAttribute('content', resolvedImage);
         }
+
+        const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+        if (twitterTitle) {
+            twitterTitle.setAttribute('content', `${displayName} - Play Free Online`);
+        }
+
+        const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+        if (twitterDescription) {
+            twitterDescription.setAttribute('content', descriptionText);
+        }
+
+        const twitterImage = document.querySelector('meta[name="twitter:image"]');
+        if (twitterImage) {
+            twitterImage.setAttribute('content', resolvedImage);
+        }
+    }
+
+    function resolveImageUrl(source, fallback) {
+        if (!source || typeof source !== 'string') {
+            return fallback;
+        }
+        if (/^https?:\/\//i.test(source)) {
+            return source;
+        }
+        const trimmed = source.replace(/^\//, '');
+        return `https://arcadebloom.com/${trimmed}`;
     }
 
     function loadGame(url, forceReload = false) {
