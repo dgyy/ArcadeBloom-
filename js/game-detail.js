@@ -13,14 +13,6 @@
 
     const COLLECTION_BATCH_SIZE = 60;
 
-    function categoryConfig(id, title, description) {
-        return {
-            title,
-            description,
-            getGames: () => GameUtils.getGamesByCategory(id)
-        };
-    }
-
     function formatRating(value) {
         const numeric = Number(value);
         return Number.isFinite(numeric) ? numeric.toFixed(1) : 'N/A';
@@ -48,6 +40,76 @@
     function formatNumber(value) {
         const numeric = Number(value);
         return Number.isFinite(numeric) ? numeric.toLocaleString() : '0';
+    }
+
+    const VALID_CATEGORIES = new Set(['action', 'puzzle', 'strategy', 'casual', 'sports']);
+    let fallbackIdCounter = 900000;
+
+    function slugify(value) {
+        if (!value) {
+            return '';
+        }
+        return String(value)
+            .normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/([a-z0-9])([A-Z])/g, (_, lower, upper) => `${lower}-${upper}`)
+            .replace(/[^a-zA-Z0-9]+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            .toLowerCase();
+    }
+
+    function slugToTitle(slug) {
+        if (!slug) {
+            return 'ArcadeBloom Game';
+        }
+        return slug
+            .split('-')
+            .filter(Boolean)
+            .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(' ')
+            .trim() || 'ArcadeBloom Game';
+    }
+
+    function normalizeCategory(value) {
+        if (typeof value !== 'string') {
+            return 'casual';
+        }
+        const lower = value.toLowerCase();
+        return VALID_CATEGORIES.has(lower) ? lower : 'casual';
+    }
+
+    function buildFallbackGame(meta = {}) {
+        const sourceUrl = meta.sourceUrl || '';
+        const baseSlug = slugify(meta.slug || meta.name || sourceUrl.split('/').pop());
+        if (!baseSlug) {
+            return null;
+        }
+        const displayName = meta.name && meta.name.trim() ? meta.name.trim() : slugToTitle(baseSlug);
+        const category = normalizeCategory(meta.category);
+        const parsedId = Number.parseInt(meta.id, 10);
+        const assignedId = Number.isFinite(parsedId) && parsedId > 0 ? parsedId : ++fallbackIdCounter;
+        const fallbackUrl = sourceUrl || `./games/${baseSlug}/index.html`;
+
+        return {
+            id: assignedId,
+            name: displayName,
+            slug: baseSlug,
+            category,
+            description: meta.description || `${displayName} loads instantly via the ArcadeBloom fallback player.`,
+            instructions: meta.instructions || 'Use the in-game controls to start playing immediately.',
+            rating: 4.5,
+            plays: 25000,
+            image: meta.image || './pic/logo/default.png',
+            gameUrl: fallbackUrl,
+            developer: meta.developer || 'ArcadeBloom',
+            platforms: meta.platforms || 'Web Browser',
+            notes: meta.notes || 'Loaded directly from the original game source.',
+            tags: Array.isArray(meta.tags) ? meta.tags : [],
+            releaseDate: meta.releaseDate || '',
+            featured: false,
+            isFallback: true
+        };
     }
 
 const COLLECTION_CONFIG = {
@@ -161,17 +223,27 @@ const COLLECTION_CONFIG = {
         renderNavigation();
 
         const params = new URLSearchParams(window.location.search);
+        const sourceUrl = params.get('source') || '';
         const gameId = Number.parseInt(params.get('id'), 10);
-        const slug = params.get('slug');
+        const slugParam = slugify(params.get('slug'));
         const rawName = params.get('name');
+        const normalizedNameSlug = rawName ? slugify(rawName) : '';
 
         let game = Number.isFinite(gameId) ? GameUtils.getGameById(gameId) : null;
-        if (!game && slug) {
-            game = GameUtils.getGameBySlug(slug);
+        if (!game && slugParam) {
+            game = GameUtils.getGameBySlug(slugParam);
         }
-        if (!game && rawName) {
-            const normalized = rawName.toLowerCase().replace(/\s+/g, '-');
-            game = GameUtils.getGameBySlug(normalized);
+        if (!game && normalizedNameSlug) {
+            game = GameUtils.getGameBySlug(normalizedNameSlug);
+        }
+        if (!game) {
+            game = buildFallbackGame({
+                id: params.get('id'),
+                slug: slugParam || normalizedNameSlug,
+                name: rawName,
+                category: params.get('category'),
+                sourceUrl
+            });
         }
 
         if (!game) {
