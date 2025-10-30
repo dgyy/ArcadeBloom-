@@ -111,13 +111,11 @@ const COLLECTION_CONFIG = {
     const gameLoading = document.getElementById('game-loading');
     const gameError = document.getElementById('game-error');
     const btnErrorRetry = document.getElementById('btn-error-retry');
-    const btnErrorOpen = document.getElementById('btn-error-open');
 
     const relatedAside = document.getElementById('related-aside');
     const relatedList = document.getElementById('related-list');
 
     const btnBack = document.getElementById('btn-back');
-    const btnOpenOriginal = document.getElementById('btn-open-original');
     const btnCopyLink = document.getElementById('btn-copy-link');
     const btnFullscreen = document.getElementById('btn-fullscreen');
     const btnRetry = document.getElementById('btn-retry');
@@ -195,14 +193,6 @@ const COLLECTION_CONFIG = {
                     window.history.back();
                 } else {
                     window.location.href = 'index.html';
-                }
-            });
-        }
-
-        if (btnOpenOriginal) {
-            btnOpenOriginal.addEventListener('click', () => {
-                if (currentGame && currentGame.gameUrl) {
-                    window.open(currentGame.gameUrl, '_blank', 'noopener');
                 }
             });
         }
@@ -306,13 +296,6 @@ const COLLECTION_CONFIG = {
             gameNotes.textContent = game.notes || 'Play directly in your browser - no downloads required.';
         }
 
-        if (btnOpenOriginal) {
-            btnOpenOriginal.href = game.gameUrl || '#';
-        }
-        if (btnErrorOpen) {
-            btnErrorOpen.href = game.gameUrl || '#';
-        }
-
         loadGame(game.gameUrl);
     }
 
@@ -400,9 +383,6 @@ const COLLECTION_CONFIG = {
         gameLoading.classList.remove('hidden');
         gameLoading.classList.add('flex');
         gameError.classList.add('hidden');
-        if (btnErrorOpen) {
-            btnErrorOpen.classList.add('hidden');
-        }
         iframe.onload = null;
         iframe.onerror = null;
         iframe.src = '';
@@ -453,9 +433,6 @@ const COLLECTION_CONFIG = {
         gameLoading.classList.remove('flex');
         hideGamePlaceholder(0);
         gameError.classList.remove('hidden');
-        if (btnErrorOpen) {
-            btnErrorOpen.classList.toggle('hidden', !currentGame?.gameUrl);
-        }
     }
 
     function renderRelatedGames(game) {
