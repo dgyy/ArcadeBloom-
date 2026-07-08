@@ -106,7 +106,7 @@ test.describe('No-JS content visibility', () => {
         const page = await ctx.newPage();
         await page.goto('/');
 
-        await expect(page.locator('h1', { hasText: 'Discover the best web games' })).toBeVisible();
+        await expect(page.locator('h1', { hasText: 'Discover the best free browser games' })).toBeVisible();
         await expect(page.locator('h2', { hasText: 'Browse by Category' })).toBeVisible();
         // The "Browse by Category" section must render exactly 6 category cards.
         // Scope to that section to avoid matching the 12 extra /category/ links

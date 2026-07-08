@@ -42,6 +42,11 @@ The renovation must **build a static-generation pipeline from scratch** as its f
 ### Static site generator (锁定): Eleventy (11ty)
 **Chosen stack:** Eleventy + Nunjucks templates + existing Tailwind (CDN or build) + `games-data.js` as data source. Chosen because: zero client-side JS by default (pure static), lowest learning curve, can reuse existing HTML fragments as templates, fast generation of hundreds of pages, mature SEO-site tooling. Astro rejected (higher learning curve, requires rewriting HTML into `.astro` components). Hand-rolled Node script rejected (reinvents pagination/slug/template wheels).
 
+### Template convention (易错点): frontmatter must come first
+**YAML frontmatter (`---` ... `---`) MUST be the first thing in every `.njk` file.** A Nunjucks comment `{# ... #}` placed before the opening `---` silently breaks frontmatter parsing — `title`/`description`/`permalink` fields are then ignored, and pages ship with empty titles (a fatal SEO bug that affected index/featured/new until caught in the SEO review).
+
+Rule: put any `{# ... #}` template comment AFTER the closing `---`, never before. `scripts/validate-data.js` does not currently catch this — a build-time check that every generated `index.html` has a non-empty `<title>` is the safety net (added to smoke tests).
+
 ### Fake-data mechanism (要删除的代码)
 The legacy `formatPlays()` in both renderers runs `Math.max(numeric, 20000)` — any play count below 20,000 is silently inflated to 20,000 before display. This is **active fabrication in code**, not just bad data. Combined with the fabricated `plays`/`rating` fields (ADR on aggregation pages), the entire fake-data code path must be deleted in the new build — not "fixed", removed.
 

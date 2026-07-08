@@ -585,7 +585,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 22,
@@ -615,7 +615,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 23,
@@ -645,7 +645,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 24,
@@ -675,7 +675,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 25,
@@ -821,7 +821,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 30,
@@ -851,7 +851,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 31,
@@ -881,7 +881,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 32,
@@ -971,7 +971,7 @@
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 35,

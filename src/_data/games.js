@@ -614,7 +614,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 22,
@@ -644,7 +644,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 23,
@@ -674,7 +674,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 24,
@@ -704,7 +704,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 25,
@@ -850,7 +850,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
-        "featured": false
+        "featured": true
     },
     {
         "id": 30,
@@ -880,7 +880,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 31,
@@ -910,7 +910,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 32,
@@ -1000,7 +1000,7 @@ module.exports = [
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
-        "featured": false
+        "featured": true
     },
     {
         "id": 35,
