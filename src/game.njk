@@ -1,0 +1,167 @@
+---
+pagination:
+    data: games
+    size: 1
+    alias: game
+permalink: "/game/{{ game.slug }}/"
+eleventyComputed:
+    title: "{{ game.name }} — Review, How to Play & Source"
+    description: "{{ game.tagline }}"
+---
+
+{% extends 'base.njk' %}
+
+{% set cat = site.categories | findCat(game.category) %}
+{% set related = games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4) %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": {{ game.name | toJSON }},
+  "description": {{ game.tagline | toJSON }},
+  "genre": {{ cat.name | toJSON }},
+  "url": "{{ site.url }}/game/{{ game.slug }}/",
+  "datePublished": "{{ game.releaseDate }}",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser",
+  "author": {
+    "@type": "Organization",
+    "name": {{ game.sourceName | toJSON }},
+    "url": {{ game.sourceUrl | toJSON }}
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
+    { "@type": "ListItem", "position": 2, "name": {{ cat.name | toJSON }}, "item": "{{ site.url }}/category/{{ game.category }}/" },
+    { "@type": "ListItem", "position": 3, "name": {{ game.name | toJSON }}, "item": "{{ site.url }}/game/{{ game.slug }}/" }
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <nav class="text-sm text-white/60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/category/{{ game.category }}/" class="hover:text-white">{{ cat.name }}</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">{{ game.name }}</span>
+    </nav>
+
+    <header class="mb-8">
+        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">{{ game.name }}</h1>
+        <p class="text-xl text-white/70 mt-3">{{ game.tagline }}</p>
+        <div class="flex flex-wrap gap-2 mt-4">
+            <a href="/category/{{ game.category }}/" class="badge hover:bg-white/20">{{ cat.name }}</a>
+            {% for tag_slug in game.tags %}
+            {% set tag = tags | findTag(tag_slug) %}
+            {% if tag %}
+                {% if populatedTagSlugs.indexOf(tag.slug) > -1 %}
+                <a href="/tag/{{ tag.slug }}/" class="badge hover:bg-white/20">{{ tag.name }}</a>
+                {% else %}
+                <span class="badge opacity-60">{{ tag.name }}</span>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </header>
+
+    {% if game.screenshots and game.screenshots.length %}
+    <section class="mb-8">
+        <div class="grid grid-cols-1 {% if game.screenshots.length > 1 %}sm:grid-cols-2{% endif %} gap-3">
+            {% for shot in game.screenshots %}
+            <div class="rounded-2xl overflow-hidden bg-white/5 aspect-video">
+                <img src="{{ shot }}" alt="{{ game.name }} screenshot {{ loop.index }}" loading="lazy" class="w-full h-full object-cover">
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="glass-card p-6 mb-8 flex flex-col sm:flex-row items-center gap-4 justify-between">
+        <div>
+            <p class="text-sm text-white/60">This game is reviewed here and played at its source.</p>
+            <p class="font-semibold mt-1">Hosted by {{ game.sourceName }}</p>
+        </div>
+        <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="primary-button whitespace-nowrap">
+            Play on {{ game.sourceName }} →
+        </a>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold mb-3">About {{ game.name }}</h2>
+        <div class="text-white/80 leading-relaxed space-y-4">
+            {% for para in game.about | paragraphs %}
+            <p>{{ para }}</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold mb-3">How to Play</h2>
+        <div class="text-white/80 leading-relaxed space-y-4">
+            {% for para in game.howToPlay | paragraphs %}
+            <p>{{ para }}</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% if game.keyFeatures and game.keyFeatures.length %}
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold mb-3">Key Features</h2>
+        <ul class="space-y-2">
+            {% for feature in game.keyFeatures %}
+            <li class="flex items-start gap-2 text-white/80">
+                <span class="text-fuchsia-400 mt-1">▸</span>
+                <span>{{ feature }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <section class="panel-card p-6 mb-8">
+        <h2 class="text-lg font-bold mb-4">Source &amp; Licence</h2>
+        <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div>
+                <dt class="text-white/50">Author / Project</dt>
+                <dd class="font-semibold mt-1">{{ game.sourceName }}</dd>
+            </div>
+            <div>
+                <dt class="text-white/50">Licence</dt>
+                <dd class="font-semibold mt-1">{{ game.licence }}</dd>
+            </div>
+            <div>
+                <dt class="text-white/50">Released</dt>
+                <dd class="font-semibold mt-1">{{ game.releaseDate }}</dd>
+            </div>
+        </dl>
+        <p class="text-xs text-white/50 mt-4">
+            ArcadeBloom is a directory. We review and link; we do not host this game. All rights belong to its author.
+            Visit the <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="underline hover:text-white">official site</a> to play.
+        </p>
+    </section>
+
+    {% if related.length %}
+    <section>
+        <h2 class="text-2xl font-bold mb-4">More {{ cat.name }} Games</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {% for g in related %}
+            {% set game = g %}
+            {% include 'game-card.njk' %}
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+</div>
+{% endblock %}

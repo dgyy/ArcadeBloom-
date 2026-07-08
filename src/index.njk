@@ -1,0 +1,117 @@
+{# =============================================================================
+   Homepage — category portal style (ADR / CONTEXT.md "Homepage").
+   Static pre-rendered: Hero + 6 category cards + Featured rail + New rail.
+   No Recently Played, no JS-rendered rails.
+   ============================================================================= #}
+---
+title: ArcadeBloom — Discover the Best Web Games
+permalink: /
+---
+
+{% extends 'base.njk' %}
+
+{% set featured_games = games | featuredOnly | limit(8) %}
+{% set new_games = games | sortByDateDesc | limit(8) %}
+{% set total_games = games | length %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ArcadeBloom",
+  "description": "{{ site.description }}",
+  "url": "{{ site.url }}/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "{{ site.url }}/search/?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="hero-gradient py-20 lg:py-28">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight" style="text-shadow: 0 12px 30px rgba(10,16,45,0.45);">
+            Discover the best web games.
+        </h1>
+        <p class="mt-6 text-lg md:text-xl text-white/85 max-w-2xl mx-auto">
+            A curated directory of browser games from across the web. Read honest reviews and how-to-play guides,
+            then jump straight to the source. No walled garden, no re-hosting.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <a href="/featured/" class="primary-button">Browse Featured</a>
+            <a href="/new/" class="primary-button" style="background: rgba(255,255,255,0.12);">Latest Additions</a>
+        </div>
+        <p class="mt-4 text-sm text-white/60">{{ total_games }} games catalogued and growing.</p>
+    </div>
+</section>
+
+<section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mb-10">
+            <h2 class="text-3xl font-bold">Browse by Category</h2>
+            <p class="text-white/70 mt-2">Six top-level categories covering every kind of browser game we catalogue.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for cat in site.categories %}
+            {% set count = games | whereEq('category', cat.slug) | length %}
+            {% set is_thin = count < site.minGamesPerCategory %}
+            <a href="/category/{{ cat.slug }}/" class="glass-card p-6 hover:scale-[1.02] transition group {% if is_thin %}opacity-60{% endif %}">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold group-hover:text-white">{{ cat.name }}</h3>
+                    <span class="badge">{{ count }}{% if is_thin %}<span class="ml-1 text-white/40">/ {{ site.minGamesPerCategory }}</span>{% endif %}</span>
+                </div>
+                <p class="text-white/70 text-sm mt-3">{{ cat.blurb }}</p>
+                {% if is_thin %}
+                <p class="text-xs text-white/40 mt-2">Still seeding — browse what's here.</p>
+                {% endif %}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% if featured_games.length %}
+<section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <h2 class="text-3xl font-bold">Featured</h2>
+                <p class="text-white/70 mt-2">Editor picks — the games we think are worth your time first.</p>
+            </div>
+            <a href="/featured/" class="text-sm font-semibold text-sky-300 hover:text-white">See all →</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {% for game in featured_games %}
+            {% include 'game-card.njk' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if new_games.length %}
+<section class="py-16 lg:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <h2 class="text-3xl font-bold">New Arrivals</h2>
+                <p class="text-white/70 mt-2">The most recent additions to the directory.</p>
+            </div>
+            <a href="/new/" class="text-sm font-semibold text-sky-300 hover:text-white">See all →</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {% for game in new_games %}
+            {% include 'game-card.njk' %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

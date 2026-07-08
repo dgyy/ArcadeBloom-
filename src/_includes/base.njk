@@ -1,0 +1,143 @@
+{# =============================================================================
+   base.njk — shared page skeleton for every ArcadeBloom page.
+   Lifts the <head>, header, footer and design tokens from the legacy
+   index.html, and removes everything the directory site does not use:
+     - no <iframe> game player
+     - no formatPlays() / fake play-count inflation
+     - no Recently Played section (localStorage, meaningless for outbound dir)
+     - no Google Ads slots in the chrome
+   Per-page content goes in {% block content %}.
+   ============================================================================= #}
+<!DOCTYPE html>
+<html lang="{{ locale or site.locale }}" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# ---- SEO ---- #}
+    {% block title_tag %}
+    <title>{{ title }}{% if title_suffix is defined %}{{ title_suffix }}{% else %} — ArcadeBloom{% endif %}</title>
+    {% endblock %}
+    {% block meta_description %}
+    <meta name="description" content="{{ description or site.description }}">
+    {% endblock %}
+    <meta name="author" content="ArcadeBloom">
+    <meta name="robots" content="{{ robots or 'index, follow' }}">
+
+    <link rel="canonical" href="{{ canonical or (page.url | absoluteUrl) }}">
+
+    {# ---- Open Graph ---- #}
+    <meta property="og:title" content="{{ og_title or title }}">
+    <meta property="og:description" content="{{ description or site.description }}">
+    <meta property="og:type" content="{{ og_type or 'website' }}">
+    <meta property="og:url" content="{{ canonical or (page.url | absoluteUrl) }}">
+    <meta property="og:image" content="{{ site.url }}/og-image.png">
+    <meta property="og:site_name" content="ArcadeBloom">
+
+    {# ---- Twitter ---- #}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ og_title or title }}">
+    <meta name="twitter:description" content="{{ description or site.description }}">
+    <meta name="twitter:image" content="{{ site.url }}/og-image.png">
+
+    {# ---- Favicon (PNG-content .ico + SVG master + apple-touch) ---- #}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    {# ---- Fonts ---- #}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {# ---- Compiled CSS (Tailwind utilities + custom design tokens).
+          Built by `npm run build:css` into /css/styles.css — no CDN, no FOUC. ---- #}
+    <link rel="stylesheet" href="/css/styles.css">
+
+    {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
+    {% block jsonld %}{% endblock %}
+</head>
+<body>
+
+<header class="nav-shell sticky top-0 z-50">
+    <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
+        <div class="flex items-center gap-6 h-16">
+            <a href="/" class="flex items-center flex-shrink-0">
+                <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 flex-1">
+                {% for cat in site.categories %}
+                {# Header nav shows only categories that meet the thin-content threshold.
+                   All categories remain reachable via the footer. #}
+                {% set cat_count = games | whereEq('category', cat.slug) | length %}
+                {% if cat_count >= site.minGamesPerCategory %}
+                <a href="/category/{{ cat.slug }}/" class="text-sm font-semibold text-white/75 hover:text-white transition">{{ cat.name }}</a>
+                {% endif %}
+                {% endfor %}
+            </nav>
+
+            <div class="flex-1 md:flex-none md:ml-auto">
+                <form action="/search/" method="get" class="relative w-full md:w-72">
+                    <input type="search" name="q" placeholder="Search games…"
+                        value="{{ search_q or '' }}"
+                        class="w-full px-4 py-2 text-sm rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-fuchsia-400/60 bg-white/10">
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main>
+{% block content %}{% endblock %}
+</main>
+
+<footer class="pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="glass-card p-8 sm:p-10 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="md:col-span-2">
+                <div class="flex items-center mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
+                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <span class="text-2xl font-bold">ArcadeBloom</span>
+                </div>
+                <p class="text-white/70 mb-6">{{ site.description }}</p>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Browse</h3>
+                <ul class="space-y-2 text-white/70">
+                    <li><a href="/featured/" class="hover:text-white transition">Featured</a></li>
+                    <li><a href="/new/" class="hover:text-white transition">New</a></li>
+                    {% for cat in site.categories %}
+                    <li><a href="/category/{{ cat.slug }}/" class="hover:text-white transition">{{ cat.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Company</h3>
+                <ul class="space-y-2 text-white/70">
+                    {% for link in site.footerLinks %}
+                    <li><a href="{{ link.href }}" class="hover:text-white transition">{{ link.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center text-white/60 mt-10">
+            © 2026 ArcadeBloom. A directory of web games — we review, you play at the source.
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+---
+permalink: /contact/
+title: Contact ArcadeBloom
+description: Get in touch with ArcadeBloom — suggest a game, report an issue, or reach the editors.
+---
+{% extends 'base.njk' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <nav class="text-sm text-white/60 mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">Contact</span>
+    </nav>
+
+    <h1 class="text-4xl font-extrabold tracking-tight mb-6">Contact</h1>
+
+    <div class="text-white/80 leading-relaxed space-y-5 text-lg">
+        <p>
+            Found a great browser game we should list? Spot an error in a review, a dead source link,
+            or a licence we got wrong? We want to hear about it.
+        </p>
+    </div>
+
+    <div class="glass-card p-6 mt-8 space-y-4 text-white/80">
+        <div>
+            <h2 class="font-semibold text-white">Suggest a game</h2>
+            <p class="text-sm mt-1">Include the game name, the author's official URL, and the licence if known. We only list games with a verifiable source.</p>
+        </div>
+        <div>
+            <h2 class="font-semibold text-white">Report an issue</h2>
+            <p class="text-sm mt-1">Inaccurate review, broken outbound link, or attribution error — tell us which game page and what is wrong.</p>
+        </div>
+        <div>
+            <h2 class="font-semibold text-white">Author takedown</h2>
+            <p class="text-sm mt-1">If you are the author of a listed game and want it removed, contact us and we will delist it promptly.</p>
+        </div>
+    </div>
+
+    <p class="text-white/60 text-sm mt-8">
+        Reach the editors at: <a href="mailto:hello@arcadebloom.com" class="text-sky-300 hover:text-white underline">hello@arcadebloom.com</a>
+    </p>
+
+</div>
+{% endblock %}

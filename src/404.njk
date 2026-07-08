@@ -1,0 +1,32 @@
+---
+permalink: /404.html
+title: "404 — Not Found"
+robots: noindex, follow
+---
+{% extends 'base.njk' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+
+    <p class="text-6xl md:text-8xl font-extrabold text-white/20 mb-4">404</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">Page not found</h1>
+    <p class="text-white/70 text-lg leading-relaxed mb-8 max-w-xl mx-auto">
+        The page you're looking for doesn't exist. It may have been moved or the link may be broken.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+        <a href="/" class="primary-button">Back to Home</a>
+        <a href="/search/" class="primary-button" style="background: rgba(255,255,255,0.12);">Search Games</a>
+    </div>
+
+    <div class="glass-card p-6 text-left max-w-md mx-auto">
+        <h2 class="font-semibold mb-2">Try one of these</h2>
+        <ul class="text-sm text-white/70 space-y-1">
+            <li>→ <a href="/featured/" class="underline hover:text-white">Featured games</a></li>
+            <li>→ <a href="/new/" class="underline hover:text-white">Latest additions</a></li>
+            <li>→ <a href="/category/arcade/" class="underline hover:text-white">Browse arcade games</a></li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

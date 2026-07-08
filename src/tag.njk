@@ -1,0 +1,36 @@
+---
+pagination:
+    data: collections.populatedTags
+    size: 1
+    alias: tag
+permalink: "/tag/{{ tag.slug }}/"
+robots: "{% if tag.slug %}index, follow{% else %}noindex, follow{% endif %}"
+---
+
+{% extends 'base.njk' %}
+
+{% block content %}
+{% if tag.slug %}
+{% set tag_games = games | whereIncludes('tags', tag.slug) | sortByDateDesc %}
+{% block title_tag %}<title>{{ tag.name }} Games — ArcadeBloom</title>{% endblock %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <nav class="text-sm text-white/60 mb-6"><a href="/">Home</a> / <span class="text-white">{{ tag.name }}</span></nav>
+    <header class="mb-10">
+        <div class="flex items-center gap-3">
+            <h1 class="text-4xl font-extrabold">{{ tag.name }}</h1>
+            <span class="badge">{{ tag_games.length }}</span>
+        </div>
+        <p class="text-lg text-white/70 mt-4 max-w-3xl">{{ tag.description }}</p>
+    </header>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for game in tag_games %}{% include 'game-card.njk' %}{% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="max-w-3xl mx-auto px-4 py-20 text-center">
+    <h1 class="text-3xl font-extrabold">Browse by Tag</h1>
+    <p class="text-white/70 mt-4">Tag pages appear once a tag is shared by enough games to be useful (at least {{ site.minGamesPerTag }}). As the catalogue grows, curated tag pages will land here.</p>
+    <a href="/" class="primary-button mt-6 inline-block">Back to Home</a>
+</div>
+{% endif %}
+{% endblock %}

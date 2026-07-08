@@ -1,0 +1,27 @@
+# =============================================================================
+# Cloudflare Pages headers — correct content types + caching + security.
+# =============================================================================
+
+# XML files must be served as XML (sitemap, RSS future)
+/*.xml
+  Content-Type: application/xml; charset=utf-8
+
+# Sitemap: short cache, frequent re-crawl
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+# _redirects and this file must never be served publicly
+/_redirects
+  X-Content-Type-Options: nosniff
+  # Cloudflare Pages hides _redirects/_headers by default; this is belt-and-braces
+
+# Static game assets (screenshots) — long cache
+/screenshots/*
+  Cache-Control: public, max-age=2592000
+
+# Security headers on all pages
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()

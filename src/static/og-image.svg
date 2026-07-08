@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1040"/>
+      <stop offset="35%" stop-color="#29176f"/>
+      <stop offset="70%" stop-color="#0f5bf3"/>
+      <stop offset="100%" stop-color="#0bd3ff"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="15%" cy="20%" r="40%">
+      <stop offset="0%" stop-color="#8338ec" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8338ec" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="85%" cy="12%" r="35%">
+      <stop offset="0%" stop-color="#25d3ff" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#25d3ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff60d7"/>
+      <stop offset="100%" stop-color="#6a5bff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+
+  <!-- Logo mark -->
+  <g transform="translate(100, 100)">
+    <rect x="0" y="0" width="72" height="72" rx="18" fill="url(#accent)"/>
+    <circle cx="36" cy="36" r="16" fill="none" stroke="#fff" stroke-width="4"/>
+    <path d="M30 36l4 4 8-8" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="190" y="152" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#ffffff">ArcadeBloom</text>
+
+  <!-- Headline -->
+  <text x="100" y="310" font-family="Arial, sans-serif" font-size="76" font-weight="bold" fill="#ffffff">Discover the best</text>
+  <text x="100" y="400" font-family="Arial, sans-serif" font-size="76" font-weight="bold" fill="#ffffff">web games.</text>
+
+  <!-- Subtitle -->
+  <text x="100" y="470" font-family="Arial, sans-serif" font-size="30" fill="#e5e7ff" opacity="0.85">A curated directory. We review — you play at the source.</text>
+
+  <!-- Footer accent bar -->
+  <rect x="100" y="540" width="120" height="6" rx="3" fill="url(#accent)"/>
+  <text x="100" y="585" font-family="Arial, sans-serif" font-size="24" fill="#e5e7ff" opacity="0.7">arcadebloom.com</text>
+</svg>

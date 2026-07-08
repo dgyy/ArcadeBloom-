@@ -1,0 +1,47 @@
+{# New aggregation page — ordered by addedDate (when ArcadeBloom added it). Transparent and real. #}
+---
+permalink: /new/
+title: New Games — Latest Additions
+description: The most recent additions to the ArcadeBloom directory, ordered by date added. Come back often for fresh picks.
+---
+
+{% extends 'base.njk' %}
+
+{% set new_games = games | sortByDateDesc %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <nav class="text-sm text-white/60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">New</span>
+    </nav>
+
+    <header class="mb-10">
+        <div class="flex items-center gap-3">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">New Arrivals</h1>
+            <span class="badge">{{ new_games.length }}</span>
+        </div>
+        <p class="text-lg text-white/70 mt-4 max-w-3xl">
+            The most recent additions to the directory.
+        </p>
+        <p class="text-xs text-white/40 mt-2">
+            Ordered by the date ArcadeBloom added each game — not by the game's own release date.
+        </p>
+    </header>
+
+    {% if new_games.length %}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for game in new_games %}
+        {% include 'game-card.njk' %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="panel-card p-12 text-center">
+        <p class="text-white/60">No games yet.</p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

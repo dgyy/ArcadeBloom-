@@ -1,0 +1,23 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{{ site.url }}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>{{ site.url }}/featured/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>{{ site.url }}/new/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+{% for cat in site.categories %}
+  <url><loc>{{ site.url }}/category/{{ cat.slug }}/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+{% endfor %}
+{% for tag in collections.populatedTags %}
+  <url><loc>{{ site.url }}/tag/{{ tag.slug }}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+{% endfor %}
+{% for game in games %}
+  <url><loc>{{ site.url }}/game/{{ game.slug }}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+{% endfor %}
+  <url><loc>{{ site.url }}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>{{ site.url }}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>{{ site.url }}/terms/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>{{ site.url }}/privacy/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+</urlset>

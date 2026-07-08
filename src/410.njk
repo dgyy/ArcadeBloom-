@@ -1,0 +1,33 @@
+---
+permalink: /410.html
+title: "410 — Content Removed"
+robots: noindex, follow
+---
+{% extends 'base.njk' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+
+    <p class="text-6xl md:text-8xl font-extrabold text-white/20 mb-4">410</p>
+    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-4">This page is gone</h1>
+    <p class="text-white/70 text-lg leading-relaxed mb-8 max-w-xl mx-auto">
+        ArcadeBloom is now a <strong>game directory</strong> — we review browser games and link to their original authors.
+        The old self-hosted game you were looking for has been permanently removed and replaced by our curated catalogue.
+    </p>
+
+    <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+        <a href="/" class="primary-button">Browse the Directory</a>
+        <a href="/search/" class="primary-button" style="background: rgba(255,255,255,0.12);">Search Games</a>
+    </div>
+
+    <div class="glass-card p-6 text-left max-w-md mx-auto">
+        <h2 class="font-semibold mb-2">Looking for a specific game?</h2>
+        <p class="text-sm text-white/70">
+            Try our search, or browse by category. If a game you loved is missing, it may not yet be in the new
+            directory — <a href="/contact/" class="underline hover:text-white">suggest it</a> and we'll look into adding it
+            with proper attribution to its author.
+        </p>
+    </div>
+
+</div>
+{% endblock %}

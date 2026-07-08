@@ -1,26 +1,58 @@
 # Repository Guidelines
 
+## What this site is
+ArcadeBloom is an **outbound-link game directory** — we review browser games and link to each author's own site. We do not host third-party games. Every catalogue entry must have a verifiable source (author, play URL, licence). See `CONTEXT.md` and `docs/adr/` for the positioning decisions.
+
 ## Project Structure & Module Organization
-- Root pages (`index.html`, `all-games.html`, `game-detail.html`, etc.) power the catalog and marketing experience; update shared components in-place to keep styling coherent.
-- `games/` contains individual game builds. Many are single HTML exports; some (for example `games/keep-calm/`) ship their own Vite/Svelte project and `package.json`. Work in the subfolder that matches the game's `slug`.
-- Assets live under `pic/` (logos, hero art) and `test-results/` hosts archived Playwright reports; drop new media beside existing files to keep relative paths stable.
-- `games-data.js` is the authoritative catalogue. Append new entries, increment `id`, keep fields ordered as shown, and point `gameUrl` to either an external URL or an in-repo HTML path.
+- `src/` is the Eleventy source. `src/_data/` holds the catalogue (`games.js`, `tags.js`, `site.js`); `src/_includes/` holds Nunjucks layout fragments; `src/*.njk` are page templates.
+- `.eleventy.js` configures the build: Nunjucks templates, custom filters (`whereEq`, `sortByDateDesc`, `paragraphs`, `toJSON`, etc.), the `populatedTags` collection, and clean-URL output.
+- `dist/` is the build output (gitignored). Deploy this directory.
+- `scripts/` holds the data pipeline: `fetch-js13k.js` + `build-catalogue.js` (js13k import), `fetch-leereilly.js` + `merge-leereilly.js` (open-source browser games), `write-games-js.js` (regenerate `games.js`), and `validate-data.js` (schema checks).
+- `docs/adr/` records architectural decisions. `CONTEXT.md` is the domain glossary. Both are authoritative — read them before non-trivial changes.
+- Legacy files (`games/`, `index.html` at root, `game-detail.html`, `js/`, `games-data.js`, `all-games.html`, etc.) are **retired** and scheduled for deletion after the cutover. Do not edit them.
 
 ## Build, Test, and Development Commands
-- Static pages can be previewed from the repo root with `python -m http.server 4173` (or any local static server). Confirm navigation, search, and modal behaviour in Chromium-based and WebKit browsers.
-- Game subprojects expose their own npm scripts. Example: `cd games/keep-calm`, `npm install`, `npm run start` for hot reload, `npm run build` to generate the production bundle, and `npm run lint`/`npm run check` for quality gates.
+- `npm install` — install dependencies.
+- `npm run serve` — build CSS + Eleventy dev server with live reload.
+- `npm run build` — build CSS (`tailwindcss` compiles `src/styles/styles.css` → `dist/css/styles.css`), then Eleventy renders to `dist/`.
+- `npm run build:css` — compile Tailwind only (JIT scans `src/**/*.njk` per `tailwind.config.js`).
+- `npm run validate` — validate `games.js` against the schema (slug uniqueness, category/tags in controlled vocab, required fields, no legacy `plays`/`rating`/`gameUrl`). **Must pass before commit.**
+- `npm test` — rebuild + run Playwright smoke tests against `dist/` (served by `http-server`).
+
+CSS is **not** loaded from the Tailwind CDN — it is compiled at build time into `/css/styles.css` (16KB minified). Editing styles means changing `src/styles/styles.css` (Tailwind directives + custom design tokens) and rebuilding; do not re-introduce `<script src="cdn.tailwindcss.com">` (it causes FOUC and a production warning).
+
+Local preview without Eleventy: serve `dist/` after building — `npx http-server dist -p 4173`.
 
 ## Coding Style & Naming Conventions
-- Use four-space indentation in HTML/JS files and keep Tailwind utility classes grouped semantically (layout → color → effects) to mirror the existing pages.
-- Favour kebab-case for directories and file names, and ensure each `slug` in `games-data.js` matches both the directory under `games/` and the URL fragment.
-- Keep metadata concise: titles in Title Case, descriptions in sentence case, and tag arrays in alphabetical order when practical.
+- Four-space indentation in HTML/JS; Tailwind utility classes grouped semantically (layout → color → effects).
+- Kebab-case for slugs, file names, and tag references. A game's `slug` equals its URL fragment (`/game/<slug>/`).
+- Metadata: titles in Title Case, descriptions in sentence case, tags from the controlled vocabulary only (never free-text).
+
+## Catalogue Schema (authoritative — see `src/_data/games.js` header)
+```
+id, slug, name, category, tagline, about, howToPlay, keyFeatures[],
+screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, featured
+```
+**Removed vs legacy:** `plays`, `rating`, `image`, `gameUrl` (fabricated data / self-hosting fields — per ADR-0001, never re-introduce).
+
+## Adding Games
+1. Append to `src/_data/games.js` (or run the import scripts for bulk sources).
+2. Fill every schema field. `category` ∈ the 6 in `site.js`; `tags` ∈ the controlled vocab in `tags.js`; `sourceUrl` is always an outbound link.
+3. Run `npm run validate` — zero errors required.
+4. Run `npm run build` — the detail page, sitemap, and tag pages regenerate automatically.
+5. Thin-content guards: categories need ≥20 games to appear in the nav; tags need ≥8 games to generate a page.
 
 ## Testing Guidelines
-- Before committing, smoke-test new content locally, ensuring featured carousels, search, and detail pages load without console errors.
-- Framework-based games must pass `npm run build` plus any lint/check scripts they declare; include the resulting `dist` or `build` artefacts if the game relies on them being committed.
-- When running end-to-end sweeps, store the Playwright HTML report under `test-results/html-report/` with a date-stamped folder.
+- `npm run validate` + `npm test` must pass before commit. The smoke suite checks: no console errors, outbound CTAs carry `rel="noopener nofollow"`, content visible without JS, no legacy iframe/fake-data artifacts, and SEO essentials (canonical, JSON-LD, sitemap, noindex on `/search/`).
+- Store Playwright HTML reports under `test-results/html-report/` date-stamped when running full sweeps.
 
 ## Commit & Pull Request Guidelines
-- Follow the existing short, imperative commit style (`change docs`, `sitmap update`); keep subject lines under 50 characters and prefer English unless the change is language-specific.
-- Each pull request should summarise scope, list touched pages/games, link tracking issues, and attach before/after screenshots for UI changes.
-- Mention any catalogue updates (`games-data.js`) explicitly in the PR body so reviewers can validate the metadata and asset links.
+- Short imperative subject lines under 50 chars; prefer English unless the change is language-specific.
+- PR body must list touched pages/games and explicitly call out any `games-data.js`/`games.js` catalogue changes for metadata review.
+- For UI changes, attach before/after screenshots.
+
+## Deployment
+- Target: **Cloudflare Pages**, deploying `dist/` from the `main` branch.
+- Build command: `npm run build`. Output directory: `dist`.
+- `_redirects` (in `src/static/`, copied to `dist/`) handles legacy-URL retirement (410 Gone for removed content, 301 for moved static pages).
+- Clean URLs work by default: Cloudflare Pages resolves `/game/<slug>/` to `/game/<slug>/index.html`.

@@ -1,0 +1,47 @@
+---
+pagination:
+    data: site.categories
+    size: 1
+    alias: cat
+permalink: "/category/{{ cat.slug }}/"
+---
+
+{% extends 'base.njk' %}
+{% set cat_games = games | whereEq('category', cat.slug) | sortByScreenshotThenDate %}
+{% set is_thin = cat_games.length < site.minGamesPerCategory %}
+
+{% block title_tag %}<title>{{ cat.name }} Games — Browse {{ cat.name }} on ArcadeBloom</title>{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ cat.blurb }}">{% endblock %}
+
+{% block jsonld %}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CollectionPage","name":{{ (cat.name ~ " Games") | toJSON }},"description":{{ cat.blurb | toJSON }},"url":"{{ site.url }}/category/{{ cat.slug }}/"}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 py-8">
+    <nav class="text-sm text-white/60 mb-6">
+        <a href="/">Home</a> / <span class="text-white">{{ cat.name }}</span>
+    </nav>
+    <header class="mb-10">
+        <div class="flex items-center gap-3">
+            <h1 class="text-4xl font-extrabold">{{ cat.name }} Games</h1>
+            <span class="badge">{{ cat_games.length }}</span>
+        </div>
+        <p class="text-lg text-white/70 mt-4 max-w-3xl">{{ cat.intro }}</p>
+    </header>
+    {% if is_thin %}
+    <div class="panel-card p-6 mb-8"><p class="text-sm">{{ cat_games.length }}/{{ site.minGamesPerCategory }} seeded.</p></div>
+    {% endif %}
+    {% if cat_games.length %}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for game in cat_games %}
+        {% include 'game-card.njk' %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="panel-card p-12 text-center"><p>No games yet.</p></div>
+    {% endif %}
+</div>
+{% endblock %}

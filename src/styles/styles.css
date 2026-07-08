@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   Custom design tokens — dark gradient + glass surfaces (from the legacy design).
+   These cannot be expressed as Tailwind utilities, so they live here as plain CSS.
+   ============================================================================= */
+
+:root { color-scheme: dark; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at 15% 20%, rgba(131, 56, 236, 0.38), transparent 55%),
+        radial-gradient(circle at 85% 12%, rgba(37, 211, 255, 0.32), transparent 45%),
+        linear-gradient(135deg, #1a1040 0%, #29176f 35%, #0f5bf3 70%, #0bd3ff 100%);
+    background-attachment: fixed;
+    color: #f5f7ff;
+    min-height: 100vh;
+}
+a { color: inherit; }
+
+.nav-shell {
+    background: linear-gradient(90deg, rgba(17, 24, 39, 0.78), rgba(30, 64, 175, 0.38));
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+}
+.glass-card {
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 1.5rem;
+}
+.panel-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+}
+.hero-gradient {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(116, 30, 255, 0.94) 0%, rgba(0, 180, 255, 0.85) 100%);
+    box-shadow: 0 40px 80px rgba(6, 10, 33, 0.45);
+}
+.hero-gradient::before, .hero-gradient::after {
+    content: ""; position: absolute; width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+    opacity: 0.6; pointer-events: none;
+}
+.hero-gradient::before { top: -160px; left: -160px; }
+.hero-gradient::after {
+    bottom: -200px; right: -120px;
+    background: radial-gradient(circle, rgba(255, 77, 196, 0.32) 0%, rgba(255, 255, 255, 0) 70%);
+}
+.primary-button {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 600;
+    background: linear-gradient(135deg, #ff60d7, #6a5bff);
+    box-shadow: 0 10px 30px rgba(106, 91, 255, 0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.primary-button:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(106, 91, 255, 0.55); }
+.badge {
+    display: inline-flex; align-items: center; padding: 0.25rem 0.625rem;
+    border-radius: 9999px; font-size: 0.75rem; font-weight: 500;
+    background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.14);
+}

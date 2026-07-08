@@ -1,0 +1,749 @@
+[
+  {
+    "name": "3D Hartwing Chess Set",
+    "repo": "https://github.com/juliangarnier/3D-Hartwig-chess-set",
+    "desc": "3D chess game done in HTML/CSS/JS",
+    "play": "http://codepen.io/juliangarnier/full/BsIih",
+    "sub": "Boardgame",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "c4",
+    "repo": "https://github.com/kenrick95/c4",
+    "desc": "Connect Four game, with AI, in HTML/CSS/JS",
+    "play": "https://kenrick95.github.io/c4/demo/",
+    "sub": "Boardgame",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "Desperate Gods",
+    "repo": "https://github.com/David20321/FTJ",
+    "desc": "Free online board game that was designed to be played just like a board game in real-life: no rules are enforced by the computer",
+    "play": "http://www.wolfire.com/desperate-gods",
+    "sub": "Boardgame",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "Lichess",
+    "repo": "https://github.com/ornicar/lila",
+    "desc": "Free chess game using HTML5 & websockets, built with Scala, Play 2.1, MongoDB and Elasticsearch",
+    "play": "http://lichess.org/",
+    "sub": "Boardgame",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "Alge's Escapade",
+    "repo": "https://github.com/Dave-and-Mike/game-off-2012",
+    "desc": "HTML5, JavaScript, GameJs arcade game where you control an Algae",
+    "play": "http://dave-and-mike.github.io/game-off-2012/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Alien Invasion",
+    "repo": "https://github.com/cykod/AlienInvasion",
+    "desc": "Demo Game for Mobile HTML5 Game Development",
+    "play": "http://cykod.github.io/AlienInvasion/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Arashi",
+    "repo": "https://github.com/stephank/arashi-js",
+    "desc": "Arashi is a clone of the Arcade game Tempest",
+    "play": "http://stephank.github.io/arashi-js/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Asteroids",
+    "repo": "http://github.com/dmcinnes/HTML5-Asteroids",
+    "desc": "Pure JavaScript asteroids",
+    "play": "http://dougmcinnes.com/html-5-asteroids/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Avabranch",
+    "repo": "https://github.com/Zolmeister/avabranch",
+    "desc": "GitHub Game Off 2012 entry",
+    "play": "http://avabranch.zolmeister.com/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Ball And Wall",
+    "repo": "https://github.com/budnix/ball-and-wall",
+    "desc": "Pure JavaScript arkanoid style game",
+    "play": "http://ballandwall.com/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Captain Rogers",
+    "repo": "https://github.com/EnclaveGames/Captain-Rogers",
+    "desc": "Captain Rogers: Asteroid Belt of Sirius - HTML5 mobile game created using ImpactJS",
+    "play": "http://enclavegames.com/games/captain-rogers/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Coil",
+    "repo": "https://github.com/leereilly/Coil",
+    "desc": "HTML5 canvas game where you defeat enemies by wrapping enemies in your trail",
+    "play": "http://hakim.se/experiments/html5/coil/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Color Quest",
+    "repo": "https://github.com/redbluegames/game-off-2013",
+    "desc": "Infinite runner following a black and white pixel's quest to change into a color pixel",
+    "play": "http://redbluegames.com/game-off-2013/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Custom Tetris",
+    "repo": "https://github.com/ondras/custom-tetris",
+    "desc": "Play the classic Tetris game the way you like it",
+    "play": "http://ondras.github.io/custom-tetris/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Drill Bunny",
+    "repo": "https://github.com/DreamShowAdventures/LudumDare29",
+    "desc": "Written in JavaScript and using the great Phaser library",
+    "play": "http://dreamshowadventures.github.io/LudumDare29/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "DuckHunt JS",
+    "repo": "https://github.com/MattSurabian/DuckHunt-JS",
+    "desc": "DuckHunt ported to JS and HTML5 with a level creator",
+    "play": "http://mattsurabian.com/duckhunt/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "FlxInvaders",
+    "repo": "https://github.com/AdamAtomic/Flx-Invaders",
+    "desc": "Very simple Flixel game inspired by the Taito classic",
+    "play": "http://flixel.org/flxinvaders/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "FlxTeroids",
+    "repo": "https://github.com/AdamAtomic/FlxTeroids",
+    "desc": "Very simple Flixel game inspired by the classic arcade shooter",
+    "play": "http://www.flixel.org/flxteroids/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Grave Robbers",
+    "repo": "https://github.com/AdamAtomic/GraveRobbers",
+    "desc": "Sort of GIRP-inspired tower defense",
+    "play": "http://adamatomic.com/graverobbers",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "hurry!",
+    "repo": "https://github.com/hughsk/ludum-dare-27",
+    "desc": "Small but speedy arcade shooter",
+    "play": "http://hughsk.io/ludum-dare-27/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Hyperspace Garbage Collector",
+    "repo": "https://github.com/razh/game-off-2013",
+    "desc": "General Hyperspace Waste Management Solutions",
+    "play": "http://razh.github.io/game-off-2013/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "I Spy A Ghost",
+    "repo": "https://github.com/OmarShehata/I-Spy-A-Ghost",
+    "desc": "an experimental p2p multiplayer game made in HTML5/Phaser using WebRTC",
+    "play": "http://omarshehata.me/html/ludum/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Jekyll & Hyde Collide",
+    "repo": "https://github.com/awesome-interactive/game-off-2013",
+    "desc": "Multi-layered infinite side-scroller",
+    "play": "http://awesome-interactive.github.io/game-off-2013/ExportedGame.html",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Mega Girl",
+    "repo": "https://github.com/ddionisio/game-off-2013",
+    "desc": "Megaman inspired game",
+    "play": "http://www.renegadeware.com/web_games/megagirl/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Mode",
+    "repo": "https://github.com/AdamAtomic/Mode",
+    "desc": "Small(but sadly not that simple) demo game built on the Flixel framework",
+    "play": "http://www.adamatomic.com/mode/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Monster Wants Candy",
+    "repo": "https://github.com/EnclaveGames/Monster-Wants-Candy-demo",
+    "desc": "Simple HTML5 game created with Phaser 2.0.7",
+    "play": "http://candy-demo.enclavegames.com/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Octocat Jump",
+    "repo": "https://github.com/ogoshen/game-off-2012",
+    "desc": "GitHub Game Off 2012 Entry",
+    "play": "http://ogoshen.github.io/game-off-2012/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Onslaught Arena",
+    "repo": "https://github.com/lostdecade/onslaught_arena",
+    "desc": "Fight off hordes of classic medieval monsters in this fast paced arcade shooter!",
+    "play": "http://arcade.lostdecadegames.com/onslaught_arena/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "PolyBranch",
+    "repo": "https://github.com/gbatha/PolyBranch",
+    "desc": "Minimalist 3D game. Dodging branches may seem easy at first, but how long can you hold up as you approach terminal velocity?",
+    "play": "http://gregbatha.com/branches/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Save The Forest",
+    "repo": "https://github.com/softvar/save-the-forest",
+    "desc": "Save the burning forest!",
+    "play": "http://js13kgames.com/games/save-the-forest/index.html",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Snake",
+    "repo": "https://github.com/jrgdiz/snake",
+    "desc": "Clone of the classic Snake game",
+    "play": "http://diz.es/snake/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Snake_new",
+    "repo": "https://github.com/RabiRoshan/snake_game",
+    "desc": "Classic nokia snake game using web",
+    "play": "https://rabiroshan.github.io/snake_game/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Space-Shooter",
+    "repo": "https://github.com/Couchfriends/Space-Shooter",
+    "desc": "A classic shoot'em up space shooter build in HTML5 with multiplayer",
+    "play": "http://couchfriends.com/games/5",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Spashal",
+    "repo": "https://github.com/MrRar/spashal",
+    "desc": "Danger lurks around every corner in space",
+    "play": "http://mrrar.github.io/spashal/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Square Off!",
+    "repo": "https://github.com/ScriptaGames/SquareOff/",
+    "desc": "multiplayer 1v1 air-hockey style game, place squares to deflect the ball",
+    "play": "http://sqoff.com/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "SORADES 13K",
+    "repo": "https://github.com/maettig/starship-sorades-13k",
+    "desc": "Scrolling shooter in the vein of \"Raptor: Call of the Shadows\" and \"Warning Forever\"",
+    "play": "http://maettig.com/code/canvas/starship-sorades-13k/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Space Invaders",
+    "repo": "https://github.com/StrykerKKD/SpaceInvaders",
+    "desc": "Remake of Space Invaders in require.js",
+    "play": "http://strykerkkd.github.io/SpaceInvaders/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Super Mario Bros",
+    "repo": "https://github.com/martindrapeau/backbone-game-engine",
+    "desc": "Super Mario Bros level one written with Backbone Game Engine",
+    "play": "http://martindrapeau.github.io/backbone-game-engine/super-mario-bros/index.html",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Survivor",
+    "repo": "https://github.com/scottschiller/SURVIVOR",
+    "desc": "Playable HTML + CSS + JavaScript remake of a space-based \"shoot-'em-up\" arcade game for Atari / Commodore 64 from 1982, including a level editor and design tool",
+    "play": "http://www.schillmania.com/survivor/",
+    "sub": "Arcade",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "BananaBread",
+    "repo": "https://github.com/kripken/BananaBread",
+    "desc": "Port of the Cube 2/Sauerbraten 3D game engine/first person shooter to the web, compiling C++ and OpenGL to JavaScript and WebGL using Emscripten",
+    "play": "https://kripken.github.io/BananaBread/cube2/bb.html",
+    "sub": "FPS",
+    "category": "action",
+    "alive": true
+  },
+  {
+    "name": "Diablo JS",
+    "repo": "https://github.com/mitallast/diablo-js",
+    "desc": "Isometric minimal-code style game at html5 canvas and javascript",
+    "play": "http://mitallast.github.io/diablo-js/",
+    "sub": "RPG",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "Tap Tap Adventure",
+    "repo": "https://github.com/Tach-Yon/Tap-Tap-Adventure",
+    "desc": "Expansion of BrowserQuest",
+    "play": "http://taptapadventure.com/play",
+    "sub": "MMORPG",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "Ancient Beast",
+    "repo": "https://github.com/FreezingMoon/AncientBeast",
+    "desc": "Materialize and control beasts in order to defeat your opponents!",
+    "play": "http://ancientbeast.com/play",
+    "sub": "Strategy",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "Command & Conquer",
+    "repo": "https://github.com/adityaravishankar/command-and-conquer",
+    "desc": "Clone of the popular RTS",
+    "play": "http://www.adityaravishankar.com/projects/games/command-and-conquer/",
+    "sub": "Strategy",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "Hexa Battle",
+    "repo": "https://github.com/itajaja/hb",
+    "desc": "A turn based dungeon crawler written with Typescript, using React and SVG",
+    "play": "http://giacomotag.io/hb/",
+    "sub": "Strategy",
+    "category": "strategy",
+    "alive": true
+  },
+  {
+    "name": "HexGL",
+    "repo": "https://github.com/BKcore/HexGL",
+    "desc": "Futuristic HTML5 racing game by Thibaut Despoulain using HTML5, Javascript and WebGL",
+    "play": "http://hexgl.bkcore.com/",
+    "sub": "Racing",
+    "category": "racing-sports",
+    "alive": true
+  },
+  {
+    "name": "3d.city",
+    "repo": "https://github.com/lo-th/3d.city",
+    "desc": "3d city builder game",
+    "play": "http://lo-th.github.io/3d.city/index.html",
+    "sub": "Sandbox",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "Blk Game",
+    "repo": "https://github.com/morozd/blk-game",
+    "desc": "Multiplayer Javascript/WebGL voxel world game demo",
+    "play": "http://benvanik.github.io/blk-game/",
+    "sub": "Sandbox",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "Cube Engine",
+    "repo": "https://github.com/Nurgak/Cube-engine",
+    "desc": "3D engine completely written in HTML5 without OpenGL",
+    "play": "http://nurgak.github.io/Cube-engine/",
+    "sub": "Sandbox",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "0hh0",
+    "repo": "https://github.com/Q42/0hn0",
+    "desc": "Companion game to 0hh1 by Q42",
+    "play": "http://0hh0.com",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "0hh1",
+    "repo": "https://github.com/Q42/0hh1",
+    "desc": "Lovely little logic game by Q42",
+    "play": "http://0hh1.com",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "2048",
+    "repo": "https://github.com/gabrielecirulli/2048",
+    "desc": "Sliding addition game",
+    "play": "http://gabrielecirulli.github.io/2048/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "A Dark Room",
+    "repo": "https://github.com/doublespeakgames/adarkroom",
+    "desc": "Minimalist Text Adventure game written in JavaScript",
+    "play": "http://adarkroom.doublespeakgames.com/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Anagramica",
+    "repo": "https://github.com/binarymax/anagramica",
+    "desc": "A word game and API for anagrams",
+    "play": "http://www.anagramica.com/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Astry",
+    "repo": "https://github.com/wwwtyro/Astray",
+    "desc": "WebGL maze game built with Three.js and Box2dWeb",
+    "play": "http://wwwtyro.github.io/Astray/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Beatrix",
+    "repo": "https://github.com/cxong/Beatrix",
+    "desc": "Music game where you arrange the drums to catch the beats and play the right rhythm",
+    "play": "http://gamejolt.com/games/puzzle/beatrix/27454/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Blockrain.js",
+    "repo": "https://github.com/Aerolab/blockrain.js",
+    "desc": "Embed & play the classic game on your site. Simple as that",
+    "play": "http://aerolab.github.io/blockrain.js/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Clone Man",
+    "repo": "https://github.com/adhicl/game-off-2012",
+    "desc": "Puzzle, memory, retro game with simple graphics",
+    "play": "http://www.kongregate.com/games/Sorobaid/clone-man",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Couch 2048",
+    "repo": "https://github.com/mvasilkov/glitch2016",
+    "desc": "A physics-based puzzle, loosely related to the original 2048 game",
+    "play": "http://js13kgames.com/games/couch-2048/index.html",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "cube-composer",
+    "repo": "https://github.com/sharkdp/cube-composer",
+    "desc": "A puzzle game inspired by functional programming",
+    "play": "http://david-peter.de/cube-composer",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Drunken Viking",
+    "repo": "https://github.com/cxong/DrunkenViking",
+    "desc": "Retrace your drunken rampage in reverse time",
+    "play": "http://congusbongus.itch.io/drunken-viking",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Ending",
+    "repo": "http://robotacid.com/flash/ending",
+    "desc": "Roguelike puzzle game",
+    "play": "http://robotacid.com/flash/ending/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "For King",
+    "repo": "https://github.com/AD1337/ForKingGame",
+    "desc": "Puzzle platformer game about a king in search for his lost crown",
+    "play": "http://www.newgrounds.com/dump/item/1cc54f046fa51768d8169e65121b0af0",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Hex 2048",
+    "repo": "https://github.com/jeffhou/hex-2048",
+    "desc": "Hexgrid-based clone of 2048",
+    "play": "https://jeffhou.github.io/hex-2048/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Hexahedral",
+    "repo": "https://github.com/mminer/hexahedral",
+    "desc": "Push down all the blocks in the minimum number of moves",
+    "play": "http://matthewminer.com/hexahedral",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Hextris",
+    "repo": "https://github.com/Hextris/hextris",
+    "desc": "Addictive puzzle game inspired by Tetris",
+    "play": "http://hextris.io/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Infectors",
+    "repo": "https://github.com/satanas/infectors",
+    "desc": "Sokoban-like puzzle game developed with Phaser",
+    "play": "http://satanas.github.io/infectors/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Monkey Rally",
+    "repo": "https://github.com/antila/ludum-dare-28",
+    "desc": "JavaScript game created for the Ludum Dare #28 jam",
+    "play": "http://antila.github.io/ludum-dare-28/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Orbium",
+    "repo": "https://github.com/bni/orbium",
+    "desc": "Modern version of the 90's game Log!cal",
+    "play": "http://bni.github.io/orbium/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Parity",
+    "repo": "https://github.com/abejfehr/parity",
+    "desc": "A numbers puzzle game",
+    "play": "http://abefehr.com/parity/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Pond",
+    "repo": "https://github.com/Zolmeister/pond",
+    "desc": "A narrow fellow in the Pond",
+    "play": "http://thepond.zolmeister.com/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Pop Pop Win",
+    "repo": "https://github.com/dart-lang/pop-pop-win",
+    "desc": "Implementation of Minesweeper in Dart",
+    "play": "http://dart-lang.github.io/sample-pop_pop_win/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Push and Fork",
+    "repo": "https://github.com/Octocarina/game-off-2012",
+    "desc": "Puzzle game in which you carry a fork, push blocks, and go back in time.",
+    "play": "http://gelisam.com/octocarina/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Shape Experiment",
+    "repo": "https://github.com/binarymax/shape",
+    "desc": "The shape recognition reflex game",
+    "play": "http://shapex.org/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Swap",
+    "repo": "https://github.com/nmoroze/swap",
+    "desc": "New(award winning) take on the classic tile-based puzzle game, where you change which character you're controlling to reach your goal",
+    "play": "http://nmoroze.github.io/swap/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "TransCube",
+    "repo": "https://github.com/jeroenverfallie/ggo13-transcube",
+    "desc": "2d puzzle platformer based on the concept of transforming into different \"blocks\", with their unique properties, and making you way to the end of the level with the provided transformations",
+    "play": "http://code.jerev.be/ggo13-transcube/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Zoko",
+    "repo": "https://github.com/lulea/game-off-2012",
+    "desc": "3D version of Sokoban",
+    "play": "http://lulea.github.io/game-off-2012/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Zop",
+    "repo": "https://github.com/Zolmeister/zop",
+    "desc": "Connect like colors",
+    "play": "https://zop.zolmeister.com/",
+    "sub": "Puzzle",
+    "category": "puzzle",
+    "alive": true
+  },
+  {
+    "name": "Particle Clicker",
+    "repo": "https://github.com/particle-clicker/particle-clicker",
+    "desc": "Addictive incremental game that teaches players the history of high energy particle physics",
+    "play": "http://cern.ch/particle-clicker",
+    "sub": "Clicker",
+    "category": "simulation",
+    "alive": true
+  },
+  {
+    "name": "binb",
+    "repo": "https://github.com/lpinca/binb",
+    "desc": "Competitive, multiplayer, realtime, guess the song game",
+    "play": "https://binb.co",
+    "sub": "Others",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Dental Defender: Saga of the Candy Horde",
+    "repo": "https://github.com/cshepp/candyjam/",
+    "desc": "HTML5 shooter/tower defense game for the #CandyJam",
+    "play": "http://cas002.itch.io/dental-defenders-saga-of-the-candy-horde",
+    "sub": "Others",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "The Killer",
+    "repo": "https://github.com/JordanMagnuson/The-Killer",
+    "desc": "Flash/ActionScript3-based \"nongame\"",
+    "play": "http://www.gametrekking.com/the-games/cambodia/the-killer/play-now",
+    "sub": "Others",
+    "category": "arcade",
+    "alive": true
+  },
+  {
+    "name": "Turkey Cooking Simulator",
+    "repo": "https://github.com/fernjager/game-off-2013",
+    "desc": "You have been invited to craft the centerpiece of the American thanksgiving dinner, the turkey. Woo your girlfriend / boyfriend and be judged by your future in-laws! Apply your culinary expertise to impress your family",
+    "play": "http://fernjager.github.io/game-off-2013/index.html",
+    "sub": "Others",
+    "category": "arcade",
+    "alive": true
+  }
+]

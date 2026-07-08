@@ -1,0 +1,47 @@
+{# Featured aggregation page — editor picks. Transparent: human-curated, not algorithmic. #}
+---
+permalink: /featured/
+title: Featured Games — Editor Picks
+description: A hand-picked selection of the browser games we think are worth your time first. Curated by the ArcadeBloom editors.
+---
+
+{% extends 'base.njk' %}
+
+{% set featured_games = games | featuredOnly | sortByDateDesc %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <nav class="text-sm text-white/60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">Featured</span>
+    </nav>
+
+    <header class="mb-10">
+        <div class="flex items-center gap-3">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">Featured Games</h1>
+            <span class="badge">{{ featured_games.length }}</span>
+        </div>
+        <p class="text-lg text-white/70 mt-4 max-w-3xl">
+            A hand-picked selection of the browser games we think are worth your time first.
+        </p>
+        <p class="text-xs text-white/40 mt-2">
+            Curated by editors — not ranked by play count or any algorithm. Updated as we add standouts.
+        </p>
+    </header>
+
+    {% if featured_games.length %}
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        {% for game in featured_games %}
+        {% include 'game-card.njk' %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="panel-card p-12 text-center">
+        <p class="text-white/60">No featured games yet.</p>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

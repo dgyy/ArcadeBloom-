@@ -1,0 +1,59 @@
+---
+permalink: /about/
+title: About ArcadeBloom
+description: ArcadeBloom is a curated directory of browser games. We review and guide; you play at the source.
+---
+{% extends 'base.njk' %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+    <nav class="text-sm text-white/60 mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-white">Home</a>
+        <span class="mx-2">/</span>
+        <span class="text-white">About</span>
+    </nav>
+
+    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">About ArcadeBloom</h1>
+
+    <div class="text-white/80 leading-relaxed space-y-5 text-lg">
+        <p>
+            ArcadeBloom is a <strong>directory</strong>, not a portal. We find browser games across the web,
+            write independent reviews and how-to-play guides for each one, and then send you to the
+            original author's site to actually play. We do not host third-party games, wrap them in iframes,
+            or pretend they are ours.
+        </p>
+        <p>
+            The web has an extraordinary depth of free, open-source and independently-published games —
+            from 13-kilobyte jam entries to full multiplayer RPGs. But discovery is broken: the good ones
+            are scattered across GitHub, itch.io, personal blogs and jam archives, with no consistent way
+            to find, evaluate, or learn how to play them. ArcadeBloom exists to fix that.
+        </p>
+        <p>
+            Every entry in our catalogue has a verifiable source: an author name, a canonical play URL, and
+            a licence. We link out with <code>rel="nofollow"</code> and transparent attribution. If we cannot
+            verify where a game came from, we do not list it.
+        </p>
+    </div>
+
+    <div class="glass-card p-6 mt-10">
+        <h2 class="text-xl font-bold mb-3">What you will find here</h2>
+        <ul class="space-y-2 text-white/80">
+            <li class="flex gap-2"><span class="text-fuchsia-400">▸</span> Independent reviews of browser games, written by humans</li>
+            <li class="flex gap-2"><span class="text-fuchsia-400">▸</span> How-to-play guides covering controls and strategy</li>
+            <li class="flex gap-2"><span class="text-fuchsia-400">▸</span> Transparent source attribution and licensing for every entry</li>
+            <li class="flex gap-2"><span class="text-fuchsia-400">▸</span> Direct links to the original author's site — never a re-hosted copy</li>
+        </ul>
+    </div>
+
+    <div class="glass-card p-6 mt-6">
+        <h2 class="text-xl font-bold mb-3">What you will not find</h2>
+        <ul class="space-y-2 text-white/80">
+            <li class="flex gap-2"><span class="text-white/40">✕</span> Re-hosted or iframe-embedded copies of other people's games</li>
+            <li class="flex gap-2"><span class="text-white/40">✕</span> Fabricated play counts or ratings</li>
+            <li class="flex gap-2"><span class="text-white/40">✕</span> Entries without a verifiable author or source</li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
