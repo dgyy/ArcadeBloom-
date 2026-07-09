@@ -91,6 +91,9 @@ module.exports = function (eleventyConfig) {
     // First character of a string (for placeholder initials on game cards)
     eleventyConfig.addFilter('first', (str) => String(str || '').charAt(0));
 
+    // Lowercase (for inline text in templates)
+    eleventyConfig.addFilter('lower', (str) => String(str || '').toLowerCase());
+
     // Sort: games WITH screenshots first, then by date desc.
     // Keeps the top of every list visually populated even when many
     // catalogue entries have no screenshot yet.

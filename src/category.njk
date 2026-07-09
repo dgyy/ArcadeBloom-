@@ -15,7 +15,7 @@ permalink: "/category/{{ cat.slug }}/"
 
 {% block jsonld %}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"CollectionPage","name":{{ (cat.name ~ " Games") | toJSON }},"description":{{ cat.blurb | toJSON }},"url":"{{ site.url }}/category/{{ cat.slug }}/"}
+{"@context":"https://schema.org","@type":"CollectionPage","name":{{ (cat.name ~ " Games") | toJSON | safe }},"description":{{ cat.blurb | toJSON | safe }},"url":"{{ site.url }}/category/{{ cat.slug }}/"}
 </script>
 {% endblock %}
 

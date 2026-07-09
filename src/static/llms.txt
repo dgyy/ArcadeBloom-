@@ -1,0 +1,40 @@
+# ArcadeBloom
+
+> A curated directory of free browser games. We review web games and link to each author's own site — we do not host third-party games. Every entry has a verifiable source (author, play URL, licence).
+
+ArcadeBloom catalogues 389+ browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
+
+## What this site is
+
+- A **game directory** (not a portal): we discover, review, and link out. We never host or iframe third-party games.
+- Each game page has: an honest review (About), a how-to-play guide (controls + strategy), key features, source attribution (author, URL, licence), and an outbound "Play on [source]" link.
+- We do not fabricate play counts or ratings — removed per our design principles.
+
+## Key pages
+
+- [Home](/): category portal with editor's picks, browse-by-category, and latest additions
+- [Featured games](/featured/): hand-picked standout titles
+- [New games](/new/): most recent additions, ordered by date
+- [Browse by category](/category/arcade/): Puzzle, Action, Arcade, Strategy, Racing & Sports, Simulation
+- [Search](/search/): full-text search across the catalogue
+- [About](/about/): what ArcadeBloom is (and is not)
+- [Sitemap](/sitemap.xml): all indexable URLs
+
+## Categories
+
+- [Puzzle](/category/puzzle/): logic, numbers, patterns, spatial reasoning
+- [Action](/category/action/): shooters, fighters, reflex-driven combat
+- [Arcade](/category/arcade/): classic, retro, score-attack, js13k jam entries
+- [Strategy](/category/strategy/): tower defense, tactics, resource management
+- [Racing & Sports](/category/racing-sports/): speed and athletic competition
+- [Simulation](/category/simulation/): idle, management, sandbox, life-sim
+
+## How we curate
+
+Every entry must have a recorded, verifiable source. We link out with `rel="noopener nofollow"` and transparent attribution. If we cannot verify where a game came from, we do not list it. See our [architectural decisions](https://github.com/dgyy/ArcadeBloom-/tree/main/docs/adr) for the positioning and taxonomy decisions.
+
+## Seed sources
+
+1. Open-source GitHub game collections (MIT/GPL/etc.)
+2. Independent author sites (hextris.io, proxx.app, etc.)
+3. js13kGames competition entries (2012–2025, 2483 entries total)

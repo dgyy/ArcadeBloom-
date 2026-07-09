@@ -19,17 +19,17 @@ eleventyComputed:
 {
   "@context": "https://schema.org",
   "@type": "VideoGame",
-  "name": {{ game.name | toJSON }},
-  "description": {{ game.tagline | toJSON }},
-  "genre": {{ cat.name | toJSON }},
+  "name": {{ game.name | toJSON | safe }},
+  "description": {{ game.tagline | toJSON | safe }},
+  "genre": {{ cat.name | toJSON | safe }},
   "url": "{{ site.url }}/game/{{ game.slug }}/",
   "datePublished": "{{ game.releaseDate }}",
   "applicationCategory": "Game",
   "operatingSystem": "Web Browser",
   "author": {
     "@type": "Organization",
-    "name": {{ game.sourceName | toJSON }},
-    "url": {{ game.sourceUrl | toJSON }}
+    "name": {{ game.sourceName | toJSON | safe }},
+    "url": {{ game.sourceUrl | toJSON | safe }}
   }
 }
 </script>
@@ -39,8 +39,46 @@ eleventyComputed:
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}/" },
-    { "@type": "ListItem", "position": 2, "name": {{ cat.name | toJSON }}, "item": "{{ site.url }}/category/{{ game.category }}/" },
-    { "@type": "ListItem", "position": 3, "name": {{ game.name | toJSON }}, "item": "{{ site.url }}/game/{{ game.slug }}/" }
+    { "@type": "ListItem", "position": 2, "name": {{ cat.name | toJSON | safe }}, "item": "{{ site.url }}/category/{{ game.category }}/" },
+    { "@type": "ListItem", "position": 3, "name": {{ game.name | toJSON | safe }}, "item": "{{ site.url }}/game/{{ game.slug }}/" }
+  ]
+}
+</script>
+{% set steps = game.howToPlay | paragraphs %}
+{% if steps.length %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": {{ ("How to play " ~ game.name) | toJSON | safe }},
+  "step": [
+    {% for step in steps %}
+    { "@type": "HowToStep", "text": {{ step | toJSON | safe }}}{% if not loop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": {{ ("Is " ~ game.name ~ " free to play?") | toJSON | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ ("Yes. " ~ game.name ~ " is a free browser game — no download or installation required. Click the play link to open it at the source site.") | toJSON | safe }} }
+    },
+    {
+      "@type": "Question",
+      "name": {{ ("Where can I play " ~ game.name ~ "?") | toJSON | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ ("You can play " ~ game.name ~ " on " ~ game.sourceName ~ " at " ~ game.sourceUrl ~ ". ArcadeBloom links out to the original source — we review the game but do not host it.") | toJSON | safe }} }
+    },
+    {
+      "@type": "Question",
+      "name": {{ ("What is " ~ game.name ~ "?") | toJSON | safe }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ (game.name ~ " is a " ~ (cat.name | lower) ~ " game. " ~ game.tagline) | toJSON | safe }} }
+    }
   ]
 }
 </script>
@@ -128,6 +166,26 @@ eleventyComputed:
         </ul>
     </section>
     {% endif %}
+
+    {# Visible FAQ — matches the FAQPage schema above. AI engines extract both
+       the structured data AND visible Q&A blocks. #}
+    <section class="mb-8">
+        <h2 class="text-2xl font-bold mb-4">{{ game.name }} — Frequently Asked Questions</h2>
+        <div class="space-y-4">
+            <div>
+                <h3 class="font-semibold text-white/90">Is {{ game.name }} free to play?</h3>
+                <p class="text-white/70 mt-1">Yes. {{ game.name }} is a free browser game — no download or installation required. Click the play link to open it at the source site.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-white/90">Where can I play {{ game.name }}?</h3>
+                <p class="text-white/70 mt-1">You can play {{ game.name }} on {{ game.sourceName }}. ArcadeBloom links out to the original source — we review the game but do not host it.</p>
+            </div>
+            <div>
+                <h3 class="font-semibold text-white/90">What kind of game is {{ game.name }}?</h3>
+                <p class="text-white/70 mt-1">{{ game.name }} is a {{ cat.name | lower }} game. {{ game.tagline }}</p>
+            </div>
+        </div>
+    </section>
 
     <section class="panel-card p-6 mb-8">
         <h2 class="text-lg font-bold mb-4">Source &amp; Licence</h2>
