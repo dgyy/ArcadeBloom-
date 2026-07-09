@@ -31,6 +31,8 @@ description: The newest free browser games added to the ArcadeBloom directory. F
         </p>
     </header>
 
+    {% include 'ad-banner.njk' %}
+
     {% if new_games.length %}
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
         {% for game in new_games %}

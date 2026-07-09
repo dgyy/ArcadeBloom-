@@ -23,6 +23,7 @@
     {% endblock %}
     <meta name="author" content="ArcadeBloom">
     <meta name="robots" content="{{ robots or 'index, follow' }}">
+    <meta name="google-adsense-account" content="ca-pub-1115845392526625">
 
     <link rel="canonical" href="{{ canonical or (page.url | absoluteUrl) }}">
 
@@ -53,6 +54,9 @@
     {# ---- Compiled CSS (Tailwind utilities + custom design tokens).
           Built by `npm run build:css` into /css/styles.css — no CDN, no FOUC. ---- #}
     <link rel="stylesheet" href="/css/styles.css">
+
+    {# ---- Google AdSense ---- #}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
 
     {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
     {% block jsonld %}{% endblock %}

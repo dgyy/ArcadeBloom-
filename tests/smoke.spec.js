@@ -15,16 +15,17 @@ const GAME_SLUGS = ['hextris', 'proxx', '2048'];
 const CATEGORY_SLUGS = ['puzzle', 'racing-sports', 'simulation'];
 
 // ---- Helper: collect console errors on a page --------------------------------
-// Note: 404 "Failed to load resource" messages are filtered out because the
-// catalogue's screenshots and the og-image are populated during the content
-// phase, not at build time. A missing image is a content gap, not a code bug.
+// Note: resource-load failures (404/403) are filtered out because:
+//   - 404s: catalogue screenshots / og-image are populated during content phase
+//   - 403s: Google AdSense returns 403 in test/local environments with no real
+//     ad inventory — this is the ad network's normal behaviour, not a code bug.
 // Real JavaScript errors (pageerror) are never filtered.
 function expectNoConsoleErrors(page) {
     const errors = [];
     page.on('console', (msg) => {
         if (msg.type() !== 'error') return;
         const text = msg.text();
-        if (/Failed to load resource.*404/i.test(text)) return; // image asset gaps
+        if (/Failed to load resource.*(404|403)/i.test(text)) return;
         errors.push(text);
     });
     page.on('pageerror', (err) => errors.push(`pageerror: ${err.message}`));
@@ -162,12 +163,13 @@ test.describe('No legacy artifacts', () => {
     ];
 
     for (const path of PAGES_TO_CHECK) {
-        test(`${path} has no iframe player`, async ({ page }) => {
+        test(`${path} has no game-player iframe`, async ({ page }) => {
             await page.goto(path);
-            // "iframe" as a word appears in about page copy, but an actual
-            // <iframe> element must never exist.
-            const iframes = page.locator('iframe');
-            await expect(iframes).toHaveCount(0);
+            // The legacy site embedded games in <iframe id="game-iframe">.
+            // That must never return. Note: Google AdSense legitimately injects
+            // ad iframes — those are expected and excluded from this check.
+            const playerIframes = page.locator('iframe#game-iframe, iframe[title*="game" i], iframe[src*="/games/"]');
+            await expect(playerIframes).toHaveCount(0);
         });
 
         test(`${path} has no fabricated play-count text`, async ({ page }) => {
