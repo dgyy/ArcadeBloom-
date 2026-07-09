@@ -1,6 +1,0 @@
-//////////////////////
-// Start scene 
-//////////////////////
-game.scenes.main.start = function() {
-    
-}

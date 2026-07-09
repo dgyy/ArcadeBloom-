@@ -1,9 +1,0 @@
-node_modules
-package-lock.json
-true
-index.zip
-dist
-build
-.tscache
-closure.txt
-.grunt
