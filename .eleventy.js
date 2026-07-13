@@ -83,6 +83,20 @@ module.exports = function (eleventyConfig) {
     // JSON-stringify a value for safe embedding in JSON-LD (replaces | dump | safe)
     eleventyConfig.addFilter('toJSON', (value) => JSON.stringify(value));
 
+    // Project the games list down to the search index — only the fields the
+    // client-side filter matches against (slug/name/tagline/category/tags).
+    // Keeps /search/ small and keeps about/howToPlay/licence/sourceUrl out of
+    // the inline HTML (extend.md §5.4.2).
+    eleventyConfig.addFilter('toSearchIndex', (games) =>
+        JSON.stringify((games || []).map((g) => ({
+            slug: g.slug,
+            name: g.name,
+            tagline: g.tagline,
+            category: g.category,
+            tags: g.tags,
+        })))
+    );
+
     // String helpers for sitemap/template logic
     eleventyConfig.addFilter('startsWith', (str, prefix) => String(str || '').startsWith(prefix));
     eleventyConfig.addFilter('endsWith', (str, suffix) => String(str || '').endsWith(suffix));

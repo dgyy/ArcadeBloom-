@@ -1,16 +1,18 @@
 ---
 pagination:
-    data: site.categories
+    data: paginatedLists.categoryPages
     size: 1
-    alias: cat
-permalink: "/category/{{ cat.slug }}/"
+    alias: p
+permalink: "{{ p.href }}"
+eleventyComputed:
+    robots: "{% if p.isFirst %}index, follow{% else %}noindex, follow{% endif %}"
 ---
 
 {% extends 'base.njk' %}
-{% set cat_games = games | whereEq('category', cat.slug) | sortByScreenshotThenDate %}
-{% set is_thin = cat_games.length < site.minGamesPerCategory %}
+{% set cat = site.categories | findCat(p.category) %}
+{% set is_thin = p.totalGames < site.minGamesPerCategory %}
 
-{% block title_tag %}<title>{{ cat.name }} Games — Browse {{ cat.name }} on ArcadeBloom</title>{% endblock %}
+{% block title_tag %}<title>{{ cat.name }} Games — Browse {{ cat.name }} on ArcadeBloom{% if p.totalPages > 1 %} — Page {{ p.page }}{% endif %}</title>{% endblock %}
 {% block meta_description %}<meta name="description" content="{{ cat.blurb }}">{% endblock %}
 
 {% block jsonld %}
@@ -27,22 +29,23 @@ permalink: "/category/{{ cat.slug }}/"
     <header class="mb-10">
         <div class="flex items-center gap-3">
             <h1 class="text-4xl font-extrabold">{{ cat.name }} Games</h1>
-            <span class="badge">{{ cat_games.length }}</span>
+            <span class="badge">{{ p.totalGames }}</span>
         </div>
         <p class="text-lg text-white/70 mt-4 max-w-3xl">{{ cat.intro }}</p>
     </header>
     {% if is_thin %}
-    <div class="panel-card p-6 mb-8"><p class="text-sm">{{ cat_games.length }}/{{ site.minGamesPerCategory }} seeded.</p></div>
+    <div class="panel-card p-6 mb-8"><p class="text-sm">{{ p.totalGames }}/{{ site.minGamesPerCategory }} seeded.</p></div>
     {% endif %}
 
     {% include 'ad-banner.njk' %}
 
-    {% if cat_games.length %}
+    {% if p.games.length %}
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {% for game in cat_games %}
+        {% for game in p.games %}
         {% include 'game-card.njk' %}
         {% endfor %}
     </div>
+    {% include 'pagination.njk' %}
     {% else %}
     <div class="panel-card p-12 text-center"><p>No games yet.</p></div>
     {% endif %}

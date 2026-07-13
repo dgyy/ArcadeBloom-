@@ -4,7 +4,10 @@ title: Search Games
 robots: noindex, follow
 ---
 {# Search page — noindex (infinite query combinations must not be indexed).
-   Client-side filtering over the games data. Query-param driven (?q=). #}
+   Client-side filtering over a SLIM projection of the games data (name/tagline/
+   category/tags only — no about/howToPlay/sourceUrl inlined). Results are built
+   with safe DOM APIs (textContent), never string-concatenated into innerHTML,
+   because the name/tagline originate from imported upstream data. #}
 
 {% extends 'base.njk' %}
 
@@ -42,16 +45,36 @@ robots: noindex, follow
 
 <script>
 (function () {
-    var games = {{ games | toJSON | safe }};
+    // Slim projection — only the matched fields (extend.md §5.4.2).
+    var games = {{ games | toSearchIndex | safe }};
     var input = document.getElementById('search-q');
     var results = document.getElementById('search-results');
     var empty = document.getElementById('search-empty');
 
+    // Build a card with safe DOM APIs. name/tagline are imported upstream text,
+    // so they go through textContent (never innerHTML) — no injection surface.
     function card(g) {
-        return '<a href="/game/' + g.slug + '/" class="panel-card p-4 flex flex-col gap-3 hover:border-white/20 transition">'
-             + '<div><h3 class="font-semibold text-lg leading-tight">' + g.name + '</h3>'
-             + '<p class="text-sm text-white/60 mt-1">' + (g.tagline || '') + '</p></div>'
-             + '<span class="badge mt-auto">' + g.category + '</span></a>';
+        var a = document.createElement('a');
+        a.href = '/game/' + g.slug + '/';
+        a.className = 'panel-card p-4 flex flex-col gap-3 hover:border-white/20 transition';
+
+        var body = document.createElement('div');
+        var h3 = document.createElement('h3');
+        h3.className = 'font-semibold text-lg leading-tight';
+        h3.textContent = g.name;
+        body.appendChild(h3);
+
+        var p = document.createElement('p');
+        p.className = 'text-sm text-white/60 mt-1';
+        p.textContent = g.tagline || '';
+        body.appendChild(p);
+        a.appendChild(body);
+
+        var badge = document.createElement('span');
+        badge.className = 'badge mt-auto';
+        badge.textContent = g.category;
+        a.appendChild(badge);
+        return a;
     }
 
     function render(q) {
@@ -62,7 +85,8 @@ robots: noindex, follow
                 || (g.category && g.category.toLowerCase().indexOf(q) > -1)
                 || (Array.isArray(g.tags) && g.tags.join(' ').toLowerCase().indexOf(q) > -1);
         });
-        results.innerHTML = filtered.slice(0, 48).map(card).join('');
+        results.innerHTML = ''; // clear (incl. noscript fallback once JS runs)
+        filtered.slice(0, 48).forEach(function (g) { results.appendChild(card(g)); });
         empty.classList.toggle('hidden', filtered.length > 0);
     }
 

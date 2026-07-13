@@ -14,7 +14,12 @@
 //   screenshots   string[] 1–5 root-relative image paths (empty until content phase)
 //   sourceName    string   author / project name (for attribution + CTA label)
 //   sourceUrl     string   canonical outbound play URL (the ONLY play action)
-//   licence       string   SPDX id | 'source-available' | 'proprietary'
+//   licence       string   SPDX id | 'source-available' | 'proprietary' | 'NOASSERTION'
+//   licenceStatus string   osi-approved | source-available | proprietary | noassertion
+//                          (separates "source is public" from "has a real SPDX licence";
+//                          extend.md §7 — stop using source-available as a licence value)
+//   sourceKey     string   unique upstream identity for dedup + provenance
+//                          (e.g. js13k:2025:slug, author:hextris.io:hextris, leereilly:slug)
 //   tags          string[] 3–5 slugs from the controlled vocabulary (_data/tags.js)
 //   addedDate     string   ISO date — when ArcadeBloom added it (drives /new/)
 //   releaseDate   string   year or ISO date — when the game itself shipped
@@ -46,10 +51,13 @@ module.exports = [
         "sourceName": "Hextris",
         "sourceUrl": "https://hextris.io/",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "author:hextris.io:hextris",
         "tags": [
             "minimal",
             "quick-fix",
-            "classic"
+            "classic",
+            "platformer"
         ],
         "addedDate": "2026-07-01",
         "releaseDate": "2015",
@@ -73,10 +81,13 @@ module.exports = [
         "sourceName": "PROXX",
         "sourceUrl": "https://proxx.app/",
         "licence": "Apache-2.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "author:proxx.app:proxx",
         "tags": [
             "minimal",
             "brain-burner",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-01",
         "releaseDate": "2020",
@@ -100,11 +111,14 @@ module.exports = [
         "sourceName": "2048",
         "sourceUrl": "https://play2048.co/",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "author:play2048.co:2048",
         "tags": [
             "minimal",
             "quick-fix",
             "classic",
-            "open-source"
+            "open-source",
+            "match-3"
         ],
         "addedDate": "2026-07-01",
         "releaseDate": "2014",
@@ -128,6 +142,8 @@ module.exports = [
         "sourceName": "HexGL",
         "sourceUrl": "https://hexgl.bkcore.com/",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "author:hexgl.bkcore.com:hexgl",
         "tags": [
             "racing",
             "retro",
@@ -156,11 +172,14 @@ module.exports = [
         "sourceName": "BrowserQuest",
         "sourceUrl": "https://browserquest.mozilla.org/",
         "licence": "MPL-2.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "author:browserquest.mozilla.org:browserquest",
         "tags": [
             "multiplayer",
             "retro",
             "classic",
-            "open-source"
+            "open-source",
+            "text-based"
         ],
         "addedDate": "2026-07-01",
         "releaseDate": "2012",
@@ -184,6 +203,8 @@ module.exports = [
         "sourceName": "A Dark Room",
         "sourceUrl": "https://adarkroom.doublespeakgames.com/",
         "licence": "proprietary",
+        "licenceStatus": "proprietary",
+        "sourceKey": "author:adarkroom.doublespeakgames.com:adarkroom",
         "tags": [
             "idle",
             "text-based",
@@ -212,11 +233,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/memorygame",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:memorygame",
         "tags": [
             "13kb",
             "classic",
             "brain-burner",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -240,11 +264,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/ashes-of-ulthar",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:ashes-of-ulthar",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -268,11 +295,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/kiki-s-cafe",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:kiki-s-cafe",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -296,11 +326,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/little-adventure-of-mr-cat",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:little-adventure-of-mr-cat",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -324,11 +357,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/shadowflame",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:shadowflame",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -352,11 +388,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/non-mewtonian-cat",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2025:non-mewtonian-cat",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -380,11 +419,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/pawker",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:pawker",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -408,11 +450,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/nyx-felis-and-lampyris",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:nyx-felis-and-lampyris",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -436,11 +481,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/laserpointer",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:laserpointer",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -464,11 +512,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/tangled",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:tangled",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -492,11 +543,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/cry-in-the-13th",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:cry-in-the-13th",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -520,11 +574,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-13th-door",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:the-13th-door",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -548,11 +605,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/golfrog",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:golfrog",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sports"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -576,11 +636,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/6174",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:6174",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -606,11 +669,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/a-dogs-adventure",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:a-dogs-adventure",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -636,11 +702,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/age-of-the-demigods",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:age-of-the-demigods",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -666,6 +735,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/13c-defense",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:13c-defense",
         "tags": [
             "13kb",
             "classic",
@@ -696,11 +767,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/anachronic",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:anachronic",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -724,11 +798,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/khilji-s-folly",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:khilji-s-folly",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -754,11 +831,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/trado-polo-explores",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:trado-polo-explores",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -782,11 +862,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/fort-dmin",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:fort-dmin",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -812,6 +895,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/defense-of-the-13th-city",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:defense-of-the-13th-city",
         "tags": [
             "13kb",
             "classic",
@@ -842,11 +927,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/last-viking",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:last-viking",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -872,11 +960,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/escape-from-death-hole",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:escape-from-death-hole",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -902,11 +993,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/van-helsing",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:van-helsing",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -932,11 +1026,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/capturing-souls-on-the-river-of-the-dead",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:capturing-souls-on-the-river-of-the-dead",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -962,11 +1059,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/there-can-be-only-death",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:there-can-be-only-death",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -992,11 +1092,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/deadly-echo",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:deadly-echo",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1022,11 +1125,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/wasteworld",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:wasteworld",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1050,6 +1156,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/necromancer-s-dungeon",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:necromancer-s-dungeon",
         "tags": [
             "13kb",
             "classic",
@@ -1078,11 +1186,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/feb-13th-death-s-day-off",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:feb-13th-death-s-day-off",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1108,11 +1219,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/galaxy-raid",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:galaxy-raid",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1138,11 +1252,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/shadow-of-the-keening-star",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:shadow-of-the-keening-star",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1168,11 +1285,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-janitor",
         "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "js13k:2021:space-janitor",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1198,11 +1318,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/invasion-from-jupiter-in-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:invasion-from-jupiter-in-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1228,11 +1351,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/playing-only-space-key",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:playing-only-space-key",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1258,11 +1384,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/keep-white-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:keep-white-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1289,11 +1418,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/spaceship-wars-13k",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:spaceship-wars-13k",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1319,11 +1451,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/floating",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:floating",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1348,11 +1483,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/the-last-space-bender",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:the-last-space-bender",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1378,11 +1516,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/spaceship-13k",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:spaceship-13k",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1408,11 +1549,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/rocket-cargo",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:rocket-cargo",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1438,11 +1582,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/world-of-emojis",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:world-of-emojis",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1468,11 +1615,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/lunar-pods",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:lunar-pods",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1498,11 +1648,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/death-game",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:death-game",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "roguelike"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1528,11 +1681,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/death-scythe",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:death-scythe",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1558,11 +1714,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/burning-the-plants",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:burning-the-plants",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1588,11 +1747,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/death13k",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:death13k",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1618,11 +1780,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/interplanetary-transport-system",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:interplanetary-transport-system",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1648,11 +1813,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/spatial-poker",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:spatial-poker",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "card-game"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1678,11 +1846,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/spaces-in-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:spaces-in-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1708,11 +1879,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/that-time-i-tried-running-away-from-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:that-time-i-tried-running-away-from-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1738,11 +1912,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/spectral-shooter",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:spectral-shooter",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -1768,11 +1945,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/astronaut-in-trouble",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:astronaut-in-trouble",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -1796,11 +1976,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/f-stop",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:f-stop",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -1824,11 +2007,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/catnfish",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:catnfish",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -1852,11 +2038,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/enchilada-s-day-off",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:enchilada-s-day-off",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -1880,11 +2069,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/bounty-islands",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:bounty-islands",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -1908,11 +2100,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-tridecomino-coral-reef",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:the-tridecomino-coral-reef",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -1937,11 +2132,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/m13e",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:m13e",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -1965,6 +2163,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/dungeon-of-curse",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:dungeon-of-curse",
         "tags": [
             "13kb",
             "classic",
@@ -1993,11 +2193,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/maze-runner-vs-13",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:maze-runner-vs-13",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2021,11 +2224,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/plusminus13",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:plusminus13",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2049,11 +2255,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/13-squared",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:13-squared",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2077,11 +2286,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-sixth-prime",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:the-sixth-prime",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2106,11 +2318,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-city-without-that-number",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:the-city-without-that-number",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2134,11 +2349,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/dont-step-on-thirteen",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:dont-step-on-thirteen",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2162,11 +2380,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/king-longlegs",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:king-longlegs",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2190,11 +2411,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/2048-13",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:2048-13",
         "tags": [
             "13kb",
             "classic",
             "brain-burner",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2218,11 +2442,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/witch-hunter",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:witch-hunter",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2248,11 +2475,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/one-guard",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:one-guard",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "minimal"
+            "minimal",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2276,11 +2506,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/sir-bruno-s-minnelied",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:sir-bruno-s-minnelied",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2307,11 +2540,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/the-knighting-of-sr-isaac",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:the-knighting-of-sr-isaac",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "roguelike"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2337,11 +2573,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/death-sea-xiii",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:death-sea-xiii",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2368,11 +2607,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/when-your-neighbors-are-mongols",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:when-your-neighbors-are-mongols",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2398,11 +2640,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/portolani",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:portolani",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2428,11 +2673,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/knight",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:knight",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2458,11 +2706,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/sails",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:sails",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2488,6 +2739,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/castle-wars",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:castle-wars",
         "tags": [
             "13kb",
             "classic",
@@ -2518,11 +2771,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/snakes-and-ladders",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:snakes-and-ladders",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2548,11 +2804,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/rise",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:rise",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -2578,11 +2837,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/seating-space-planner",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:seating-space-planner",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -2608,11 +2870,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/charming-rainbow-rabbit",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:charming-rainbow-rabbit",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -2638,11 +2903,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/barry-in-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:barry-in-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -2668,11 +2936,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-arcade",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-arcade",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "retro"
+            "retro",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -2696,11 +2967,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/emojiphobia",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:emojiphobia",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2724,11 +2998,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/wendol-village",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:wendol-village",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2753,11 +3030,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/cube-13",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:cube-13",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -2781,6 +3061,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/escape-13th-floor-dungeon",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:escape-13th-floor-dungeon",
         "tags": [
             "13kb",
             "classic",
@@ -2811,11 +3093,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/dragon-simulator",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:dragon-simulator",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -2841,11 +3126,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/tendergotchi",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:tendergotchi",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -2871,11 +3159,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/the-deadly-obstacle-course",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:the-deadly-obstacle-course",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -2901,11 +3192,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/high-treason",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:high-treason",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -2931,11 +3225,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/cryonics-inc",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:cryonics-inc",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -2961,11 +3258,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/beat-rocks",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:beat-rocks",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "rhythm"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -2992,11 +3292,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/qress-sqace",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:qress-sqace",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3022,11 +3325,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/immunity-collapse",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:immunity-collapse",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3053,11 +3359,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/celestial-lighthouse",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:celestial-lighthouse",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3083,11 +3392,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/i-need-my-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:i-need-my-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3113,11 +3425,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/triangle-man-escape",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:triangle-man-escape",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "puzzle-room"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -3144,11 +3459,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/friend-of-the-fallen",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:friend-of-the-fallen",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -3174,11 +3492,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backsteroid",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backsteroid",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3205,11 +3526,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backshooter",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:backshooter",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3233,11 +3557,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/can-t-get-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:can-t-get-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3263,11 +3590,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/bring-the-number-back",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:bring-the-number-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3294,11 +3624,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backflipped",
         "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "js13k:2019:backflipped",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3324,11 +3657,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-to-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3354,11 +3690,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/gravepassing",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:gravepassing",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3384,11 +3723,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-skull-island",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-to-skull-island",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3414,11 +3756,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/awkward-turtle",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:awkward-turtle",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3444,11 +3789,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/death-march",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:death-march",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3474,11 +3822,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/deadly-taxi-the-road-of-death",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:deadly-taxi-the-road-of-death",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3504,11 +3855,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/information-super-highway-404",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:information-super-highway-404",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -3534,11 +3888,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/coiner",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:coiner",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -3564,11 +3921,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/10-years-of-game-golfing",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:10-years-of-game-golfing",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sports"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3594,11 +3954,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/mavi",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:mavi",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3624,6 +3987,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/idle-necromancer",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:idle-necromancer",
         "tags": [
             "13kb",
             "classic",
@@ -3654,11 +4019,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/the-hidden-death",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:the-hidden-death",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3682,11 +4050,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/don-t-die-to-ghosts",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:don-t-die-to-ghosts",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3712,11 +4083,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/bird-commander-2",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:bird-commander-2",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3740,11 +4114,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/hel-s-trial",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:hel-s-trial",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3770,11 +4147,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/cooking-for-skully",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:cooking-for-skully",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -3800,11 +4180,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/starlink-13kb-game",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:starlink-13kb-game",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3830,11 +4213,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/lost-in-the-distance",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:lost-in-the-distance",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3860,11 +4246,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/shooty-ship-13k",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:shooty-ship-13k",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3890,11 +4279,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-invasion-simulator",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-invasion-simulator",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3920,11 +4312,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/refuel-the-factory",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:refuel-the-factory",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3950,11 +4345,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-playful-adventures-of-cat-emojis",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-playful-adventures-of-cat-emojis",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -3980,11 +4378,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/blinker",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:blinker",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4010,11 +4411,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/running-out-of-space",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:running-out-of-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4040,11 +4444,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-block-invaders",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-block-invaders",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4070,11 +4477,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/lossst-a-snake-in-space",
         "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "js13k:2021:lossst-a-snake-in-space",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4100,11 +4510,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-game",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:space-game",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4130,11 +4543,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/join-the-cubes",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:join-the-cubes",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4160,11 +4576,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-capture",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-capture",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4190,11 +4609,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/2021-a-space-opera",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:2021-a-space-opera",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4220,11 +4642,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/the-galactic-asteroid-cleanup-mission",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:the-galactic-asteroid-cleanup-mission",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4250,11 +4675,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/filepurge",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:filepurge",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4280,11 +4708,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/srtfyl-shoot-rectangles-to-find-your-loot",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:srtfyl-shoot-rectangles-to-find-your-loot",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4310,11 +4741,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/in-ascent",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:in-ascent",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -4340,11 +4774,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/tetris-monochrome",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:tetris-monochrome",
         "tags": [
             "13kb",
             "classic",
             "brain-burner",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4370,11 +4807,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/ror",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:ror",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4400,11 +4840,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/connection",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:connection",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4430,11 +4873,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/filenotfound",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:filenotfound",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4460,11 +4906,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/find-all-pages",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:find-all-pages",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4490,11 +4939,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-soccer",
         "licence": "MPL-2.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:404-soccer",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "sports"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4521,11 +4973,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/delete",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:delete",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4552,11 +5007,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/the-last-spartan",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:the-last-spartan",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4582,11 +5040,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/wizard-with-a-shotgun",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:wizard-with-a-shotgun",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4612,11 +5073,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/vote-by-mail-funding-not-found",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:vote-by-mail-funding-not-found",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4642,11 +5106,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/clone-not-found",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:clone-not-found",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "minimal"
+            "minimal",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4672,11 +5139,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/setlerio",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:setlerio",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4702,11 +5172,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-remain-not-found",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404-remain-not-found",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4732,11 +5205,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/village-not-found-404-to-200",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:village-not-found-404-to-200",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4762,11 +5238,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/dewdrop-farm",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:dewdrop-farm",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4792,11 +5271,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/dive-and-pick",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:dive-and-pick",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4823,11 +5305,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-orbiting-asteroids",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:404-orbiting-asteroids",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4853,11 +5338,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/find-the-papers",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:find-the-papers",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4883,11 +5371,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/stolen-sword",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:stolen-sword",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4913,11 +5404,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/every-alien-loves-404",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:every-alien-loves-404",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4943,11 +5437,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/symmetry-not-found",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:symmetry-not-found",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -4973,11 +5470,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404kph",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:404kph",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5003,11 +5503,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/the-colorful-journey",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:the-colorful-journey",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5033,11 +5536,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-bc-pinball",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404-bc-pinball",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5063,11 +5569,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/find-the-lost-cross",
         "licence": "MPL-2.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:find-the-lost-cross",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5093,11 +5602,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/shooty-alien-game",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:shooty-alien-game",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5123,11 +5635,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/reculer",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:reculer",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5153,11 +5668,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-relax",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-relax",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5183,11 +5701,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/circle-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:circle-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5213,11 +5734,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/eat-my-dust",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:eat-my-dust",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5243,11 +5767,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/puzzle-from-hell",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:puzzle-from-hell",
         "tags": [
             "13kb",
             "classic",
             "brain-burner",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5274,11 +5801,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-in-dino",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:back-in-dino",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5302,11 +5832,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/don-t-go-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:don-t-go-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5332,11 +5865,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/it-man",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:it-man",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5362,11 +5898,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backo",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backo",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5392,11 +5931,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/get-back-from-robot-city",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:get-back-from-robot-city",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5422,11 +5964,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/encoded-maze",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:encoded-maze",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5452,11 +5997,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/quick-wins",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:quick-wins",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5482,11 +6030,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-home",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-home",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5512,11 +6063,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/fight-back",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:fight-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5542,11 +6096,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backlit-treasure-escape",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backlit-treasure-escape",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "puzzle-room"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5572,11 +6129,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/fall-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:fall-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5602,11 +6162,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/send-the-asteroids-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:send-the-asteroids-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5633,11 +6196,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backcountry",
         "licence": "ISC",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:backcountry",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -5664,11 +6230,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/grave-quest",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:grave-quest",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -5694,11 +6263,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/bee-kind",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:bee-kind",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -5724,11 +6296,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/apex-predator",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:apex-predator",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -5754,11 +6329,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/deathkeeper",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:deathkeeper",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -5784,11 +6362,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/cosmic-asteroid-catcher",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:cosmic-asteroid-catcher",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -5814,11 +6395,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-war",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-war",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -5844,11 +6428,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/spacew",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:spacew",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -5874,11 +6461,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/kosminenvirtaus",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:kosminenvirtaus",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -5904,11 +6494,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/lost-in-space-endless-destruction",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:lost-in-space-endless-destruction",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5934,11 +6527,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/elementary-challenges",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:elementary-challenges",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5964,11 +6560,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404th-floor",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404th-floor",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -5995,11 +6594,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/i-want-to-google-the-game",
         "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "js13k:2020:i-want-to-google-the-game",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -6025,11 +6627,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-missingpage",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404-missingpage",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -6055,11 +6660,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/code-farm",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:code-farm",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -6085,11 +6693,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/winwin",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:winwin",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -6115,11 +6726,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/wolf-and-sheep",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:wolf-and-sheep",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6145,11 +6759,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/xycore",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:xycore",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6175,11 +6792,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/dottie-back-to-sun",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:dottie-back-to-sun",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6205,11 +6825,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backorder-storehouse",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backorder-storehouse",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6235,11 +6858,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-2-home",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-2-home",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6265,11 +6891,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-forth",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-forth",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6295,11 +6924,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/popball",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:popball",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6325,11 +6957,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/get-jess-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:get-jess-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6355,11 +6990,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/entangled",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:entangled",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6385,11 +7023,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/backspace",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backspace",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6415,11 +7056,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/dawn-breaker",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:dawn-breaker",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6445,11 +7089,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-the-80s",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-to-the-80s",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6475,11 +7122,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-from-kooky-island",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-from-kooky-island",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6506,11 +7156,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/labyrinth-vr-experience",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:labyrinth-vr-experience",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6536,11 +7189,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-rescue",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-to-rescue",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6566,11 +7222,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/yet-another-doom-clone",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:yet-another-doom-clone",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "minimal"
+            "minimal",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6597,11 +7256,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/ninja-take-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:ninja-take-back",
         "tags": [
             "13kb",
             "classic",
             "skill-based",
-            "experimental"
+            "experimental",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6627,11 +7289,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/push-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:push-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6657,11 +7322,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/rebound",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:rebound",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6685,11 +7353,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/fall-back-2019",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:fall-back-2019",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6713,11 +7384,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/they-re-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:they-re-back",
         "tags": [
             "13kb",
             "classic",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -6741,11 +7415,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/catslap",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:catslap",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6771,11 +7448,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/rip",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:rip",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -6799,11 +7479,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/black-hat-black-cat",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:black-hat-black-cat",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6827,11 +7510,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/zabobon",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:zabobon",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6855,11 +7541,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/blackcat-hacker",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:blackcat-hacker",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6883,11 +7572,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/blacky-returns-home",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:blacky-returns-home",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6911,11 +7603,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/black-cat-potions",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2025:black-cat-potions",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6940,11 +7635,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/boots-and-the-black-cauldron",
         "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "js13k:2025:boots-and-the-black-cauldron",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6968,11 +7666,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/meow-mountain",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2025:meow-mountain",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -6996,11 +7697,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/black-cat-s-rise",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:black-cat-s-rise",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -7025,11 +7729,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/wild-catch",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:wild-catch",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -7053,11 +7760,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/clawstruck",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:clawstruck",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -7082,11 +7792,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/black-cat-nine-lives-no-mercy",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:black-cat-nine-lives-no-mercy",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -7110,11 +7823,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2025/games/dinner-for-two",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:dinner-for-two",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2025",
@@ -7139,11 +7855,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/exilium-the-fall-of-dominus",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:exilium-the-fall-of-dominus",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7167,11 +7886,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/shoot-13-nomsters",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:shoot-13-nomsters",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7196,11 +7918,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/wands-of-triskaidekai",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:wands-of-triskaidekai",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7224,11 +7949,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/salvadoran-reclamation-ms-13",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:salvadoran-reclamation-ms-13",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7253,11 +7981,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/phantomicus",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:phantomicus",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7281,11 +8012,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-emerald-serpent",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:the-emerald-serpent",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7309,11 +8043,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/terra-mobilis",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:terra-mobilis",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7337,11 +8074,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/national-accident-day",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:national-accident-day",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7365,11 +8105,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/deck-13",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:deck-13",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "card-game"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7393,11 +8136,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/the-anti-poker-protocol",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:the-anti-poker-protocol",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "card-game"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7421,11 +8167,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2024/games/m7-summit",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2024:m7-summit",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2024",
@@ -7451,11 +8200,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/knight-dreams",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:knight-dreams",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7481,11 +8233,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/cathedral-builder",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:cathedral-builder",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7511,11 +8266,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/the-treasure-of-the-nibelungs",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:the-treasure-of-the-nibelungs",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7541,11 +8299,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/the-mongol-horde",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:the-mongol-horde",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7571,11 +8332,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/keep-calm",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:keep-calm",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7601,6 +8365,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/exit-the-castle",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:exit-the-castle",
         "tags": [
             "13kb",
             "skill-based",
@@ -7629,11 +8395,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/13th-barber-s-guild",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:13th-barber-s-guild",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7659,11 +8428,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/predecessors",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:predecessors",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7689,11 +8461,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2023/games/the-baltic-league",
         "licence": "AGPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2023:the-baltic-league",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2023",
@@ -7719,6 +8494,8 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/terror-defense",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:terror-defense",
         "tags": [
             "13kb",
             "skill-based",
@@ -7749,11 +8526,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/bit-butcher",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:bit-butcher",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7780,11 +8560,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/charon-jr",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:charon-jr",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7810,11 +8593,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/deathwish",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:deathwish",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7840,11 +8626,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/heart-of-the-gods",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:heart-of-the-gods",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7870,11 +8659,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/death-or-gloria",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:death-or-gloria",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7900,11 +8692,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/skeleathon",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2022:skeleathon",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7930,11 +8725,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2022/games/templo-mayor",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:templo-mayor",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2022",
@@ -7960,11 +8758,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/azetz",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:azetz",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -7991,11 +8792,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/orbital-golfing",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:orbital-golfing",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sports"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -8021,11 +8825,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/master-of-13k-suns",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:master-of-13k-suns",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -8051,11 +8858,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/space-huggers",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2021:space-huggers",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -8081,11 +8891,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/brokenspace",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:brokenspace",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -8111,11 +8924,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2021/games/mars-short-adventure",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:mars-short-adventure",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2021",
@@ -8139,11 +8955,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/the-king-s-missing-page",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:the-king-s-missing-page",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8169,11 +8988,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/digicrush",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:digicrush",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8200,11 +9022,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/realm-404",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:realm-404",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8230,11 +9055,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/sculpting-done-quick",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:sculpting-done-quick",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "minimal"
+            "minimal",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8260,11 +9088,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/404-snake-monochrome",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:404-snake-monochrome",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8291,11 +9122,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/adopt-a-fire",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:adopt-a-fire",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8321,11 +9155,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/found-bomb",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:found-bomb",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8349,11 +9186,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/robots-txt",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:robots-txt",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8379,11 +9219,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/jam-champs-404-princess-not-found",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:jam-champs-404-princess-not-found",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8409,11 +9252,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/exit",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:exit",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8439,11 +9285,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/emoji-memory",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:emoji-memory",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8469,11 +9318,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/planet-404-that-is-yet-to-be-found",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:planet-404-that-is-yet-to-be-found",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8500,11 +9352,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2020/games/oh-no-all-the-textures-are-404",
         "licence": "ISC",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2020:oh-no-all-the-textures-are-404",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "text-based"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2020",
@@ -8530,11 +9385,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/meadow",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:meadow",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8560,11 +9418,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/reptour",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:reptour",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8590,11 +9451,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/jouer",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:jouer",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8620,11 +9484,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-the-battle-ship",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-to-the-battle-ship",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8650,11 +9517,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/the-martians-are-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:the-martians-are-back",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8680,11 +9550,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/regresso",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:regresso",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8710,11 +9583,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/time-runner",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:time-runner",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8740,11 +9616,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/rectangles",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:rectangles",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8770,11 +9649,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/jewelsback",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:jewelsback",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8800,11 +9682,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/sand-adder",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:sand-adder",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8830,11 +9715,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/saptcha",
         "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:saptcha",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8860,11 +9748,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/way-out",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:way-out",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8890,11 +9781,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-read",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-read",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8920,11 +9814,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-to-the-stars",
         "licence": "GPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "js13k:2019:back-to-the-stars",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8950,11 +9847,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/back-down-the-tower",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:back-down-the-tower",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -8980,11 +9880,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/beat-bricks",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:beat-bricks",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "rhythm"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -9011,11 +9914,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/bakpak",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:bakpak",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "rhythm"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -9042,11 +9948,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/pizza-undelivery",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:pizza-undelivery",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "racing"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -9072,11 +9981,14 @@ module.exports = [
         "sourceName": "js13kGames",
         "sourceUrl": "https://js13kgames.com/2019/games/we-must-go-back",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:we-must-go-back",
         "tags": [
             "13kb",
             "skill-based",
             "quick-fix",
-            "experimental"
+            "experimental",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "2019",
@@ -9099,6 +10011,8 @@ module.exports = [
         "sourceName": "3D Hartwing Chess Set",
         "sourceUrl": "http://codepen.io/juliangarnier/full/BsIih",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:codepen.io:3d-hartwing-chess-set",
         "tags": [
             "turn-based",
             "open-source",
@@ -9125,6 +10039,8 @@ module.exports = [
         "sourceName": "c4",
         "sourceUrl": "https://kenrick95.github.io/c4/demo/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:kenrick95.github.io:c4",
         "tags": [
             "turn-based",
             "open-source",
@@ -9151,6 +10067,8 @@ module.exports = [
         "sourceName": "Desperate Gods",
         "sourceUrl": "http://www.wolfire.com/desperate-gods",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:wolfire.com:desperate-gods",
         "tags": [
             "turn-based",
             "open-source",
@@ -9177,6 +10095,8 @@ module.exports = [
         "sourceName": "Lichess",
         "sourceUrl": "http://lichess.org/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:lichess.org:lichess",
         "tags": [
             "turn-based",
             "open-source",
@@ -9203,10 +10123,13 @@ module.exports = [
         "sourceName": "Alge's Escapade",
         "sourceUrl": "http://dave-and-mike.github.io/game-off-2012/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:dave-and-mike.github.io:alge-s-escapade",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9229,10 +10152,13 @@ module.exports = [
         "sourceName": "Alien Invasion",
         "sourceUrl": "http://cykod.github.io/AlienInvasion/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:cykod.github.io:alien-invasion",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9255,10 +10181,13 @@ module.exports = [
         "sourceName": "Arashi",
         "sourceUrl": "http://stephank.github.io/arashi-js/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:stephank.github.io:arashi",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9281,10 +10210,13 @@ module.exports = [
         "sourceName": "Asteroids",
         "sourceUrl": "http://dougmcinnes.com/html-5-asteroids/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:dougmcinnes.com:asteroids",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9307,10 +10239,13 @@ module.exports = [
         "sourceName": "Avabranch",
         "sourceUrl": "http://avabranch.zolmeister.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:avabranch.zolmeister.com:avabranch",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9333,10 +10268,13 @@ module.exports = [
         "sourceName": "Ball And Wall",
         "sourceUrl": "http://ballandwall.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:ballandwall.com:ball-and-wall",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9359,10 +10297,13 @@ module.exports = [
         "sourceName": "Captain Rogers",
         "sourceUrl": "http://enclavegames.com/games/captain-rogers/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:enclavegames.com:captain-rogers",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9385,10 +10326,13 @@ module.exports = [
         "sourceName": "Coil",
         "sourceUrl": "http://hakim.se/experiments/html5/coil/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:hakim.se:coil",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9411,10 +10355,13 @@ module.exports = [
         "sourceName": "Color Quest",
         "sourceUrl": "http://redbluegames.com/game-off-2013/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:redbluegames.com:color-quest",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9437,10 +10384,13 @@ module.exports = [
         "sourceName": "Custom Tetris",
         "sourceUrl": "http://ondras.github.io/custom-tetris/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:ondras.github.io:custom-tetris",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9463,10 +10413,13 @@ module.exports = [
         "sourceName": "Drill Bunny",
         "sourceUrl": "http://dreamshowadventures.github.io/LudumDare29/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:dreamshowadventures.github.io:drill-bunny",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9489,10 +10442,13 @@ module.exports = [
         "sourceName": "DuckHunt JS",
         "sourceUrl": "http://mattsurabian.com/duckhunt/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:mattsurabian.com:duckhunt-js",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9515,10 +10471,13 @@ module.exports = [
         "sourceName": "FlxInvaders",
         "sourceUrl": "http://flixel.org/flxinvaders/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:flixel.org:flxinvaders",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9541,10 +10500,13 @@ module.exports = [
         "sourceName": "FlxTeroids",
         "sourceUrl": "http://www.flixel.org/flxteroids/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:flixel.org:flxteroids",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9567,10 +10529,13 @@ module.exports = [
         "sourceName": "Grave Robbers",
         "sourceUrl": "http://adamatomic.com/graverobbers",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:adamatomic.com:grave-robbers",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "tower-defense"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9593,10 +10558,13 @@ module.exports = [
         "sourceName": "hurry!",
         "sourceUrl": "http://hughsk.io/ludum-dare-27/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:hughsk.io:hurry",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9619,10 +10587,13 @@ module.exports = [
         "sourceName": "Hyperspace Garbage Collector",
         "sourceUrl": "http://razh.github.io/game-off-2013/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:razh.github.io:hyperspace-garbage-collector",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9645,10 +10616,13 @@ module.exports = [
         "sourceName": "I Spy A Ghost",
         "sourceUrl": "http://omarshehata.me/html/ludum/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:omarshehata.me:i-spy-a-ghost",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9671,10 +10645,13 @@ module.exports = [
         "sourceName": "Jekyll & Hyde Collide",
         "sourceUrl": "http://awesome-interactive.github.io/game-off-2013/ExportedGame.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:awesome-interactive.github.io:jekyll-hyde-collide",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9697,10 +10674,13 @@ module.exports = [
         "sourceName": "Mega Girl",
         "sourceUrl": "http://www.renegadeware.com/web_games/megagirl/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:renegadeware.com:mega-girl",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9723,10 +10703,13 @@ module.exports = [
         "sourceName": "Mode",
         "sourceUrl": "http://www.adamatomic.com/mode/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:adamatomic.com:mode",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9749,10 +10732,13 @@ module.exports = [
         "sourceName": "Monster Wants Candy",
         "sourceUrl": "http://candy-demo.enclavegames.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:candy-demo.enclavegames.com:monster-wants-candy",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9775,10 +10761,13 @@ module.exports = [
         "sourceName": "Octocat Jump",
         "sourceUrl": "http://ogoshen.github.io/game-off-2012/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:ogoshen.github.io:octocat-jump",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9801,10 +10790,13 @@ module.exports = [
         "sourceName": "Onslaught Arena",
         "sourceUrl": "http://arcade.lostdecadegames.com/onslaught_arena/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:arcade.lostdecadegames.com:onslaught-arena",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9827,10 +10819,13 @@ module.exports = [
         "sourceName": "PolyBranch",
         "sourceUrl": "http://gregbatha.com/branches/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:gregbatha.com:polybranch",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9853,10 +10848,13 @@ module.exports = [
         "sourceName": "Save The Forest",
         "sourceUrl": "http://js13kgames.com/games/save-the-forest/index.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:save-the-forest",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9879,10 +10877,13 @@ module.exports = [
         "sourceName": "Snake",
         "sourceUrl": "http://diz.es/snake/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:diz.es:snake",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9905,10 +10906,13 @@ module.exports = [
         "sourceName": "Snake_new",
         "sourceUrl": "https://rabiroshan.github.io/snake_game/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:rabiroshan.github.io:snake-new",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9931,10 +10935,13 @@ module.exports = [
         "sourceName": "Space-Shooter",
         "sourceUrl": "http://couchfriends.com/games/5",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:couchfriends.com:space-shooter",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9957,10 +10964,13 @@ module.exports = [
         "sourceName": "Spashal",
         "sourceUrl": "http://mrrar.github.io/spashal/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:mrrar.github.io:spashal",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -9983,10 +10993,13 @@ module.exports = [
         "sourceName": "Square Off!",
         "sourceUrl": "http://sqoff.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:sqoff.com:square-off",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10009,10 +11022,13 @@ module.exports = [
         "sourceName": "SORADES 13K",
         "sourceUrl": "http://maettig.com/code/canvas/starship-sorades-13k/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:maettig.com:sorades-13k",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10035,10 +11051,13 @@ module.exports = [
         "sourceName": "Space Invaders",
         "sourceUrl": "http://strykerkkd.github.io/SpaceInvaders/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:strykerkkd.github.io:space-invaders",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10061,10 +11080,13 @@ module.exports = [
         "sourceName": "Super Mario Bros",
         "sourceUrl": "http://martindrapeau.github.io/backbone-game-engine/super-mario-bros/index.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:martindrapeau.github.io:super-mario-bros",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10087,10 +11109,13 @@ module.exports = [
         "sourceName": "Survivor",
         "sourceUrl": "http://www.schillmania.com/survivor/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:schillmania.com:survivor",
         "tags": [
             "quick-fix",
             "open-source",
-            "retro"
+            "retro",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10113,10 +11138,13 @@ module.exports = [
         "sourceName": "BananaBread",
         "sourceUrl": "https://kripken.github.io/BananaBread/cube2/bb.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:kripken.github.io:bananabread",
         "tags": [
             "skill-based",
             "open-source",
-            "classic"
+            "classic",
+            "shooter"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10139,6 +11167,8 @@ module.exports = [
         "sourceName": "Diablo JS",
         "sourceUrl": "http://mitallast.github.io/diablo-js/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:mitallast.github.io:diablo-js",
         "tags": [
             "sandbox",
             "open-source",
@@ -10165,6 +11195,8 @@ module.exports = [
         "sourceName": "Tap Tap Adventure",
         "sourceUrl": "http://taptapadventure.com/play",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:taptapadventure.com:tap-tap-adventure",
         "tags": [
             "sandbox",
             "open-source",
@@ -10191,6 +11223,8 @@ module.exports = [
         "sourceName": "Ancient Beast",
         "sourceUrl": "http://ancientbeast.com/play",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:ancientbeast.com:ancient-beast",
         "tags": [
             "turn-based",
             "open-source",
@@ -10217,6 +11251,8 @@ module.exports = [
         "sourceName": "Command & Conquer",
         "sourceUrl": "http://www.adityaravishankar.com/projects/games/command-and-conquer/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:adityaravishankar.com:command-conquer",
         "tags": [
             "turn-based",
             "open-source",
@@ -10243,34 +11279,10 @@ module.exports = [
         "sourceName": "Hexa Battle",
         "sourceUrl": "http://giacomotag.io/hb/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:giacomotag.io:hexa-battle",
         "tags": [
             "turn-based",
-            "open-source",
-            "classic"
-        ],
-        "addedDate": "2026-07-08",
-        "releaseDate": "unknown",
-        "featured": false
-    },
-    {
-        "id": 352,
-        "slug": "hexgl-game",
-        "name": "HexGL",
-        "category": "racing-sports",
-        "tagline": "Futuristic HTML5 racing game by Thibaut Despoulain using HTML5, Javascript an...",
-        "about": "HexGL — Futuristic HTML5 racing game by Thibaut Despoulain using HTML5, Javascript and WebGL. Originally an open-source browser game catalogued from the Games-on-GitHub collection under the \"Racing\" category. This is a factual entry; a full review is pending.\n\nPlay it at the author's own site via the link below.",
-        "howToPlay": "Controls for HexGL vary — open the game via the source link to see in-game instructions. Most browser games in this category use keyboard, mouse, or touch. (Full how-to-play guide pending.)",
-        "keyFeatures": [
-            "Open-source browser game",
-            "Genre: Racing",
-            "Source: GitHub"
-        ],
-        "screenshots": [],
-        "sourceName": "HexGL",
-        "sourceUrl": "http://hexgl.bkcore.com/",
-        "licence": "source-available",
-        "tags": [
-            "skill-based",
             "open-source",
             "classic"
         ],
@@ -10295,6 +11307,8 @@ module.exports = [
         "sourceName": "3d.city",
         "sourceUrl": "http://lo-th.github.io/3d.city/index.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:lo-th.github.io:3d-city",
         "tags": [
             "sandbox",
             "open-source",
@@ -10321,6 +11335,8 @@ module.exports = [
         "sourceName": "Blk Game",
         "sourceUrl": "http://benvanik.github.io/blk-game/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:benvanik.github.io:blk-game",
         "tags": [
             "sandbox",
             "open-source",
@@ -10347,6 +11363,8 @@ module.exports = [
         "sourceName": "Cube Engine",
         "sourceUrl": "http://nurgak.github.io/Cube-engine/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:nurgak.github.io:cube-engine",
         "tags": [
             "sandbox",
             "open-source",
@@ -10373,10 +11391,13 @@ module.exports = [
         "sourceName": "0hh0",
         "sourceUrl": "http://0hh0.com",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:0hh0.com:0hh0",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10399,10 +11420,13 @@ module.exports = [
         "sourceName": "0hh1",
         "sourceUrl": "http://0hh1.com",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:0hh1.com:0hh1",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10425,36 +11449,13 @@ module.exports = [
         "sourceName": "2048",
         "sourceUrl": "http://gabrielecirulli.github.io/2048/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:gabrielecirulli.github.io:2048-game",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
-        ],
-        "addedDate": "2026-07-08",
-        "releaseDate": "unknown",
-        "featured": false
-    },
-    {
-        "id": 359,
-        "slug": "a-dark-room",
-        "name": "A Dark Room",
-        "category": "puzzle",
-        "tagline": "Minimalist Text Adventure game written in JavaScript",
-        "about": "A Dark Room — Minimalist Text Adventure game written in JavaScript. Originally an open-source browser game catalogued from the Games-on-GitHub collection under the \"Puzzle\" category. This is a factual entry; a full review is pending.\n\nPlay it at the author's own site via the link below.",
-        "howToPlay": "Controls for A Dark Room vary — open the game via the source link to see in-game instructions. Most browser games in this category use keyboard, mouse, or touch. (Full how-to-play guide pending.)",
-        "keyFeatures": [
-            "Open-source browser game",
-            "Genre: Puzzle",
-            "Source: GitHub"
-        ],
-        "screenshots": [],
-        "sourceName": "A Dark Room",
-        "sourceUrl": "http://adarkroom.doublespeakgames.com/",
-        "licence": "source-available",
-        "tags": [
-            "brain-burner",
-            "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10477,10 +11478,13 @@ module.exports = [
         "sourceName": "Anagramica",
         "sourceUrl": "http://www.anagramica.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:anagramica.com:anagramica",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10503,10 +11507,13 @@ module.exports = [
         "sourceName": "Astry",
         "sourceUrl": "http://wwwtyro.github.io/Astray/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:wwwtyro.github.io:astry",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10529,10 +11536,13 @@ module.exports = [
         "sourceName": "Beatrix",
         "sourceUrl": "http://gamejolt.com/games/puzzle/beatrix/27454/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:gamejolt.com:beatrix",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "rhythm"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10555,10 +11565,13 @@ module.exports = [
         "sourceName": "Blockrain.js",
         "sourceUrl": "http://aerolab.github.io/blockrain.js/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:aerolab.github.io:blockrain-js",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10581,10 +11594,13 @@ module.exports = [
         "sourceName": "Clone Man",
         "sourceUrl": "http://www.kongregate.com/games/Sorobaid/clone-man",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:kongregate.com:clone-man",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10607,10 +11623,13 @@ module.exports = [
         "sourceName": "Couch 2048",
         "sourceUrl": "http://js13kgames.com/games/couch-2048/index.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:couch-2048",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10633,10 +11652,13 @@ module.exports = [
         "sourceName": "cube-composer",
         "sourceUrl": "http://david-peter.de/cube-composer",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:david-peter.de:cube-composer",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10659,10 +11681,13 @@ module.exports = [
         "sourceName": "Drunken Viking",
         "sourceUrl": "http://congusbongus.itch.io/drunken-viking",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:congusbongus.itch.io:drunken-viking",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "racing"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10685,10 +11710,13 @@ module.exports = [
         "sourceName": "Ending",
         "sourceUrl": "http://robotacid.com/flash/ending/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:robotacid.com:ending",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "roguelike"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10711,10 +11739,13 @@ module.exports = [
         "sourceName": "For King",
         "sourceUrl": "http://www.newgrounds.com/dump/item/1cc54f046fa51768d8169e65121b0af0",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:newgrounds.com:for-king",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10737,10 +11768,13 @@ module.exports = [
         "sourceName": "Hex 2048",
         "sourceUrl": "https://jeffhou.github.io/hex-2048/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:jeffhou.github.io:hex-2048",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10763,36 +11797,13 @@ module.exports = [
         "sourceName": "Hexahedral",
         "sourceUrl": "http://matthewminer.com/hexahedral",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:matthewminer.com:hexahedral",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
-        ],
-        "addedDate": "2026-07-08",
-        "releaseDate": "unknown",
-        "featured": false
-    },
-    {
-        "id": 372,
-        "slug": "hextris-game",
-        "name": "Hextris",
-        "category": "puzzle",
-        "tagline": "Addictive puzzle game inspired by Tetris",
-        "about": "Hextris — Addictive puzzle game inspired by Tetris. Originally an open-source browser game catalogued from the Games-on-GitHub collection under the \"Puzzle\" category. This is a factual entry; a full review is pending.\n\nPlay it at the author's own site via the link below.",
-        "howToPlay": "Controls for Hextris vary — open the game via the source link to see in-game instructions. Most browser games in this category use keyboard, mouse, or touch. (Full how-to-play guide pending.)",
-        "keyFeatures": [
-            "Open-source browser game",
-            "Genre: Puzzle",
-            "Source: GitHub"
-        ],
-        "screenshots": [],
-        "sourceName": "Hextris",
-        "sourceUrl": "http://hextris.io/",
-        "licence": "source-available",
-        "tags": [
-            "brain-burner",
-            "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10815,10 +11826,13 @@ module.exports = [
         "sourceName": "Infectors",
         "sourceUrl": "http://satanas.github.io/infectors/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:satanas.github.io:infectors",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10841,10 +11855,13 @@ module.exports = [
         "sourceName": "Monkey Rally",
         "sourceUrl": "http://antila.github.io/ludum-dare-28/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:antila.github.io:monkey-rally",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "racing"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10867,10 +11884,13 @@ module.exports = [
         "sourceName": "Orbium",
         "sourceUrl": "http://bni.github.io/orbium/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:bni.github.io:orbium",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10893,10 +11913,13 @@ module.exports = [
         "sourceName": "Parity",
         "sourceUrl": "http://abefehr.com/parity/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:abefehr.com:parity",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10919,10 +11942,13 @@ module.exports = [
         "sourceName": "Pond",
         "sourceUrl": "http://thepond.zolmeister.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:thepond.zolmeister.com:pond",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10945,10 +11971,13 @@ module.exports = [
         "sourceName": "Pop Pop Win",
         "sourceUrl": "http://dart-lang.github.io/sample-pop_pop_win/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:dart-lang.github.io:pop-pop-win",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10971,10 +12000,13 @@ module.exports = [
         "sourceName": "Push and Fork",
         "sourceUrl": "http://gelisam.com/octocarina/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:gelisam.com:push-and-fork",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -10997,10 +12029,13 @@ module.exports = [
         "sourceName": "Shape Experiment",
         "sourceUrl": "http://shapex.org/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:shapex.org:shape-experiment",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11023,10 +12058,13 @@ module.exports = [
         "sourceName": "Swap",
         "sourceUrl": "http://nmoroze.github.io/swap/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:nmoroze.github.io:swap",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11049,10 +12087,13 @@ module.exports = [
         "sourceName": "TransCube",
         "sourceUrl": "http://code.jerev.be/ggo13-transcube/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:code.jerev.be:transcube",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "platformer"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11075,10 +12116,13 @@ module.exports = [
         "sourceName": "Zoko",
         "sourceUrl": "http://lulea.github.io/game-off-2012/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:lulea.github.io:zoko",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11101,10 +12145,13 @@ module.exports = [
         "sourceName": "Zop",
         "sourceUrl": "https://zop.zolmeister.com/",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:zop.zolmeister.com:zop",
         "tags": [
             "brain-burner",
             "open-source",
-            "classic"
+            "classic",
+            "match-3"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11127,6 +12174,8 @@ module.exports = [
         "sourceName": "Particle Clicker",
         "sourceUrl": "http://cern.ch/particle-clicker",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:cern.ch:particle-clicker",
         "tags": [
             "sandbox",
             "open-source",
@@ -11153,10 +12202,13 @@ module.exports = [
         "sourceName": "binb",
         "sourceUrl": "https://binb.co",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:binb.co:binb",
         "tags": [
             "quick-fix",
             "open-source",
-            "classic"
+            "classic",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11179,10 +12231,13 @@ module.exports = [
         "sourceName": "Dental Defender: Saga of the Candy Horde",
         "sourceUrl": "http://cas002.itch.io/dental-defenders-saga-of-the-candy-horde",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:cas002.itch.io:dental-defender-saga-of-the-candy-horde",
         "tags": [
             "quick-fix",
             "open-source",
-            "classic"
+            "classic",
+            "tower-defense"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11205,10 +12260,13 @@ module.exports = [
         "sourceName": "The Killer",
         "sourceUrl": "http://www.gametrekking.com/the-games/cambodia/the-killer/play-now",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:gametrekking.com:the-killer",
         "tags": [
             "quick-fix",
             "open-source",
-            "classic"
+            "classic",
+            "physics"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
@@ -11231,13 +12289,3422 @@ module.exports = [
         "sourceName": "Turkey Cooking Simulator",
         "sourceUrl": "http://fernjager.github.io/game-off-2013/index.html",
         "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "author:fernjager.github.io:turkey-cooking-simulator",
         "tags": [
             "quick-fix",
             "open-source",
-            "classic"
+            "classic",
+            "sandbox"
         ],
         "addedDate": "2026-07-08",
         "releaseDate": "unknown",
+        "featured": false
+    },
+    {
+        "id": 390,
+        "slug": "moon-buggy-racing",
+        "name": "Moon Buggy Racing",
+        "category": "racing-sports",
+        "tagline": "A 2021 js13kGames entry by Johan Wigert — under 13KB of pure craft.",
+        "about": "Moon Buggy Racing is a racing & sports game by Johan Wigert, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Moon Buggy Racing on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Johan Wigert",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/moon-buggy-racing",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:moon-buggy-racing",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 391,
+        "slug": "entangolf",
+        "name": "Entangolf",
+        "category": "racing-sports",
+        "tagline": "A 2024 js13kGames entry by Matt McKenna — under 13KB of pure craft.",
+        "about": "Entangolf is a racing & sports game by Matt McKenna, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Entangolf on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Matt McKenna",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/entangolf",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:entangolf",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 392,
+        "slug": "olympic-hide-seek-retrospective-atlanta-1996",
+        "name": "Olympic Hide & Seek Retrospective: Atlanta 1996",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by Jaldhar H. Vyas — under 13KB of pure craft.",
+        "about": "Olympic Hide & Seek Retrospective: Atlanta 1996 is a racing & sports game by Jaldhar H. Vyas, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Olympic Hide & Seek Retrospective: Atlanta 1996 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Jaldhar H. Vyas",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/olympic-hide-seek-retrospective-atlanta-1996",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:olympic-hide-seek-retrospective-atlanta-1996",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "skill-based",
+            "retro"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 393,
+        "slug": "boat-racing-404",
+        "name": "Boat racing 404",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by Christian Paul — under 13KB of pure craft.",
+        "about": "Boat racing 404 is a racing & sports game by Christian Paul, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Boat racing 404 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Christian Paul",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/boat-racing-404",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:boat-racing-404",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 394,
+        "slug": "vr-racing",
+        "name": "VR Racing",
+        "category": "racing-sports",
+        "tagline": "A 2017 js13kGames entry by Vedansh Bhartia, Kartikey Pandey and Manan Jain — under 13KB of pure craft.",
+        "about": "VR Racing is a racing & sports game by Vedansh Bhartia, Kartikey Pandey and Manan Jain, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open VR Racing on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: Vedansh Bhartia, Kartikey Pandey and Manan Jain",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/vr-racing",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:vr-racing",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 395,
+        "slug": "gravity-golf",
+        "name": "Gravity Golf",
+        "category": "racing-sports",
+        "tagline": "A 2015 js13kGames entry by Katherine Stark — under 13KB of pure craft.",
+        "about": "Gravity Golf is a racing & sports game by Katherine Stark, submitted to the js13kGames 2015 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2015 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Gravity Golf on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2015",
+            "Author: Katherine Stark",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2015/games/gravity-golf",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2015:gravity-golf",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2015",
+        "featured": false
+    },
+    {
+        "id": 396,
+        "slug": "button-football",
+        "name": "Button Football",
+        "category": "racing-sports",
+        "tagline": "A 2014 js13kGames entry by Imanol Perez — under 13KB of pure craft.",
+        "about": "Button Football is a racing & sports game by Imanol Perez, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Button Football on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Imanol Perez",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/button-football",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:button-football",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 397,
+        "slug": "badluck-butter-chicken-flies-the-unfriendly-skies",
+        "name": "Badluck Butter Chicken Flies The Unfriendly Skies",
+        "category": "racing-sports",
+        "tagline": "A 2024 js13kGames entry by Cliff Earl — under 13KB of pure craft.",
+        "about": "Badluck Butter Chicken Flies The Unfriendly Skies is a racing & sports game by Cliff Earl, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Badluck Butter Chicken Flies The Unfriendly Skies on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Cliff Earl"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/badluck-butter-chicken-flies-the-unfriendly-skies",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:badluck-butter-chicken-flies-the-unfriendly-skies",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 398,
+        "slug": "guess-my-triski",
+        "name": "Guess My Triski",
+        "category": "racing-sports",
+        "tagline": "A 2024 js13kGames entry by Ronica Singh — under 13KB of pure craft.",
+        "about": "Guess My Triski is a racing & sports game by Ronica Singh, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Guess My Triski on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Ronica Singh"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/guess-my-triski",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:guess-my-triski",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 399,
+        "slug": "space-race",
+        "name": "Space Race",
+        "category": "racing-sports",
+        "tagline": "A 2021 js13kGames entry by Paweł Jamróz 'CutFuyi' — under 13KB of pure craft.",
+        "about": "Space Race is a racing & sports game by Paweł Jamróz 'CutFuyi', submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Space Race on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Paweł Jamróz 'CutFuyi'"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/space-race",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-race",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 400,
+        "slug": "billionaire-space-golf",
+        "name": "Billionaire Space Golf",
+        "category": "racing-sports",
+        "tagline": "A 2021 js13kGames entry by Niklas Berg — under 13KB of pure craft.",
+        "about": "Billionaire Space Golf is a racing & sports game by Niklas Berg, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Billionaire Space Golf on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Niklas Berg"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/billionaire-space-golf",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:billionaire-space-golf",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 401,
+        "slug": "coding-golf-broken-links",
+        "name": "Coding Golf - Broken Links",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by Jasper Renow-Clarke — under 13KB of pure craft.",
+        "about": "Coding Golf - Broken Links is a racing & sports game by Jasper Renow-Clarke, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Coding Golf - Broken Links on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Jasper Renow-Clarke"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/coding-golf-broken-links",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:coding-golf-broken-links",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 402,
+        "slug": "404-race",
+        "name": "404 Race",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by Viljami Peltola — under 13KB of pure craft.",
+        "about": "404 Race is a racing & sports game by Viljami Peltola, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 404 Race on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Viljami Peltola"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/404-race",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404-race",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 403,
+        "slug": "404-f1-race-monochrome",
+        "name": "404 F1-race Monochrome",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by John Swana — under 13KB of pure craft.",
+        "about": "404 F1-race Monochrome is a racing & sports game by John Swana, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 404 F1-race Monochrome on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: John Swana"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/404-f1-race-monochrome",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:404-f1-race-monochrome",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 404,
+        "slug": "raccoon-transport-404",
+        "name": "Raccoon Transport 404",
+        "category": "racing-sports",
+        "tagline": "A 2020 js13kGames entry by Gabor Héja — under 13KB of pure craft.",
+        "about": "Raccoon Transport 404 is a racing & sports game by Gabor Héja, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Raccoon Transport 404 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Gabor Héja"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/raccoon-transport-404",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:raccoon-transport-404",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 405,
+        "slug": "offline-race",
+        "name": "Offline Race",
+        "category": "racing-sports",
+        "tagline": "A 2018 js13kGames entry by Leandro del Olmo — under 13KB of pure craft.",
+        "about": "Offline Race is a racing & sports game by Leandro del Olmo, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Offline Race on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Leandro del Olmo"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/offline-race",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:offline-race",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 406,
+        "slug": "my-first-pong-game",
+        "name": "My first pong game",
+        "category": "racing-sports",
+        "tagline": "A 2016 js13kGames entry by Jon Bayle — under 13KB of pure craft.",
+        "about": "My first pong game is a racing & sports game by Jon Bayle, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open My first pong game on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Jon Bayle"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/my-first-pong-game",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:my-first-pong-game",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sports",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 407,
+        "slug": "skip-n-glitch",
+        "name": "Skip'n Glitch",
+        "category": "racing-sports",
+        "tagline": "A 2016 js13kGames entry by Noncho Savov — under 13KB of pure craft.",
+        "about": "Skip'n Glitch is a racing & sports game by Noncho Savov, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Skip'n Glitch on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Noncho Savov"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/skip-n-glitch",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:skip-n-glitch",
+        "tags": [
+            "13kb",
+            "open-source",
+            "racing",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 408,
+        "slug": "idle-merchant-guild",
+        "name": "Idle Merchant Guild",
+        "category": "simulation",
+        "tagline": "A 2023 js13kGames entry by Franck Ly — under 13KB of pure craft.",
+        "about": "Idle Merchant Guild is a simulation game by Franck Ly, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2023 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Idle Merchant Guild on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: Franck Ly",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/idle-merchant-guild",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:idle-merchant-guild",
+        "tags": [
+            "13kb",
+            "open-source",
+            "idle",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 409,
+        "slug": "electron-life-simulator",
+        "name": "electron life simulator",
+        "category": "simulation",
+        "tagline": "A 2020 js13kGames entry by lespin — under 13KB of pure craft.",
+        "about": "electron life simulator is a simulation game by lespin, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open electron life simulator on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: lespin",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/electron-life-simulator",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:electron-life-simulator",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 410,
+        "slug": "desert-sim-sh",
+        "name": "desert-sim.sh",
+        "category": "simulation",
+        "tagline": "A 2020 js13kGames entry by kforbrok — under 13KB of pure craft.",
+        "about": "desert-sim.sh is a simulation game by kforbrok, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open desert-sim.sh on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: kforbrok",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/desert-sim-sh",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:desert-sim-sh",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 411,
+        "slug": "elements-craft",
+        "name": "Elements Craft",
+        "category": "simulation",
+        "tagline": "A 2014 js13kGames entry by Tanner — under 13KB of pure craft.",
+        "about": "Elements Craft is a simulation game by Tanner, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Elements Craft on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Tanner",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/elements-craft",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:elements-craft",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 412,
+        "slug": "crafty-cauldron",
+        "name": "Crafty Cauldron",
+        "category": "simulation",
+        "tagline": "A 2025 js13kGames entry by Luke Nickerson — under 13KB of pure craft.",
+        "about": "Crafty Cauldron is a simulation game by Luke Nickerson, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Crafty Cauldron on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Luke Nickerson"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/crafty-cauldron",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:crafty-cauldron",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 413,
+        "slug": "clicker-pawry",
+        "name": "Clicker Pawry",
+        "category": "simulation",
+        "tagline": "A 2025 js13kGames entry by nihdao — under 13KB of pure craft.",
+        "about": "Clicker Pawry is a simulation game by nihdao, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Clicker Pawry on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: nihdao"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/clicker-pawry",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:clicker-pawry",
+        "tags": [
+            "13kb",
+            "open-source",
+            "idle",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 414,
+        "slug": "13th-restaurant-rush",
+        "name": "13th Restaurant Rush",
+        "category": "simulation",
+        "tagline": "A 2024 js13kGames entry by Logan Tempez — under 13KB of pure craft.",
+        "about": "13th Restaurant Rush is a simulation game by Logan Tempez, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 13th Restaurant Rush on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Logan Tempez"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/13th-restaurant-rush",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:13th-restaurant-rush",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 415,
+        "slug": "market-street-tycoon",
+        "name": "Market Street Tycoon",
+        "category": "simulation",
+        "tagline": "A 2023 js13kGames entry by João Lopes — under 13KB of pure craft.",
+        "about": "Market Street Tycoon is a simulation game by João Lopes, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Market Street Tycoon on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: João Lopes"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/market-street-tycoon",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:market-street-tycoon",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 416,
+        "slug": "necromancer-colony-sim",
+        "name": "Necromancer Colony Sim",
+        "category": "simulation",
+        "tagline": "A 2023 js13kGames entry by Steven Lambert — under 13KB of pure craft.",
+        "about": "Necromancer Colony Sim is a simulation game by Steven Lambert, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Necromancer Colony Sim on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: Steven Lambert"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/necromancer-colony-sim",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:necromancer-colony-sim",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 417,
+        "slug": "spacebar-clicker",
+        "name": "Spacebar Clicker",
+        "category": "simulation",
+        "tagline": "A 2021 js13kGames entry by Bruno Croci — under 13KB of pure craft.",
+        "about": "Spacebar Clicker is a simulation game by Bruno Croci, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Spacebar Clicker on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Bruno Croci"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/spacebar-clicker",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:spacebar-clicker",
+        "tags": [
+            "13kb",
+            "open-source",
+            "idle",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 418,
+        "slug": "space-garden",
+        "name": "Space Garden",
+        "category": "simulation",
+        "tagline": "A 2021 js13kGames entry by Ryan Malm — under 13KB of pure craft.",
+        "about": "Space Garden is a simulation game by Ryan Malm, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Space Garden on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Ryan Malm"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/space-garden",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:space-garden",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 419,
+        "slug": "notecraft",
+        "name": "NoteCraft",
+        "category": "simulation",
+        "tagline": "A 2020 js13kGames entry by Frank Force — under 13KB of pure craft.",
+        "about": "NoteCraft is a simulation game by Frank Force, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open NoteCraft on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Frank Force"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/notecraft",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:notecraft",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 420,
+        "slug": "grow-back",
+        "name": "Grow Back",
+        "category": "simulation",
+        "tagline": "A 2019 js13kGames entry by Dima Kurovsky — under 13KB of pure craft.",
+        "about": "Grow Back is a simulation game by Dima Kurovsky, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Grow Back on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: Dima Kurovsky"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/grow-back",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:grow-back",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 421,
+        "slug": "librecraft",
+        "name": "LibreCraft",
+        "category": "simulation",
+        "tagline": "A 2019 js13kGames entry by Indigo McDonald — under 13KB of pure craft.",
+        "about": "LibreCraft is a simulation game by Indigo McDonald, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open LibreCraft on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: Indigo McDonald"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/librecraft",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:librecraft",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 422,
+        "slug": "spacecraft",
+        "name": "SPACECRAFT",
+        "category": "simulation",
+        "tagline": "A 2018 js13kGames entry by Csaba Csecskedi — under 13KB of pure craft.",
+        "about": "SPACECRAFT is a simulation game by Csaba Csecskedi, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open SPACECRAFT on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Csaba Csecskedi"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/spacecraft",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:spacecraft",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 423,
+        "slug": "bulletcraft",
+        "name": "Bulletcraft",
+        "category": "simulation",
+        "tagline": "A 2018 js13kGames entry by Kamil Misiowiec — under 13KB of pure craft.",
+        "about": "Bulletcraft is a simulation game by Kamil Misiowiec, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Bulletcraft on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Kamil Misiowiec"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/bulletcraft",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:bulletcraft",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 424,
+        "slug": "orbcraft13k",
+        "name": "orbCraft13k",
+        "category": "simulation",
+        "tagline": "A 2014 js13kGames entry by Dustin Pfister — under 13KB of pure craft.",
+        "about": "orbCraft13k is a simulation game by Dustin Pfister, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open orbCraft13k on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Dustin Pfister"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/orbcraft13k",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:orbcraft13k",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 425,
+        "slug": "robo-galactic-shooter",
+        "name": "Robo Galactic Shooter",
+        "category": "action",
+        "tagline": "A 2018 js13kGames entry by Ashish Bardhan — under 13KB of pure craft.",
+        "about": "Robo Galactic Shooter is a action game by Ashish Bardhan, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Robo Galactic Shooter on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Ashish Bardhan",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/robo-galactic-shooter",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:robo-galactic-shooter",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 426,
+        "slug": "fighter-planes",
+        "name": "Fighter planes",
+        "category": "action",
+        "tagline": "A 2017 js13kGames entry by Roman Knyazhitskiy — under 13KB of pure craft.",
+        "about": "Fighter planes is a action game by Roman Knyazhitskiy, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Fighter planes on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: Roman Knyazhitskiy",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/fighter-planes",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:fighter-planes",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "retro"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 427,
+        "slug": "soul-jumper",
+        "name": "Soul Jumper",
+        "category": "action",
+        "tagline": "A 2022 js13kGames entry by Ryan Tyler — under 13KB of pure craft.",
+        "about": "Soul Jumper is a action game by Ryan Tyler, submitted to the js13kGames 2022 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2022 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Soul Jumper on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2022",
+            "Author: Ryan Tyler",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2022/games/soul-jumper",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:soul-jumper",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2022",
+        "featured": false
+    },
+    {
+        "id": 428,
+        "slug": "yet-another-space-shooter",
+        "name": "Yet Another Space Shooter",
+        "category": "action",
+        "tagline": "A 2020 js13kGames entry by Nicholas Carlini — under 13KB of pure craft.",
+        "about": "Yet Another Space Shooter is a action game by Nicholas Carlini, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Yet Another Space Shooter on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Nicholas Carlini",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/yet-another-space-shooter",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:yet-another-space-shooter",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 429,
+        "slug": "spaceshmup",
+        "name": "spaceshmup",
+        "category": "action",
+        "tagline": "A 2018 js13kGames entry by Marek Olszewski — under 13KB of pure craft.",
+        "about": "spaceshmup is a action game by Marek Olszewski, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open spaceshmup on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Marek Olszewski",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/spaceshmup",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:spaceshmup",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 430,
+        "slug": "cosmic-shooters",
+        "name": "Cosmic Shooters",
+        "category": "action",
+        "tagline": "A 2016 js13kGames entry by Nalin Chhibber — under 13KB of pure craft.",
+        "about": "Cosmic Shooters is a action game by Nalin Chhibber, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Cosmic Shooters on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Nalin Chhibber",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/cosmic-shooters",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:cosmic-shooters",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 431,
+        "slug": "space-invaders-reimagined",
+        "name": "Space Invaders - Reimagined",
+        "category": "action",
+        "tagline": "A 2014 js13kGames entry by Iftah — under 13KB of pure craft.",
+        "about": "Space Invaders - Reimagined is a action game by Iftah, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Space Invaders - Reimagined on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Iftah",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/space-invaders-reimagined",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:space-invaders-reimagined",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 432,
+        "slug": "radius-raid",
+        "name": "Radius Raid",
+        "category": "action",
+        "tagline": "A 2013 js13kGames entry by Jack Rugile — under 13KB of pure craft.",
+        "about": "Radius Raid is a action game by Jack Rugile, submitted to the js13kGames 2013 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2013 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Radius Raid on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2013",
+            "Author: Jack Rugile",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2013/games/radius-raid",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2013:radius-raid",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2013",
+        "featured": false
+    },
+    {
+        "id": 433,
+        "slug": "triska-the-ninja-cat",
+        "name": "Triska the Ninja Cat",
+        "category": "action",
+        "tagline": "A 2025 js13kGames entry by John Edvard — under 13KB of pure craft.",
+        "about": "Triska the Ninja Cat is a action game by John Edvard, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2025 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Triska the Ninja Cat on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: John Edvard",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/triska-the-ninja-cat",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:triska-the-ninja-cat",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 434,
+        "slug": "the-demons-13-floors",
+        "name": "The Demons 13 Floors",
+        "category": "action",
+        "tagline": "A 2024 js13kGames entry by Hongming — under 13KB of pure craft.",
+        "about": "The Demons 13 Floors is a action game by Hongming, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Demons 13 Floors on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Hongming",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/the-demons-13-floors",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:the-demons-13-floors",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 435,
+        "slug": "the-13-invaders",
+        "name": "The 13 Invaders",
+        "category": "action",
+        "tagline": "A 2024 js13kGames entry by Mohammad Jawad — under 13KB of pure craft.",
+        "about": "The 13 Invaders is a action game by Mohammad Jawad, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The 13 Invaders on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Mohammad Jawad",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/the-13-invaders",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:the-13-invaders",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 436,
+        "slug": "the-cat-jumper",
+        "name": "The Cat Jumper",
+        "category": "action",
+        "tagline": "A 2023 js13kGames entry by 384.cz — under 13KB of pure craft.",
+        "about": "The Cat Jumper is a action game by 384.cz, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2023 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Cat Jumper on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: 384.cz",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/the-cat-jumper",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:the-cat-jumper",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 437,
+        "slug": "zombie-state-university-munchie-s-late-for-class",
+        "name": "Zombie State University - Munchie's Late For Class",
+        "category": "action",
+        "tagline": "A 2022 js13kGames entry by Justin Hunter — under 13KB of pure craft.",
+        "about": "Zombie State University - Munchie's Late For Class is a action game by Justin Hunter, submitted to the js13kGames 2022 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2022 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Zombie State University - Munchie's Late For Class on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2022",
+            "Author: Justin Hunter",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2022/games/zombie-state-university-munchie-s-late-for-class",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:zombie-state-university-munchie-s-late-for-class",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2022",
+        "featured": false
+    },
+    {
+        "id": 438,
+        "slug": "alien-scroll",
+        "name": "Alien-Scroll",
+        "category": "action",
+        "tagline": "A 2021 js13kGames entry by Low Fat Lard — under 13KB of pure craft.",
+        "about": "Alien-Scroll is a action game by Low Fat Lard, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Alien-Scroll on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Low Fat Lard",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/alien-scroll",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:alien-scroll",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 439,
+        "slug": "just-another-space-shooter",
+        "name": "Just Another Space Shooter",
+        "category": "action",
+        "tagline": "A 2021 js13kGames entry by Marcos Augusto Bitetti — under 13KB of pure craft.",
+        "about": "Just Another Space Shooter is a action game by Marcos Augusto Bitetti, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Just Another Space Shooter on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Marcos Augusto Bitetti",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/just-another-space-shooter",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:just-another-space-shooter",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 440,
+        "slug": "packet-jumpr",
+        "name": "Packet Jumpr",
+        "category": "action",
+        "tagline": "A 2020 js13kGames entry by Andrés Muñoz — under 13KB of pure craft.",
+        "about": "Packet Jumpr is a action game by Andrés Muñoz, submitted to the js13kGames 2020 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2020 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Packet Jumpr on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2020",
+            "Author: Andrés Muñoz",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2020/games/packet-jumpr",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2020:packet-jumpr",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2020",
+        "featured": false
+    },
+    {
+        "id": 441,
+        "slug": "zombieburger",
+        "name": "ZombieBurger",
+        "category": "action",
+        "tagline": "A 2019 js13kGames entry by Olivér Sepsik and Dadi5 — under 13KB of pure craft.",
+        "about": "ZombieBurger is a action game by Olivér Sepsik and Dadi5, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2019 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open ZombieBurger on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: Olivér Sepsik and Dadi5",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/zombieburger",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:zombieburger",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 442,
+        "slug": "don-t-shoot-back",
+        "name": "Don't Shoot Back",
+        "category": "action",
+        "tagline": "A 2019 js13kGames entry by David Damian — under 13KB of pure craft.",
+        "about": "Don't Shoot Back is a action game by David Damian, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2019 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Don't Shoot Back on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: David Damian",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/don-t-shoot-back",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:don-t-shoot-back",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 443,
+        "slug": "2ap-backyard-assault",
+        "name": "2AP: Backyard Assault",
+        "category": "action",
+        "tagline": "A 2019 js13kGames entry by Alexander Petrov — under 13KB of pure craft.",
+        "about": "2AP: Backyard Assault is a action game by Alexander Petrov, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2019 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 2AP: Backyard Assault on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: Alexander Petrov",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/2ap-backyard-assault",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:2ap-backyard-assault",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 444,
+        "slug": "jump-off-line",
+        "name": "Jump Off Line",
+        "category": "action",
+        "tagline": "A 2018 js13kGames entry by Nick B — under 13KB of pure craft.",
+        "about": "Jump Off Line is a action game by Nick B, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Jump Off Line on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Nick B",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/jump-off-line",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:jump-off-line",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 445,
+        "slug": "blasting-shrapnel",
+        "name": "Blasting Shrapnel",
+        "category": "action",
+        "tagline": "A 2018 js13kGames entry by Alan Rawkins — under 13KB of pure craft.",
+        "about": "Blasting Shrapnel is a action game by Alan Rawkins, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Blasting Shrapnel on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Alan Rawkins",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/blasting-shrapnel",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:blasting-shrapnel",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 446,
+        "slug": "lasergrid",
+        "name": "Lasergrid",
+        "category": "action",
+        "tagline": "A 2018 js13kGames entry by Sorskoot — under 13KB of pure craft.",
+        "about": "Lasergrid is a action game by Sorskoot, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Lasergrid on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Sorskoot",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/lasergrid",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:lasergrid",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 447,
+        "slug": "raider-of-the-lost-gems",
+        "name": "Raider of the Lost Gems",
+        "category": "action",
+        "tagline": "A 2017 js13kGames entry by Jeremiah Fernandez — under 13KB of pure craft.",
+        "about": "Raider of the Lost Gems is a action game by Jeremiah Fernandez, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Raider of the Lost Gems on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: Jeremiah Fernandez",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/raider-of-the-lost-gems",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:raider-of-the-lost-gems",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 448,
+        "slug": "soldier-run",
+        "name": "Soldier run",
+        "category": "action",
+        "tagline": "A 2017 js13kGames entry by iScor — under 13KB of pure craft.",
+        "about": "Soldier run is a action game by iScor, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Soldier run on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: iScor",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/soldier-run",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:soldier-run",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 449,
+        "slug": "cyber-shmup",
+        "name": "Cyber Shmup",
+        "category": "action",
+        "tagline": "A 2016 js13kGames entry by Grzegorz Pabian — under 13KB of pure craft.",
+        "about": "Cyber Shmup is a action game by Grzegorz Pabian, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Cyber Shmup on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Grzegorz Pabian",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/cyber-shmup",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:cyber-shmup",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 450,
+        "slug": "bubble-jumper",
+        "name": "Bubble Jumper",
+        "category": "action",
+        "tagline": "A 2015 js13kGames entry by DLSmith — under 13KB of pure craft.",
+        "about": "Bubble Jumper is a action game by DLSmith, submitted to the js13kGames 2015 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2015 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Bubble Jumper on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2015",
+            "Author: DLSmith",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2015/games/bubble-jumper",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2015:bubble-jumper",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2015",
+        "featured": false
+    },
+    {
+        "id": 451,
+        "slug": "blast-13-kilobytes",
+        "name": "Blast 13 kilobytes",
+        "category": "action",
+        "tagline": "A 2014 js13kGames entry by Mark Vasilkov — under 13KB of pure craft.",
+        "about": "Blast 13 kilobytes is a action game by Mark Vasilkov, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Blast 13 kilobytes on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Mark Vasilkov",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/blast-13-kilobytes",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:blast-13-kilobytes",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 452,
+        "slug": "spaceships",
+        "name": "SPACESHIPS!",
+        "category": "action",
+        "tagline": "A 2014 js13kGames entry by Randall Koutnik — under 13KB of pure craft.",
+        "about": "SPACESHIPS! is a action game by Randall Koutnik, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open SPACESHIPS! on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Randall Koutnik",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/spaceships",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:spaceships",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 453,
+        "slug": "gunship13k",
+        "name": "Gunship13k",
+        "category": "action",
+        "tagline": "A 2014 js13kGames entry by Ian Llewellyn — under 13KB of pure craft.",
+        "about": "Gunship13k is a action game by Ian Llewellyn, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Gunship13k on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Ian Llewellyn",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/gunship13k",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:gunship13k",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 454,
+        "slug": "assault-on-city-13",
+        "name": "Assault on City 13",
+        "category": "action",
+        "tagline": "A 2025 js13kGames entry by Bob Game — under 13KB of pure craft.",
+        "about": "Assault on City 13 is a action game by Bob Game, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Assault on City 13 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Bob Game"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/assault-on-city-13",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:assault-on-city-13",
+        "tags": [
+            "13kb",
+            "open-source",
+            "sandbox",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 455,
+        "slug": "the-laser-cat",
+        "name": "The Laser Cat",
+        "category": "action",
+        "tagline": "A 2025 js13kGames entry by sodium  — under 13KB of pure craft.",
+        "about": "The Laser Cat is a action game by sodium , submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Laser Cat on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: sodium "
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/the-laser-cat",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:the-laser-cat",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 456,
+        "slug": "cat-shooter-ritual-catacombs",
+        "name": "Cat Shooter Ritual Catacombs",
+        "category": "action",
+        "tagline": "A 2025 js13kGames entry by Dmytro Kozhukhar — under 13KB of pure craft.",
+        "about": "Cat Shooter Ritual Catacombs is a action game by Dmytro Kozhukhar, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Cat Shooter Ritual Catacombs on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Dmytro Kozhukhar"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/cat-shooter-ritual-catacombs",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:cat-shooter-ritual-catacombs",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 457,
+        "slug": "the-soldier",
+        "name": "The Soldier",
+        "category": "action",
+        "tagline": "A 2025 js13kGames entry by Aurélio A. Heckert — under 13KB of pure craft.",
+        "about": "The Soldier is a action game by Aurélio A. Heckert, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Soldier on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Aurélio A. Heckert"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/the-soldier",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:the-soldier",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 458,
+        "slug": "aargh-triskaideka-attacks",
+        "name": "Aargh! Triskaideka attacks!",
+        "category": "action",
+        "tagline": "A 2024 js13kGames entry by Christoph Schansky — under 13KB of pure craft.",
+        "about": "Aargh! Triskaideka attacks! is a action game by Christoph Schansky, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Aargh! Triskaideka attacks! on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Christoph Schansky"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/aargh-triskaideka-attacks",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:aargh-triskaideka-attacks",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 459,
+        "slug": "gecko-blaster",
+        "name": "Gecko Blaster",
+        "category": "action",
+        "tagline": "A 2024 js13kGames entry by Eoin McGrath — under 13KB of pure craft.",
+        "about": "Gecko Blaster is a action game by Eoin McGrath, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Gecko Blaster on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Eoin McGrath"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/gecko-blaster",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:gecko-blaster",
+        "tags": [
+            "13kb",
+            "open-source",
+            "shooter",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 460,
+        "slug": "bitty-jump",
+        "name": "Bitty Jump",
+        "category": "action",
+        "tagline": "A 2024 js13kGames entry by mibix2 — under 13KB of pure craft.",
+        "about": "Bitty Jump is a action game by mibix2, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Bitty Jump on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: mibix2"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/bitty-jump",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:bitty-jump",
+        "tags": [
+            "13kb",
+            "open-source",
+            "platformer",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 461,
+        "slug": "chesspursuit",
+        "name": "ChessPursuit",
+        "category": "strategy",
+        "tagline": "A 2015 js13kGames entry by Saturnyn — under 13KB of pure craft.",
+        "about": "ChessPursuit is a strategy game by Saturnyn, submitted to the js13kGames 2015 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2015 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open ChessPursuit on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2015",
+            "Author: Saturnyn",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2015/games/chesspursuit",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2015:chesspursuit",
+        "tags": [
+            "13kb",
+            "open-source",
+            "board-game",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2015",
+        "featured": false
+    },
+    {
+        "id": 462,
+        "slug": "element-war",
+        "name": "Element War",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by John Kilmister — under 13KB of pure craft.",
+        "about": "Element War is a strategy game by John Kilmister, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Element War on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: John Kilmister",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/element-war",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:element-war",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 463,
+        "slug": "critter-defense",
+        "name": "Critter Defense",
+        "category": "strategy",
+        "tagline": "A 2013 js13kGames entry by olsn — under 13KB of pure craft.",
+        "about": "Critter Defense is a strategy game by olsn, submitted to the js13kGames 2013 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2013 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Critter Defense on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2013",
+            "Author: olsn",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2013/games/critter-defense",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2013:critter-defense",
+        "tags": [
+            "13kb",
+            "open-source",
+            "tower-defense",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2013",
+        "featured": false
+    },
+    {
+        "id": 464,
+        "slug": "mor-chess",
+        "name": "Mor Chess",
+        "category": "strategy",
+        "tagline": "A 2025 js13kGames entry by Emre Guneyler — under 13KB of pure craft.",
+        "about": "Mor Chess is a strategy game by Emre Guneyler, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2025 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Mor Chess on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Emre Guneyler",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/mor-chess",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:mor-chess",
+        "tags": [
+            "13kb",
+            "open-source",
+            "board-game",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 465,
+        "slug": "13s-tactics",
+        "name": "13s Tactics",
+        "category": "strategy",
+        "tagline": "A 2024 js13kGames entry by Igor Estêvão — under 13KB of pure craft.",
+        "about": "13s Tactics is a strategy game by Igor Estêvão, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 13s Tactics on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Igor Estêvão",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/13s-tactics",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:13s-tactics",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 466,
+        "slug": "data-warrior-13kb-limit",
+        "name": "Data Warrior: 13kb limit",
+        "category": "strategy",
+        "tagline": "A 2024 js13kGames entry by Alexey Kalmakov — under 13KB of pure craft.",
+        "about": "Data Warrior: 13kb limit is a strategy game by Alexey Kalmakov, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Data Warrior: 13kb limit on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Alexey Kalmakov",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/data-warrior-13kb-limit",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:data-warrior-13kb-limit",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 467,
+        "slug": "the-dandelion-wars",
+        "name": "The Dandelion Wars",
+        "category": "strategy",
+        "tagline": "A 2024 js13kGames entry by Jure Triglav — under 13KB of pure craft.",
+        "about": "The Dandelion Wars is a strategy game by Jure Triglav, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Dandelion Wars on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Jure Triglav",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/the-dandelion-wars",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:the-dandelion-wars",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 468,
+        "slug": "castlefire",
+        "name": "CastleFire",
+        "category": "strategy",
+        "tagline": "A 2023 js13kGames entry by Niko Bazylev — under 13KB of pure craft.",
+        "about": "CastleFire is a strategy game by Niko Bazylev, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2023 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open CastleFire on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: Niko Bazylev",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/castlefire",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:castlefire",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 469,
+        "slug": "castlerun-maze",
+        "name": "CastleRun Maze",
+        "category": "strategy",
+        "tagline": "A 2023 js13kGames entry by derellac — under 13KB of pure craft.",
+        "about": "CastleRun Maze is a strategy game by derellac, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2023 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open CastleRun Maze on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: derellac",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/castlerun-maze",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:castlerun-maze",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 470,
+        "slug": "chess-arena",
+        "name": "chess arena",
+        "category": "strategy",
+        "tagline": "A 2022 js13kGames entry by Alexander Dunin — under 13KB of pure craft.",
+        "about": "chess arena is a strategy game by Alexander Dunin, submitted to the js13kGames 2022 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2022 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open chess arena on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2022",
+            "Author: Alexander Dunin",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2022/games/chess-arena",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:chess-arena",
+        "tags": [
+            "13kb",
+            "open-source",
+            "board-game",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2022",
+        "featured": false
+    },
+    {
+        "id": 471,
+        "slug": "tradewarp",
+        "name": "Tradewarp",
+        "category": "strategy",
+        "tagline": "A 2021 js13kGames entry by Christer Kaitila — under 13KB of pure craft.",
+        "about": "Tradewarp is a strategy game by Christer Kaitila, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Tradewarp on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Christer Kaitila",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/tradewarp",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:tradewarp",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 472,
+        "slug": "cat-goric-escape-from-the-warp-chamber",
+        "name": "Cat Goric: Escape from the Warp Chamber",
+        "category": "strategy",
+        "tagline": "A 2021 js13kGames entry by Victor Nogueira — under 13KB of pure craft.",
+        "about": "Cat Goric: Escape from the Warp Chamber is a strategy game by Victor Nogueira, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Cat Goric: Escape from the Warp Chamber on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Victor Nogueira",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/cat-goric-escape-from-the-warp-chamber",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:cat-goric-escape-from-the-warp-chamber",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 473,
+        "slug": "constellation-wars",
+        "name": "Constellation Wars",
+        "category": "strategy",
+        "tagline": "A 2021 js13kGames entry by Burián Sándor — under 13KB of pure craft.",
+        "about": "Constellation Wars is a strategy game by Burián Sándor, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Constellation Wars on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: Burián Sándor",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/constellation-wars",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:constellation-wars",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 474,
+        "slug": "backshot-tactics",
+        "name": "Backshot Tactics",
+        "category": "strategy",
+        "tagline": "A 2019 js13kGames entry by Antonio Salvati — under 13KB of pure craft.",
+        "about": "Backshot Tactics is a strategy game by Antonio Salvati, submitted to the js13kGames 2019 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2019 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Backshot Tactics on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2019",
+            "Author: Antonio Salvati",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2019/games/backshot-tactics",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2019:backshot-tactics",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2019",
+        "featured": false
+    },
+    {
+        "id": 475,
+        "slug": "network-defense",
+        "name": "Network Defense",
+        "category": "strategy",
+        "tagline": "A 2018 js13kGames entry by Gabriel Erbetta — under 13KB of pure craft.",
+        "about": "Network Defense is a strategy game by Gabriel Erbetta, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Network Defense on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: Gabriel Erbetta",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/network-defense",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:network-defense",
+        "tags": [
+            "13kb",
+            "open-source",
+            "tower-defense",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 476,
+        "slug": "retro-castlevania-colloseum",
+        "name": "Retro Castlevania Colloseum",
+        "category": "strategy",
+        "tagline": "A 2017 js13kGames entry by André Jaenisch — under 13KB of pure craft.",
+        "about": "Retro Castlevania Colloseum is a strategy game by André Jaenisch, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Retro Castlevania Colloseum on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: André Jaenisch",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/retro-castlevania-colloseum",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:retro-castlevania-colloseum",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "retro"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 477,
+        "slug": "lone-guard-the-software",
+        "name": "Lone Guard - The Software",
+        "category": "strategy",
+        "tagline": "A 2016 js13kGames entry by John Afolayan — under 13KB of pure craft.",
+        "about": "Lone Guard - The Software is a strategy game by John Afolayan, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Lone Guard - The Software on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: John Afolayan",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/lone-guard-the-software",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:lone-guard-the-software",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "minimal"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 478,
+        "slug": "tank-wars-reversal",
+        "name": "Tank wars: reversal",
+        "category": "strategy",
+        "tagline": "A 2015 js13kGames entry by santiher — under 13KB of pure craft.",
+        "about": "Tank wars: reversal is a strategy game by santiher, submitted to the js13kGames 2015 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2015 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Tank wars: reversal on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2015",
+            "Author: santiher",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2015/games/tank-wars-reversal",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2015:tank-wars-reversal",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2015",
+        "featured": false
+    },
+    {
+        "id": 479,
+        "slug": "elemental-card-wars",
+        "name": "Elemental Card Wars",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by Andrew Couch — under 13KB of pure craft.",
+        "about": "Elemental Card Wars is a strategy game by Andrew Couch, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Elemental Card Wars on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Andrew Couch",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/elemental-card-wars",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:elemental-card-wars",
+        "tags": [
+            "13kb",
+            "open-source",
+            "card-game",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 480,
+        "slug": "woe-war-of-elements",
+        "name": "WoE - War of Elements",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by Jonas and Martin — under 13KB of pure craft.",
+        "about": "WoE - War of Elements is a strategy game by Jonas and Martin, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open WoE - War of Elements on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Jonas and Martin",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/woe-war-of-elements",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:woe-war-of-elements",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 481,
+        "slug": "alchemist-defence",
+        "name": "alchemist defence",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by Arthur Brongniart — under 13KB of pure craft.",
+        "about": "alchemist defence is a strategy game by Arthur Brongniart, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open alchemist defence on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Arthur Brongniart",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/alchemist-defence",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:alchemist-defence",
+        "tags": [
+            "13kb",
+            "open-source",
+            "tower-defense",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 482,
+        "slug": "4-elements-tower-defense",
+        "name": "4 elements tower defense",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by qw3n — under 13KB of pure craft.",
+        "about": "4 elements tower defense is a strategy game by qw3n, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 4 elements tower defense on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: qw3n",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/4-elements-tower-defense",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:4-elements-tower-defense",
+        "tags": [
+            "13kb",
+            "open-source",
+            "tower-defense",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 483,
+        "slug": "vier-wizard-wars",
+        "name": "VIER - Wizard Wars",
+        "category": "strategy",
+        "tagline": "A 2014 js13kGames entry by Giovanny Beltrán — under 13KB of pure craft.",
+        "about": "VIER - Wizard Wars is a strategy game by Giovanny Beltrán, submitted to the js13kGames 2014 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2014 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open VIER - Wizard Wars on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2014",
+            "Author: Giovanny Beltrán",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2014/games/vier-wizard-wars",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2014:vier-wizard-wars",
+        "tags": [
+            "13kb",
+            "open-source",
+            "turn-based",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2014",
+        "featured": false
+    },
+    {
+        "id": 484,
+        "slug": "mor-chess-2",
+        "name": "Mor Chess 2",
+        "category": "strategy",
+        "tagline": "A 2025 js13kGames entry by Emre Guneyler — under 13KB of pure craft.",
+        "about": "Mor Chess 2 is a strategy game by Emre Guneyler, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Mor Chess 2 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Emre Guneyler"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/mor-chess-2",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:mor-chess-2",
+        "tags": [
+            "13kb",
+            "open-source",
+            "board-game",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 485,
+        "slug": "grass-tower-defense",
+        "name": "Grass Tower Defense",
+        "category": "strategy",
+        "tagline": "A 2025 js13kGames entry by Kang Jung Min — under 13KB of pure craft.",
+        "about": "Grass Tower Defense is a strategy game by Kang Jung Min, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Grass Tower Defense on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Kang Jung Min"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/grass-tower-defense",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:grass-tower-defense",
+        "tags": [
+            "13kb",
+            "open-source",
+            "tower-defense",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 486,
+        "slug": "escape-from-hell",
+        "name": "Escape from Hell",
+        "category": "puzzle",
+        "tagline": "A 2017 js13kGames entry by Alex-dqw — under 13KB of pure craft.",
+        "about": "Escape from Hell is a puzzle game by Alex-dqw, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Escape from Hell on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: Alex-dqw",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/escape-from-hell",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:escape-from-hell",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 487,
+        "slug": "lost-in-memory",
+        "name": "Lost In Memory",
+        "category": "puzzle",
+        "tagline": "A 2017 js13kGames entry by Syed Muhd Ilham Arif — under 13KB of pure craft.",
+        "about": "Lost In Memory is a puzzle game by Syed Muhd Ilham Arif, submitted to the js13kGames 2017 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2017 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Lost In Memory on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2017",
+            "Author: Syed Muhd Ilham Arif",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2017/games/lost-in-memory",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2017:lost-in-memory",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2017",
+        "featured": false
+    },
+    {
+        "id": 488,
+        "slug": "the-labyrinth-of-death",
+        "name": "The labyrinth of death",
+        "category": "puzzle",
+        "tagline": "A 2022 js13kGames entry by Andrei Iacob — under 13KB of pure craft.",
+        "about": "The labyrinth of death is a puzzle game by Andrei Iacob, submitted to the js13kGames 2022 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2022 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The labyrinth of death on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2022",
+            "Author: Andrei Iacob",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2022/games/the-labyrinth-of-death",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2022:the-labyrinth-of-death",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2022",
+        "featured": false
+    },
+    {
+        "id": 489,
+        "slug": "cable-maze",
+        "name": "Cable Maze",
+        "category": "puzzle",
+        "tagline": "A 2018 js13kGames entry by rezaxdi — under 13KB of pure craft.",
+        "about": "Cable Maze is a puzzle game by rezaxdi, submitted to the js13kGames 2018 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2018 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Cable Maze on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2018",
+            "Author: rezaxdi",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2018/games/cable-maze",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2018:cable-maze",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2018",
+        "featured": false
+    },
+    {
+        "id": 490,
+        "slug": "theo-s-escape",
+        "name": "Theo's Escape",
+        "category": "puzzle",
+        "tagline": "A 2016 js13kGames entry by Csaba Csecskedi — under 13KB of pure craft.",
+        "about": "Theo's Escape is a puzzle game by Csaba Csecskedi, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Theo's Escape on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Csaba Csecskedi",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/theo-s-escape",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:theo-s-escape",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 491,
+        "slug": "puzzle",
+        "name": "Puzzle",
+        "category": "puzzle",
+        "tagline": "A 2025 js13kGames entry by Zamar443 — under 13KB of pure craft.",
+        "about": "Puzzle is a puzzle game by Zamar443, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2025 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Puzzle on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Zamar443",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/puzzle",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:puzzle",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 492,
+        "slug": "the-black-cat-s-escape",
+        "name": "The Black Cat's Escape",
+        "category": "puzzle",
+        "tagline": "A 2025 js13kGames entry by Zang0l0tino — under 13KB of pure craft.",
+        "about": "The Black Cat's Escape is a puzzle game by Zang0l0tino, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2025 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Black Cat's Escape on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Zang0l0tino",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/the-black-cat-s-escape",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:the-black-cat-s-escape",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 493,
+        "slug": "shadow-s-escape",
+        "name": "SHADOW'S ESCAPE",
+        "category": "puzzle",
+        "tagline": "A 2025 js13kGames entry by Jacobo Caraballo — under 13KB of pure craft.",
+        "about": "SHADOW'S ESCAPE is a puzzle game by Jacobo Caraballo, submitted to the js13kGames 2025 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2025 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open SHADOW'S ESCAPE on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2025",
+            "Author: Jacobo Caraballo",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2025/games/shadow-s-escape",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2025:shadow-s-escape",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2025",
+        "featured": false
+    },
+    {
+        "id": 494,
+        "slug": "escape-from-planet-xiii",
+        "name": "Escape from Planet XIII",
+        "category": "puzzle",
+        "tagline": "A 2024 js13kGames entry by Miguel Ángel — under 13KB of pure craft.",
+        "about": "Escape from Planet XIII is a puzzle game by Miguel Ángel, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Escape from Planet XIII on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Miguel Ángel",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/escape-from-planet-xiii",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:escape-from-planet-xiii",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 495,
+        "slug": "13-maze",
+        "name": "13-Maze",
+        "category": "puzzle",
+        "tagline": "A 2024 js13kGames entry by Kang Jung Min — under 13KB of pure craft.",
+        "about": "13-Maze is a puzzle game by Kang Jung Min, submitted to the js13kGames 2024 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2024 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open 13-Maze on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2024",
+            "Author: Kang Jung Min",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2024/games/13-maze",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2024:13-maze",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2024",
+        "featured": false
+    },
+    {
+        "id": 496,
+        "slug": "medieval-matchup",
+        "name": "Medieval Matchup",
+        "category": "puzzle",
+        "tagline": "A 2023 js13kGames entry by Samuel van Egmond — under 13KB of pure craft.",
+        "about": "Medieval Matchup is a puzzle game by Samuel van Egmond, submitted to the js13kGames 2023 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2023 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Medieval Matchup on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2023",
+            "Author: Samuel van Egmond",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2023/games/medieval-matchup",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2023:medieval-matchup",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2023",
+        "featured": false
+    },
+    {
+        "id": 497,
+        "slug": "the-great-escape",
+        "name": "The Great Escape",
+        "category": "puzzle",
+        "tagline": "A 2021 js13kGames entry by TimChandra, jiahui747 and abhijitnair95 — under 13KB of pure craft.",
+        "about": "The Great Escape is a puzzle game by TimChandra, jiahui747 and abhijitnair95, submitted to the js13kGames 2021 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2021 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open The Great Escape on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2021",
+            "Author: TimChandra, jiahui747 and abhijitnair95",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2021/games/the-great-escape",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2021:the-great-escape",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2021",
+        "featured": false
+    },
+    {
+        "id": 498,
+        "slug": "mess-my-brain",
+        "name": "Mess My Brain",
+        "category": "puzzle",
+        "tagline": "A 2016 js13kGames entry by Dan Popa — under 13KB of pure craft.",
+        "about": "Mess My Brain is a puzzle game by Dan Popa, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Mess My Brain on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: Dan Popa",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/mess-my-brain",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:mess-my-brain",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 499,
+        "slug": "escape-from-maze-13",
+        "name": "Escape from Maze 13",
+        "category": "puzzle",
+        "tagline": "A 2016 js13kGames entry by John Kilmister — under 13KB of pure craft.",
+        "about": "Escape from Maze 13 is a puzzle game by John Kilmister, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Escape from Maze 13 on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: John Kilmister",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/escape-from-maze-13",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:escape-from-maze-13",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 500,
+        "slug": "prison-escape",
+        "name": "Prison Escape",
+        "category": "puzzle",
+        "tagline": "A 2016 js13kGames entry by satanas — under 13KB of pure craft.",
+        "about": "Prison Escape is a puzzle game by satanas, submitted to the js13kGames 2016 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2016 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open Prison Escape on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2016",
+            "Author: satanas",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2016/games/prison-escape",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2016:prison-escape",
+        "tags": [
+            "13kb",
+            "open-source",
+            "puzzle-room",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2016",
+        "featured": false
+    },
+    {
+        "id": 501,
+        "slug": "tetris",
+        "name": "TetRis",
+        "category": "puzzle",
+        "tagline": "A 2015 js13kGames entry by Chang Cheng-Hao — under 13KB of pure craft.",
+        "about": "TetRis is a puzzle game by Chang Cheng-Hao, submitted to the js13kGames 2015 competition. Like every js13k entry, it was built from scratch in under 13 kilobytes — code, art and audio all included — a constraint that rewards focused, clever design. It was recognised in the 2015 competition.\n\nWe catalogue it because it represents the spirit of the size-limited game jam: a complete, playable experience distilled to its essence. Open it on the official js13k showcase to see what fits in 13KB. (This is a factual placeholder — a full review will follow.)",
+        "howToPlay": "Most js13kGames entries use keyboard or mouse controls. Open TetRis on the official js13kGames page to read its in-game instructions, as controls vary per entry.\n\nGenerally: arrow keys or WASD for movement, the mouse for point-and-click titles, and space for primary actions. Many entries show their controls on a title screen. (This is a factual placeholder — specific controls will be documented in the full guide.)",
+        "keyFeatures": [
+            "Built in under 13 kilobytes (code, art, audio)",
+            "Submitted to js13kGames 2015",
+            "Author: Chang Cheng-Hao",
+            "Competition-recognised entry"
+        ],
+        "screenshots": [],
+        "sourceName": "js13kGames",
+        "sourceUrl": "https://js13kgames.com/2015/games/tetris",
+        "licence": "source-available",
+        "licenceStatus": "source-available",
+        "sourceKey": "js13k:2015:tetris",
+        "tags": [
+            "13kb",
+            "open-source",
+            "match-3",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-07-14",
+        "releaseDate": "2015",
         "featured": false
     }
 ];

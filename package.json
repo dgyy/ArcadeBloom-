@@ -10,6 +10,7 @@
     "build": "npm run build:css && npm run fetch:screenshots && eleventy",
     "serve": "npm run build:css && eleventy --serve",
     "validate": "node scripts/validate-data.js",
+    "validate:strict": "node scripts/validate-data.js --strict",
     "pretest": "npm run build",
     "test": "playwright test"
   },

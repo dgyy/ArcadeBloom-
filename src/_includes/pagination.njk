@@ -1,0 +1,23 @@
+{# =============================================================================
+   pagination.njk — reusable prev/next pager.
+   Expects `p` in scope (a page descriptor from paginatedLists.js) with:
+     page (1-based), totalPages, isFirst, isLast, prevHref, nextHref.
+   Renders only when the list spans more than one page.
+   ============================================================================= #}
+{% if p and p.totalPages and p.totalPages > 1 %}
+<nav class="flex items-center justify-center gap-3 sm:gap-4 mt-12 text-sm" aria-label="Pagination">
+    {% if p.prevHref %}
+    <a href="{{ p.prevHref }}" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition font-semibold" rel="prev">← Prev</a>
+    {% else %}
+    <span class="px-4 py-2 rounded-full bg-white/5 text-white/30 font-semibold cursor-not-allowed" aria-disabled="true">← Prev</span>
+    {% endif %}
+
+    <span class="text-white/70 px-2">Page {{ p.page }} of {{ p.totalPages }}</span>
+
+    {% if p.nextHref %}
+    <a href="{{ p.nextHref }}" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 transition font-semibold" rel="next">Next →</a>
+    {% else %}
+    <span class="px-4 py-2 rounded-full bg-white/5 text-white/30 font-semibold cursor-not-allowed" aria-disabled="true">Next →</span>
+    {% endif %}
+</nav>
+{% endif %}
