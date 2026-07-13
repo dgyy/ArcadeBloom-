@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 // =============================================================================
 // fetch-screenshots.js — download js13k game screenshots (.c.jpg) for all
-// js13k-sourced games, store under src/static/screenshots/, and update the
-// catalogue's screenshots[] field.
+// js13k-sourced games, store under src/static/screenshots/.
 //
 // URL pattern (verified live): https://play.js13kgames.com/{slug}/.c.jpg
 // Some entries have no screenshot (404) — those keep the CSS placeholder.
 //
-// Run AFTER build-catalogue.js has populated games.js. Re-runnable: skips files
-// already present. Network-friendly: 5 concurrent downloads, 8s timeout each.
+// This script ONLY downloads files — it does NOT modify games.js. The
+// screenshots[] field in games.js already records the path; this just ensures
+// the image file exists. Safe to run in CI (Cloudflare build).
+//
+// Re-runnable: skips files already present.
 // =============================================================================
 'use strict';
 
@@ -34,7 +36,8 @@ function download(url, dest) {
 }
 
 // Only js13k-sourced games have a predictable screenshot URL.
-const js13kGames = games.filter((g) => g.sourceName === 'js13kGames');
+// Also only download for games that have a screenshots[] path set in games.js.
+const js13kGames = games.filter((g) => g.sourceName === 'js13kGames' && g.screenshots && g.screenshots.length > 0);
 console.log(`Fetching screenshots for ${js13kGames.length} js13k games...`);
 
 (async () => {
@@ -56,24 +59,6 @@ console.log(`Fetching screenshots for ${js13kGames.length} js13k games...`);
         }
     }
     console.log(`\nDone: ${ok} downloaded, ${fail} missing (404), ${skip} already present.`);
-
-    // Update games.js screenshots[] for every js13k game that now has a file.
-    let updated = 0;
-    const updatedGames = games.map((g) => {
-        if (g.sourceName !== 'js13kGames') return g;
-        const fname = `${g.slug}.jpg`;
-        if (fs.existsSync(path.join(SHOT_DIR, fname))) {
-            updated++;
-            return { ...g, screenshots: [`/screenshots/${fname}`] };
-        }
-        return g;
-    });
-    console.log(`Updated screenshots[] for ${updated} games.`);
-
-    // Write back to merged json (write-games-js.js will regenerate games.js)
-    fs.writeFileSync(
-        path.join(__dirname, 'js13k-games-merged.json'),
-        JSON.stringify(updatedGames, null, 4)
-    );
-    console.log('Updated scripts/js13k-games-merged.json — run `node scripts/write-games-js.js` next.');
+    console.log('Screenshots are in src/static/screenshots/ (gitignored — see CONTENT-LICENSE.md).');
 })();
+

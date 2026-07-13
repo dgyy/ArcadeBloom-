@@ -71,4 +71,13 @@ See [`CONTEXT.md`](CONTEXT.md) for the domain glossary and [`docs/GROWTH-PLAYBOO
 
 ## Licence
 
-The site code is proprietary. Each catalogued game retains its own licence (recorded per entry).
+**Code** is MIT licensed — see [LICENSE](LICENSE). This includes templates, build scripts, data pipeline, and tests.
+
+**Content is NOT open source** — see [CONTENT-LICENSE.md](CONTENT-LICENSE.md):
+- `src/_data/games.js` (reviews, how-to-play guides) — editorial content, all rights reserved
+- `src/static/screenshots/` — belongs to respective game authors (downloaded at build time, not committed)
+- Brand assets (logo, og-image, favicon) — not for redistribution
+
+If you fork this repo, you may copy the architecture and code, but you must write your own catalogue content. Do not copy the reviews or redistribute the screenshots.
+
+Each catalogued game retains its own licence (recorded per entry in `games.js`).
