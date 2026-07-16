@@ -2,7 +2,7 @@
 
 > A curated directory of free browser games. We review web games and link to each author's own site — we do not host third-party games. Every entry has a verifiable source (author, play URL, licence).
 
-ArcadeBloom catalogues 389+ browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
+ArcadeBloom catalogues 3000+ browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
 
 ## What this site is
 

@@ -19,7 +19,7 @@
 ```
 npm run build  →  eleventy  →  dist/
                                  ├── /index.html              (home)
-                                 ├── /game/<slug>/index.html  (389 detail pages)
+                                 ├── /game/<slug>/index.html  (3000 detail pages)
                                  ├── /category/<slug>/        (6 category pages)
                                  ├── /tag/<slug>/             (tag pages, only those ≥8 games)
                                  ├── /featured/ /new/ /search/

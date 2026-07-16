@@ -1,6 +1,6 @@
 # ArcadeBloom
 
-> A curated directory of **389 free browser games**. We review web games and link to each author's own site — we do not host third-party games.
+> A curated directory of **3000 free browser games**. We review web games and link to each author's own site — we do not host third-party games.
 
 🌐 **Live site**: [arcadebloom.com](https://arcadebloom.com)
 

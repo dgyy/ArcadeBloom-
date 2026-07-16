@@ -1,7 +1,7 @@
 # ArcadeBloom Launch Checklist
 
 Pre-deploy gates that have already passed (automated):
-- [x] `npm run validate` — 389 games, schema clean (warnings only: 4 categories below 20-game threshold)
+- [x] `npm run validate` — 3000 games, schema clean (warnings only: all 6 categories now meet the 20-game threshold)
 - [x] `npm run build` — 416 files generated in 0.53s
 - [x] `npm test` — 30/30 smoke tests pass
 
@@ -51,8 +51,8 @@ Run these against the live `https://arcadebloom.com/`:
 
 These improve the site but do not block going live:
 
-- [ ] **Phase B reviews**: rewrite the 389 games' `about`/`howToPlay` from factual placeholders into original reviews, starting with award winners
-- [x] **Screenshots**: bulk-downloaded `https://play.js13kgames.com/{slug}/.c.jpg` for the 300 js13k games; 228/389 games now carry real screenshots (72 js13k entries had no screenshot and keep the CSS placeholder; 89 non-js13k entries have no batch source yet)
+- [ ] **Phase B reviews**: rewrite the 3000 games' `about`/`howToPlay` from factual placeholders into original reviews, starting with award winners
+- [x] **Screenshots**: bulk-downloaded `https://play.js13kgames.com/{slug}/.c.jpg` for the 300 js13k games; 228/3000 games now carry real screenshots (72 js13k entries had no screenshot and keep the CSS placeholder; 89 non-js13k entries have no batch source yet)
 - [x] **OG image**: real `og-image.png` (1200×630) generated from `src/static/og-image.svg` via `scripts/render-images.js`
 - [x] **favicon**: real `favicon.ico` (32×32) + `favicon.svg` + `apple-touch-icon.png` (180×180) generated from `src/static/favicon.svg`
 - [ ] **Screenshots for non-js13k games**: the 6 hand-authored + 83 leereilly games need manual screenshot capture (no batch source)

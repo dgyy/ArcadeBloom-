@@ -9,7 +9,7 @@
 
 **标题（< 80 字符）：**
 ```
-Show HN: ArcadeBloom – A game directory that links out instead of hosting (389 games)
+Show HN: ArcadeBloom – A game directory that links out instead of hosting (3000 games)
 ```
 
 **正文：**
@@ -20,7 +20,7 @@ So I tore it down and rebuilt it as a directory: we review web games (mostly js1
 
 The rebuild:
 - Eleventy static site, 416 pages generated in ~0.7s
-- 389 games catalogued from three sources (js13k, GitHub open-source, indie author sites)
+- 3000 games catalogued from three sources (js13k, GitHub open-source, indie author sites)
 - Every entry has a verifiable source URL + licence
 - Structured data (VideoGame/HowTo/FAQ schema) for each game page
 - 30 Playwright smoke tests, zero console errors
@@ -47,7 +47,7 @@ I've been running arcadebloom.com and realized the old model — scraping games 
 
 So I rebuilt it as a pure directory: every game links to the author's own site. We write reviews and how-to-play guides, and the play button sends you to the source.
 
-It currently catalogs 389 games, mostly from:
+It currently catalogs 3000 games, mostly from:
 - js13kGames (300+ competition entries, 2012–2025)
 - Open-source GitHub games (83 from the leereilly/games collection)
 - A few well-known indie titles (Hextris, PROXX, 2048)
@@ -105,7 +105,7 @@ arcadebloom.com
 ```markdown
 # ArcadeBloom
 
-> A curated directory of 389 free browser games. We review and link out — we don't host.
+> A curated directory of 3000 free browser games. We review and link out — we don't host.
 
 🌐 **Live site**: [arcadebloom.com](https://arcadebloom.com)
 
