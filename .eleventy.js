@@ -144,6 +144,14 @@ module.exports = function (eleventyConfig) {
         return SITE_URL + (path.startsWith('/') ? path : '/' + path);
     });
 
+    // ---- Global data ------------------------------------------------------
+    // Build timestamp injected into every template as `asset_version`.
+    // Used as a cache-busting query string on /css/styles.css so that a new
+    // deploy invalidates the browser/CDN cache immediately (Cloudflare Pages
+    // serves the CSS at a stable URL with max-age=14400, so without this
+    // visitors can see a stale stylesheet for up to 4 hours after a deploy).
+    eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
+
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation
     // and for thin-content guards (category pages need >=20, tag pages >=8).

@@ -50,8 +50,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     {# ---- Compiled CSS (Tailwind utilities + custom design tokens).
-          Built by `npm run build:css` into /css/styles.css — no CDN, no FOUC. ---- #}
-    <link rel="stylesheet" href="/css/styles.css">
+          Built by `npm run build:css` into /css/styles.css — no CDN, no FOUC.
+          The ?v= query busts the browser/CDN cache on every deploy
+          (asset_version is a build timestamp; see .eleventy.js). ---- #}
+    <link rel="stylesheet" href="/css/styles.css?v={{ asset_version }}">
 
     {# ---- Google AdSense ---- #}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
