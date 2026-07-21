@@ -1,33 +1,27 @@
-{# Reusable game card. Expects `game` in scope. Links to /game/<slug>/.
-   When a screenshot exists, show it; otherwise a category-tinted gradient
-   placeholder that reads as deliberate design, not a missing-image gap.
-   Hover overlay with "View" prompt lifts click-through. #}
-<a href="/game/{{ game.slug }}/" class="panel-card overflow-hidden hover:scale-[1.02] hover:border-white/30 transition group flex flex-col">
+{# game-card.njk — standard card. Expects `game` in scope. Links to /game/<slug>/.
+   Solid ink-2 surface + 1px hairline (no blur), category-accent left edge
+   that brightens on hover, sharper display-face title.
+   When a screenshot exists it fills the top; otherwise a category-tinted
+   panel with the game's initial — deliberate, not a missing-image gap. #}
+<a href="/game/{{ game.slug }}/" class="cat-{{ game.category }} group relative flex flex-col surface overflow-hidden transition-transform hover:-translate-y-0.5">
+    <span class="absolute left-0 top-0 bottom-0 w-[3px] bg-[var(--cat)] opacity-0 group-hover:opacity-100 transition-opacity z-10"></span>
+
     {% if game.screenshots and game.screenshots.length %}
-    <div class="aspect-video bg-white/5 overflow-hidden relative">
+    <div class="aspect-video bg-ink-3 overflow-hidden">
         <img src="{{ game.screenshots[0] }}" alt="{{ game.name }} screenshot"
-             loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition">
-        {# Hover overlay — darkens the screenshot and reveals a "View" chip #}
-        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-            <span class="px-4 py-1.5 rounded-full bg-white/20 backdrop-blur text-sm font-semibold text-white border border-white/30">View →</span>
-        </div>
+             loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
     </div>
     {% else %}
-    {% set cat_colors = { 'puzzle': 'from-violet-500/40 to-fuchsia-400/30', 'action': 'from-rose-500/40 to-orange-400/30', 'arcade': 'from-sky-500/40 to-cyan-400/30', 'strategy': 'from-amber-500/40 to-yellow-400/30', 'racing-sports': 'from-emerald-500/40 to-teal-400/30', 'simulation': 'from-indigo-500/40 to-blue-400/30' } %}
-    <div class="aspect-video bg-gradient-to-br {{ cat_colors[game.category] or 'from-fuchsia-500/30 to-sky-400/30' }} flex items-center justify-center relative">
-        <span class="text-5xl font-extrabold text-white/20 select-none">{{ game.name | first | upper }}</span>
-        <span class="absolute bottom-2 right-3 text-[10px] uppercase tracking-wider text-white/30">{{ game.category }}</span>
+    <div class="aspect-video bg-gradient-to-br from-[var(--cat)]/20 to-ink-3 flex items-center justify-center">
+        <span class="font-display text-6xl font-bold text-paper/15 select-none">{{ game.name | first | upper }}</span>
     </div>
     {% endif %}
-    <div class="p-4 flex flex-col gap-2 flex-1">
-        <h3 class="font-semibold text-lg leading-tight group-hover:text-white">{{ game.name }}</h3>
+
+    <div class="flex flex-col gap-2 p-4 flex-1">
+        <h3 class="font-display font-semibold text-base md:text-lg leading-snug group-hover:text-bloom transition-colors">{{ game.name }}</h3>
         {% if game.tagline %}
-        <p class="text-sm text-white/60 line-clamp-2">{{ game.tagline }}</p>
+        <p class="text-sm text-paper-60 line-clamp-2">{{ game.tagline }}</p>
         {% endif %}
-        <div class="flex flex-wrap gap-1.5 mt-auto pt-2">
-            {% if game.screenshots and game.screenshots.length %}
-            <span class="badge">{{ game.category }}</span>
-            {% endif %}
-        </div>
+        <span class="mt-auto pt-2"><span class="cat-chip">{{ game.category }}</span></span>
     </div>
 </a>

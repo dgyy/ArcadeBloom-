@@ -3,66 +3,276 @@
 @tailwind utilities;
 
 /* =============================================================================
-   Custom design tokens — dark gradient + glass surfaces (from the legacy design).
-   These cannot be expressed as Tailwind utilities, so they live here as plain CSS.
+   ArcadeBloom — design tokens & base styles
+   =============================================================================
+   Direction: modern independent gaming editorial site.
+     - deep ink base, no full-bleed gradient
+     - solid surfaces + 1px hairlines, no glassmorphism
+     - one warm "bloom" accent + controlled per-category accents
+     - display (Space Grotesk) / body (Inter) / mono (Space Mono)
    ============================================================================= */
 
-:root { color-scheme: dark; }
+:root {
+    color-scheme: dark;
+
+    /* Ink scale — warm near-black base */
+    --ink: #0e0b16;
+    --ink-2: #16111f;
+    --ink-3: #1f1830;
+    --ink-4: #2a2140;
+    --hairline: rgba(245, 239, 226, 0.10);
+    --hairline-strong: rgba(245, 239, 226, 0.18);
+
+    /* Paper — warm cream text on ink */
+    --paper: #f5efe2;
+    --paper-70: rgba(245, 239, 226, 0.72);
+    --paper-60: rgba(245, 239, 226, 0.60);
+    --paper-45: rgba(245, 239, 226, 0.45);
+
+    /* Bloom — single warm primary accent */
+    --bloom: #ff5c8a;
+    --bloom-2: #7c5cff;
+
+    /* Category accents — ownable, not rainbow */
+    --cat-puzzle: #ff5c8a;
+    --cat-action: #ff7847;
+    --cat-arcade: #3ddc97;
+    --cat-strategy: #ffb547;
+    --cat-racing-sports: #4dabf7;
+    --cat-simulation: #9775fa;
+
+    /* Typography */
+    --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+html { -webkit-text-size-adjust: 100%; }
 
 body {
-    font-family: 'Inter', sans-serif;
-    background: radial-gradient(circle at 15% 20%, rgba(131, 56, 236, 0.38), transparent 55%),
-        radial-gradient(circle at 85% 12%, rgba(37, 211, 255, 0.32), transparent 45%),
-        linear-gradient(135deg, #1a1040 0%, #29176f 35%, #0f5bf3 70%, #0bd3ff 100%);
-    background-attachment: fixed;
-    color: #f5f7ff;
+    font-family: var(--font-body);
+    background-color: var(--ink);
+    /* Subtle, non-distracting texture: a faint top vignette into ink.
+       No multi-stop rainbow gradient, no fixed attachment cost. */
+    background-image:
+        radial-gradient(120% 80% at 50% -10%, rgba(124, 92, 255, 0.12) 0%, transparent 60%);
+    background-repeat: no-repeat;
+    color: var(--paper);
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
-a { color: inherit; }
 
+a { color: inherit; text-decoration: none; }
+
+/* ----------------------------------------------------------------------------
+   Typography helpers
+   ---------------------------------------------------------------------------- */
+.font-display { font-family: var(--font-display); }
+.font-mono { font-family: var(--font-mono); }
+
+.display-h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    text-wrap: balance;
+}
+.display-h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+/* Eyebrow / kicker label — catalogue metadata feel */
+.eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper-60);
+}
+
+/* ----------------------------------------------------------------------------
+   Surfaces — solid, layered by elevation. No backdrop-filter.
+   ---------------------------------------------------------------------------- */
+.surface {
+    background-color: var(--ink-2);
+    border: 1px solid var(--hairline);
+}
+.surface-raised {
+    background-color: var(--ink-3);
+    border: 1px solid var(--hairline);
+}
+.hairline-top { border-top: 1px solid var(--hairline); }
+.hairline-bottom { border-bottom: 1px solid var(--hairline); }
+
+/* ----------------------------------------------------------------------------
+   Header / nav — solid backdrop, hairline edge, no blur
+   ---------------------------------------------------------------------------- */
 .nav-shell {
-    background: linear-gradient(90deg, rgba(17, 24, 39, 0.78), rgba(30, 64, 175, 0.38));
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    background-color: rgba(14, 11, 22, 0.92);
+    border-bottom: 1px solid var(--hairline);
 }
-.glass-card {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 1.5rem;
+
+/* ----------------------------------------------------------------------------
+   Buttons & pills
+   ---------------------------------------------------------------------------- */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background-color: var(--bloom);
+    color: #1a0a12;
+    transition: background-color 0.15s ease, transform 0.15s ease;
 }
-.panel-card {
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 1.25rem;
+.btn-primary:hover { background-color: #ff7ba1; transform: translateY(-1px); }
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--paper);
+    border: 1px solid var(--hairline-strong);
+    transition: border-color 0.15s ease, color 0.15s ease;
 }
-.hero-gradient {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(135deg, rgba(116, 30, 255, 0.94) 0%, rgba(0, 180, 255, 0.85) 100%);
-    box-shadow: 0 40px 80px rgba(6, 10, 33, 0.45);
-}
-.hero-gradient::before, .hero-gradient::after {
-    content: ""; position: absolute; width: 480px; height: 480px;
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
-    opacity: 0.6; pointer-events: none;
-}
-.hero-gradient::before { top: -160px; left: -160px; }
-.hero-gradient::after {
-    bottom: -200px; right: -120px;
-    background: radial-gradient(circle, rgba(255, 77, 196, 0.32) 0%, rgba(255, 255, 255, 0) 70%);
-}
-.primary-button {
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 0.75rem 1.5rem; border-radius: 9999px; font-weight: 600;
-    background: linear-gradient(135deg, #ff60d7, #6a5bff);
-    box-shadow: 0 10px 30px rgba(106, 91, 255, 0.4);
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.primary-button:hover { transform: translateY(-1px); box-shadow: 0 14px 36px rgba(106, 91, 255, 0.55); }
+.btn-ghost:hover { border-color: var(--paper-60); }
+
 .badge {
-    display: inline-flex; align-items: center; padding: 0.25rem 0.625rem;
-    border-radius: 9999px; font-size: 0.75rem; font-weight: 500;
-    background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.14);
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    background-color: rgba(245, 239, 226, 0.06);
+    border: 1px solid var(--hairline);
+    color: var(--paper-70);
+}
+
+/* Category-colored chip — reads --cat from .cat-<slug> or inline style */
+.cat-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    text-transform: lowercase;
+    letter-spacing: 0.02em;
+    color: var(--paper);
+    background-color: color-mix(in srgb, var(--cat, var(--bloom)) 16%, transparent);
+    border: 1px solid color-mix(in srgb, var(--cat, var(--bloom)) 40%, transparent);
+}
+.cat-chip::before {
+    content: "";
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 9999px;
+    background-color: var(--cat, var(--bloom));
+}
+
+/* Per-category CSS vars usable on any element */
+.cat-puzzle { --cat: var(--cat-puzzle); }
+.cat-action { --cat: var(--cat-action); }
+.cat-arcade { --cat: var(--cat-arcade); }
+.cat-strategy { --cat: var(--cat-strategy); }
+.cat-racing-sports { --cat: var(--cat-racing-sports); }
+.cat-simulation { --cat: var(--cat-simulation); }
+
+/* ----------------------------------------------------------------------------
+   Focus — visible ring for keyboard users only
+   ---------------------------------------------------------------------------- */
+:focus-visible {
+    outline: 2px solid var(--bloom);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* ----------------------------------------------------------------------------
+   Links (editorial body copy)
+   ---------------------------------------------------------------------------- */
+.link-inline {
+    color: var(--bloom);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.15s ease;
+}
+.link-inline:hover { color: #ff7ba1; }
+
+/* ----------------------------------------------------------------------------
+   Horizontal scroll rail (New Arrivals) — native, momentum-scrolled
+   ---------------------------------------------------------------------------- */
+.rail {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    /* Edge fade so peeking cards read as scrollable */
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 40px), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 24px, #000 calc(100% - 40px), transparent 100%);
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-4) transparent;
+}
+.rail::-webkit-scrollbar { height: 6px; }
+.rail::-webkit-scrollbar-thumb { background-color: var(--ink-4); border-radius: 9999px; }
+.rail > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}
+
+/* ----------------------------------------------------------------------------
+   Mobile nav toggle (no JS — details/summary pattern)
+   ---------------------------------------------------------------------------- */
+details.mobile-nav > summary { list-style: none; cursor: pointer; }
+details.mobile-nav > summary::-webkit-details-marker { display: none; }
+details.mobile-nav[open] .mobile-nav__chevron { transform: rotate(180deg); }
+.mobile-nav__chevron { transition: transform 0.15s ease; }
+
+/* ----------------------------------------------------------------------------
+   Motion preferences
+   ---------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ----------------------------------------------------------------------------
+   Utilities
+   ---------------------------------------------------------------------------- */
+.text-paper { color: var(--paper); }
+.text-paper-70 { color: var(--paper-70); }
+.text-paper-60 { color: var(--paper-60); }
+.text-paper-45 { color: var(--paper-45); }
+.text-bloom { color: var(--bloom); }
+.bg-ink { background-color: var(--ink); }
+.bg-ink-2 { background-color: var(--ink-2); }
+.bg-ink-3 { background-color: var(--ink-3); }
+
+/* line-clamp helper (Tailwind v3 core provides this, kept as a safety net) */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

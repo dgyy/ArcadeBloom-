@@ -1,0 +1,21 @@
+{# section-heading.njk — consistent section header.
+   Uses namespaced vars (heading_*) to avoid shadowing the page `title`.
+   Variables:
+     heading_eyebrow  — small mono label above the title (optional)
+     heading_title    — the H2 text (required)
+     heading_subtitle — supporting line under the title (optional)
+     heading_href     — if set, renders a "See all →" link to this URL
+     heading_link_label — override the link text (default "See all")
+ #}
+<div class="flex items-end justify-between gap-4 mb-6 md:mb-8">
+    <div class="min-w-0">
+        {% if heading_eyebrow %}<p class="eyebrow mb-2">{{ heading_eyebrow }}</p>{% endif %}
+        <h2 class="display-h2 text-2xl md:text-[2rem]">{{ heading_title | safe }}</h2>
+        {% if heading_subtitle %}<p class="text-paper-60 mt-2 text-sm md:text-base max-w-2xl">{{ heading_subtitle | safe }}</p>{% endif %}
+    </div>
+    {% if heading_href %}
+    <a href="{{ heading_href }}" class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-bloom hover:text-paper whitespace-nowrap shrink-0">
+        {{ heading_link_label or 'See all' }} <span aria-hidden="true">→</span>
+    </a>
+    {% endif %}
+</div>

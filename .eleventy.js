@@ -51,6 +51,16 @@ module.exports = function (eleventyConfig) {
     // Take first N
     eleventyConfig.addFilter('limit', (items, n) => (items || []).slice(0, n));
 
+    // Slice from index `start` for `length` items (default to end).
+    // Used for asymmetric layouts (e.g. first game as a hero feature, the
+    // rest as satellites) without precomputing arrays in data.
+    eleventyConfig.addFilter('slice', (items, start, length) => {
+        const arr = items || [];
+        return typeof length === 'number'
+            ? arr.slice(start, start + length)
+            : arr.slice(start);
+    });
+
     // Format an ISO date as e.g. "July 8, 2026"
     eleventyConfig.addFilter('dateReadable', (iso) => {
         if (!iso) return '';
@@ -107,6 +117,12 @@ module.exports = function (eleventyConfig) {
 
     // Lowercase (for inline text in templates)
     eleventyConfig.addFilter('lower', (str) => String(str || '').toLowerCase());
+
+    // Locale-formatted integer with thousands separators (e.g. 2019 -> "2,019").
+    // Used for the catalogue count in the hero/footer.
+    eleventyConfig.addFilter('number', (n) =>
+        Number(n || 0).toLocaleString('en-US')
+    );
 
     // Sort: games WITH screenshots first, then by date desc.
     // Keeps the top of every list visually populated even when many
