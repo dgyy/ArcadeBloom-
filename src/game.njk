@@ -85,31 +85,49 @@ eleventyComputed:
 {% endblock %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-28 lg:pb-8">
 
-    <nav class="text-sm text-white/60 mb-6" aria-label="Breadcrumb">
-        <a href="/" class="hover:text-white">Home</a>
-        <span class="mx-2">/</span>
-        <a href="/category/{{ game.category }}/" class="hover:text-white">{{ cat.name }}</a>
-        <span class="mx-2">/</span>
-        <span class="text-white">{{ game.name }}</span>
+    <nav class="text-sm text-paper-60 mb-6" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-bloom">Home</a>
+        <span class="mx-2 text-paper-45">/</span>
+        <a href="/category/{{ game.category }}/" class="hover:text-bloom">{{ cat.name }}</a>
+        <span class="mx-2 text-paper-45">/</span>
+        <span class="text-paper">{{ game.name }}</span>
     </nav>
 
-    <header class="mb-8">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">{{ game.name }}</h1>
-        <p class="text-xl text-white/70 mt-3">{{ game.tagline }}</p>
+    {# =====================================================================
+       HEADER + HERO CTA
+       The Play button sits right under the title — the most valuable pixel on
+       a review page. Anyone who already knows the game can play immediately,
+       without scrolling past the review to find the link.
+       ===================================================================== #}
+    <header class="cat-{{ game.category }} mb-8">
+        <h1 class="display-h1 text-4xl md:text-5xl lg:text-6xl">{{ game.name }}</h1>
+        <p class="text-lg md:text-xl text-paper-70 mt-3 max-w-2xl">{{ game.tagline }}</p>
         <div class="flex flex-wrap gap-2 mt-4">
-            <a href="/category/{{ game.category }}/" class="badge hover:bg-white/20">{{ cat.name }}</a>
+            <a href="/category/{{ game.category }}/" class="cat-chip">{{ cat.name }}</a>
             {% for tag_slug in game.tags %}
             {% set tag = tags | findTag(tag_slug) %}
             {% if tag %}
                 {% if populatedTagSlugs.indexOf(tag.slug) > -1 %}
-                <a href="/tag/{{ tag.slug }}/" class="badge hover:bg-white/20">{{ tag.name }}</a>
+                <a href="/tag/{{ tag.slug }}/" class="badge hover:border-[var(--hairline-strong)]">{{ tag.name }}</a>
                 {% else %}
                 <span class="badge opacity-60">{{ tag.name }}</span>
                 {% endif %}
             {% endif %}
             {% endfor %}
+        </div>
+
+        {# HERO CTA — the primary action, visible above the fold.
+           "Play Game" is the loudest word; the source name is supporting
+           context beneath it, not the button label. #}
+        <div class="mt-7 flex flex-col sm:flex-row sm:items-center gap-4">
+            {% set cta_size = 'lg' %}
+            <div>{% include 'play-cta.njk' %}</div>
+            <p class="text-sm text-paper-60">
+                Free · No download<br>
+                <span class="text-paper-45">Opens at {{ game.sourceName }} in a new tab</span>
+            </p>
         </div>
     </header>
 
@@ -117,7 +135,7 @@ eleventyComputed:
     <section class="mb-8">
         <div class="grid grid-cols-1 {% if game.screenshots.length > 1 %}sm:grid-cols-2{% endif %} gap-3">
             {% for shot in game.screenshots %}
-            <div class="rounded-2xl overflow-hidden bg-white/5 aspect-video">
+            <div class="surface rounded-2xl overflow-hidden aspect-video">
                 <img src="{{ shot }}" alt="{{ game.name }} screenshot {{ loop.index }}" loading="lazy" class="w-full h-full object-cover">
             </div>
             {% endfor %}
@@ -125,28 +143,41 @@ eleventyComputed:
     </section>
     {% endif %}
 
-    <section class="glass-card p-6 mb-8 flex flex-col sm:flex-row items-center gap-4 justify-between">
-        <div>
-            <p class="text-sm text-white/60">This game is reviewed here and played at its source.</p>
-            <p class="font-semibold mt-1">Hosted by {{ game.sourceName }}</p>
+    {# ===================================================================
+       MID-PAGE CTA BANNER — a second play opportunity after the review
+       sections, for readers who scrolled through About / How to Play.
+       Reinforces: this is a directory, the game lives elsewhere.
+       =================================================================== #}
+    <section class="surface-raised rounded-2xl p-6 sm:p-7 mb-10 cat-{{ game.category }} relative overflow-hidden">
+        {# Subtle accent wash on the left edge, in the category color #}
+        <span class="absolute left-0 top-0 bottom-0 w-1 bg-[var(--cat)]"></span>
+        <div class="flex flex-col sm:flex-row sm:items-center gap-5 justify-between">
+            <div>
+                <p class="eyebrow mb-1">Ready to play?</p>
+                <p class="font-semibold text-lg">Reviewed here — played at the source.</p>
+                <p class="text-sm text-paper-60 mt-1">
+                    Hosted by
+                    <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="link-inline">{{ game.sourceName }}</a>
+                    · {{ game.licence }}
+                </p>
+            </div>
+            {% set cta_size = 'md' %}
+            {% include 'play-cta.njk' %}
         </div>
-        <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="primary-button whitespace-nowrap">
-            Play on {{ game.sourceName }} →
-        </a>
     </section>
 
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-3">About {{ game.name }}</h2>
-        <div class="text-white/80 leading-relaxed space-y-4">
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">About {{ game.name }}</h2>
+        <div class="text-paper-70 leading-relaxed space-y-4">
             {% for para in game.about | paragraphs %}
             <p>{{ para }}</p>
             {% endfor %}
         </div>
     </section>
 
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-3">How to Play</h2>
-        <div class="text-white/80 leading-relaxed space-y-4">
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">How to Play</h2>
+        <div class="text-paper-70 leading-relaxed space-y-4">
             {% for para in game.howToPlay | paragraphs %}
             <p>{{ para }}</p>
             {% endfor %}
@@ -154,12 +185,12 @@ eleventyComputed:
     </section>
 
     {% if game.keyFeatures and game.keyFeatures.length %}
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-3">Key Features</h2>
-        <ul class="space-y-2">
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">Key Features</h2>
+        <ul class="space-y-2.5">
             {% for feature in game.keyFeatures %}
-            <li class="flex items-start gap-2 text-white/80">
-                <span class="text-fuchsia-400 mt-1">▸</span>
+            <li class="flex items-start gap-2.5 text-paper-70">
+                <span class="text-bloom mt-1 shrink-0" aria-hidden="true">▸</span>
                 <span>{{ feature }}</span>
             </li>
             {% endfor %}
@@ -169,49 +200,49 @@ eleventyComputed:
 
     {# Visible FAQ — matches the FAQPage schema above. AI engines extract both
        the structured data AND visible Q&A blocks. #}
-    <section class="mb-8">
-        <h2 class="text-2xl font-bold mb-4">{{ game.name }} — Frequently Asked Questions</h2>
-        <div class="space-y-4">
+    <section class="mb-10">
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">{{ game.name }} — Frequently Asked Questions</h2>
+        <div class="space-y-5">
             <div>
-                <h3 class="font-semibold text-white/90">Is {{ game.name }} free to play?</h3>
-                <p class="text-white/70 mt-1">Yes. {{ game.name }} is a free browser game — no download or installation required. Click the play link to open it at the source site.</p>
+                <h3 class="font-semibold text-paper">Is {{ game.name }} free to play?</h3>
+                <p class="text-paper-60 mt-1">Yes. {{ game.name }} is a free browser game — no download or installation required. Click the play link to open it at the source site.</p>
             </div>
             <div>
-                <h3 class="font-semibold text-white/90">Where can I play {{ game.name }}?</h3>
-                <p class="text-white/70 mt-1">You can play {{ game.name }} on {{ game.sourceName }}. ArcadeBloom links out to the original source — we review the game but do not host it.</p>
+                <h3 class="font-semibold text-paper">Where can I play {{ game.name }}?</h3>
+                <p class="text-paper-60 mt-1">You can play {{ game.name }} on {{ game.sourceName }}. ArcadeBloom links out to the original source — we review the game but do not host it.</p>
             </div>
             <div>
-                <h3 class="font-semibold text-white/90">What kind of game is {{ game.name }}?</h3>
-                <p class="text-white/70 mt-1">{{ game.name }} is a {{ cat.name | lower }} game. {{ game.tagline }}</p>
+                <h3 class="font-semibold text-paper">What kind of game is {{ game.name }}?</h3>
+                <p class="text-paper-60 mt-1">{{ game.name }} is a {{ cat.name | lower }} game. {{ game.tagline }}</p>
             </div>
         </div>
     </section>
 
-    <section class="panel-card p-6 mb-8">
+    <section class="surface rounded-2xl p-6 mb-10">
         <h2 class="text-lg font-bold mb-4">Source &amp; Licence</h2>
         <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
             <div>
-                <dt class="text-white/50">Author / Project</dt>
+                <dt class="text-paper-45">Author / Project</dt>
                 <dd class="font-semibold mt-1">{{ game.sourceName }}</dd>
             </div>
             <div>
-                <dt class="text-white/50">Licence</dt>
+                <dt class="text-paper-45">Licence</dt>
                 <dd class="font-semibold mt-1">{{ game.licence }}</dd>
             </div>
             <div>
-                <dt class="text-white/50">Released</dt>
+                <dt class="text-paper-45">Released</dt>
                 <dd class="font-semibold mt-1">{{ game.releaseDate }}</dd>
             </div>
         </dl>
-        <p class="text-xs text-white/50 mt-4">
+        <p class="text-xs text-paper-45 mt-4">
             ArcadeBloom is a directory. We review and link; we do not host this game. All rights belong to its author.
-            Visit the <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="underline hover:text-white">official site</a> to play.
+            Visit the <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="link-inline">official site</a> to play.
         </p>
     </section>
 
     {% if related.length %}
     <section>
-        <h2 class="text-2xl font-bold mb-4">More {{ cat.name }} Games</h2>
+        <h2 class="display-h2 text-2xl md:text-3xl mb-4">More {{ cat.name }} Games</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             {% for g in related %}
             {% set game = g %}
@@ -221,5 +252,19 @@ eleventyComputed:
     </section>
     {% endif %}
 
+</div>
+
+{# ===================================================================
+   STICKY MOBILE CTA — fixed to the bottom of the viewport on small
+   screens only. Solves "scrolled past the button, can't find play".
+   Always one tap away. Hidden on lg+ where the hero CTA is enough.
+   =================================================================== #}
+<div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-ink-2/95 backdrop-blur-sm border-t border-[var(--hairline)] px-4 py-3 flex items-center justify-between gap-3">
+    <div class="min-w-0">
+        <p class="text-sm font-semibold truncate">{{ game.name }}</p>
+        <p class="text-xs text-paper-45 truncate">Free · {{ game.sourceName }}</p>
+    </div>
+    {% set cta_size = 'sm' %}
+    {% include 'play-cta.njk' %}
 </div>
 {% endblock %}

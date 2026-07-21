@@ -1,0 +1,21 @@
+{# play-cta.njk — the "play this game" call to action.
+   Expects `game` in scope. Links to game.sourceUrl (the ONLY play action).
+
+   Design goals (user feedback: the old "Play on js13kGames →" was easy to miss
+   and didn't read as a game-launch button):
+     - "Play Game" is the loudest word, not the source name.
+     - Source name sits underneath as context, not as the headline.
+     - A filled bloom-colored button with a play icon — reads as a play action
+       at a glance, the way ▶ on a video or a green "Play" on Steam does.
+     - `rel="noopener nofollow"` is required by ADR-0001 and the smoke suite.
+ #}
+{% set cta_size = cta_size or 'md' %}
+<a href="{{ game.sourceUrl }}"
+   rel="noopener nofollow"
+   class="cat-{{ game.category }} group inline-flex items-center {% if cta_size == 'lg' %}gap-3 px-7 py-4 text-lg{% elif cta_size == 'sm' %}gap-2 px-5 py-2.5 text-sm{% else %}gap-2.5 px-6 py-3.5 text-base{% endif %} rounded-full font-bold bg-bloom text-ink hover:bg-[#ff7ba1] transition-colors shadow-lg shadow-[var(--cat)]/20 hover:scale-[1.02] active:scale-95">
+    {# Play triangle — universal "play media" affordance #}
+    <svg class="{% if cta_size == 'lg' %}w-5 h-5{% elif cta_size == 'sm' %}w-3.5 h-3.5{% else %}w-4 h-4{% endif %}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M8 5v14l11-7z" />
+    </svg>
+    <span>Play Game</span>
+</a>

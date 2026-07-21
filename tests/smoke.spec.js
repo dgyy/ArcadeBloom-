@@ -97,8 +97,8 @@ test.describe('Game page outbound CTA', () => {
         test(`/game/${slug}/ CTA links outbound with correct rel`, async ({ page }) => {
             await page.goto(`/game/${slug}/`);
 
-            // The primary play button lives in the glass-card CTA section.
-            const cta = page.locator('a.primary-button:has-text("Play on")').first();
+            // The primary play button — the outbound CTA with a "Play Game" label.
+            const cta = page.locator('a[href^="http"]:has-text("Play Game")').first();
             await expect(cta).toBeVisible();
 
             const href = await cta.getAttribute('href');
@@ -146,8 +146,8 @@ test.describe('No-JS content visibility', () => {
         await expect(page.locator('h2', { hasText: 'About Hextris' })).toBeVisible();
         await expect(page.locator('h2', { hasText: 'How to Play' })).toBeVisible();
         await expect(page.locator('h2', { hasText: 'Key Features' })).toBeVisible();
-        // Outbound CTA must be present even without JS
-        await expect(page.locator('a:has-text("Play on Hextris")')).toBeVisible();
+        // Outbound CTA must be present even without JS (hero, mid-page, sticky = 3)
+        await expect(page.locator('a[href^="http"]:has-text("Play Game")').first()).toBeVisible();
 
         await ctx.close();
     });
