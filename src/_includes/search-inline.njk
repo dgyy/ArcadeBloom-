@@ -1,0 +1,22 @@
+{# search-inline.njk — single reusable search form.
+   Used in the hero and (optionally) the nav. Consistent placeholder, visible
+   submit affordance, accessible label.
+   Variable:
+     size — "lg" (hero) or "sm" (nav, default). Controls padding/font/submit size.
+ #}
+{% set is_lg = size == 'lg' %}
+<form action="/search/" method="get" role="search" class="relative flex items-center w-full {{ wrapper_class or '' }}">
+    <label for="q-{{ size or 'sm' }}" class="sr-only">Search games</label>
+    <input id="q-{{ size or 'sm' }}" type="search" name="q"
+        placeholder="Search {{ games | length | number }} games…"
+        value="{{ search_q or '' }}"
+        autocomplete="off"
+        class="w-full bg-ink-2 border border-[var(--hairline-strong)] {% if is_lg %}px-5 py-3.5 text-base pr-14{% else %}px-4 py-2.5 text-sm pr-11{% endif %} rounded-full focus:outline-none focus:border-bloom placeholder:text-paper-45 transition-colors">
+    <button type="submit" aria-label="Search"
+        class="absolute right-1.5 inline-flex items-center justify-center {% if is_lg %}w-10 h-10{% else %}w-8 h-8{% endif %} rounded-full bg-bloom text-ink hover:bg-[#ff7ba1] transition-colors">
+        <svg class="{% if is_lg %}w-4 h-4{% else %}w-3.5 h-3.5{% endif %}" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="9" cy="9" r="6" />
+            <path d="m18 18-4.5-4.5" />
+        </svg>
+    </button>
+</form>

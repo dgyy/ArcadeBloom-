@@ -3,14 +3,16 @@ title: Discover the Best Free Browser Games
 description: Discover the best free browser games on ArcadeBloom. Browse action, puzzle, arcade and strategy games by category, read honest reviews, and play at the source.
 permalink: /
 ---
-{# Homepage — category portal style (ADR / CONTEXT.md "Homepage").
-   Static pre-rendered: Hero + 6 category cards + Featured rail + New rail.
-   No Recently Played, no JS-rendered rails. #}
+{# Homepage — editorial directory style.
+   Hero (merged with page, no colliding gradient panel) → asymmetric Editor's
+   Picks → Browse by Category (list rows) → New Arrivals (horizontal rail) →
+   About (prose column). Preserves all URLs, categories, JSON-LD, business
+   positioning. Static pre-rendered, no JS-rendered rails. #}
 
 {% extends 'base.njk' %}
 
 {% set featured_games = games | featuredOnly | limit(8) %}
-{% set new_games = games | sortByDateDesc | limit(8) %}
+{% set new_games = games | sortByDateDesc | limit(12) %}
 {% set total_games = games | length %}
 
 {% block jsonld %}
@@ -47,126 +49,172 @@ permalink: /
 {% endblock %}
 
 {% block content %}
-{# Compact hero — brand + value prop + search. Tight (py-12) so the game grid
-   lands in the first viewport, not after a wall of marketing copy. #}
-<section class="hero-gradient py-10 lg:py-14">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="max-w-3xl">
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight" style="text-shadow: 0 12px 30px rgba(10,16,45,0.45);">
-                Discover the best free browser games.
-            </h1>
-            <p class="mt-4 text-base md:text-lg text-white/85 max-w-2xl">
-                A curated directory of <strong>free online browser games</strong> — no download, no install.
-                Read honest reviews, then play at the source. {{ total_games }} games catalogued and growing.
-            </p>
-            <form action="/search/" method="get" class="mt-5 flex gap-2 max-w-md">
-                <input type="search" name="q" placeholder="Search {{ total_games }} games…"
-                    class="flex-1 px-5 py-3 rounded-full border-0 bg-white/15 text-base focus:outline-none focus:ring-2 focus:ring-white/60 placeholder-white/50">
-                <button type="submit" class="primary-button">Search</button>
-            </form>
-        </div>
-    </div>
-</section>
+{# =====================================================================
+   HERO — merged with the page, no separate colliding gradient panel.
+   Eyebrow + two-line display H1 + value prop + search + CTA.
+   ===================================================================== #}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10 md:pt-20 md:pb-14">
+    <div class="max-w-3xl">
+        <p class="eyebrow mb-5">
+            <span class="text-bloom">●</span> est. 2026 · {{ total_games | number }} games catalogued
+        </p>
+        <h1 class="display-h1 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-7xl">
+            Discover the best<br>
+            free <span class="text-bloom">browser games</span>.
+        </h1>
+        <p class="mt-6 text-lg md:text-xl text-paper-70 leading-relaxed max-w-2xl">
+            A curated directory of free web games — no installs, no walled garden.
+            Read the review, then play at the source.
+        </p>
 
-{# === Editor's Picks — the first game grid, in-view right below the hero.
-   This is the conversion target: user arrives → sees games → clicks one. === #}
-{% set picks = featured_games | sortByScreenshotThenDate | limit(8) %}
-{% if picks.length %}
-<section class="py-10 lg:py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between mb-6">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold">Editor's Picks — jump straight in</h2>
-                <p class="text-white/70 mt-1 text-sm md:text-base">Award-winning browser games, hand-picked. Click any card for the review and play link.</p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 sm:items-center max-w-2xl">
+            <div class="flex-1">
+                {% set size = 'lg' %}
+                {% include 'search-inline.njk' %}
             </div>
-            <a href="/featured/" class="text-sm font-semibold text-sky-300 hover:text-white whitespace-nowrap">See all →</a>
+            <a href="#picks" class="btn-ghost shrink-0">Browse picks</a>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {% for game in picks %}
-            {% include 'game-card.njk' %}
-            {% endfor %}
-        </div>
-    </div>
-</section>
-{% endif %}
 
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {% include 'ad-banner.njk' %}
-</div>
-
-<section class="py-10 lg:py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="mb-6">
-            <h2 class="text-2xl md:text-3xl font-bold">Browse by Category</h2>
-            <p class="text-white/70 mt-1 text-sm md:text-base">Six top-level categories covering every kind of browser game we catalogue.</p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        {# Category color strip — thin row of all six categories at a glance.
+           Gives instant visual identity to the taxonomy. #}
+        <div class="mt-10 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <span class="eyebrow !text-xs mr-1">Browse</span>
             {% for cat in site.categories %}
-            {% set count = games | whereEq('category', cat.slug) | length %}
-            {% set is_thin = count < site.minGamesPerCategory %}
-            <a href="/category/{{ cat.slug }}/" class="glass-card p-5 hover:scale-[1.02] transition group {% if is_thin %}opacity-60{% endif %}">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-lg md:text-xl font-bold group-hover:text-white">{{ cat.name }}</h3>
-                    <span class="badge">{{ count }}{% if is_thin %}<span class="ml-1 text-white/40">/ {{ site.minGamesPerCategory }}</span>{% endif %}</span>
-                </div>
-                <p class="text-white/70 text-sm mt-2">{{ cat.blurb }}</p>
-                {% if is_thin %}
-                <p class="text-xs text-white/40 mt-2">Still seeding — browse what's here.</p>
-                {% endif %}
+            {% set cat_count = games | whereEq('category', cat.slug) | length %}
+            <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} inline-flex items-center gap-1.5 text-paper-70 hover:text-bloom transition-colors">
+                <span class="w-1.5 h-1.5 rounded-full bg-[var(--cat)]"></span>
+                {{ cat.name }}
+                <span class="font-mono text-xs text-paper-45">{{ cat_count }}</span>
             </a>
             {% endfor %}
         </div>
     </div>
 </section>
 
-{% if new_games.length %}
-<section class="py-10 lg:py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-end justify-between mb-6">
-            <div>
-                <h2 class="text-2xl md:text-3xl font-bold">New Arrivals</h2>
-                <p class="text-white/70 mt-1 text-sm md:text-base">The most recent additions to the directory.</p>
-            </div>
-            <a href="/new/" class="text-sm font-semibold text-sky-300 hover:text-white">See all →</a>
+{# =====================================================================
+   EDITOR'S PICKS — asymmetric layout, not a uniform grid.
+   1 large feature (first pick) + a row of smaller satellites.
+   Signals editorial curation rather than a product catalog.
+   ===================================================================== #}
+{% set picks = featured_games | sortByScreenshotThenDate | limit(7) %}
+{% if picks.length %}
+<section id="picks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    {% set heading_eyebrow = "Editor's picks" %}
+    {% set heading_title = "Jump straight in" %}
+    {% set heading_subtitle = "Award-winning browser games, hand-picked. Read the review, then play at the source." %}
+    {% set heading_href = "/featured/" %}
+    {% set heading_link_label = "All featured" %}
+    {% include 'section-heading.njk' %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+        {# Hero feature — first pick, spans tall on large screens #}
+        {% if picks.length > 0 %}
+        {% set game = picks[0] %}
+        {% set lazy = false %}
+        <div class="lg:row-span-2">
+            {% include 'game-card-feature.njk' %}
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5">
-            {% for game in new_games %}
+        {% endif %}
+
+        {# Satellites — the rest, in a responsive sub-grid #}
+        {% set satellites = picks | slice(1, 6) %}
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 lg:grid-cols-3">
+            {% for game in satellites %}
             {% include 'game-card.njk' %}
             {% endfor %}
         </div>
     </div>
+    <div class="mt-6 sm:hidden">
+        <a href="/featured/" class="btn-ghost w-full">All featured picks →</a>
+    </div>
 </section>
 {% endif %}
 
-{# SEO content section — explains what the site is, reinforces topical relevance
-   for "browser games / web games / free online games / game directory". #}
-<section class="py-16 lg:py-20">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass-card p-8 sm:p-10 space-y-5">
-            <h2 class="text-3xl font-bold">About ArcadeBloom — A Browser Game Directory</h2>
-            <div class="text-white/75 leading-relaxed space-y-4">
-                <p>
-                    ArcadeBloom is a curated directory of <strong>free browser games</strong> — no downloads, no installs,
-                    no walled garden. We catalogue the best <strong>web games</strong> from across the internet: open-source
-                    projects on GitHub, indie titles on personal sites, and competition entries from events like js13kGames.
-                    Every game in our directory links out to its original author's site, so you always play the real thing
-                    where it lives.
-                </p>
-                <p>
-                    Browse <a href="/category/puzzle/" class="text-sky-300 hover:text-white underline">puzzle games</a> for
-                    logic and number challenges, <a href="/category/arcade/" class="text-sky-300 hover:text-white underline">arcade games</a>
-                    for retro and score-attack fun, <a href="/category/action/" class="text-sky-300 hover:text-white underline">action games</a>
-                    for reflex-driven shooters, or <a href="/category/strategy/" class="text-sky-300 hover:text-white underline">strategy games</a>
-                    when you want to plan before you move. Each entry comes with an honest review, a how-to-play guide,
-                    and transparent source attribution.
-                </p>
-                <p>
-                    Unlike portals that re-host other people's work, ArcadeBloom is a <strong>game directory</strong>: we
-                    discover, review, and link. That means cleaner licensing, fairer credit to creators, and a catalogue
-                    you can trust. New <strong>free online games</strong> are added regularly — bookmark this page or
-                    check the <a href="/new/" class="text-sky-300 hover:text-white underline">latest additions</a>.
-                </p>
-            </div>
+{# Sponsored slot — contained visually (label + hairline) so it reads as
+   intentional rather than a broken widget. #}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    {% include 'ad-banner.njk' %}
+</div>
+
+{# =====================================================================
+   BROWSE BY CATEGORY — editorial list rows, not cards.
+   Each row carries its category accent on hover.
+   ===================================================================== #}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    {% set heading_eyebrow = 'The catalogue' %}
+    {% set heading_title = 'Browse by Category' %}
+    {% set heading_subtitle = 'Six top-level categories covering every kind of browser game we catalogue.' %}
+    {% include 'section-heading.njk' %}
+    <div class="border-b border-[var(--hairline)]">
+        {% for cat in site.categories %}
+        {% set cat_count = games | whereEq('category', cat.slug) | length %}
+        {% set is_thin = cat_count < site.minGamesPerCategory %}
+        {% set count = cat_count %}
+        {% set min = site.minGamesPerCategory %}
+        {% include 'category-row.njk' %}
+        {% endfor %}
+    </div>
+</section>
+
+{# =====================================================================
+   NEW ARRIVALS — horizontal scroll rail.
+   Differentiated from Editor's Picks: peek/scroll says "fresh, keep moving".
+   ===================================================================== #}
+{% if new_games.length %}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    {% set heading_eyebrow = 'Fresh in' %}
+    {% set heading_title = 'New arrivals' %}
+    {% set heading_subtitle = 'The most recent additions to the directory.' %}
+    {% include 'section-heading.njk' %}
+    {# The rail is one row of cards; on small screens each card is ~70vw,
+       on md+ a fixed 260px. Snap scrolling keeps it tidy. #}
+    <div class="rail -mx-4 px-4 sm:mx-0 sm:px-0">
+        {% for game in new_games %}
+        <div class="w-[70vw] sm:w-[260px]">
+            {% include 'game-card.njk' %}
+        </div>
+        {% endfor %}
+    </div>
+    <div class="mt-5">
+        <a href="/new/" class="inline-flex items-center gap-1 text-sm font-semibold text-bloom hover:text-paper transition-colors">
+            See all new arrivals <span aria-hidden="true">→</span>
+        </a>
+    </div>
+</section>
+{% endif %}
+
+{# =====================================================================
+   ABOUT — editorial prose column (max-w-prose feel).
+   Reinforces topical relevance for "browser games / web games / game
+   directory" with real internal links, no glass card.
+   ===================================================================== #}
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <div class="max-w-2xl">
+        <p class="eyebrow mb-3">About</p>
+        <h2 class="display-h2 text-3xl md:text-4xl">A directory, not a portal.</h2>
+        <div class="text-paper-70 leading-relaxed space-y-5 mt-6 text-lg">
+            <p>
+                ArcadeBloom is a curated directory of
+                <strong class="text-paper">free browser games</strong> — no downloads, no installs,
+                no walled garden. We catalogue the best <strong class="text-paper">web games</strong>
+                from across the internet: open-source projects on GitHub, indie titles on personal
+                sites, and competition entries from events like js13kGames. Every game links out to
+                its original author's site, so you always play the real thing where it lives.
+            </p>
+            <p>
+                Browse <a href="/category/puzzle/" class="link-inline">puzzle games</a> for logic and
+                number challenges, <a href="/category/arcade/" class="link-inline">arcade games</a>
+                for retro and score-attack fun, <a href="/category/action/" class="link-inline">action games</a>
+                for reflex-driven shooters, or <a href="/category/strategy/" class="link-inline">strategy games</a>
+                when you want to plan before you move. Each entry comes with an honest review, a
+                how-to-play guide, and transparent source attribution.
+            </p>
+            <p>
+                Unlike portals that re-host other people's work, ArcadeBloom is a
+                <strong class="text-paper">game directory</strong>: we discover, review, and link.
+                That means cleaner licensing, fairer credit to creators, and a catalogue you can
+                trust. New <strong class="text-paper">free online games</strong> are added regularly
+                — bookmark this page or check the <a href="/new/" class="link-inline">latest additions</a>.
+            </p>
         </div>
     </div>
 </section>

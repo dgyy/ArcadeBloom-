@@ -1,0 +1,27 @@
+{# category-row.njk — editorial list row for "Browse by Category".
+   Expects `cat` (a category object) and `count` (number) in scope.
+   Each row carries its own category accent via the .cat-<slug> class,
+   revealed on hover through the left marker and count.
+ #}
+<a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} group flex items-center gap-4 md:gap-6 py-5 md:py-6 border-t border-[var(--hairline)] transition-colors hover:bg-ink-2/60 px-2 -mx-2">
+    {# Accent marker — a vertical bar tinted with the category color.
+       Quiet at rest, fills on hover. #}
+    <span class="block w-1 self-stretch rounded-full bg-[var(--cat)] opacity-30 group-hover:opacity-100 transition-opacity"></span>
+
+    <div class="flex-1 min-w-0">
+        <div class="flex items-baseline gap-3">
+            <h3 class="display-h2 text-xl md:text-2xl group-hover:text-bloom transition-colors">{{ cat.name }}</h3>
+            <span class="font-mono text-xs text-paper-45 tracking-wide">
+                {{ count }} game{% if count != 1 %}s{% endif %}
+                {% if is_thin %}<span class="ml-1 text-paper-45">/ {{ min }}</span>{% endif %}
+            </span>
+        </div>
+        <p class="text-paper-60 text-sm md:text-base mt-1">{{ cat.blurb }}</p>
+        {% if is_thin %}
+        <p class="text-xs text-paper-45 mt-1.5 italic">Still seeding — browse what's here.</p>
+        {% endif %}
+    </div>
+
+    {# Arrow that nudges on hover #}
+    <span class="text-paper-45 group-hover:text-bloom group-hover:translate-x-1 transition-all shrink-0" aria-hidden="true">→</span>
+</a>

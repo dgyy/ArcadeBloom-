@@ -1,8 +1,13 @@
-{# Google AdSense responsive banner.
+{# Google AdSense responsive banner — visually contained.
    Included on list/aggregation pages (home, category, tag, featured, new).
    NOT on game detail pages (keep reviews ad-free for reading).
-   slot: 7984158181, client: ca-pub-1115845392526625 #}
-<div class="my-6">
+   slot: 7984158181, client: ca-pub-1115845392526625
+
+   The container gives the slot a clear "Sponsored" label + hairline border so
+   it reads as an intentional ad placement rather than a broken widget,
+   regardless of which creative the network serves. #}
+<aside class="my-8 surface rounded-2xl p-3 sm:p-4" aria-label="Sponsored">
+    <p class="eyebrow mb-2 px-1">Sponsored</p>
     <ins class="adsbygoogle block w-full"
          style="display:block; min-height:90px"
          data-ad-client="ca-pub-1115845392526625"
@@ -11,4 +16,4 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
     </script>
-</div>
+</aside>

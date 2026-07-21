@@ -1,11 +1,7 @@
 {# =============================================================================
    base.njk — shared page skeleton for every ArcadeBloom page.
-   Lifts the <head>, header, footer and design tokens from the legacy
-   index.html, and removes everything the directory site does not use:
-     - no <iframe> game player
-     - no formatPlays() / fake play-count inflation
-     - no Recently Played section (localStorage, meaningless for outbound dir)
-     - no Google Ads slots in the chrome
+   Editorial chrome: solid nav (no blur), Space Grotesk display + Inter body +
+   Space Mono accents, hairline surfaces, accessible mobile menu (no JS).
    Per-page content goes in {% block content %}.
    ============================================================================= #}
 <!DOCTYPE html>
@@ -46,10 +42,12 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-    {# ---- Fonts ---- #}
+    {# ---- Fonts: Space Grotesk (display) + Inter (body) + Space Mono (accents).
+          One combined request, display=swap to avoid FOIT. ~22KB extra vs
+          body-only — acceptable for a content-first editorial type system. ---- #}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     {# ---- Compiled CSS (Tailwind utilities + custom design tokens).
           Built by `npm run build:css` into /css/styles.css — no CDN, no FOUC. ---- #}
@@ -61,84 +59,102 @@
     {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
     {% block jsonld %}{% endblock %}
 </head>
-<body>
+<body class="font-body">
+
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-bloom focus:text-ink focus:rounded-full focus:font-semibold">Skip to content</a>
 
 <header class="nav-shell sticky top-0 z-50">
-    <div class="px-4 sm:px-6 lg:px-10 2xl:px-16">
-        <div class="flex items-center gap-6 h-16">
-            <a href="/" class="flex items-center flex-shrink-0">
-                <div class="w-9 h-9 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
-                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <span class="text-2xl font-bold tracking-wide">ArcadeBloom</span>
-            </a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-4 h-16">
+            {% include 'brand-mark.njk' %}
 
-            <nav class="hidden md:flex items-center gap-6 flex-1">
+            {# Desktop category nav — only categories meeting the thin-content
+               threshold appear in the header; all six remain in the footer. #}
+            <nav class="hidden lg:flex items-center gap-1 ml-4" aria-label="Categories">
                 {% for cat in site.categories %}
-                {# Header nav shows only categories that meet the thin-content threshold.
-                   All categories remain reachable via the footer. #}
                 {% set cat_count = games | whereEq('category', cat.slug) | length %}
                 {% if cat_count >= site.minGamesPerCategory %}
-                <a href="/category/{{ cat.slug }}/" class="text-sm font-semibold text-white/75 hover:text-white transition">{{ cat.name }}</a>
+                <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} px-3 py-1.5 text-sm font-medium text-paper-70 hover:text-bloom rounded-full transition-colors">
+                    {{ cat.name }}
+                </a>
                 {% endif %}
                 {% endfor %}
             </nav>
 
-            <div class="flex-1 md:flex-none md:ml-auto">
-                <form action="/search/" method="get" class="relative w-full md:w-72">
-                    <input type="search" name="q" placeholder="Search games…"
-                        value="{{ search_q or '' }}"
-                        class="w-full px-4 py-2 text-sm rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-fuchsia-400/60 bg-white/10">
-                </form>
+            <div class="flex-1"></div>
+
+            {# Desktop inline search (compact) #}
+            <div class="hidden md:block w-56 lg:w-64">
+                {% set size = 'sm' %}
+                {% include 'search-inline.njk' %}
             </div>
+
+            {# Mobile: Browse dropdown (no JS — details/summary) #}
+            <details class="mobile-nav relative md:hidden">
+                <summary class="btn-ghost !px-3 !py-2 text-sm" aria-label="Browse categories">
+                    Browse
+                    <svg class="mobile-nav__chevron w-3.5 h-3.5" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="m5 7.5 5 5 5-5" /></svg>
+                </summary>
+                <div class="absolute right-0 top-full mt-2 w-64 surface rounded-2xl overflow-hidden shadow-xl shadow-black/40">
+                    <a href="/featured/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">Featured</a>
+                    <a href="/new/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">New Arrivals</a>
+                    <div class="hairline-top mx-2 my-1"></div>
+                    {% for cat in site.categories %}
+                    <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} flex items-center gap-2 px-4 py-2.5 text-sm text-paper-70 hover:bg-ink-3 transition-colors">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[var(--cat)]"></span>
+                        {{ cat.name }}
+                    </a>
+                    {% endfor %}
+                    <div class="hairline-top mx-2 my-1"></div>
+                    <form action="/search/" method="get" class="p-3">
+                        <label for="q-mobile" class="sr-only">Search games</label>
+                        <input id="q-mobile" type="search" name="q" placeholder="Search games…"
+                            value="{{ search_q or '' }}" autocomplete="off"
+                            class="w-full bg-ink-3 border border-[var(--hairline-strong)] px-3 py-2 text-sm rounded-full focus:outline-none focus:border-bloom placeholder:text-paper-45">
+                    </form>
+                </div>
+            </details>
         </div>
     </div>
 </header>
 
-<main>
+<main id="main">
 {% block content %}{% endblock %}
 </main>
 
-<footer class="pt-16 pb-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="glass-card p-8 sm:p-10 grid grid-cols-1 md:grid-cols-4 gap-10">
-            <div class="md:col-span-2">
-                <div class="flex items-center mb-6">
-                    <div class="w-10 h-10 bg-gradient-to-tr from-fuchsia-500 to-sky-400 rounded-2xl mr-3 flex items-center justify-center shadow-lg shadow-fuchsia-500/30">
-                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                    </div>
-                    <span class="text-2xl font-bold">ArcadeBloom</span>
-                </div>
-                <p class="text-white/70 mb-6">{{ site.description }}</p>
+<footer class="hairline-top mt-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div class="grid grid-cols-2 md:grid-cols-12 gap-10">
+            <div class="col-span-2 md:col-span-5">
+                {% include 'brand-mark.njk' %}
+                <p class="text-paper-60 text-sm leading-relaxed mt-4 max-w-sm">{{ site.description }}</p>
+                <p class="eyebrow mt-6">A directory · we review, you play at the source</p>
             </div>
 
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Browse</h3>
-                <ul class="space-y-2 text-white/70">
-                    <li><a href="/featured/" class="hover:text-white transition">Featured</a></li>
-                    <li><a href="/new/" class="hover:text-white transition">New</a></li>
+            <div class="md:col-span-3 md:col-start-7">
+                <h3 class="eyebrow mb-4">Browse</h3>
+                <ul class="space-y-2.5 text-sm">
+                    <li><a href="/featured/" class="text-paper-70 hover:text-bloom transition-colors">Featured</a></li>
+                    <li><a href="/new/" class="text-paper-70 hover:text-bloom transition-colors">New</a></li>
                     {% for cat in site.categories %}
-                    <li><a href="/category/{{ cat.slug }}/" class="hover:text-white transition">{{ cat.name }}</a></li>
+                    <li><a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} text-paper-70 hover:text-bloom transition-colors">{{ cat.name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
 
-            <div>
-                <h3 class="text-lg font-semibold mb-4">Company</h3>
-                <ul class="space-y-2 text-white/70">
+            <div class="md:col-span-3">
+                <h3 class="eyebrow mb-4">Company</h3>
+                <ul class="space-y-2.5 text-sm">
                     {% for link in site.footerLinks %}
-                    <li><a href="{{ link.href }}" class="hover:text-white transition">{{ link.label }}</a></li>
+                    <li><a href="{{ link.href }}" class="text-paper-70 hover:text-bloom transition-colors">{{ link.label }}</a></li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
 
-        <div class="text-center text-white/60 mt-10">
-            © 2026 ArcadeBloom. A directory of web games — we review, you play at the source.
+        <div class="hairline-top mt-12 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <p class="font-mono text-xs text-paper-45">© 2026 ArcadeBloom · est. 2026</p>
+            <p class="font-mono text-xs text-paper-45">{{ games | length }} games catalogued and growing</p>
         </div>
     </div>
 </footer>
