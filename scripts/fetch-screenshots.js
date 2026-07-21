@@ -19,6 +19,7 @@ const fs = require('fs');
 const path = require('path');
 
 const games = require('../src/_data/games.js');
+const screenshotSources = require('./screenshot-sources.js');
 const SHOT_DIR = path.join(__dirname, '..', 'src', 'static', 'screenshots');
 fs.mkdirSync(SHOT_DIR, { recursive: true });
 
@@ -59,6 +60,21 @@ console.log(`Fetching screenshots for ${js13kGames.length} js13k games...`);
         }
     }
     console.log(`\nDone: ${ok} downloaded, ${fail} missing (404), ${skip} already present.`);
+
+    let externalOk = 0, externalFail = 0, externalSkip = 0;
+    for (const [slug, urls] of Object.entries(screenshotSources)) {
+        const game = games.find((entry) => entry.slug === slug);
+        if (!game) continue;
+        for (let index = 0; index < urls.length; index++) {
+            const publicPath = game.screenshots?.[index];
+            if (!publicPath) { externalFail++; continue; }
+            const dest = path.join(__dirname, '..', 'src', 'static', publicPath.replace(/^\/+/, ''));
+            fs.mkdirSync(path.dirname(dest), { recursive: true });
+            if (fs.existsSync(dest) && fs.statSync(dest).size > 0) { externalSkip++; continue; }
+            if (await download(urls[index], dest)) externalOk++;
+            else externalFail++;
+        }
+    }
+    console.log(`External screenshots: ${externalOk} downloaded, ${externalFail} failed, ${externalSkip} cached.`);
     console.log('Screenshots are in src/static/screenshots/ (gitignored — see CONTENT-LICENSE.md).');
 })();
-

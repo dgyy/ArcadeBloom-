@@ -18,6 +18,7 @@ const tagSlugs = new Set(tags.map((t) => t.slug));
 
 const existingSlugs = new Set(existing.map((g) => g.slug));
 const existingUrls = new Set(existing.map((g) => g.sourceUrl));
+const existingSourceKeys = new Set(existing.map((g) => g.sourceKey).filter(Boolean));
 
 // Classification — same keyword approach, tuned for GitHub game names (more descriptive)
 const CATEGORY_KEYWORDS = [
@@ -60,6 +61,8 @@ const newEntries = [];
 let skippedDupe = 0;
 
 for (const gh of ghGames) {
+    const sourceKey = `github:${gh.full.toLowerCase()}`;
+    if (existingSourceKeys.has(sourceKey)) { skippedDupe++; continue; }
     let slug = slugify(gh.name);
     if (!slug || slug.length < 2) continue;
     // Ensure unique slug
@@ -75,6 +78,7 @@ for (const gh of ghGames) {
 
     existingSlugs.add(slug);
     existingUrls.add(sourceUrl);
+    existingSourceKeys.add(sourceKey);
 
     const category = classify(gh.name, gh.desc);
     const author = gh.full.split('/')[0]; // repo owner = author
@@ -97,6 +101,8 @@ for (const gh of ghGames) {
         sourceName: gh.name,
         sourceUrl,
         licence: 'source-available',
+        licenceStatus: 'source-available',
+        sourceKey,
         tags: pickTags(gh.name, gh.desc, category),
         addedDate: '2026-07-16',
         releaseDate: 'unknown',
@@ -109,12 +115,10 @@ for (const gh of ghGames) {
 console.log(`Adding ${newEntries.length} GitHub-sourced games (${skippedDupe} dupes skipped).`);
 console.log(`Total after merge: ${existing.length + newEntries.length}`);
 
-// Load merged json and append
+// games.js is the source of truth. The merged JSON is a generated intermediate,
+// never a reason to resurrect records removed from the catalogue.
 const mergedPath = path.join(__dirname, 'js13k-games-merged.json');
-const merged = require(mergedPath);
-const combined = [...merged, ...newEntries];
-// Re-number ids
-combined.forEach((g, i) => { g.id = i + 1; });
+const combined = [...existing, ...newEntries];
 fs.writeFileSync(mergedPath, JSON.stringify(combined, null, 4));
 console.log(`Merged json now: ${combined.length} entries.`);
 

@@ -13,6 +13,7 @@ const existing = require('../src/_data/games.js');
 
 const existingSlugs = new Set(existing.map((g) => g.slug));
 const existingUrls = new Set(existing.map((g) => g.sourceUrl));
+const existingSourceKeys = new Set(existing.map((g) => g.sourceKey).filter(Boolean));
 
 // Tags from controlled vocab — assign based on category + leereilly subsection
 const tags = require('../src/_data/tags.js');
@@ -30,6 +31,11 @@ function pickTags(name, category, sub) {
         'racing-sports': 'skill-based', action: 'skill-based', arcade: 'quick-fix',
     }[category];
     if (catTag && tagSlugs.has(catTag)) t.push(catTag);
+    const gameplayTag = {
+        puzzle: 'match-3', strategy: 'turn-based', simulation: 'sandbox',
+        'racing-sports': 'racing', action: 'shooter', arcade: 'physics',
+    }[category];
+    if (gameplayTag && tagSlugs.has(gameplayTag)) t.push(gameplayTag);
     // open-source (leereilly games are GitHub-hosted)
     t.push('open-source');
     // mood
@@ -38,10 +44,13 @@ function pickTags(name, category, sub) {
     return [...new Set(t)].slice(0, 3);
 }
 
-let id = existing.length + 1; // continue after existing max id
+let id = Math.max(...existing.map((g) => g.id)) + 1;
 const newEntries = [];
 
 for (const g of leereilly) {
+    const repoPath = String(g.repo || '').replace(/^https?:\/\/github\.com\//i, '').replace(/\.git$/i, '').replace(/\/+$/, '');
+    const sourceKey = repoPath ? `github:${repoPath.toLowerCase()}` : `url:${String(g.play).toLowerCase()}`;
+    if (existingSourceKeys.has(sourceKey)) continue;
     let slug = slugify(g.name);
     // dedupe by slug
     if (existingSlugs.has(slug)) slug = `${slug}-game`;
@@ -67,21 +76,21 @@ for (const g of leereilly) {
         sourceName: g.name,
         sourceUrl: g.play,
         licence: 'source-available',
+        licenceStatus: 'source-available',
+        sourceKey,
         tags: pickTags(g.name, g.category, g.sub),
         addedDate: '2026-07-08',
-        releaseDate: '',
+        releaseDate: 'unknown',
         featured: false,
     });
     existingSlugs.add(slug);
+    existingSourceKeys.add(sourceKey);
 }
 
 console.log(`Adding ${newEntries.length} leereilly entries (after dedupe).`);
 
 // Final merged = existing + new
 const merged = [...existing, ...newEntries];
-// Re-number ids monotonically
-merged.forEach((g, i) => { g.id = i + 1; });
-
 fs.writeFileSync(path.join(__dirname, 'js13k-games-merged.json'), JSON.stringify(merged, null, 2));
 console.log(`Total merged catalogue: ${merged.length} games.`);
 

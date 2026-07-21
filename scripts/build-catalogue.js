@@ -180,8 +180,12 @@ async function main() {
             ],
             screenshots: [],
             sourceName: 'js13kGames',
-            sourceUrl: `https://js13kgames.com/${e.year}/games/${finalSlug}`,
+            // finalSlug is ArcadeBloom-local; the upstream identity never
+            // changes when a local slug needs a collision suffix.
+            sourceUrl: `https://js13kgames.com/${e.year}/games/${e.slug}`,
             licence,
+            licenceStatus: licence === 'source-available' ? 'source-available' : 'osi-approved',
+            sourceKey: `js13k:${e.year}:${e.slug}`,
             tags: pickTags(e, category),
             addedDate: '2026-07-08',
             releaseDate: String(e.year),

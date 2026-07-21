@@ -21,6 +21,7 @@ const tags = require('../src/_data/tags.js');
 const site = require('../src/_data/site.js');
 
 const STRICT = process.argv.includes('--strict');
+const VERBOSE = process.argv.includes('--verbose');
 
 const tagSlugs = new Set(tags.map((t) => t.slug));
 const gameplaySlugs = new Set(tags.filter((t) => t.group === 'gameplay').map((t) => t.slug));
@@ -36,11 +37,19 @@ const SLUG_RE = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 // for duplicate detection.
 function normUrl(u) {
     if (!u) return '';
-    let s = String(u).toLowerCase().trim();
-    s = s.replace(/^https?:\/\//, '').replace(/^www\./, '');
-    s = s.split('#')[0].split('?')[0];
-    if (s.endsWith('/')) s = s.slice(0, -1);
-    return s;
+    try {
+        const url = new URL(String(u).trim());
+        url.hostname = url.hostname.toLowerCase().replace(/^www\./, '');
+        url.hash = '';
+        for (const key of [...url.searchParams.keys()]) {
+            if (/^(utm_.+|ref|source|campaign)$/i.test(key)) url.searchParams.delete(key);
+        }
+        url.searchParams.sort();
+        url.pathname = url.pathname.replace(/\/+$/, '') || '/';
+        return `${url.hostname}${url.pathname}${url.search}`.toLowerCase();
+    } catch {
+        return String(u).trim().toLowerCase();
+    }
 }
 
 // The licenceStatus that logically follows from a licence value.
@@ -201,7 +210,11 @@ site.categories.forEach((cat) => {
 const mode = STRICT ? 'STRICT' : 'audit';
 if (warnings.length) {
     console.warn(`\n⚠  ${warnings.length} warning(s) [${mode}]:`);
-    warnings.forEach((w) => console.warn('   ' + w));
+    const shown = VERBOSE ? warnings : warnings.slice(0, 25);
+    shown.forEach((w) => console.warn('   ' + w));
+    if (!VERBOSE && warnings.length > shown.length) {
+        console.warn(`   ... ${warnings.length - shown.length} more warning(s); rerun with --verbose to list all.`);
+    }
 }
 if (errors.length) {
     console.error(`\n✗  ${errors.length} error(s) [${mode}]:`);

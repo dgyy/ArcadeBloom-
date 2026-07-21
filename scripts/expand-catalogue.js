@@ -118,7 +118,6 @@ function pickTags(e, gameplayTag) {
 const fresh = raw.filter((e) => {
     const sk = `js13k:${e.year}:${e.slug}`;
     if (existingSourceKeys.has(sk)) return false;
-    if (existingSlugs.has(e.slug)) return false;
     return true;
 }).map((e) => ({ ...e, category: classify(e.name) }));
 
@@ -158,6 +157,8 @@ if (limitArg) {
 const newEntries = selected.map((e) => {
     let slug = e.slug;
     if (existingSlugs.has(slug)) slug = `${slug}-${e.year}`;
+    let suffix = 2;
+    while (existingSlugs.has(slug)) slug = `${e.slug}-${e.year}-${suffix++}`;
     existingSlugs.add(slug);
     const gameplayTag = pickGameplay(e.name, e.category);
     return {
@@ -176,10 +177,10 @@ const newEntries = selected.map((e) => {
         ],
         screenshots: [],
         sourceName: 'js13kGames',
-        sourceUrl: `https://js13kgames.com/${e.year}/games/${slug}`,
+        sourceUrl: `https://js13kgames.com/${e.year}/games/${e.slug}`,
         licence: 'source-available',
         licenceStatus: 'source-available',
-        sourceKey: `js13k:${e.year}:${slug}`,
+        sourceKey: `js13k:${e.year}:${e.slug}`,
         tags: pickTags(e, gameplayTag),
         addedDate: '2026-07-14',
         releaseDate: String(e.year),

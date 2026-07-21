@@ -1,0 +1,21 @@
+---
+permalink: /_redirects
+eleventyExcludeFromCollections: true
+---
+# Cloudflare Pages redirects — generated catalogue redirects plus legacy rules.
+
+/about.html        /about/         301
+/contact.html      /contact/       301
+/terms.html        /terms/         301
+/privacy.html      /privacy/       301
+
+/game-detail.html          /410.html   410
+/all-games.html            /410.html   410
+/js13k2023.html            /410.html   410
+/batch-generator.html.html /410.html   410
+/add-game.html             /410.html   410
+/games/*                   /410.html   410
+
+{% for redirect in catalogueRedirects -%}
+/game/{{ redirect.from }}/ /game/{{ redirect.to }}/ 301
+{% endfor %}

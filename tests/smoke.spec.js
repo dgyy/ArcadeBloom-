@@ -8,10 +8,29 @@
 // =============================================================================
 
 const { test, expect } = require('@playwright/test');
+const fs = require('fs');
+const path = require('path');
+const games = require('../src/_data/games.js');
+const catalogueRedirects = require('../src/_data/catalogueRedirects.js');
 
 // Sample of game slugs present in the catalogue — used to parametrise checks.
 // If the catalogue shrinks below these, update accordingly.
-const GAME_SLUGS = ['hextris', 'proxx', '2048'];
+const GAME_SLUGS = [
+    'hextris', 'proxx', '2048',
+    'zombie-survival-fps', 'nyan-bomber', 'neon-velocity', 'fractured-flicks',
+    'wallbrawl', 'sokoban-projekti', 'hooping',
+    'mykonos-island-voxels', 'slashsaber', 'black-trigram', 'ugh-guys',
+    'swiishh', 'hexkingdom',
+    'litomysl-race', 'isekai-gemcraft',
+    'ultimate-tic-tac-toe-cyberpunk', 'windsurf-simulator',
+    'depo-doom', 'flipside', 'monster-tapper-pro',
+    'chemistry-sandbox', 'epoch-tower-defense', 'algoarena',
+    'signal-defender', 'neon-dopamine', 'bye-bye-alien',
+    'gesture-bubble-shooter', 'memory-heist',
+    'alienix', 'space-jam-shooter', 'love-quest',
+    'magic-arena', 'poly-city-racer-turbo',
+    'rock-paper-scissors-3d',
+];
 const CATEGORY_SLUGS = ['puzzle', 'racing-sports', 'simulation'];
 
 // ---- Helper: collect console errors on a page --------------------------------
@@ -228,6 +247,21 @@ test.describe('SEO essentials', () => {
         // Every game slug should appear
         for (const slug of GAME_SLUGS) {
             expect(xml).toContain(`/game/${slug}/`);
+        }
+    });
+
+    test('clean build excludes retired duplicate pages and emits redirects', () => {
+        const dist = path.join(__dirname, '..', 'dist');
+        const redirectFile = fs.readFileSync(path.join(dist, '_redirects'), 'utf8');
+        const gamePages = fs.readdirSync(path.join(dist, 'game'), { withFileTypes: true })
+            .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(dist, 'game', entry.name, 'index.html')));
+
+        expect(gamePages).toHaveLength(games.length);
+        expect(catalogueRedirects.length).toBeGreaterThan(0);
+        for (const redirect of catalogueRedirects) {
+            expect(fs.existsSync(path.join(dist, 'game', redirect.from, 'index.html'))).toBe(false);
+            expect(fs.existsSync(path.join(dist, 'game', redirect.to, 'index.html'))).toBe(true);
+            expect(redirectFile).toContain(`/game/${redirect.from}/ /game/${redirect.to}/ 301`);
         }
     });
 });
