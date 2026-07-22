@@ -1,0 +1,69 @@
+# growth-distribute.yml — Bluesky distribution (capped + deduplicated).
+#
+# Backs issue #19. The ONLY external automatic channel (operating constraint 8).
+# Triggered after post-deploy.yml reports a healthy production deploy — a
+# rolled-back deploy never posts. Posts are deduplicated (no item twice) and
+# capped at three per week.
+#
+# NEVER likes, follows, replies, DMs, or cross-posts (ADR-0005). Only publishes
+# the site's own eligible reviews + Collections.
+#
+# Credentials: BLUESKY_HANDLE + BLUESKY_APP_PASSWORD (owner config — account
+# created once). Without them the workflow is a no-op.
+name: Growth Distribute (Bluesky)
+
+on:
+  # Triggered by post-deploy success (issue #14 marks distribution-ready).
+  repository_dispatch:
+    types: [distribution-ready]
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'URL to post (eligible review or Collection)'
+        required: true
+      text:
+        description: 'Post text'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: growth-distribute
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout (read-only — distribution never writes to the repo)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Post to Bluesky (dedup + weekly cap enforced)
+        run: |
+          node -e '
+            const { postIfAllowed } = require("./scripts/lib/bluesky.js");
+            const url = process.env.POST_URL;
+            const text = process.env.POST_TEXT;
+            postIfAllowed(url, text).then((r) => {
+              console.log(JSON.stringify(r));
+              if (r.posted) { console.log("::notice::posted"); }
+              else { console.log("::notice::skipped — " + r.reason); }
+            }).catch((e) => { console.error(e.message); process.exit(1); });
+          '
+        env:
+          BLUESKY_HANDLE: ${{ secrets.BLUESKY_HANDLE }}
+          BLUESKY_APP_PASSWORD: ${{ secrets.BLUESKY_APP_PASSWORD }}
+          BLUESKY_PDS: ${{ secrets.BLUESKY_PDS }}
+          POST_URL: ${{ github.event.client_payload.url || github.event.inputs.url }}
+          POST_TEXT: ${{ github.event.client_payload.text || github.event.inputs.text }}

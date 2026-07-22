@@ -26,3 +26,5 @@ scripts/candidates/
 src/_data/catalogue-slugs.json
 # Weekly metrics snapshots — emitted by build-metrics-snapshot.js (baseline is committed)
 docs/metrics/snapshots/
+# Bluesky post ledger — runtime dedup/cap state (evidence/bluesky-posted.json)
+evidence/bluesky-posted.json
