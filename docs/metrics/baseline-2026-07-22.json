@@ -1,0 +1,54 @@
+{
+  "$schema": "https://arcadebloom.com/docs/metrics/baseline.schema.json",
+  "schemaVersion": 1,
+  "kind": "day-zero-baseline",
+  "asOf": "2026-07-22",
+  "note": "Fixed starting point for the 120-day growth contract. The contract is evaluated against the final 28-day window only; this record is the anchor that makes the evaluation auditable. Do NOT edit historical figures once committed — append new snapshot records instead (growth-report.yml writes weekly snapshots to docs/metrics/snapshots/).",
+  "newSiteStart": {
+    "date": "2026-07-22",
+    "event": "Google read the current sitemap.xml and discovered the current /game/<slug>/ URL space",
+    "sitemapUrl": "https://arcadebloom.com/sitemap.xml"
+  },
+  "catalogue": {
+    "gameCount": 2019,
+    "source": "src/_data/games.js (frozen on this date)"
+  },
+  "googleSearchConsole": {
+    "impressions90d": 38,
+    "clicks90d": 0,
+    "urlsDiscovered": 2047,
+    "principalExcludedUrls": 1128,
+    "principalExcludedUrlShapes": [
+      "/game-detail... (legacy dynamic template — retired)",
+      "/games/... (legacy static directory — retired)",
+      "retired static pages"
+    ],
+    "exclusionCohortNote": "The 1,128 excluded URLs are LEGACY shapes, NOT the current /game/<slug>/ pages. They must not be merged with new-page metrics as if they were one cohort. New pages are a fresh cohort starting 2026-07-22.",
+    "authority": "Google Search Console (verified property)",
+    "window": "preceding three months"
+  },
+  "cloudflareEdgeAnalytics": {
+    "usableAsHumanTrafficBaseline": false,
+    "reason": "Dominated by requests and possible bots. Not a human-traffic signal. Excluded from the growth contract per GROWTH-AUTOMATION-PLAN.md operating constraints."
+  },
+  "firstPartyPlayClicks": {
+    "status": "not yet live — endpoint implemented in issue #5 but D1 binding requires owner config (see docs/PLAY-CLICK-METRIC.md)",
+    "clicks90d": null
+  },
+  "adSenseRevenue": {
+    "status": "not yet received — recorded only after actual cash receipt per operating constraint 3",
+    "receivedToDate": 0
+  },
+  "contract": {
+    "type": "120-day validation cycle",
+    "evaluationWindow": "final 28 days of the 120-day cycle",
+    "targets": {
+      "googleSearchImpressions": 10000,
+      "qualifiedOrganicVisitsFromGoogle": 300,
+      "outboundPlayClicks": 30,
+      "searchVisitToPlayConversion": ">= 10%",
+      "fullyEvidenceReviewedGamePages": 100,
+      "evidenceLedCollections": 8
+    }
+  }
+}

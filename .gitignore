@@ -24,3 +24,5 @@ scripts/leereilly-raw.json
 scripts/candidates/
 # Slug allowlist for the Play-click endpoint — emitted by build-catalogue-slugs.js
 src/_data/catalogue-slugs.json
+# Weekly metrics snapshots — emitted by build-metrics-snapshot.js (baseline is committed)
+docs/metrics/snapshots/
