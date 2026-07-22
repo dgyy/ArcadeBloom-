@@ -35,12 +35,10 @@ Every content page (home, game detail, category, tag, aggregation) must be **sta
 This is non-negotiable for an SEO-driven directory: if Google has to run JS to see your content, you've already lost the long tail.
 
 ### Build system (起点状态)
-**There is no build system today.** No root `package.json`, empty `scripts/`, no SSG. The whole site is hand-written HTML + two client-side renderers (`js/homepage.js`, `js/game-detail.js`) that inject content into empty divs from `games-data.js`. `node_modules` contains only Playwright (test tooling). No CI (`.github/workflows/` empty).
-
-The renovation must **build a static-generation pipeline from scratch** as its first technical milestone — it cannot iterate on existing scripts, because there are no generation scripts to iterate on.
+ArcadeBloom now has an Eleventy/Nunjucks static build, compiled Tailwind CSS, catalogue validation, and Playwright smoke tests. The retired hand-written HTML and client-side `games-data.js` renderers are legacy artifacts and are not part of the current site.
 
 ### Static site generator (锁定): Eleventy (11ty)
-**Chosen stack:** Eleventy + Nunjucks templates + existing Tailwind (CDN or build) + `games-data.js` as data source. Chosen because: zero client-side JS by default (pure static), lowest learning curve, can reuse existing HTML fragments as templates, fast generation of hundreds of pages, mature SEO-site tooling. Astro rejected (higher learning curve, requires rewriting HTML into `.astro` components). Hand-rolled Node script rejected (reinvents pagination/slug/template wheels).
+**Chosen stack:** Eleventy + Nunjucks templates + compiled Tailwind + `src/_data/games.js` as the catalogue source. Chosen because: zero client-side JS by default (pure static), low template complexity, fast generation of thousands of pages, and mature SEO-site tooling. Astro and a hand-rolled generator remain rejected alternatives.
 
 ### Template convention (易错点): frontmatter must come first
 **YAML frontmatter (`---` ... `---`) MUST be the first thing in every `.njk` file.** A Nunjucks comment `{# ... #}` placed before the opening `---` silently breaks frontmatter parsing — `title`/`description`/`permalink` fields are then ignored, and pages ship with empty titles (a fatal SEO bug that affected index/featured/new until caught in the SEO review).
@@ -48,34 +46,34 @@ The renovation must **build a static-generation pipeline from scratch** as its f
 Rule: put any `{# ... #}` template comment AFTER the closing `---`, never before. `scripts/validate-data.js` does not currently catch this — a build-time check that every generated `index.html` has a non-empty `<title>` is the safety net (added to smoke tests).
 
 ### Fake-data mechanism (要删除的代码)
-The legacy `formatPlays()` in both renderers runs `Math.max(numeric, 20000)` — any play count below 20,000 is silently inflated to 20,000 before display. This is **active fabrication in code**, not just bad data. Combined with the fabricated `plays`/`rating` fields (ADR on aggregation pages), the entire fake-data code path must be deleted in the new build — not "fixed", removed.
+The retired renderers fabricated minimum play counts and displayed unsupported `plays` and `rating` values. Those fields and renderers are absent from the current catalogue and must never be reintroduced without a real measurement or rating system.
 
 ### Game entry (游戏条目)
-The atomic unit. Fields in `games-data.js`: `id, name, slug, category, image, description, instructions, releaseDate, rating, plays, featured, tags, gameUrl`. **Note:** the schema itself is being redesigned for the outbound-only catalogue (new source/attribution fields) — separate ADR when pinned.
+The atomic catalogue unit: a uniquely identified browser game with controlled classification, original editorial guidance, evidence images where available, verified source and licence attribution, publication dates, and an outbound source URL. It never contains fabricated plays or ratings and never implies that ArcadeBloom hosts the game.
 
 ### Game detail page (游戏详情页) — 模板已定
 **Fixed editorial template** (per ADR-0004, TBD numbering), replacing the legacy iframe-player model:
 
 ```
 /game/<slug>/
-├─ H1 title + meta (rating / play-time / difficulty)
+├─ H1 title + category/tags + primary outbound Play action
 ├─ Screenshot gallery (3–5 images)
 ├─ About (150–250 words, original copy)
 ├─ How to Play (100–200 words, controls + strategy)
 ├─ Key Features (bullet list)
 ├─ Source & Licence (transparent attribution: author, source URL, licence)
-├─ "Play on <author-site> →" outbound CTA  ← the only play action
+├─ One labelled ad after Source & Licence
 └─ More in this Category (internal links to /category/<cat>/)
 ```
 
 **The legacy `game-detail.html` was an iframe player page** (it rendered the game in an `<iframe id="game-iframe">`). The new directory detail page is a **review/guide page** — no iframe, no in-page play. The play action is always an outbound link to the author's site. This is the structural difference between "hosting portal" and "directory".
 
-### Seed scale strategy (300-game launch — 两阶段内容)
-**Phase A (build scale):** catalogue metadata for ~300 games is bulk-imported from machine-readable sources, primarily js13kGames (2,483 entries 2012–2025 with stable playable URLs, real authors, screenshots). `about`/`howToPlay` ship as **factual placeholder sentences** (e.g. "<Name> is a <category> game by <author>, submitted to js13k <year>.") — NOT fabricated descriptions. These are honest, verifiable, low-value sentences to be upgraded later.
+### Catalogue scale strategy (目录规模策略)
+**Scale phase complete:** 2,019 entries were live when the evidence gate was adopted. Machine-readable sources established broad catalogue coverage, but 1,754 entries still carry factual placeholder prose and are not treated as fully reviewed merely because they are published.
 
-**Phase B (upgrade quality):** each game's `about`/`howToPlay` is individually rewritten into original 150-250 word reviews, prioritising award winners and high-traffic pages.
+**Evidence phase:** automated review upgrades entries in search-value order, beginning with the Growth cohort. Each approved review is grounded in direct browser evidence plus verified source and licence information.
 
-**Why this trade-off is accepted:** the old site failed partly because of fabricated AI descriptions. The placeholders here are *factual* (true statements about author/year/source), not fabricated. They establish catalogue scale for IA validation and internal-link density, while being explicitly marked for upgrade. The hard rule — verifiable source per entry, no hosting — is preserved.
+**Accepted trade-off:** existing entries retain provisional indexing for launch speed, while all new entries fail closed until evidence review passes. Catalogue scale never substitutes for evidence quality.
 
 ### js13kGames as primary seed source (调研证实)
 - **Data**: `https://js13kgames.com/{YEAR}.js` — length-prefixed binary blob, all entries per year (name + author + award flag). 14 years, 2,483 entries total.
@@ -87,6 +85,76 @@ The atomic unit. Fields in `games-data.js`: `id, name, slug, category, image, de
 
 ### Outbound link (外链 / source link)
 The canonical play action on a directory game page. Points to the author's own site. Distinct from any internal asset link.
+
+## Growth
+
+### Indie browser-game explorer (独立浏览器游戏探索者)
+An English-language visitor looking for independent, open-source, experimental, or technically distinctive browser games, including game-jam and small-footprint work. This is ArcadeBloom's initial audience; the site does not target the generic expectation of playing a mass-market catalogue without leaving the portal.
+_Avoid_: Gamer, everyone who plays free online games
+
+### Qualified organic visit (合格自然访问)
+A human visit arriving from an organic search result at a catalogue or editorial page, with a credible opportunity to evaluate a game and continue to its source. Bot requests, uptime checks, asset requests, and raw Cloudflare visitor counts are not qualified organic visits.
+_Avoid_: Traffic, visit count, Cloudflare unique visitor
+
+### Growth validation cycle (增长验证周期)
+A 120-day measurement period whose final 28 days must produce at least 10,000 Google Search impressions, 300 Qualified organic visits from Google, and 30 Outbound Play clicks while visit-to-Play conversion remains at or above 10%. Search Console and Anonymous Play measurement are authoritative; edge request counts are diagnostic only.
+_Avoid_: Traffic target, launch period, Cloudflare baseline
+
+### Growth cohort (增长批次)
+The first evidence-focused publishing set for a Growth validation cycle: at least 100 fully reviewed game pages and eight evidence-led Collections, beginning with the 50 most complete existing entries and all Featured games. Provisionally indexed placeholder entries remain outside the cohort and do not block its progress.
+_Avoid_: Content batch, all catalogue games, publishing quota
+
+### Self-funded operation (自给式运行)
+ArcadeBloom's growth automation begins with no new paid spend and may use only existing resources, local capacity, and free service allowances. After advertising revenue is actually received, no more than 50% of that cash may be reinvested; exhausted free capacity pauses work rather than lowering evidence standards, borrowing, prepaying, or silently upgrading a service.
+_Avoid_: Free forever, estimated revenue, growth budget
+
+### Cloud-only free operation (纯线上免费运行)
+An unattended operating model that excludes the owner's local computer and uses only non-billable cloud allowances with paid overage disabled. Capacity exhaustion or provider-policy changes pause queued work; they never authorize charges or weaker evidence, and AI providers remain replaceable.
+_Avoid_: Serverless, always-on system, free unlimited automation
+
+### Automated publication gate (自动发布闸门)
+The mandatory pull-request boundary between autonomous content generation and production. Small batches may merge without human approval only after all evidence, data, build, browser, link, indexing, advertising, and post-deployment health checks pass; direct writes to the production branch and check bypasses are prohibited.
+_Avoid_: Bot commit, direct deployment, manual approval
+
+### Outbound Play click (外链游玩点击)
+A human activation of a game's primary Play link that sends the visitor from ArcadeBloom to the verified source site. The rolling 28-day count of these clicks is ArcadeBloom's growth north-star metric.
+_Avoid_: Play, page view, request
+
+### Anonymous Play measurement (匿名游玩计量)
+First-party aggregate measurement of Outbound Play clicks using game, page, time, referral class, and device class without identifying or tracking a person. It excludes IP retention, cookies, user identifiers, personal profiles, and cross-site tracking.
+_Avoid_: User tracking, click profile, Cloudflare request count
+
+### Editorial ad boundary (编辑内容广告边界)
+The permanent separation between paid placements and ArcadeBloom's editorial or play actions. Aggregation and collection pages may carry clearly labelled ads; each game detail page may carry at most one labelled ad after Source & Licence and before related games, never near the title, screenshot, review body, or Play action, and never as an interstitial, pop-up, page takeover, or sticky ad.
+_Avoid_: Monetization slot, native recommendation, sponsored game
+
+### Index-eligible game entry (可索引游戏条目)
+A game entry that passes ArcadeBloom's evidence-backed quality gate and may therefore be submitted for search indexing. New catalogue membership alone does not grant index eligibility; the 2,019 entries present when the gate was adopted are the sole provisional exception.
+_Avoid_: Published game, catalogue entry, all games
+
+### Provisionally indexed entry (存量暂准索引条目)
+One of the 2,019 game entries already published when the evidence gate was adopted, temporarily allowed to remain indexed without prior review. These entries are reviewed progressively in search-value order and lose provisional status when they pass or fail; newly added games can never receive this status.
+_Avoid_: Legacy game, approved game, permanent exception
+
+### Automated evidence review (自动证据审核)
+An AI-only assessment grounded in direct evidence from the playable game and its verified source, rather than metadata or generated prose alone. Uncertain or insufficiently evidenced entries remain ineligible for indexing instead of being escalated to a human reviewer.
+_Avoid_: AI review, metadata scoring, editorial review
+
+### Creator distribution loop (作者传播回路)
+The acquisition loop in which index-eligible games and Collections reach consenting creators and relevant audiences through inbound correspondence, owned channels, and channels that explicitly permit automation, producing qualified visits, corrections, shares, and earned links. It complements organic search without relying on unsolicited outreach.
+_Avoid_: Link building, mass outreach, backlink request
+
+### Opt-in creator correspondence (许可式作者通信)
+Automated correspondence with a creator who first contacted ArcadeBloom, submitted a game, subscribed, or otherwise gave explicit permission. Unsolicited author email is prohibited during the zero-cost phase; `hello@arcadebloom.com` receives through free routing, while replies and notifications remain limited to consented recipients.
+_Avoid_: Creator outreach, cold email, public-address permission
+
+### Autonomous distribution channel (自主分发渠道)
+An ArcadeBloom-owned channel, or an external channel whose published rules and official interface explicitly permit automated posting. Unattended posting to general communities, forums, chat servers, or issue trackers is outside this boundary.
+_Avoid_: Community, anywhere with an API, social spam
+
+### Bluesky broadcast (Bluesky 自动广播)
+ArcadeBloom's sole external autonomous publishing channel during the first Growth validation cycle. It broadcasts no more than three already-published reviews or Collections per week and never follows, likes, replies, sends private messages, or repeats a URL automatically; RSS remains the owned companion channel.
+_Avoid_: Social strategy, bot engagement, cross-posting network
 
 ### Seed sources (收录来源边界)
 The new outbound-only catalogue is seeded from three source classes only:
@@ -123,7 +191,8 @@ Each game references 3–5 tags from the controlled set **by slug** (not free te
 **Schema consequence:** `games-data.js`'s `tags` field must change from free-text array to controlled-vocabulary slug references. A separate `tags.js` (or section) defines the canonical tag set with `slug`, `name`, `group`, `description`. No tag page ships with fewer than ~8 games (thin-content guard).
 
 ### Collection (合集)
-Curated editorial groupings (e.g. "Best 13kb games", "Couch co-op"). `collection/` dir exists but is empty. Distinct from Category (algorithmic) and Tag (bottom-up). Held back until enough editorial content exists to populate.
+An evidence-led editorial argument that compares 5–12 index-eligible games in response to one genuine audience question (e.g. "Best js13k puzzle games we tested"). It is distinct from Category (top-level classification) and Tag (controlled attribute), and must add an original comparative conclusion rather than reproduce a card list or keyword variation. Collections are ArcadeBloom's primary search, sharing, and earned-link surface; individual game pages capture specific long-tail intent.
+_Avoid_: List page, keyword page, generated roundup
 
 ### Aggregation pages (聚合页)
 **Locked set: `/featured/` and `/new/` only.** No `/popular/` at launch.
