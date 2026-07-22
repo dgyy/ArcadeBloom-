@@ -1,0 +1,103 @@
+# growth-capture.yml — isolated Playwright evidence capture.
+#
+# Backs issue #10 / GROWTH-AUTOMATION-PLAN.md Required workflows →
+# growth-capture.yml. Runs on a conservative schedule and on manual dispatch.
+# Picks the highest-priority unprocessed item and captures browser evidence
+# in an ISOLATED job with read-only repository permissions and NO deployment,
+# mail, social, or write credentials (trust boundary per ADR-0007).
+#
+# Priority order (GROWTH-AUTOMATION-PLAN.md): 50 most complete existing games
+# → all eleven Featured → Search Console opportunities → underrepresented
+# categories. The queue is computed by scripts/lib/capture-priority.js.
+#
+# The workflow processes only as many items as free capacity permits. On any
+# quota error it STOPS and leaves the item queued — it never widens the batch.
+# Raw third-party HTML is sanitized: only structured browser fields land in
+# the bundle (scripts/capture-evidence.js never serializes page HTML).
+name: Growth Capture
+
+on:
+  schedule:
+    # 05:00 UTC Tuesday + Friday — conservative, two captures/week.
+    - cron: '0 5 * * 2,5'
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Specific game slug to capture (overrides queue)'
+        required: false
+        default: ''
+      limit:
+        description: 'Max items to capture this run (free-capacity budget)'
+        required: false
+        default: '1'
+
+# Isolated capture: read-only repo access, NO secrets exposed. Deploy/mail/
+# social/write credentials live in other jobs and are never available here.
+permissions:
+  contents: read
+
+concurrency:
+  group: growth-capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout (read-only — no write token)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser (chromium only)
+        run: npx playwright install --with-deps chromium
+
+      - name: Resolve capture target
+        id: target
+        run: |
+          node -e '
+            const { buildCaptureQueue } = require("./scripts/lib/capture-priority.js");
+            const slug = process.env.INPUT_SLUG;
+            const limit = parseInt(process.env.INPUT_LIMIT || "1", 10);
+            if (slug) {
+              console.log("::set-output name=slug::" + slug);
+              console.log("capturing specific slug: " + slug);
+            } else {
+              const q = buildCaptureQueue({ limit });
+              if (!q.length) { console.log("::set-output name=empty::true"); console.log("queue empty — nothing to capture"); process.exit(0); }
+              console.log("::set-output name=slug::" + q[0].slug);
+              console.log("::set-output name=tier::" + q[0].tier);
+              console.log("capturing next queue item: " + q[0].slug + " (tier " + q[0].tier + ")");
+            }
+          '
+        env:
+          INPUT_SLUG: ${{ github.event.inputs.slug }}
+          INPUT_LIMIT: ${{ github.event.inputs.limit }}
+
+      - name: Skip on empty queue
+        if: steps.target.outputs.empty == 'true'
+        run: echo "No items to capture this run."
+
+      - name: Capture evidence (isolated, no secrets)
+        if: steps.target.outputs.slug != '' && steps.target.outputs.empty != 'true'
+        run: node scripts/capture-evidence.js --slug=${{ steps.target.outputs.slug }}
+
+      - name: Validate the captured bundle (issue #9 gate)
+        if: steps.target.outputs.slug != '' && steps.target.outputs.empty != 'true'
+        run: npm run validate:evidence
+
+      - name: Upload evidence bundle (short retention)
+        if: always() && steps.target.outputs.slug != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: evidence-${{ steps.target.outputs.slug }}-${{ github.run_id }}
+          path: evidence/games/
+          retention-days: 14
