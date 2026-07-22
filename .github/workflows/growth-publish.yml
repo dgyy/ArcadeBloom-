@@ -31,7 +31,6 @@ on:
   workflow_run:
     workflows: ['Growth Assess']
     types: [completed]
-    branches: ['']
 
 # This job writes (creates a branch + PR). It needs contents:write + PR write.
 # This is the ONLY workflow that holds write permissions — capture/assess stay

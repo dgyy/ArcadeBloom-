@@ -27,7 +27,6 @@ on:
     # Auto-assess right after a successful capture run.
     workflows: ['Growth Capture']
     types: [completed]
-    branches: ['']
 
 permissions:
   contents: read
