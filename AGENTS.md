@@ -14,9 +14,10 @@ ArcadeBloom is an **outbound-link game directory** — we review browser games a
 ## Build, Test, and Development Commands
 - `npm install` — install dependencies.
 - `npm run serve` — build CSS + Eleventy dev server with live reload.
-- `npm run build` — build CSS (`tailwindcss` compiles `src/styles/styles.css` → `dist/css/styles.css`), then Eleventy renders to `dist/`.
+- `npm run build` — runs `validate:strict` first, then clean + CSS + screenshots + Eleventy renders to `dist/`.
 - `npm run build:css` — compile Tailwind only (JIT scans `src/**/*.njk` per `tailwind.config.js`).
-- `npm run validate` — validate `games.js` against the schema (slug uniqueness, category/tags in controlled vocab, required fields, no legacy `plays`/`rating`/`gameUrl`). **Must pass before commit.**
+- `npm run validate` — audit mode: schema checks (slug uniqueness, category/tags in controlled vocab, required fields, no legacy `plays`/`rating`/`gameUrl`) plus advisory warnings. **Must pass before commit.**
+- `npm run validate:strict` — strict mode: structural warnings (duplicate URLs, missing gameplay tags, `licenceStatus`/`sourceKey` presence+consistency, id monotonicity) escalate to blocking errors. This is the gate bot-generated PRs are held to; the CI workflow (`.github/workflows/ci.yml`) runs it on every PR. Content-quality warnings (word count, placeholder wording) stay advisory in both modes.
 - `npm test` — rebuild + run Playwright smoke tests against `dist/` (served by `http-server`).
 
 CSS is **not** loaded from the Tailwind CDN — it is compiled at build time into `/css/styles.css` (16KB minified). Editing styles means changing `src/styles/styles.css` (Tailwind directives + custom design tokens) and rebuilding; do not re-introduce `<script src="cdn.tailwindcss.com">` (it causes FOUC and a production warning).
