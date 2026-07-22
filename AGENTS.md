@@ -38,10 +38,14 @@ screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, f
 
 ## Adding Games
 1. Append to `src/_data/games.js` (or run the import scripts for bulk sources).
-2. Fill every schema field. `category` ∈ the 6 in `site.js`; `tags` ∈ the controlled vocab in `tags.js`; `sourceUrl` is always an outbound link.
+2. Fill every schema field. `category` ∈ the 6 in `site.js`; `tags` ∈ the controlled vocab in `tags.js`; `sourceUrl` is always an outbound link. Every game needs a unique `sourceKey` (upstream identity, e.g. `github:owner/repo`).
 3. Run `npm run validate` — zero errors required.
-4. Run `npm run build` — the detail page, sitemap, and tag pages regenerate automatically.
-5. Thin-content guards: categories need ≥20 games to appear in the nav; tags need ≥8 games to generate a page.
+4. Re-freeze the provisional manifest so the new `sourceKey` is registered as `provisional`: `node scripts/freeze-provisional-manifest.js` (preserves existing eligible/ineligible decisions). Then `npm run validate:registry` must pass.
+5. Run `npm run build` — the detail page, sitemap, and tag pages regenerate automatically.
+6. Thin-content guards: categories need ≥20 games to appear in the nav; tags need ≥8 games to generate a page.
+
+### Index eligibility (ADR-0006 + evidence gate)
+Games in the 2026-07-22 frozen manifest (`evidence/index-manifest.json`) are grandfathered as `provisional` and remain indexable. **New** sourceKeys absent from the manifest AND without an `eligible` evidence record fail closed: `noindex,follow`, excluded from the sitemap. The review registry (`evidence/review-registry.json`) tracks `provisional` → `eligible` → `ineligible` per sourceKey. Evidence records live at `evidence/games/<slug>/<review-id>.json` (shape in `docs/evidence-schema.md`).
 
 ## Testing Guidelines
 - `npm run validate` + `npm test` must pass before commit. The smoke suite checks: no console errors, outbound CTAs carry `rel="noopener nofollow"`, content visible without JS, no legacy iframe/fake-data artifacts, and SEO essentials (canonical, JSON-LD, sitemap, noindex on `/search/`).

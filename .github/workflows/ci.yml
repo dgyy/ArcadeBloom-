@@ -43,6 +43,9 @@ jobs:
       - name: Validate catalogue (strict — structural errors block)
         run: npm run validate:strict
 
+      - name: Validate evidence manifest + review registry
+        run: npm run validate:registry
+
       - name: Build site (validate:strict + clean + CSS + Eleventy + screenshots)
         run: npm run build
 
