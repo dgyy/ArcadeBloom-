@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "slug": "2048",
+  "sourceKey": "url:play2048.co/",
+  "reviewedAt": "2026-07-23T00:00:00Z",
+  "reviewId": "2026-07-23-fixture-broken",
+  "source": {
+    "playUrl": "https://play2048.co/",
+    "repositoryUrl": "https://github.com/gabrielecirulli/2048",
+    "licence": "MIT"
+  },
+  "browser": {
+    "loaded": false,
+    "finalUrl": "https://play2048.co/error",
+    "consoleErrorCount": 12,
+    "interactionAttempts": [],
+    "screenshots": [],
+    "viewportResults": []
+  },
+  "assessment": {
+    "provider": "github-models",
+    "model": "x",
+    "confidence": 0.5,
+    "decision": "pass",
+    "reasons": []
+  },
+  "integrity": {
+    "evidenceHash": "sha256:9c9fc7776ac4e8e2a3bd959dd5b96b76117261d63f5e0fdf0ef89a47069f91ce",
+    "workflowRun": "fixture-test-run-2"
+  }
+}

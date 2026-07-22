@@ -46,6 +46,9 @@ jobs:
       - name: Validate evidence manifest + review registry
         run: npm run validate:registry
 
+      - name: Validate evidence records (schema + hash + thresholds)
+        run: npm run validate:evidence
+
       - name: Build site (validate:strict + clean + CSS + Eleventy + screenshots)
         run: npm run build
 

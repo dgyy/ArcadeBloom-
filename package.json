@@ -23,6 +23,7 @@
     "validate": "node scripts/validate-data.js",
     "validate:strict": "node scripts/validate-data.js --strict",
     "validate:registry": "node scripts/validate-review-registry.js",
+    "validate:evidence": "node scripts/validate-evidence.js",
     "pretest": "npm run build",
     "test": "playwright test"
   },

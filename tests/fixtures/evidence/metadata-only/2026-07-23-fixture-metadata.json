@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "slug": "2048",
+  "sourceKey": "url:play2048.co/",
+  "reviewedAt": "2026-07-23T00:00:00Z",
+  "reviewId": "2026-07-23-fixture-metadata",
+  "source": {
+    "playUrl": "https://play2048.co/",
+    "repositoryUrl": "https://github.com/gabrielecirulli/2048",
+    "licence": "MIT"
+  },
+  "browser": {},
+  "assessment": {
+    "provider": "github-models",
+    "model": "x",
+    "confidence": 0.5,
+    "decision": "pass",
+    "reasons": [
+      "README says it works"
+    ]
+  },
+  "integrity": {
+    "evidenceHash": "sha256:900a0646b1bce32c3b14e6cff37c18f25902f81ad7a64d80027d5f15efef3b85",
+    "workflowRun": "fixture-test-run-3"
+  }
+}
