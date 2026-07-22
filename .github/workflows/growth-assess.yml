@@ -1,0 +1,101 @@
+# growth-assess.yml — assess captured evidence with the model adapter.
+#
+# Backs issue #11 / GROWTH-AUTOMATION-PLAN.md Required workflows →
+# growth-assess.yml. Consumes the evidence bundle produced by growth-capture
+# (#10) and calls GitHub Models through a provider-neutral adapter. The
+# adapter sanitizes the bundle, rejects prompt-injection attempts from the
+# visited page, and stops on rate limit (no retry storm).
+#
+# The model's decision is advisory only — the #9 validator is the arbiter
+# (ADR-0004). This workflow NEVER falls back to metadata-only approval.
+#
+# GitHub Models paid usage stays disabled (owner keeps overage off in GitHub
+# settings; ADR-0007). MODEL_ID is configurable so the model can be swapped.
+name: Growth Assess
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: 'Game slug whose latest evidence to assess'
+        required: true
+      capture-run-id:
+        description: 'growth-capture run id that produced the artifact (optional)'
+        required: false
+        default: ''
+  workflow_run:
+    # Auto-assess right after a successful capture run.
+    workflows: ['Growth Capture']
+    types: [completed]
+    branches: ['']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: growth-assess
+  cancel-in-progress: false
+
+jobs:
+  assess:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Only run on successful capture completions, not failures.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: Checkout (read-only — assess never writes to main)
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Resolve slug
+        id: slug
+        run: |
+          if [ -n "${{ github.event.inputs.slug }}" ]; then
+            echo "::set-output name=slug::${{ github.event.inputs.slug }}"
+          else
+            # Derive from the triggering capture run's artifacts.
+            SLUG=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.event.workflow_run.id }}/artifacts --jq '.artifacts[0].name' | sed 's/evidence-\(.*\)-[0-9]*/\1/')
+            echo "::set-output name=slug::$SLUG"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Download capture artifact
+        run: |
+          mkdir -p evidence/games
+          if [ -n "${{ github.event.inputs.capture-run-id }}" ]; then
+            gh run download ${{ github.event.inputs.capture-run-id }} -R ${{ github.repository }} -n "evidence-${{ steps.slug.outputs.slug }}-${{ github.event.inputs.capture-run-id }}" -D evidence-download || true
+          elif [ "${{ github.event_name }}" = "workflow_run" ]; then
+            gh run download ${{ github.event.workflow_run.id }} -R ${{ github.repository }} -D evidence-download || true
+          fi
+          # Restore the captured record into evidence/games/ for the assessor.
+          if [ -d evidence-download ]; then cp -r evidence-download/games/* evidence/games/ 2>/dev/null || true; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Assess evidence (model adapter, no paid usage)
+        run: node scripts/assess-evidence.js --slug=${{ steps.slug.outputs.slug }}
+        env:
+          # GITHUB_TOKEN provides rate-limited GitHub Models access. Paid
+          # overage stays disabled in owner settings (ADR-0007).
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODEL_ID: ${{ vars.MODEL_ID }}
+
+      - name: Validate after assessment (issue #9 gate)
+        run: npm run validate:evidence
+
+      - name: Upload assessed bundle
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: assessed-${{ steps.slug.outputs.slug }}-${{ github.run_id }}
+          path: evidence/games/
+          retention-days: 14
