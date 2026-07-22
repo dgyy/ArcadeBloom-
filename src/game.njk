@@ -7,6 +7,7 @@ permalink: "/game/{{ game.slug }}/"
 eleventyComputed:
     title: "{{ game.name }} — Review, How to Play & Source"
     description: "{{ game.tagline }}"
+    robots: "{{ 'index, follow' if (game.sourceKey | isIndexable) else 'noindex, follow' }}"
 ---
 
 {% extends 'base.njk' %}

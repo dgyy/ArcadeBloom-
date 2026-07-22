@@ -152,6 +152,32 @@ module.exports = function (eleventyConfig) {
     // visitors can see a stale stylesheet for up to 4 hours after a deploy).
     eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
 
+    // ---- Index eligibility (ADR-0006 + evidence gate, issue #8) ----------
+    // Load the frozen manifest + review registry ONCE per build. A game is
+    // indexable iff its sourceKey is in the frozen 2026-07-22 manifest
+    // (grandfathered) OR its registry state is `eligible`. Everything else
+    // (new unreviewed sourceKey, or `ineligible`) fails closed: noindex and
+    // excluded from the sitemap. See docs/evidence-schema.md.
+    const fs = require('fs');
+    const path = require('path');
+    let manifestSourceKeys = new Set();
+    let registryStates = {};
+    try {
+        const manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/index-manifest.json'), 'utf8'));
+        manifestSourceKeys = new Set(manifest.sourceKeys || []);
+    } catch { /* validate:registry reports the real error; build proceeds */ }
+    try {
+        const registry = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/review-registry.json'), 'utf8'));
+        registryStates = registry.states || {};
+    } catch { /* ditto */ }
+
+    eleventyConfig.addFilter('isIndexable', (sourceKey) => {
+        if (!sourceKey) return false;
+        if (manifestSourceKeys.has(sourceKey)) return true;        // grandfathered
+        const st = registryStates[sourceKey];
+        return !!(st && st.state === 'eligible');                  // evidence gate
+    });
+
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation
     // and for thin-content guards (category pages need >=20, tag pages >=8).
