@@ -24,6 +24,7 @@
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
+const { collectGSC } = require('./lib/search-console.js');
 
 const BASELINE_PATH = path.resolve(__dirname, '../docs/metrics/baseline-2026-07-22.json');
 const SNAPSHOTS_DIR = path.resolve(__dirname, '../docs/metrics/snapshots');
@@ -80,16 +81,7 @@ const snapshot = {
         'Never merge the two cohorts in trend calculations.',
 
     // ---- Slots filled by later slices (null until wired) ----
-    googleSearchConsole: {
-        wired: false,
-        wiredByIssue: 16,
-        note: 'Requires GSC service account secret (owner config). Slot present.',
-        impressions7d: null,
-        clicks7d: null,
-        ctr7d: null,
-        topPages: null,
-        indexTrend: null
-    },
+    googleSearchConsole: null,  // filled by collectGSC() below (issue #16)
 
     playClickAggregates: {
         wired: false,
@@ -129,11 +121,18 @@ const snapshot = {
 
 fs.mkdirSync(SNAPSHOTS_DIR, { recursive: true });
 const outPath = path.join(SNAPSHOTS_DIR, snapshot.snapshotDay + '.json');
-fs.writeFileSync(outPath, JSON.stringify(snapshot, null, 2) + '\n');
 
-console.log(`✓ wrote metrics snapshot → ${path.relative(process.cwd(), outPath)}`);
-console.log(`  day ${snapshot.daysIntoCycle} of ${snapshot.cycleLengthDays}-day cycle`);
-console.log(`  catalogue: ${games.length} games`);
-if (!baseline) {
-    console.warn('  ⚠ baseline record not found at ' + BASELINE_PATH);
-}
+// Fill the GSC slot (issue #16). collectGSC never throws — it returns a
+// not-wired marker when GSC_CREDENTIALS is absent or the pull fails.
+(async () => {
+    snapshot.googleSearchConsole = await collectGSC(7);
+    fs.writeFileSync(outPath, JSON.stringify(snapshot, null, 2) + '\n');
+
+    console.log(`✓ wrote metrics snapshot → ${path.relative(process.cwd(), outPath)}`);
+    console.log(`  day ${snapshot.daysIntoCycle} of ${snapshot.cycleLengthDays}-day cycle`);
+    console.log(`  catalogue: ${games.length} games`);
+    console.log(`  GSC: ${snapshot.googleSearchConsole.wired ? 'wired (' + snapshot.googleSearchConsole.newPages.impressions + ' impressions, ' + snapshot.googleSearchConsole.newPages.clicks + ' clicks)' : 'not wired (' + (snapshot.googleSearchConsole.note || 'no credentials') + ')'}`);
+    if (!baseline) {
+        console.warn('  ⚠ baseline record not found at ' + BASELINE_PATH);
+    }
+})();
