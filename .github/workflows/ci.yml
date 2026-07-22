@@ -49,6 +49,9 @@ jobs:
       - name: Validate evidence records (schema + hash + thresholds)
         run: npm run validate:evidence
 
+      - name: Validate Collections (thesis + eligible membership + originality)
+        run: npm run validate:collections
+
       - name: Build site (validate:strict + clean + CSS + Eleventy + screenshots)
         run: npm run build
 

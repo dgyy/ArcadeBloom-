@@ -13,6 +13,15 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.setTemplateFormats(['njk', 'md']);
     // Nunjucks is registered by default for .njk; nothing extra needed.
 
+    // ---- Conditional ignore: collection template --------------------------
+    // When no Collections are published yet, skip collection.njk so Eleventy
+    // does not render an empty-pagination page. Re-enabled automatically once
+    // src/_data/collections.js has >=1 entry (issue #17).
+    const collectionsData = require('./src/_data/collections.js');
+    if (!Array.isArray(collectionsData) || collectionsData.length === 0) {
+        eleventyConfig.ignores.add('src/collection.njk');
+    }
+
     // ---- Passthrough: static assets served as-is --------------------------
     // Favicon, og images, screenshots, robots.txt etc. live under src/static/
     // and are copied 1:1 to dist/.
