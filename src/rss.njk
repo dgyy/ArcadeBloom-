@@ -1,0 +1,33 @@
+---
+permalink: /feed.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ArcadeBloom — Reviews &amp; Collections</title>
+    <link>{{ site.url }}/</link>
+    <atom:link href="{{ site.url }}/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Evidence-led browser-game reviews and editorial Collections. New items appear only after a successful production health check.</description>
+    <language>en</language>
+{% for game in games %}
+  {% if game.sourceKey | isEligible %}
+    <item>
+      <title>{{ game.name }} — review</title>
+      <link>{{ site.url }}/game/{{ game.slug }}/</link>
+      <guid isPermaLink="true">{{ site.url }}/game/{{ game.slug }}/</guid>
+      <description>{{ game.tagline }}</description>
+      <category>{{ game.category }}</category>
+    </item>
+  {% endif %}
+{% endfor %}
+{% for collection in collections %}
+    <item>
+      <title>{{ collection.title }} — Collection</title>
+      <link>{{ site.url }}/collection/{{ collection.slug }}/</link>
+      <guid isPermaLink="true">{{ site.url }}/collection/{{ collection.slug }}/</guid>
+      <description>{{ collection.thesis }}</description>
+    </item>
+{% endfor %}
+  </channel>
+</rss>

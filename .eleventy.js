@@ -187,6 +187,15 @@ module.exports = function (eleventyConfig) {
         return !!(st && st.state === 'eligible');                  // evidence gate
     });
 
+    // isEligible: strictly passed the evidence gate (used by RSS #18 and
+    // Collections #17 — these never include provisional/grandfathered entries,
+    // only fully reviewed ones).
+    eleventyConfig.addFilter('isEligible', (sourceKey) => {
+        if (!sourceKey) return false;
+        const st = registryStates[sourceKey];
+        return !!(st && st.state === 'eligible');
+    });
+
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation
     // and for thin-content guards (category pages need >=20, tag pages >=8).
