@@ -22,3 +22,5 @@ scripts/js13k-games.json
 scripts/js13k-games-merged.json
 scripts/leereilly-raw.json
 scripts/candidates/
+# Slug allowlist for the Play-click endpoint — emitted by build-catalogue-slugs.js
+src/_data/catalogue-slugs.json

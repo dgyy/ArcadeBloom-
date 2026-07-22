@@ -116,6 +116,54 @@ test.describe('Game page outbound CTA', () => {
 });
 
 // =============================================================================
+// 2b. Play-click aggregate instrumentation (issue #5).
+//     The CTA carries a data-play-slug attribute, the beacon script is loaded,
+//     and clicking fires a same-origin POST. Measurement is best-effort: the
+//     outbound link must still work even if the endpoint is unreachable.
+// =============================================================================
+test.describe('Play-click aggregate beacon', () => {
+    test('CTA carries data-play-slug matching the game slug', async ({ page }) => {
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        const cta = page.locator('a[data-play-slug]').first();
+        await expect(cta).toBeVisible();
+        const slug = await cta.getAttribute('data-play-slug');
+        expect(slug).toBe(GAME_SLUGS[0]);
+    });
+
+    test('play-click.js is loaded on game pages', async ({ page }) => {
+        const requested = [];
+        page.on('request', (req) => requested.push(req.url()));
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        expect(requested.some((u) => /\/js\/play-click\.js/.test(u))).toBe(true);
+    });
+
+    test('clicking CTA fires a same-origin POST to /api/play-click', async ({ page }) => {
+        const beaconUrls = [];
+        page.on('request', (req) => {
+            if (req.url().includes('/api/play-click') && req.method() === 'POST') {
+                beaconUrls.push(req.url());
+            }
+        });
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        // The endpoint is a Cloudflare Pages Function and is NOT served by the
+        // local http-server, so the POST will 404 — but we only assert that
+        // the browser ATTEMPTED the beacon to the right same-origin URL.
+        await page.locator('a[data-play-slug]').first().click({ noWaitAfter: true }).catch(() => {});
+        // Give the fire-and-forget beacon a moment to be dispatched.
+        await page.waitForTimeout(300);
+        expect(beaconUrls.length, 'a same-origin POST to /api/play-click was sent').toBeGreaterThanOrEqual(1);
+        expect(beaconUrls[0]).toMatch(/\/api\/play-click$/);
+    });
+
+    test('play-click.js is NOT loaded on non-game pages', async ({ page }) => {
+        const requested = [];
+        page.on('request', (req) => requested.push(req.url()));
+        await page.goto('/');
+        expect(requested.some((u) => /\/js\/play-click\.js/.test(u))).toBe(false);
+    });
+});
+
+// =============================================================================
 // 3. Content visible without JavaScript — the directory's SEO crawlability core.
 //    Every key page must show its primary content in the raw HTML, because
 //    crawlers that do not run JS must still see it.

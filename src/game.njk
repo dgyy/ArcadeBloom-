@@ -268,3 +268,9 @@ eleventyComputed:
     {% include 'play-cta.njk' %}
 </div>
 {% endblock %}
+
+{% block scripts %}
+{# Play-click aggregate beacon (issue #5). Measurement-only; the outbound
+   link still works without JS. Loaded only on game detail pages. #}
+<script src="/js/play-click.js?v={{ asset_version }}" defer></script>
+{% endblock %}

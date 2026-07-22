@@ -12,6 +12,7 @@
 {% set cta_size = cta_size or 'md' %}
 <a href="{{ game.sourceUrl }}"
    rel="noopener nofollow"
+   data-play-slug="{{ game.slug }}"
    class="cat-{{ game.category }} group inline-flex items-center {% if cta_size == 'lg' %}gap-3 px-7 py-4 text-lg{% elif cta_size == 'sm' %}gap-2 px-5 py-2.5 text-sm{% else %}gap-2.5 px-6 py-3.5 text-base{% endif %} rounded-full font-bold bg-bloom text-ink hover:bg-[#ff7ba1] transition-colors shadow-lg shadow-[var(--cat)]/20 hover:scale-[1.02] active:scale-95">
     {# Play triangle — universal "play media" affordance #}
     <svg class="{% if cta_size == 'lg' %}w-5 h-5{% elif cta_size == 'sm' %}w-3.5 h-3.5{% else %}w-4 h-4{% endif %}" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
