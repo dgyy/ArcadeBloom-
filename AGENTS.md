@@ -56,3 +56,17 @@ screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, f
 - Build command: `npm run build`. Output directory: `dist`.
 - `_redirects` (in `src/static/`, copied to `dist/`) handles legacy-URL retirement (410 Gone for removed content, 301 for moved static pages).
 - Clean URLs work by default: Cloudflare Pages resolves `/game/<slug>/` to `/game/<slug>/index.html`.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as GitHub issues; use the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Five canonical roles map 1:1 to GitHub labels. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context — `CONTEXT.md` and `docs/adr/` at the repo root. See `docs/agents/domain.md`.
