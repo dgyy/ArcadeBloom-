@@ -164,6 +164,67 @@ test.describe('Play-click aggregate beacon', () => {
 });
 
 // =============================================================================
+// 2c. Advertising placement (issue #15).
+//     Game detail pages carry exactly one labelled ad, after Source & Licence
+//     and before More Games. AdSense script loads ONLY on game pages.
+// =============================================================================
+test.describe('Advertising placement', () => {
+    test('game page has exactly one labelled ad slot', async ({ page }) => {
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        // Exactly one ad slot WE placed (AdSense may inject extra fill ins at
+        // runtime, so scope to our data-ad-slot attribute).
+        const ourSlots = page.locator('ins.adsbygoogle[data-ad-slot]');
+        await expect(ourSlots).toHaveCount(1);
+        // The slot is inside a labelled "Advertisement" region.
+        await expect(page.locator('section[aria-label="Advertisement"]')).toBeVisible();
+    });
+
+    test('ad slot appears after Source & Licence and before More Games', async ({ page }) => {
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        const adSection = page.locator('section[aria-label="Advertisement"]');
+        const sourceSection = page.locator('section', { hasText: 'Source & Licence' });
+        const moreGamesHeader = page.locator('h2', { hasText: /More .* Games/ });
+        // All three present.
+        await expect(adSection).toBeVisible();
+        await expect(sourceSection.first()).toBeVisible();
+        // The ad's bounding-box y is greater than Source & Licence's and less
+        // than More Games' (when More Games renders).
+        const adBox = await adSection.boundingBox();
+        const srcBox = await sourceSection.first().boundingBox();
+        expect(adBox.y, 'ad must be below Source & Licence').toBeGreaterThan(srcBox.y);
+        if (await moreGamesHeader.count()) {
+            const moreBox = await moreGamesHeader.first().boundingBox();
+            expect(adBox.y, 'ad must be above More Games').toBeLessThan(moreBox.y);
+        }
+    });
+
+    test('AdSense script loads on game pages but NOT on the homepage', async ({ page }) => {
+        const gameReqs = [];
+        page.on('request', (req) => gameReqs.push(req.url()));
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        expect(gameReqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(true);
+    });
+
+    test('AdSense script is NOT loaded on ad-free pages', async ({ page }) => {
+        const homeReqs = [];
+        page.on('request', (req) => homeReqs.push(req.url()));
+        await page.goto('/');
+        expect(homeReqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(false);
+    });
+
+    test('no interstitial/sticky ad artifacts on game pages', async ({ page }) => {
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        const html = await page.content();
+        // No fixed/sticky positioning commonly used by intrusive ad formats.
+        expect(html).not.toMatch(/class="[^"]*sticky[^"]*ad/i);
+        expect(html).not.toMatch(/class="[^"]*interstitial/i);
+        // Exactly one ad slot WE placed (AdSense may inject fill ins at runtime).
+        const adSlots = page.locator('ins.adsbygoogle[data-ad-slot]');
+        await expect(adSlots).toHaveCount(1);
+    });
+});
+
+// =============================================================================
 // 3. Content visible without JavaScript — the directory's SEO crawlability core.
 //    Every key page must show its primary content in the raw HTML, because
 //    crawlers that do not run JS must still see it.

@@ -55,8 +55,12 @@
           (asset_version is a build timestamp; see .eleventy.js). ---- #}
     <link rel="stylesheet" href="/css/styles.css?v={{ asset_version }}">
 
-    {# ---- Google AdSense ---- #}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
+    {# ---- Google AdSense (loaded ONLY on templates that render an ad slot,
+          via {% block adsense %}. Issue #15: do not load globally on ad-free
+          pages. The block also carries the google-adsense-account meta. ---- #}
+    {% block adsense %}
+    {# default: no AdSense. Pages that show an ad override this block. #}
+    {% endblock %}
 
     {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
     {% block jsonld %}{% endblock %}
