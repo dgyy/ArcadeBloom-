@@ -212,18 +212,24 @@ test.describe('Advertising placement', () => {
         }
     });
 
-    test('AdSense script loads on game pages but NOT on the homepage', async ({ page }) => {
-        const gameReqs = [];
-        page.on('request', (req) => gameReqs.push(req.url()));
-        await page.goto(`/game/${GAME_SLUGS[0]}/`);
-        expect(gameReqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(true);
+    test('AdSense script loads on game pages AND on the homepage', async ({ page }) => {
+        // Both carry ad slots (game: own slot; home: ad-banner.njk), so both
+        // must load the AdSense library.
+        for (const path of [`/game/${GAME_SLUGS[0]}/`, '/']) {
+            const reqs = [];
+            page.on('request', (req) => reqs.push(req.url()));
+            await page.goto(path);
+            expect(reqs.some((u) => /adsbygoogle\.js/.test(u)), `${path} should load adsbygoogle.js`).toBe(true);
+            page.removeAllListeners('request');
+        }
     });
 
     test('AdSense script is NOT loaded on ad-free pages', async ({ page }) => {
-        const homeReqs = [];
-        page.on('request', (req) => homeReqs.push(req.url()));
-        await page.goto('/');
-        expect(homeReqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(false);
+        // about/contact/privacy/terms/search carry no ad slot → no script.
+        const reqs = [];
+        page.on('request', (req) => reqs.push(req.url()));
+        await page.goto('/about/');
+        expect(reqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(false);
     });
 
     test('no interstitial/sticky ad artifacts on game pages', async ({ page }) => {

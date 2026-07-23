@@ -287,9 +287,9 @@ eleventyComputed:
 {% endblock %}
 
 {% block adsense %}
-{# AdSense loaded ONLY on game detail pages (issue #15). Other templates
-   inherit the empty default and load no ad script. #}
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
+{{ super() }}
+{# Push the game-detail ad slot (placed after Source & Licence). The script
+   itself is loaded by base.njk's default adsense block. #}
 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 {% endblock %}
 
