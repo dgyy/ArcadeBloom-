@@ -59,11 +59,27 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright smoke suite
-        # Use `npx playwright test` directly (not `npm test`) so the pretest
-        # hook does not rebuild the site a second time — dist/ is already
-        # built by the Build step above. Rebuilding risks a flaky screenshot
-        # fetch failing the whole run even when every test passes.
-        run: npx playwright test
+        # Start the static server in the background, run the tests against it,
+        # then stop the server. Doing this manually (instead of via Playwright's
+        # webServer hook) avoids http-server's non-zero exit on teardown
+        # failing the whole run despite every test passing.
+        run: |
+          npx http-server dist -p 4173 --silent &
+          SERVER_PID=$!
+          # Wait for the server to be ready.
+          for i in $(seq 1 30); do
+            curl -s -o /dev/null http://127.0.0.1:4173/ && break
+            sleep 1
+          done
+          # Run tests with reuseExistingServer so Playwright does not try to
+          # manage its own server (which causes the teardown exit-code issue).
+          npx playwright test
+          TEST_EXIT=$?
+          kill $SERVER_PID 2>/dev/null || true
+          exit $TEST_EXIT
+        env:
+          CI: "true"
+          PLAYWRIGHT_REUSE_SERVER: "1"
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
