@@ -44,7 +44,12 @@ function expectNoConsoleErrors(page) {
     page.on('console', (msg) => {
         if (msg.type() !== 'error') return;
         const text = msg.text();
-        if (/Failed to load resource.*(404|403)/i.test(text)) return;
+        // Resource-load failures (404/403/400) are filtered:
+        //   - 404s: catalogue screenshots / og-image populated during content phase
+        //   - 403/400s: Google AdSense returns these in test/CI environments with
+        //     no real ad inventory or cookies — the ad network's normal behaviour,
+        //     not a code bug.
+        if (/Failed to load resource.*(404|403|400)/i.test(text)) return;
         errors.push(text);
     });
     page.on('pageerror', (err) => errors.push(`pageerror: ${err.message}`));
