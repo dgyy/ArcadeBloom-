@@ -59,23 +59,25 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright smoke suite
-        # Start the static server in the background, run the tests against it,
-        # then stop the server. Doing this manually (instead of via Playwright's
-        # webServer hook) avoids http-server's non-zero exit on teardown
-        # failing the whole run despite every test passing.
+        # Start the static server manually, wait for it, run the tests reusing
+        # that server, then propagate only the test exit code. Playwright's
+        # built-in webServer teardown returns non-zero for http-server on Linux
+        # even when all tests pass; managing the server ourselves sidesteps it.
         run: |
+          set +e
           npx http-server dist -p 4173 --silent &
           SERVER_PID=$!
-          # Wait for the server to be ready.
+          # Wait for the server to accept connections (curl failure is expected
+          # during startup — do not let it abort the script).
           for i in $(seq 1 30); do
-            curl -s -o /dev/null http://127.0.0.1:4173/ && break
+            if curl -s -o /dev/null http://127.0.0.1:4173/; then break; fi
             sleep 1
           done
-          # Run tests with reuseExistingServer so Playwright does not try to
-          # manage its own server (which causes the teardown exit-code issue).
           npx playwright test
           TEST_EXIT=$?
-          kill $SERVER_PID 2>/dev/null || true
+          kill "$SERVER_PID" 2>/dev/null || true
+          wait "$SERVER_PID" 2>/dev/null || true
+          echo "Playwright exit code: $TEST_EXIT"
           exit $TEST_EXIT
         env:
           CI: "true"
