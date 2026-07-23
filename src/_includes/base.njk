@@ -55,11 +55,14 @@
           (asset_version is a build timestamp; see .eleventy.js). ---- #}
     <link rel="stylesheet" href="/css/styles.css?v={{ asset_version }}">
 
-    {# ---- Google AdSense (loaded ONLY on templates that render an ad slot,
-          via {% block adsense %}. Issue #15: do not load globally on ad-free
-          pages. The block also carries the google-adsense-account meta. ---- #}
+    {# ---- Google AdSense ----
+       Loaded by default because most content pages render an ad slot
+       (home, category, featured, new, tag via ad-banner.njk; game.njk via
+       its own slot). Ad-free pages (about, contact, privacy, terms, search)
+       override {% block adsense %} to empty. Issue #15: never load the script
+       on a page with no ad slot. #}
     {% block adsense %}
-    {# default: no AdSense. Pages that show an ad override this block. #}
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
     {% endblock %}
 
     {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
