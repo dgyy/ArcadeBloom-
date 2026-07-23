@@ -59,7 +59,11 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run Playwright smoke suite
-        run: npm test
+        # Use `npx playwright test` directly (not `npm test`) so the pretest
+        # hook does not rebuild the site a second time — dist/ is already
+        # built by the Build step above. Rebuilding risks a flaky screenshot
+        # fetch failing the whole run even when every test passes.
+        run: npx playwright test
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}

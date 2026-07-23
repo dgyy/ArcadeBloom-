@@ -22,6 +22,10 @@ module.exports = defineConfig({
         port: 4173,
         reuseExistingServer: !process.env.CI,
         timeout: 30_000,
+        // Graceful shutdown: SIGTERM first, then SIGKILL. Without this the
+        // http-server process can exit non-zero when Playwright tears it down,
+        // which fails the whole run even when every test passed.
+        gracefulShutdown: true,
     },
     projects: [
         {
