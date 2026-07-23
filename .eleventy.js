@@ -13,6 +13,15 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.setTemplateFormats(['njk', 'md']);
     // Nunjucks is registered by default for .njk; nothing extra needed.
 
+    // ---- Conditional ignore: collection template --------------------------
+    // When no Collections are published yet, skip collection.njk so Eleventy
+    // does not render an empty-pagination page. Re-enabled automatically once
+    // src/_data/collections.js has >=1 entry (issue #17).
+    const collectionsData = require('./src/_data/collections.js');
+    if (!Array.isArray(collectionsData) || collectionsData.length === 0) {
+        eleventyConfig.ignores.add('src/collection.njk');
+    }
+
     // ---- Passthrough: static assets served as-is --------------------------
     // Favicon, og images, screenshots, robots.txt etc. live under src/static/
     // and are copied 1:1 to dist/.
@@ -151,6 +160,41 @@ module.exports = function (eleventyConfig) {
     // serves the CSS at a stable URL with max-age=14400, so without this
     // visitors can see a stale stylesheet for up to 4 hours after a deploy).
     eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
+
+    // ---- Index eligibility (ADR-0006 + evidence gate, issue #8) ----------
+    // Load the frozen manifest + review registry ONCE per build. A game is
+    // indexable iff its sourceKey is in the frozen 2026-07-22 manifest
+    // (grandfathered) OR its registry state is `eligible`. Everything else
+    // (new unreviewed sourceKey, or `ineligible`) fails closed: noindex and
+    // excluded from the sitemap. See docs/evidence-schema.md.
+    const fs = require('fs');
+    const path = require('path');
+    let manifestSourceKeys = new Set();
+    let registryStates = {};
+    try {
+        const manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/index-manifest.json'), 'utf8'));
+        manifestSourceKeys = new Set(manifest.sourceKeys || []);
+    } catch { /* validate:registry reports the real error; build proceeds */ }
+    try {
+        const registry = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/review-registry.json'), 'utf8'));
+        registryStates = registry.states || {};
+    } catch { /* ditto */ }
+
+    eleventyConfig.addFilter('isIndexable', (sourceKey) => {
+        if (!sourceKey) return false;
+        if (manifestSourceKeys.has(sourceKey)) return true;        // grandfathered
+        const st = registryStates[sourceKey];
+        return !!(st && st.state === 'eligible');                  // evidence gate
+    });
+
+    // isEligible: strictly passed the evidence gate (used by RSS #18 and
+    // Collections #17 — these never include provisional/grandfathered entries,
+    // only fully reviewed ones).
+    eleventyConfig.addFilter('isEligible', (sourceKey) => {
+        if (!sourceKey) return false;
+        const st = registryStates[sourceKey];
+        return !!(st && st.state === 'eligible');
+    });
 
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation

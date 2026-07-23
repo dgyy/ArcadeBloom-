@@ -1,0 +1,65 @@
+# growth-report.yml — weekly metrics snapshot for the 120-day growth contract.
+#
+# Backs issue #6 / GROWTH-AUTOMATION-PLAN.md Required workflows →
+# growth-report.yml. Runs weekly and on manual dispatch. Emits a dated
+# metrics snapshot covering every line of the contract:
+#   - Google Search Console impressions/clicks/CTR (issue #16 fills this)
+#   - First-party Play-click aggregates (issue #5 endpoint; reads from D1)
+#   - Evidence queue throughput (issues #10/#11/#12, filled when live)
+#   - Published game and Collection counts
+#   - Bluesky post status (issue #19)
+#   - AdSense revenue (only after actual cash receipt)
+#
+# The snapshot is uploaded as a 120-day-retention artifact. It is NOT
+# auto-committed to the repo — per the plan's Trust boundaries, repository
+# write credentials stay scoped to the publication job (issue #12). The
+# baseline record lives at docs/metrics/baseline-2026-07-22.json; weekly
+# snapshots accumulate as artifacts (and may be committed by a human or the
+# publish job when appropriate).
+#
+# The report labels 2026-07-22 as the new-site start and does NOT merge
+# new-page metrics with legacy GSC exclusion cohorts.
+# Backs ADR-0007 (cloud-only zero-cost automation).
+name: Growth Report
+
+on:
+  schedule:
+    # 03:00 UTC every Monday — conservative weekly cadence.
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+# A weekly report run is read-only with respect to the repo (it uploads
+# artifacts, it does not push commits), so no special write permissions.
+permissions:
+  contents: read
+
+concurrency:
+  group: growth-report
+  cancel-in-progress: false
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build metrics snapshot
+        run: node scripts/build-metrics-snapshot.js
+
+      - name: Upload snapshot (retain for 120-day cycle)
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-snapshot-${{ github.run_id }}
+          path: docs/metrics/snapshots/*.json
+          retention-days: 120

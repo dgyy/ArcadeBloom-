@@ -1,0 +1,92 @@
+# ci.yml — ArcadeBloom PR gate.
+# Runs on every pull request against main. Establishes the baseline checks
+# every subsequent growth-automation slice extends:
+#   1. strict catalogue validation (structural errors block)
+#   2. production build (CSS + Eleventy + screenshots)
+#   3. Playwright smoke suite against the built site
+#
+# No secrets, deploy credentials, or write tokens are referenced — this is a
+# pure read/build/test gate. Later slices (evidence, collections, advertising)
+# add their own check jobs or steps on top of this skeleton.
+# Backs ADR-0007 (cloud-only zero-cost automation) and ADR-0008 (autonomous
+# publication through PR gates).
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  # Allow manual runs to verify the gate without opening a PR.
+  workflow_dispatch:
+
+# Cancel superseded runs on the same PR to stay within free public minutes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies (from lockfile)
+        run: npm ci
+
+      - name: Validate catalogue (strict — structural errors block)
+        run: npm run validate:strict
+
+      - name: Validate evidence manifest + review registry
+        run: npm run validate:registry
+
+      - name: Validate evidence records (schema + hash + thresholds)
+        run: npm run validate:evidence
+
+      - name: Validate Collections (thesis + eligible membership + originality)
+        run: npm run validate:collections
+
+      - name: Build site (validate:strict + clean + CSS + Eleventy + screenshots)
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Playwright smoke suite
+        # Start the static server manually, wait for it, run the tests reusing
+        # that server, then propagate only the test exit code. Playwright's
+        # built-in webServer teardown returns non-zero for http-server on Linux
+        # even when all tests pass; managing the server ourselves sidesteps it.
+        run: |
+          set +e
+          npx http-server dist -p 4173 --silent &
+          SERVER_PID=$!
+          # Wait for the server to accept connections (curl failure is expected
+          # during startup — do not let it abort the script).
+          for i in $(seq 1 30); do
+            if curl -s -o /dev/null http://127.0.0.1:4173/; then break; fi
+            sleep 1
+          done
+          npx playwright test
+          TEST_EXIT=$?
+          kill "$SERVER_PID" 2>/dev/null || true
+          wait "$SERVER_PID" 2>/dev/null || true
+          echo "Playwright exit code: $TEST_EXIT"
+          exit $TEST_EXIT
+        env:
+          CI: "true"
+          PLAYWRIGHT_REUSE_SERVER: "1"
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: test-results/html-report/
+          retention-days: 14

@@ -20,7 +20,10 @@ module.exports = defineConfig({
     webServer: {
         command: 'npx http-server dist -p 4173 --silent',
         port: 4173,
-        reuseExistingServer: !process.env.CI,
+        // Reuse when an external server is already running (CI starts one
+        // manually to avoid http-server's non-zero teardown exit failing the
+        // run), or in local dev. Otherwise Playwright manages its own.
+        reuseExistingServer: !process.env.CI || process.env.PLAYWRIGHT_REUSE_SERVER === '1',
         timeout: 30_000,
     },
     projects: [

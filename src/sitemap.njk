@@ -14,10 +14,16 @@ eleventyExcludeFromCollections: true
   <url><loc>{{ site.url }}/tag/{{ tag.slug }}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
 {% endfor %}
 {% for game in games %}
+  {% if game.sourceKey | isIndexable %}
   <url><loc>{{ site.url }}/game/{{ game.slug }}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  {% endif %}
+{% endfor %}
+{% for collection in collections %}
+  <url><loc>{{ site.url }}/collection/{{ collection.slug }}/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 {% endfor %}
   <url><loc>{{ site.url }}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>{{ site.url }}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>{{ site.url }}/terms/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
   <url><loc>{{ site.url }}/privacy/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>{{ site.url }}/feed.xml</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
 </urlset>

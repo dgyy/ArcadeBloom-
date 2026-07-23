@@ -1,0 +1,95 @@
+# post-deploy.yml — production health check + automatic rollback.
+#
+# Backs issue #14 / GROWTH-AUTOMATION-PLAN.md Required workflows →
+# post-deploy.yml. Runs after Cloudflare deploys main. Verifies the live site,
+# and on failure restores the preceding Cloudflare deployment + opens a revert
+# PR. On success, releases the changed URLs to the distribution queue
+# (#18 RSS, #19 Bluesky consume this).
+#
+# Rollback requires a Cloudflare API token + account/project id (owner secrets
+# CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_PAGES_PROJECT). When
+# those are absent the workflow still runs the health check but skips
+# automatic rollback (documented degradation).
+name: Post-Deploy Check
+
+on:
+  # Triggered after Cloudflare Pages finishes a production deploy. Configure a
+  # Pages deploy hook → GitHub Actions workflow_dispatch, or use the
+  # repository_dispatch webhook from a Cloudflare Pages Function.
+  repository_dispatch:
+    types: [cloudflare-deploy]
+  workflow_dispatch:
+    inputs:
+      base:
+        description: 'Base URL to check (default: live site)'
+        required: false
+        default: 'https://arcadebloom.com'
+
+permissions:
+  contents: write   # needed to open a revert PR on failure
+  pull-requests: write
+
+concurrency:
+  group: post-deploy
+  cancel-in-progress: false
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Run post-deploy health checks
+        id: check
+        run: node scripts/post-deploy-check.js --base=${{ github.event.client_payload.base || github.event.inputs.base || 'https://arcadebloom.com' }}
+        continue-on-error: true
+
+      - name: Rollback Cloudflare deployment on failure
+        if: steps.check.outcome == 'failure' && env.CF_TOKEN != ''
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_PROJECT: ${{ secrets.CLOUDFLARE_PAGES_PROJECT }}
+        run: |
+          echo "Health check failed — rolling back the latest Cloudflare deployment."
+          # List recent deployments, promote the second-newest (the prior good one).
+          DEPLOYS=$(curl -s -X GET "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/pages/projects/$CF_PROJECT/deployments" \
+            -H "Authorization: Bearer $CF_TOKEN" | jq -r '.result | sort_by(.created_on) | reverse | .[1].id')
+          if [ -z "$DEPLOYS" ]; then
+            echo "Could not find a prior deployment to roll back to."
+            exit 1
+          fi
+          curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/pages/projects/$CF_PROJECT/deployments/$DEPLOYS/rollback" \
+            -H "Authorization: Bearer $CF_TOKEN"
+          echo "Rolled back to deployment $DEPLOYS"
+
+      - name: Open revert PR on failure
+        if: steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="revert/post-deploy-$(date +%s)"
+          git config user.name "arcadebloom-bot"
+          git config user.email "bot@arcadebloom.com"
+          git checkout -b "$BRANCH"
+          git revert --no-edit HEAD
+          git push origin "$BRANCH"
+          gh pr create --base main --head "$BRANCH" \
+            --title "Revert: post-deploy health check failed" \
+            --body "Automated revert — post-deploy.yml detected an unhealthy production deploy and rolled it back. Manual review required."
+
+      - name: Release to distribution queue on success
+        if: steps.check.outcome == 'success'
+        run: |
+          echo "Production healthy — releasing changed URLs to distribution queue."
+          # #18 (RSS) and #19 (Bluesky) consume this signal. For now this is a
+          # no-op marker that a downstream dispatch could trigger.
+          echo "::notice::distribution-ready"
