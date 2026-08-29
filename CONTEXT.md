@@ -88,6 +88,26 @@ The canonical play action on a directory game page. Points to the author's own s
 
 ## Growth
 
+### Browser-game trust index (浏览器游戏可信索引)
+ArcadeBloom's primary product: an independent, continuously refreshed record of whether an outbound browser game works under stated conditions and what observable compatibility, privacy, performance, source, and licence evidence supports that conclusion.
+_Avoid_: Game directory, review database, AI content site
+
+### Verified observation (已验证观察)
+A dated, reproducible fact collected directly from a game's public play surface or authoritative source and retained with evidence. It is narrower than a permanent claim: a successful observation on one browser never implies universal compatibility.
+_Avoid_: Fact, review opinion, author-supplied tag
+
+### Constraint cohort (约束批次)
+A sufficiently populated set of index-eligible games sharing the same measured condition, such as tested controller support or no detected login requirement. It may support one discovery page; arbitrary combinations and undersized cohorts do not become pages.
+_Avoid_: Keyword page, filter combination, generated roundup
+
+### Owned daily game (自有每日游戏)
+An ArcadeBloom-authored browser game with a deterministic daily challenge and repeat-play loop. It is the site's owned retention and monetization surface and is categorically separate from outbound third-party entries.
+_Avoid_: Hosted catalogue game, game factory, third-party embed
+
+### Authorization checkpoint (授权检查点)
+An operation that cannot lawfully or technically be delegated, such as identity verification, tax/payment onboarding, accepting account terms, approving new spend, or authorizing destructive production changes. Routine editorial, testing, publishing, monitoring, and optimization decisions are not authorization checkpoints.
+_Avoid_: Manual review, approval queue, routine confirmation
+
 ### Indie browser-game explorer (独立浏览器游戏探索者)
 An English-language visitor looking for independent, open-source, experimental, or technically distinctive browser games, including game-jam and small-footprint work. This is ArcadeBloom's initial audience; the site does not target the generic expectation of playing a mass-market catalogue without leaving the portal.
 _Avoid_: Gamer, everyone who plays free online games
