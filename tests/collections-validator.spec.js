@@ -10,6 +10,8 @@
 const { test, expect } = require('@playwright/test');
 const { validateCollectionList, KEYWORD_TITLE, MIN_GAMES, MAX_GAMES } =
     require('../scripts/validate-collections.js');
+const { createIndexEligibilityPolicy } = require('../scripts/lib/index-eligibility.js');
+const path = require('path');
 
 // Synthetic catalogue: 12 games, all eligible.
 const gamesList = Array.from({ length: 12 }, (_, i) => ({
@@ -19,6 +21,8 @@ const states = Object.fromEntries(
     gamesList.map((g) => [g.sourceKey, { state: 'eligible' }])
 );
 const slugs = gamesList.map((g) => g.slug);
+const eligibleFromStates = (candidateStates) => (sourceKey) =>
+    candidateStates[sourceKey] && candidateStates[sourceKey].state === 'eligible';
 
 function validCollection(overrides = {}) {
     return {
@@ -38,13 +42,14 @@ function validCollection(overrides = {}) {
 
 test.describe('Collection validator (issue #17)', () => {
     test('a well-formed Collection passes', () => {
-        const { errors } = validateCollectionList([validCollection()], gamesList, states);
+        const { errors } = validateCollectionList(
+            [validCollection()], gamesList, eligibleFromStates(states));
         expect(errors, errors.join('\n')).toEqual([]);
     });
 
     test('keyword-permutation title is rejected', () => {
         const c = validCollection({ title: 'Best Puzzle Games' });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(/keyword permutation/);
     });
 
@@ -52,26 +57,26 @@ test.describe('Collection validator (issue #17)', () => {
         const a = validCollection({ slug: 'collection-a', games: slugs.slice(0, 6), comparisons: ['a','b','c','d','e','f'] });
         // b shares 5 of 6 games with a (>70%) — near-duplicate.
         const b = validCollection({ slug: 'collection-b', games: [slugs[0], slugs[1], slugs[2], slugs[3], slugs[4], slugs[6]], comparisons: ['a','b','c','d','e','f'] });
-        const { errors } = validateCollectionList([a, b], gamesList, states);
+        const { errors } = validateCollectionList([a, b], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(/near-duplicate/);
     });
 
     test('card-only page (no synthesis) is rejected', () => {
         const c = validCollection({ synthesis: 'too short' });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(/synthesis/);
     });
 
     test('fewer than 5 games is rejected', () => {
         const c = validCollection({ games: slugs.slice(0, 4), comparisons: ['a','b','c','d'] });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(new RegExp(`expected ${MIN_GAMES}-${MAX_GAMES} games`));
     });
 
     test('more than 12 games is rejected', () => {
         const thirteen = Array.from({ length: 13 }, (_, i) => 'game-' + i);
         const c = validCollection({ games: thirteen, comparisons: thirteen.map((_, i) => 'c' + i) });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(new RegExp(`expected ${MIN_GAMES}-${MAX_GAMES} games`));
     });
 
@@ -79,19 +84,43 @@ test.describe('Collection validator (issue #17)', () => {
         const ineligibleStates = Object.fromEntries(
             gamesList.map((g) => [g.sourceKey, { state: 'provisional' }])
         );
-        const { errors } = validateCollectionList([validCollection()], gamesList, ineligibleStates);
-        expect(errors.join(' ')).toMatch(/not eligible/);
+        const { errors } = validateCollectionList(
+            [validCollection()], gamesList, eligibleFromStates(ineligibleStates));
+        expect(errors.join(' ')).toMatch(/current validated evidence/);
+    });
+
+    test('eligible registry state with stale evidence is rejected', () => {
+        const projectRoot = path.resolve(__dirname, '..');
+        const evidenceRef = 'tests/fixtures/index-evidence/2048/2026-07-23-fixture-good.json';
+        const stalePolicy = createIndexEligibilityPolicy({
+            registry: {
+                states: {
+                    'url:play2048.co/': { state: 'eligible', evidenceRef },
+                },
+            },
+            projectRoot,
+            evidenceRoot: path.resolve(projectRoot, 'tests/fixtures/index-evidence'),
+            now: new Date('2026-08-30T00:00:01Z'),
+        });
+        const collectionGames = gamesList.map((game, index) => index === 0
+            ? { ...game, sourceKey: 'url:play2048.co/' }
+            : game);
+
+        const { errors } = validateCollectionList(
+            [validCollection()], collectionGames, stalePolicy);
+
+        expect(errors.join(' ')).toMatch(/current validated evidence/);
     });
 
     test('missing evidence refs is rejected', () => {
         const c = validCollection({ evidenceRefs: [] });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(/evidenceRefs/);
     });
 
     test('mismatched comparisons count is rejected', () => {
         const c = validCollection({ comparisons: ['only-one'] });
-        const { errors } = validateCollectionList([c], gamesList, states);
+        const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
         expect(errors.join(' ')).toMatch(/comparisons must have one entry per game/);
     });
 });

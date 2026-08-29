@@ -1,18 +1,14 @@
 #!/usr/bin/env node
 // =============================================================================
-// validate-review-registry.js — check the frozen manifest + review registry.
+// validate-review-registry.js — check the historical manifest + review registry.
 //
 // Backs issue #7 acceptance criterion: "CI validates manifest/registry shape
 // on every PR". Run by `npm run validate:registry`, which CI (issue #3)
 // invokes after `validate:strict`.
 //
 // Checks:
-//   - evidence/index-manifest.json exists, has schemaVersion, frozenAt,
-//     contentHash matching the sorted sourceKey list, and the sourceKey set
-//     matches the current catalogue (the manifest is frozen at a point in
-//     time, but it MUST still cover every current sourceKey — new games are
-//     added to the registry as provisional by the freeze script on the PR
-//     that introduces them).
+//   - evidence/index-manifest.json remains an intact historical record. It is
+//     not expanded when catalogue games are added and grants no eligibility.
 //   - evidence/review-registry.json exists, every catalogue sourceKey has a
 //     state ∈ {provisional, eligible, ineligible}, every state references a
 //     valid evidence path when eligible.
@@ -24,6 +20,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const games = require('../src/_data/games.js');
+const { DEFAULT_MAX_EVIDENCE_AGE_DAYS } = require('./lib/index-eligibility.js');
+const { loadReferencedEvidence } = require('./lib/evidence-reference.js');
 
 const EVIDENCE_DIR = path.resolve(__dirname, '../evidence');
 const MANIFEST_PATH = path.join(EVIDENCE_DIR, 'index-manifest.json');
@@ -66,14 +64,11 @@ if (manifest) {
             errors.push('manifest: contentHash mismatch — manifest was edited after freezing');
         }
 
-        // Every current catalogue sourceKey must be in the manifest.
-        const manifestSet = new Set(manifest.sourceKeys);
-        for (const g of games) {
-            if (!g.sourceKey) {
-                errors.push(`catalogue: game id=${g.id} slug=${g.slug} missing sourceKey`);
-            } else if (!manifestSet.has(g.sourceKey)) {
-                errors.push(`manifest: sourceKey "${g.sourceKey}" (${g.slug}) is in catalogue but not in frozen manifest — run scripts/freeze-provisional-manifest.js`);
-            }
+        if (new Set(manifest.sourceKeys).size !== manifest.sourceKeys.length) {
+            errors.push('manifest: sourceKeys must be unique');
+        }
+        if (manifest.sourceKeyCount !== manifest.sourceKeys.length) {
+            errors.push('manifest: sourceKeyCount does not match sourceKeys length');
         }
     }
     if (manifest.kind !== 'provisional-index-manifest') {
@@ -97,12 +92,33 @@ if (registry) {
                 errors.push(`registry: sourceKey "${g.sourceKey}" has invalid state "${entry.state}"`);
             }
         }
-        // Eligible entries must reference an evidence record path (file may
-        // not exist yet if records are committed in a different PR, so this
-        // is advisory — surfaced as a warning, not an error).
+        // Eligible entries require a present, structurally valid evidence
+        // record. Age is advisory here so an expired build can still render
+        // fail-closed noindex output; the shared eligibility policy enforces it.
         for (const [key, entry] of Object.entries(registry.states)) {
-            if (entry.state === 'eligible' && !entry.evidenceRef) {
-                warnings.push(`registry: "${key}" is eligible but has no evidenceRef`);
+            if (entry.state !== 'eligible') continue;
+            if (!entry.evidenceRef) {
+                errors.push(`registry: "${key}" is eligible but has no evidenceRef`);
+                continue;
+            }
+
+            const projectRoot = path.resolve(__dirname, '..');
+            const evidenceRoot = path.resolve(__dirname, '../evidence/games');
+            const loaded = loadReferencedEvidence({
+                evidenceRef: entry.evidenceRef,
+                projectRoot,
+                evidenceRoot,
+            });
+            if (loaded.errors.length) {
+                errors.push(`registry: "${key}" evidenceRef fails validation: ${loaded.errors.join('; ')}`);
+                continue;
+            }
+
+            const record = loaded.record;
+            const reviewedAtMs = Date.parse(record.reviewedAt);
+            const ageDays = (Date.now() - reviewedAtMs) / (24 * 60 * 60 * 1000);
+            if (Number.isFinite(ageDays) && ageDays > DEFAULT_MAX_EVIDENCE_AGE_DAYS) {
+                warnings.push(`registry: "${key}" evidence is ${Math.floor(ageDays)} days old and now fails closed`);
             }
         }
     }
@@ -119,5 +135,5 @@ if (errors.length) {
     console.error('\nRegistry validation FAILED.\n');
     process.exit(1);
 }
-console.log(`\n✓  Registry valid. ${games.length} catalogue sourceKeys all in manifest + registry.`);
+console.log(`\n✓  Registry valid. ${games.length} catalogue sourceKeys registered; historical manifest preserved.`);
 process.exit(0);

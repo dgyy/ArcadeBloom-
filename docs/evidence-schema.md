@@ -92,5 +92,7 @@ When a record passes validation, the publication job (#12) sets:
 }
 ```
 
-A sourceKey without an `eligible` entry and absent from the frozen manifest
-(#7) fails closed: `noindex,follow`, excluded from sitemap (#8).
+A sourceKey without an `eligible` entry backed by a present, valid, current
+evidence record fails closed: `noindex,follow`, excluded from the sitemap.
+The frozen manifest is historical audit data only and grants no eligibility
+(ADR-0010).

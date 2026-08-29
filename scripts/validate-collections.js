@@ -8,7 +8,7 @@
 //   - near-duplicate game lists (two Collections sharing >70% of games)
 //   - card-only pages (no synthesis paragraph)
 //   - lists with <5 or >12 games
-//   - games that are not `eligible` in the review registry
+//   - games without current validated evidence-backed eligibility
 //   - missing evidence refs for factual claims
 //
 // Run: `npm run validate:collections` (wired into CI by issue #17).
@@ -19,6 +19,7 @@ const fs = require('fs');
 const path = require('path');
 const collections = require('../src/_data/collections.js');
 const games = require('../src/_data/games.js');
+const { createIndexEligibilityPolicy } = require('./lib/index-eligibility.js');
 const registry = JSON.parse(fs.readFileSync(
     path.resolve(__dirname, '../evidence/review-registry.json'), 'utf8'));
 
@@ -34,15 +35,14 @@ const KEYWORD_TITLE = /^(best|top|free|cool|awesome|amazing|great)\s+(\d+\s+)?\w
 
 // Pure validation function — exported for unit tests so fixtures can be
 // validated without monkey-patching collections.js.
-function validateCollectionList(list, gamesList, states) {
+function validateCollectionList(list, gamesList, isSourceKeyEligible) {
     const errs = [];
     const warns = [];
     const cat = new Map(gamesList.map((g) => [g.slug, g]));
     function eligible(slug) {
         const g = cat.get(slug);
         if (!g) return false;
-        const st = states[g.sourceKey];
-        return !!(st && st.state === 'eligible');
+        return typeof isSourceKeyEligible === 'function' && isSourceKeyEligible(g.sourceKey);
     }
     const seenSlugs = new Set();
     const gameSets = [];
@@ -66,7 +66,7 @@ function validateCollectionList(list, gamesList, states) {
             }
             c.games.forEach((slug) => {
                 if (!cat.has(slug)) errs.push(`${loc}: game "${slug}" not in catalogue`);
-                else if (!eligible(slug)) errs.push(`${loc}: game "${slug}" is not eligible (registry state must be 'eligible')`);
+                else if (!eligible(slug)) errs.push(`${loc}: game "${slug}" lacks current validated evidence`);
             });
             if (Array.isArray(c.comparisons)) {
                 if (c.comparisons.length !== c.games.length) {
@@ -101,13 +101,14 @@ function validateCollectionList(list, gamesList, states) {
 }
 
 const catalogueBySlug = new Map(games.map((g) => [g.slug, g]));
-const registryStates = registry.states || {};
+const isSourceKeyEligible = createIndexEligibilityPolicy({
+    registry,
+    projectRoot: path.resolve(__dirname, '..'),
+});
 
 function isEligible(slug) {
     const g = catalogueBySlug.get(slug);
-    if (!g) return false;
-    const st = registryStates[g.sourceKey];
-    return !!(st && st.state === 'eligible');
+    return !!g && isSourceKeyEligible(g.sourceKey);
 }
 
 const seenSlugs = new Set();
@@ -140,7 +141,7 @@ collections.forEach((c, i) => {
             if (!catalogueBySlug.has(slug)) {
                 errors.push(`${loc}: game "${slug}" not in catalogue`);
             } else if (!isEligible(slug)) {
-                errors.push(`${loc}: game "${slug}" is not eligible (registry state must be 'eligible' — ADR-0004)`);
+                errors.push(`${loc}: game "${slug}" lacks current validated evidence (ADR-0010)`);
             }
         });
         // Distinct comparisons for every game.

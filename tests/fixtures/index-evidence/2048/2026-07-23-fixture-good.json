@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "slug": "2048",
+  "sourceKey": "url:play2048.co/",
+  "reviewedAt": "2026-07-23T00:00:00Z",
+  "reviewId": "2026-07-23-fixture-good",
+  "source": {
+    "playUrl": "https://play2048.co/",
+    "repositoryUrl": "https://github.com/gabrielecirulli/2048",
+    "licence": "MIT"
+  },
+  "browser": {
+    "loaded": true,
+    "finalUrl": "https://play2048.co/",
+    "consoleErrorCount": 0,
+    "interactionAttempts": [
+      {
+        "type": "keydown",
+        "key": "ArrowUp",
+        "succeeded": true
+      },
+      {
+        "type": "keydown",
+        "key": "ArrowLeft",
+        "succeeded": true
+      }
+    ],
+    "screenshots": [
+      {
+        "viewport": "desktop",
+        "width": 1280,
+        "height": 720,
+        "capturedAt": "2026-07-23T00:00:00Z"
+      },
+      {
+        "viewport": "mobile",
+        "width": 375,
+        "height": 667,
+        "capturedAt": "2026-07-23T00:00:00Z"
+      }
+    ],
+    "viewportResults": [
+      {
+        "viewport": "desktop",
+        "rendered": true
+      },
+      {
+        "viewport": "mobile",
+        "rendered": true
+      }
+    ]
+  },
+  "assessment": {
+    "provider": "github-models",
+    "model": "gpt-4o-mini-fixture",
+    "confidence": 0.9,
+    "decision": "pass",
+    "reasons": [
+      "game loads",
+      "controls responsive",
+      "licence verified"
+    ]
+  },
+  "integrity": {
+    "evidenceHash": "sha256:a20c1444ef948ec496858ca118ab199499ff37d49ace540af4dada27611dfba8",
+    "workflowRun": "fixture-test-run-1"
+  }
+}

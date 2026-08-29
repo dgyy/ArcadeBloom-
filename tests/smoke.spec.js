@@ -367,15 +367,16 @@ test.describe('SEO essentials', () => {
         );
     });
 
-    test('sitemap excludes search and lists all games', async ({ page }) => {
+    test('sitemap excludes search and games without current evidence', async ({ page }) => {
         const resp = await page.goto('/sitemap.xml');
         expect(resp.status()).toBe(200);
         const xml = await resp.text();
         // Search must be excluded from the sitemap
         expect(xml).not.toContain('/search/');
-        // Every game slug should appear
+        // The current catalogue has no eligible evidence records. Catalogue
+        // membership alone cannot grant sitemap membership (ADR-0010).
         for (const slug of GAME_SLUGS) {
-            expect(xml).toContain(`/game/${slug}/`);
+            expect(xml).not.toContain(`/game/${slug}/`);
         }
     });
 

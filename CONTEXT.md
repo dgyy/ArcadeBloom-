@@ -73,7 +73,7 @@ The atomic catalogue unit: a uniquely identified browser game with controlled cl
 
 **Evidence phase:** automated review upgrades entries in search-value order, beginning with the Growth cohort. Each approved review is grounded in direct browser evidence plus verified source and licence information.
 
-**Accepted trade-off:** existing entries retain provisional indexing for launch speed, while all new entries fail closed until evidence review passes. Catalogue scale never substitutes for evidence quality.
+**Accepted trade-off:** all entries fail closed until evidence review passes. The historical provisional cohort remains auditable but has no indexing entitlement. Catalogue scale never substitutes for evidence quality.
 
 ### js13kGames as primary seed source (调研证实)
 - **Data**: `https://js13kgames.com/{YEAR}.js` — length-prefixed binary blob, all entries per year (name + author + award flag). 14 years, 2,483 entries total.
@@ -149,12 +149,12 @@ The permanent separation between paid placements and ArcadeBloom's editorial or 
 _Avoid_: Monetization slot, native recommendation, sponsored game
 
 ### Index-eligible game entry (可索引游戏条目)
-A game entry that passes ArcadeBloom's evidence-backed quality gate and may therefore be submitted for search indexing. New catalogue membership alone does not grant index eligibility; the 2,019 entries present when the gate was adopted are the sole provisional exception.
+A game entry with a current `eligible` registry state backed by a present, valid evidence record. Catalogue or historical-manifest membership never grants index eligibility on its own.
 _Avoid_: Published game, catalogue entry, all games
 
-### Provisionally indexed entry (存量暂准索引条目)
-One of the 2,019 game entries already published when the evidence gate was adopted, temporarily allowed to remain indexed without prior review. These entries are reviewed progressively in search-value order and lose provisional status when they pass or fail; newly added games can never receive this status.
-_Avoid_: Legacy game, approved game, permanent exception
+### Historical provisional entry (历史暂准条目)
+One of the 2,019 game entries recorded when the evidence gate was adopted. The marker preserves catalogue history but grants no current search eligibility; only current validated evidence can do that.
+_Avoid_: Provisionally indexed entry, approved game, permanent exception
 
 ### Automated evidence review (自动证据审核)
 An AI-only assessment grounded in direct evidence from the playable game and its verified source, rather than metadata or generated prose alone. Uncertain or insufficiently evidenced entries remain ineligible for indexing instead of being escalated to a human reviewer.

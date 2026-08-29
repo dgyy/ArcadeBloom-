@@ -12,18 +12,14 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
+const { createIndexEligibilityPolicy } = require('../scripts/lib/index-eligibility.js');
 
-const manifest = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/index-manifest.json'), 'utf8'));
 const registry = JSON.parse(fs.readFileSync(
     path.resolve(__dirname, '../evidence/review-registry.json'), 'utf8'));
-const manifestSet = new Set(manifest.sourceKeys);
-const states = registry.states || {};
-function isEligible(sourceKey) {
-    if (!sourceKey) return false;
-    const st = states[sourceKey];
-    return !!(st && st.state === 'eligible');
-}
+const isEligible = createIndexEligibilityPolicy({
+    registry,
+    projectRoot: path.resolve(__dirname, '..'),
+});
 
 test.describe('RSS feed (issue #18)', () => {
     test('feed.xml exists and is well-formed RSS', async () => {

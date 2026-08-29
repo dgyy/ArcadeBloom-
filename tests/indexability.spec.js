@@ -1,86 +1,202 @@
 // =============================================================================
-// tests/indexability.spec.js — verify the index-eligibility gate (issue #8).
+// tests/indexability.spec.js — trust-index eligibility policy (issue #23).
 //
-// The isIndexable filter in .eleventy.js decides who gets indexed. Rules
-// (ADR-0006 + evidence gate):
-//   - sourceKey in frozen 2026-07-22 manifest → indexable (grandfathered)
-//   - registry state === 'eligible'           → indexable (evidence passed)
-//   - anything else (new unreviewed, or 'ineligible') → NOINDEX, fail closed
-//
-// This test re-implements the same decision from the raw JSON files (it does
-// not import the filter, which lives inside the Eleventy config closure).
-// If the two ever drift, this test catches it by asserting the built
-// sitemap + a sample of built game pages match the expected decision.
+// The public policy seam is shared by Eleventy and these tests. Built pages
+// then prove the two externally visible outcomes: robots metadata + sitemap.
 // =============================================================================
 'use strict';
 
 const { test, expect } = require('@playwright/test');
+const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
+const {
+    createIndexEligibilityPolicy,
+    DEFAULT_MAX_EVIDENCE_AGE_DAYS,
+} = require('../scripts/lib/index-eligibility.js');
+const { registerCatalogueKeys } = require('../scripts/lib/review-registry.js');
 
-const manifest = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/index-manifest.json'), 'utf8'));
-const registry = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/review-registry.json'), 'utf8'));
+const projectRoot = path.resolve(__dirname, '..');
+const fixtureEvidenceRoot = path.resolve(projectRoot, 'tests/fixtures/index-evidence');
+const goodEvidenceRef = 'tests/fixtures/index-evidence/2048/2026-07-23-fixture-good.json';
+const sourceKey = 'url:play2048.co/';
 
-const manifestSet = new Set(manifest.sourceKeys);
-const registryStates = registry.states || {};
-
-// The canonical decision function — MUST match .eleventy.js isIndexable.
-function isIndexable(sourceKey) {
-    if (!sourceKey) return false;
-    if (manifestSet.has(sourceKey)) return true;
-    const st = registryStates[sourceKey];
-    return !!(st && st.state === 'eligible');
+function policyFor(entry, now = '2026-07-24T00:00:00Z') {
+    return createIndexEligibilityPolicy({
+        registry: { states: { [sourceKey]: entry } },
+        projectRoot,
+        evidenceRoot: fixtureEvidenceRoot,
+        now: new Date(now),
+    });
 }
 
-test.describe('Index eligibility gate (issue #8)', () => {
-    test('every grandfathered game is indexable in the built sitemap', async () => {
-        const sitemap = fs.readFileSync(
-            path.resolve(__dirname, '../dist/sitemap.xml'), 'utf8');
-        const indexableSlugs = games.filter((g) => isIndexable(g.sourceKey)).map((g) => g.slug);
-        const nonIndexableSlugs = games.filter((g) => !isIndexable(g.sourceKey)).map((g) => g.slug);
-        // Every indexable slug must appear in the sitemap. Sitemap uses the
-        // canonical https://arcadebloom.com origin regardless of test server.
-        for (const slug of indexableSlugs) {
-            expect(sitemap, `indexable game ${slug} must be in sitemap`).toContain(
-                `/game/${slug}/</loc>`
-            );
-        }
-        // Every non-indexable slug must be ABSENT from the sitemap.
-        for (const slug of nonIndexableSlugs) {
-            expect(sitemap, `non-indexable game ${slug} must be absent from sitemap`)
-                .not.toContain(`/game/${slug}/</loc>`);
-        }
+test.describe('Trust-index eligibility policy (#23)', () => {
+    test('current validated evidence makes an eligible registry entry indexable', () => {
+        const isIndexable = policyFor({ state: 'eligible', evidenceRef: goodEvidenceRef });
+
+        expect(isIndexable(sourceKey)).toBe(true);
     });
 
-    test('fail-closed: the decision treats unknown sourceKeys as noindex', () => {
-        // A brand-new sourceKey that is neither in the manifest nor eligible.
-        const unknownKey = 'github:test/never-existed-' + Date.now();
-        expect(isIndexable(unknownKey)).toBe(false);
+    test('historical or provisional membership never grants eligibility', () => {
+        const isIndexable = policyFor({ state: 'provisional' });
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test('explicit ineligibility overrides any historical catalogue status', () => {
+        const manifest = JSON.parse(fs.readFileSync(
+            path.resolve(projectRoot, 'evidence/index-manifest.json'), 'utf8'));
+        expect(manifest.sourceKeys).toContain(sourceKey);
+        const isIndexable = policyFor({ state: 'ineligible', evidenceRef: goodEvidenceRef });
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test('evidence outside the configured evidence root fails closed', () => {
+        const isIndexable = createIndexEligibilityPolicy({
+            registry: {
+                states: {
+                    [sourceKey]: { state: 'eligible', evidenceRef: goodEvidenceRef },
+                },
+            },
+            projectRoot,
+            evidenceRoot: path.resolve(projectRoot, 'evidence/games'),
+            now: new Date('2026-07-24T00:00:00Z'),
+        });
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test('evidence whose path does not match its slug and review id fails closed', () => {
+        const isIndexable = createIndexEligibilityPolicy({
+            registry: {
+                states: {
+                    [sourceKey]: {
+                        state: 'eligible',
+                        evidenceRef: 'tests/fixtures/evidence/good/2026-07-23-fixture-good.json',
+                    },
+                },
+            },
+            projectRoot,
+            evidenceRoot: path.resolve(projectRoot, 'tests/fixtures/evidence'),
+            now: new Date('2026-07-24T00:00:00Z'),
+        });
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test('eligible state fails closed when its evidence is missing', () => {
+        const isIndexable = policyFor({ state: 'eligible', evidenceRef: 'evidence/games/missing.json' });
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test(`evidence older than ${DEFAULT_MAX_EVIDENCE_AGE_DAYS} days fails closed`, () => {
+        const isIndexable = policyFor(
+            { state: 'eligible', evidenceRef: goodEvidenceRef },
+            '2026-08-30T00:00:01Z'
+        );
+
+        expect(isIndexable(sourceKey)).toBe(false);
+    });
+
+    test('unknown and empty source keys fail closed', () => {
+        const isIndexable = policyFor({ state: 'eligible', evidenceRef: goodEvidenceRef });
+
+        expect(isIndexable('github:test/unknown')).toBe(false);
         expect(isIndexable(null)).toBe(false);
-        expect(isIndexable(undefined)).toBe(false);
         expect(isIndexable('')).toBe(false);
     });
 
-    test('fail-closed: ineligible registry entries are not indexable', () => {
-        // Synthetic: a key marked ineligible is not indexable even if the
-        // decision helper is called with it directly.
-        const fakeStates = { 'x:test': { state: 'ineligible' } };
-        function decide(key) {
-            if (manifestSet.has(key)) return true;
-            const st = fakeStates[key];
-            return !!(st && st.state === 'eligible');
-        }
-        expect(decide('x:test')).toBe(false);
+    test('registering a new catalogue key creates only a non-indexable provisional state', () => {
+        const registry = {
+            schemaVersion: 1,
+            kind: 'review-registry',
+            states: {
+                'github:existing/game': { state: 'ineligible', reviewedAt: '2026-08-01' },
+            },
+        };
+
+        const result = registerCatalogueKeys({
+            registry,
+            games: [
+                { slug: 'existing', sourceKey: 'github:existing/game' },
+                { slug: 'new-game', sourceKey: 'github:new/game' },
+            ],
+            registeredAt: '2026-08-30',
+        });
+
+        expect(result.registry.states['github:existing/game'])
+            .toEqual({ state: 'ineligible', reviewedAt: '2026-08-01' });
+        expect(result.registry.states['github:new/game']).toEqual({
+            state: 'provisional',
+            provisionalSince: '2026-08-30',
+        });
+        expect(result.added).toBe(1);
+
+        const isIndexable = createIndexEligibilityPolicy({
+            registry: result.registry,
+            projectRoot,
+        });
+        expect(isIndexable('github:new/game')).toBe(false);
     });
 
-    test('sample of built game pages has the correct robots meta', async ({ page }) => {
-        // Pick a grandfathered game (in manifest → index,follow).
-        const grandfathered = games.find((g) => manifestSet.has(g.sourceKey));
-        await page.goto(`/game/${grandfathered.slug}/`);
-        const robots = await page.locator('meta[name="robots"]').getAttribute('content');
-        expect(robots).toBe('index, follow');
+    test('the current evidence-free catalogue is absent from the sitemap', () => {
+        const registry = JSON.parse(fs.readFileSync(
+            path.resolve(projectRoot, 'evidence/review-registry.json'), 'utf8'));
+        const isIndexable = createIndexEligibilityPolicy({ registry, projectRoot });
+        const sitemap = fs.readFileSync(path.resolve(projectRoot, 'dist/sitemap.xml'), 'utf8');
+
+        for (const game of games) {
+            expect(isIndexable(game.sourceKey)).toBe(false);
+            expect(sitemap, `${game.slug} must be absent without current evidence`)
+                .not.toContain(`/game/${game.slug}/</loc>`);
+        }
+    });
+
+    test('a current catalogue page without evidence renders noindex', async ({ page }) => {
+        await page.goto('/game/hextris/');
+
+        await expect(page.locator('meta[name="robots"]'))
+            .toHaveAttribute('content', 'noindex, follow');
+    });
+
+    test('Eleventy renders current eligible evidence as indexable and adds it to the sitemap', () => {
+        const tempRoot = fs.mkdtempSync(path.join(projectRoot, '.tmp-indexability-'));
+        const outputRoot = path.join(tempRoot, 'dist');
+        const registryPath = path.join(tempRoot, 'review-registry.json');
+        fs.writeFileSync(registryPath, JSON.stringify({
+            schemaVersion: 1,
+            kind: 'review-registry',
+            states: {
+                [sourceKey]: { state: 'eligible', evidenceRef: goodEvidenceRef },
+            },
+        }));
+
+        try {
+            execFileSync(process.execPath, [
+                require.resolve('@11ty/eleventy/cmd.js'),
+                '--quiet',
+            ], {
+                cwd: projectRoot,
+                env: {
+                    ...process.env,
+                    ARCADEBLOOM_REGISTRY_PATH: registryPath,
+                    ARCADEBLOOM_EVIDENCE_ROOT: fixtureEvidenceRoot,
+                    ARCADEBLOOM_ELIGIBILITY_NOW: '2026-07-24T00:00:00Z',
+                    ARCADEBLOOM_OUTPUT_DIR: path.relative(projectRoot, outputRoot).replace(/\\/g, '/'),
+                },
+                stdio: 'pipe',
+            });
+
+            const gameHtml = fs.readFileSync(
+                path.join(outputRoot, 'game/2048/index.html'), 'utf8');
+            const sitemap = fs.readFileSync(path.join(outputRoot, 'sitemap.xml'), 'utf8');
+            expect(gameHtml).toContain('<meta name="robots" content="index, follow">');
+            expect(sitemap).toContain('/game/2048/</loc>');
+        } finally {
+            fs.rmSync(tempRoot, { recursive: true, force: true });
+        }
     });
 });

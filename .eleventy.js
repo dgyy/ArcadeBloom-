@@ -161,40 +161,29 @@ module.exports = function (eleventyConfig) {
     // visitors can see a stale stylesheet for up to 4 hours after a deploy).
     eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
 
-    // ---- Index eligibility (ADR-0006 + evidence gate, issue #8) ----------
-    // Load the frozen manifest + review registry ONCE per build. A game is
-    // indexable iff its sourceKey is in the frozen 2026-07-22 manifest
-    // (grandfathered) OR its registry state is `eligible`. Everything else
-    // (new unreviewed sourceKey, or `ineligible`) fails closed: noindex and
-    // excluded from the sitemap. See docs/evidence-schema.md.
-    const fs = require('fs');
+    // ---- Trust-index eligibility (ADR-0010, issue #23) --------------------
+    // One fail-closed policy controls robots metadata, sitemap membership,
+    // RSS, and Collections. Historical manifest membership is audit data only;
+    // it never grants search eligibility.
     const path = require('path');
-    let manifestSourceKeys = new Set();
-    let registryStates = {};
-    try {
-        const manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/index-manifest.json'), 'utf8'));
-        manifestSourceKeys = new Set(manifest.sourceKeys || []);
-    } catch { /* validate:registry reports the real error; build proceeds */ }
-    try {
-        const registry = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/review-registry.json'), 'utf8'));
-        registryStates = registry.states || {};
-    } catch { /* ditto */ }
-
-    eleventyConfig.addFilter('isIndexable', (sourceKey) => {
-        if (!sourceKey) return false;
-        if (manifestSourceKeys.has(sourceKey)) return true;        // grandfathered
-        const st = registryStates[sourceKey];
-        return !!(st && st.state === 'eligible');                  // evidence gate
+    const { createIndexEligibilityPolicy } = require('./scripts/lib/index-eligibility.js');
+    const { readReviewRegistry } = require('./scripts/lib/review-registry.js');
+    const registryPath = process.env.ARCADEBLOOM_REGISTRY_PATH
+        ? path.resolve(process.env.ARCADEBLOOM_REGISTRY_PATH)
+        : path.resolve(__dirname, 'evidence/review-registry.json');
+    const evidenceRoot = process.env.ARCADEBLOOM_EVIDENCE_ROOT
+        ? path.resolve(process.env.ARCADEBLOOM_EVIDENCE_ROOT)
+        : path.resolve(__dirname, 'evidence/games');
+    const registry = readReviewRegistry(registryPath);
+    const isIndexable = createIndexEligibilityPolicy({
+        registry,
+        projectRoot: __dirname,
+        evidenceRoot,
+        now: process.env.ARCADEBLOOM_ELIGIBILITY_NOW || new Date(),
     });
 
-    // isEligible: strictly passed the evidence gate (used by RSS #18 and
-    // Collections #17 — these never include provisional/grandfathered entries,
-    // only fully reviewed ones).
-    eleventyConfig.addFilter('isEligible', (sourceKey) => {
-        if (!sourceKey) return false;
-        const st = registryStates[sourceKey];
-        return !!(st && st.state === 'eligible');
-    });
+    eleventyConfig.addFilter('isIndexable', isIndexable);
+    eleventyConfig.addFilter('isEligible', isIndexable);
 
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation
@@ -219,7 +208,7 @@ module.exports = function (eleventyConfig) {
             input: 'src',
             includes: '_includes',
             data: '_data',
-            output: 'dist',
+            output: process.env.ARCADEBLOOM_OUTPUT_DIR || 'dist',
         },
         // Nunjucks for HTML-ish templates
         htmlTemplateEngine: 'njk',
