@@ -2,11 +2,11 @@
 
 ## Status
 
-**Shape documented (issue #7); validator implementation in issue #9.**
+**Implemented and validator-enforced (issues #9, #23, and #24).**
 
-This document fixes the shape of an immutable evidence record so the review
-registry (`evidence/review-registry.json`) has something to point at. The
-runtime validator that enforces thresholds arrives in issue #9.
+This document fixes the shape of an immutable evidence record and its image
+artifacts so the review registry (`evidence/review-registry.json`) can point at
+a complete, integrity-checked observation bundle.
 
 ## Record location
 
@@ -39,7 +39,18 @@ the old one; records are append-only and never overwritten.
     "finalUrl": "https://example.com/game",
     "consoleErrorCount": 0,
     "interactionAttempts": [],
-    "screenshots": [],
+    "screenshots": [
+      {
+        "viewport": "desktop",
+        "width": 1280,
+        "height": 720,
+        "capturedAt": "2026-07-22T00:00:00Z",
+        "path": "2026-07-22-001/desktop.png",
+        "mediaType": "image/png",
+        "bytes": 12345,
+        "sha256": "sha256:..."
+      }
+    ],
     "viewportResults": []
   },
   "assessment": {
@@ -69,6 +80,11 @@ sourceKey from `provisional` to `eligible` in the review registry.
 - `browser.loaded` must be `true`
 - `browser.finalUrl` must resolve on the source domain (not a parked/error page)
 - `browser.screenshots` must contain at least one desktop and one mobile capture
+- Every screenshot is a real file under
+  `evidence/games/<slug>/<review-id>/`; `path` is relative to the record's
+  directory and must begin with `<review-id>/`
+- `bytes` and `sha256` bind the record to the captured file; a missing,
+  substituted, malformed, or moved artifact fails validation
 - `browser.consoleErrorCount` above a threshold fails (threshold set in #9)
 - `browser.viewportResults` must show the game rendered at both breakpoints
 
@@ -78,6 +94,14 @@ sourceKey from `provisional` to `eligible` in the review registry.
 (excluding the hash field itself). `integrity.workflowRun` references the
 GitHub Actions run that produced the evidence, so the capture is reproducible
 from the run logs.
+
+## CI artifact transport
+
+Capture generates `evidence/artifact-contract.json` to fix the artifact root.
+Capture and assess upload that marker together with `games/<slug>/`, so every download restores
+directly into `evidence/` and retains the same paths used locally. Assess and
+publish validate this layout before consuming it; they do not flatten, rename,
+or manually relocate screenshots.
 
 ## Relationship to the review registry
 

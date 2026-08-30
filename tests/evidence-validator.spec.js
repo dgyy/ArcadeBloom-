@@ -51,6 +51,56 @@ test.describe('Evidence validator (issue #9, ADR-0004)', () => {
         expect(errors.join(' ')).toContain('loaded must be true');
     });
 
+    test('screenshot dimension metadata without artifact references cannot pass', () => {
+        const file = readFixture('good');
+        const record = JSON.parse(fs.readFileSync(file, 'utf8'));
+        record.browser.screenshots.forEach((screenshot) => {
+            delete screenshot.path;
+            delete screenshot.mediaType;
+            delete screenshot.bytes;
+            delete screenshot.sha256;
+        });
+        record.integrity.evidenceHash = computeEvidenceHash(record);
+        const tmp = file.replace('.json', '.metadata-screenshots.json');
+        fs.writeFileSync(tmp, JSON.stringify(record, null, 2) + '\n');
+        try {
+            const { errors } = validateRecord(tmp);
+            expect(errors.join(' ')).toContain('screenshot artifact path');
+        } finally {
+            fs.unlinkSync(tmp);
+        }
+    });
+
+    test('missing screenshot artifact fails even when metadata and record hash are intact', () => {
+        const file = readFixture('good');
+        const record = JSON.parse(fs.readFileSync(file, 'utf8'));
+        record.browser.screenshots[0].path = `${record.reviewId}/missing.svg`;
+        record.integrity.evidenceHash = computeEvidenceHash(record);
+        const tmp = file.replace('.json', '.missing-artifact.json');
+        fs.writeFileSync(tmp, JSON.stringify(record, null, 2) + '\n');
+        try {
+            const { errors } = validateRecord(tmp);
+            expect(errors.join(' ')).toContain('artifact file is missing');
+        } finally {
+            fs.unlinkSync(tmp);
+        }
+    });
+
+    test('substituted screenshot artifact fails its sha256 check', () => {
+        const file = readFixture('good');
+        const record = JSON.parse(fs.readFileSync(file, 'utf8'));
+        record.browser.screenshots[0].sha256 = 'sha256:' + '0'.repeat(64);
+        record.integrity.evidenceHash = computeEvidenceHash(record);
+        const tmp = file.replace('.json', '.bad-artifact-hash.json');
+        fs.writeFileSync(tmp, JSON.stringify(record, null, 2) + '\n');
+        try {
+            const { errors } = validateRecord(tmp);
+            expect(errors.join(' ')).toContain('artifact sha256 mismatch');
+        } finally {
+            fs.unlinkSync(tmp);
+        }
+    });
+
     test('tampered evidenceHash is detected', () => {
         const file = readFixture('good');
         const record = JSON.parse(fs.readFileSync(file, 'utf8'));

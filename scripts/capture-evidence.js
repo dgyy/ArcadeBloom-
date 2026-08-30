@@ -16,8 +16,8 @@
 //   - browser.finalUrl        : where it actually landed (redirect detection)
 //   - browser.consoleErrorCount : raw count (validator thresholds separately)
 //   - browser.interactionAttempts : a few bounded key/click probes
-//   - browser.screenshots     : desktop + mobile PNG references (paths, not
-//                               pixel data — the bundle stays text-shaped)
+//   - browser.screenshots     : desktop + mobile PNG files with path, byte
+//                               length, media type, and sha256 integrity
 //   - browser.viewportResults : per-viewport rendered flag
 //
 // Raw third-party HTML is NEVER placed in the bundle — only the structured
@@ -32,6 +32,8 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const games = require('../src/_data/games.js');
+const { createScreenshotArtifact } = require('./lib/evidence-artifacts.js');
+const { writeBundleContract } = require('./lib/evidence-bundle.js');
 
 const args = Object.fromEntries(
     process.argv.slice(2).map((a) => {
@@ -92,6 +94,11 @@ async function main() {
     const interactionAttempts = [];
     let loaded = false;
     let finalUrl = sourceUrl;
+    const evidenceRoot = path.resolve(__dirname, '../evidence');
+    writeBundleContract(evidenceRoot);
+    const outDir = path.join(evidenceRoot, 'games', slug);
+    const artifactDir = path.join(outDir, reviewId);
+    fs.mkdirSync(artifactDir, { recursive: true });
 
     const browser = await playwright.chromium.launch({ args: ['--no-sandbox'] });
     try {
@@ -106,11 +113,13 @@ async function main() {
             loaded = true;
             finalUrl = page.url();
             viewportResults.push({ viewport: 'desktop', rendered: true });
-            screenshots.push({
-                viewport: 'desktop', width: 1280, height: 720,
-                capturedAt: new Date().toISOString(),
-                path: `screenshots/${slug}-${reviewId}-desktop.png`
-            });
+            const capturedAt = new Date().toISOString();
+            const desktopPath = path.join(artifactDir, 'desktop.png');
+            await page.screenshot({ path: desktopPath, type: 'png' });
+            screenshots.push(createScreenshotArtifact({
+                filePath: desktopPath, recordDirectory: outDir, reviewId,
+                viewport: 'desktop', width: 1280, height: 720, capturedAt,
+            }));
             // Bounded interaction probe.
             for (const key of PROBE_KEYS) {
                 try {
@@ -136,11 +145,13 @@ async function main() {
             await page2.goto(sourceUrl, { waitUntil: 'networkidle', timeout: 30000 });
             if (!loaded) { loaded = true; finalUrl = page2.url(); }
             viewportResults.push({ viewport: 'mobile', rendered: true });
-            screenshots.push({
-                viewport: 'mobile', width: 375, height: 667,
-                capturedAt: new Date().toISOString(),
-                path: `screenshots/${slug}-${reviewId}-mobile.png`
-            });
+            const capturedAt = new Date().toISOString();
+            const mobilePath = path.join(artifactDir, 'mobile.png');
+            await page2.screenshot({ path: mobilePath, type: 'png' });
+            screenshots.push(createScreenshotArtifact({
+                filePath: mobilePath, recordDirectory: outDir, reviewId,
+                viewport: 'mobile', width: 375, height: 667, capturedAt,
+            }));
         } catch (e) {
             viewportResults.push({ viewport: 'mobile', rendered: false, error: e.message });
         }
@@ -186,8 +197,6 @@ async function main() {
     };
     record.integrity.evidenceHash = computeHash(record);
 
-    const outDir = path.resolve(__dirname, '../evidence/games', slug);
-    fs.mkdirSync(outDir, { recursive: true });
     const outPath = path.join(outDir, reviewId + '.json');
     fs.writeFileSync(outPath, JSON.stringify(record, null, 2) + '\n');
     console.log(`✓ captured evidence → ${path.relative(process.cwd(), outPath)}`);

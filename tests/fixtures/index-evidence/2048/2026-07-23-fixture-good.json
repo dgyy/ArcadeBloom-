@@ -30,13 +30,21 @@
         "viewport": "desktop",
         "width": 1280,
         "height": 720,
-        "capturedAt": "2026-07-23T00:00:00Z"
+        "capturedAt": "2026-07-23T00:00:00Z",
+        "path": "2026-07-23-fixture-good/desktop.svg",
+        "mediaType": "image/svg+xml",
+        "bytes": 122,
+        "sha256": "sha256:803022e69fc93f1c8c626b37683a32e95b090a0996bebda0df4b6a45b738c9f3"
       },
       {
         "viewport": "mobile",
         "width": 375,
         "height": 667,
-        "capturedAt": "2026-07-23T00:00:00Z"
+        "capturedAt": "2026-07-23T00:00:00Z",
+        "path": "2026-07-23-fixture-good/mobile.svg",
+        "mediaType": "image/svg+xml",
+        "bytes": 121,
+        "sha256": "sha256:339122cf962e257eb79c8f3875bad44efcd022a8ff49c7ddd61542fcc29b8fc0"
       }
     ],
     "viewportResults": [
@@ -62,7 +70,7 @@
     ]
   },
   "integrity": {
-    "evidenceHash": "sha256:a20c1444ef948ec496858ca118ab199499ff37d49ace540af4dada27611dfba8",
+    "evidenceHash": "sha256:f6505c4fc2d6dbbdf2355181d4e47baa4f9ba69738087ebc1b9e99b72e8c15ab",
     "workflowRun": "fixture-test-run-1"
   }
 }

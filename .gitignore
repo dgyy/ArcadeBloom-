@@ -28,3 +28,5 @@ src/_data/catalogue-slugs.json
 docs/metrics/snapshots/
 # Bluesky post ledger — runtime dedup/cap state (evidence/bluesky-posted.json)
 evidence/bluesky-posted.json
+# Generated into every capture artifact; downloaded unchanged by assess/publish.
+evidence/artifact-contract.json

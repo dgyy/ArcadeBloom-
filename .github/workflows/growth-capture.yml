@@ -92,12 +92,16 @@ jobs:
 
       - name: Validate the captured bundle (issue #9 gate)
         if: steps.target.outputs.slug != '' && steps.target.outputs.empty != 'true'
-        run: npm run validate:evidence
+        run: |
+          node scripts/validate-evidence-bundle.js --root=evidence --slug=${{ steps.target.outputs.slug }}
+          npm run validate:evidence
 
       - name: Upload evidence bundle (short retention)
         if: always() && steps.target.outputs.slug != ''
         uses: actions/upload-artifact@v4
         with:
           name: evidence-${{ steps.target.outputs.slug }}-${{ github.run_id }}
-          path: evidence/games/
+          path: |
+            evidence/artifact-contract.json
+            evidence/games/${{ steps.target.outputs.slug }}
           retention-days: 14
