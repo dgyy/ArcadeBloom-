@@ -1,3 +1,4 @@
+# Archived by ADR-0011: manual diagnostic use only; not part of listing publication.
 # growth-assess.yml — assess captured evidence with the model adapter.
 #
 # Backs issue #11 / GROWTH-AUTOMATION-PLAN.md Required workflows →
@@ -23,10 +24,6 @@ on:
         description: 'growth-capture run id that produced the artifact (optional)'
         required: false
         default: ''
-  workflow_run:
-    # Auto-assess right after a successful capture run.
-    workflows: ['Growth Capture']
-    types: [completed]
 
 permissions:
   contents: read

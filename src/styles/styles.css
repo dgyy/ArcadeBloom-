@@ -49,6 +49,19 @@
 
 html { -webkit-text-size-adjust: 100%; }
 
+[hidden] { display: none !important; }
+
+.submission-form label { display: block; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+.submission-form label:first-child { margin-top: 0; }
+.submission-form label span { font-weight: 400; color: var(--paper-70); }
+.submission-form input, .submission-form textarea, .submission-form select {
+    width: 100%; padding: 0.75rem; border: 1px solid var(--hairline-strong);
+    border-radius: 0.5rem; color: var(--paper); background: var(--ink);
+}
+.submission-form :is(input, textarea, select):focus-visible {
+    outline: 2px solid var(--bloom); outline-offset: 3px;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--ink);

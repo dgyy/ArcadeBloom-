@@ -1,18 +1,20 @@
 # ArcadeBloom
 
-> A curated directory of free browser games. We review web games and link to each author's own site — we do not host third-party games. Every entry has a verifiable source (author, play URL, licence).
+> A curated directory of free browser games. We introduce indie and AI browser games and link to each author's own site — we do not host third-party games. Every entry has a verifiable source (author, play URL, licence).
 
-ArcadeBloom catalogues 3000+ browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
+ArcadeBloom catalogues browser games across six categories: Puzzle, Action, Arcade, Strategy, Racing & Sports, and Simulation. The catalogue is seeded from three source classes: open-source GitHub game collections, independent author sites, and js13kGames competition entries.
 
 ## What this site is
 
-- A **game directory** (not a portal): we discover, review, and link out. We never host or iframe third-party games.
-- Each game page has: an honest review (About), a how-to-play guide (controls + strategy), key features, source attribution (author, URL, licence), and an outbound "Play on [source]" link.
+- A **game directory** (not a portal): we discover, introduce, and link out. We never host or iframe third-party games.
+- Each game page has: a concise introduction (About), getting-started instructions, key features, source attribution (author, URL, licence), and an outbound "Play on [source]" link.
 - We do not fabricate play counts or ratings — removed per our design principles.
 
 ## Key pages
 
 - [Home](/): category portal with editor's picks, browse-by-category, and latest additions
+- [AI games](/ai-games/): AI gameplay and AI-assisted creation, labelled from creator disclosures
+- [Submit a game](/submit/): prepare an email with the official game link
 - [Featured games](/featured/): hand-picked standout titles
 - [New games](/new/): most recent additions, ordered by date
 - [Browse by category](/category/arcade/): Puzzle, Action, Arcade, Strategy, Racing & Sports, Simulation

@@ -99,6 +99,11 @@ module.exports = function (eleventyConfig) {
         return String(text).split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
     });
 
+    // Imported stubs stay noindex; do not promise future reviews to visitors.
+    eleventyConfig.addFilter('directoryText', (text) => String(text || '')
+        .replace(/\s*\((?:This is a )?factual placeholder[^)]*\)/gi, '')
+        .replace(/\s*This is a factual entry; a full review is pending\./gi, '').trim());
+
     // JSON-stringify a value for safe embedding in JSON-LD (replaces | dump | safe)
     eleventyConfig.addFilter('toJSON', (value) => JSON.stringify(value));
 
@@ -161,29 +166,18 @@ module.exports = function (eleventyConfig) {
     // visitors can see a stale stylesheet for up to 4 hours after a deploy).
     eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
 
-    // ---- Trust-index eligibility (ADR-0010, issue #23) --------------------
-    // One fail-closed policy controls robots metadata, sitemap membership,
-    // RSS, and Collections. Historical manifest membership is audit data only;
-    // it never grants search eligibility.
-    const path = require('path');
-    const { createIndexEligibilityPolicy } = require('./scripts/lib/index-eligibility.js');
-    const { readReviewRegistry } = require('./scripts/lib/review-registry.js');
-    const registryPath = process.env.ARCADEBLOOM_REGISTRY_PATH
-        ? path.resolve(process.env.ARCADEBLOOM_REGISTRY_PATH)
-        : path.resolve(__dirname, 'evidence/review-registry.json');
-    const evidenceRoot = process.env.ARCADEBLOOM_EVIDENCE_ROOT
-        ? path.resolve(process.env.ARCADEBLOOM_EVIDENCE_ROOT)
-        : path.resolve(__dirname, 'evidence/games');
-    const registry = readReviewRegistry(registryPath);
-    const isIndexable = createIndexEligibilityPolicy({
-        registry,
-        projectRoot: __dirname,
-        evidenceRoot,
-        now: process.env.ARCADEBLOOM_ELIGIBILITY_NOW || new Date(),
-    });
+    // ADR-0011: one directory-content policy for robots, sitemap and RSS.
+    const { createDirectoryPolicy } = require('./scripts/lib/directory-policy.js');
+    const isIndexable = createDirectoryPolicy(require('./src/_data/games.js'));
 
     eleventyConfig.addFilter('isIndexable', isIndexable);
     eleventyConfig.addFilter('isEligible', isIndexable);
+    eleventyConfig.addFilter('withAiType', (games, type) => (games || []).filter((game) =>
+        game.ai && game.ai.types.includes(type)));
+    eleventyConfig.addFilter('aiGames', (games) => (games || []).filter((game) => game.ai));
+    eleventyConfig.addFilter('indexableGames', (games) => (games || []).filter((game) => isIndexable(game.sourceKey)));
+    eleventyConfig.addFilter('licenceLabel', (licence) => licence === 'NOASSERTION' ? 'Not declared' : licence);
+    eleventyConfig.addFilter('findGame', (games, slug) => (games || []).find((game) => game.slug === slug));
 
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation

@@ -1,0 +1,42 @@
+---
+permalink: /ai-games/
+title: AI Games — Playful Experiments & Indie Discoveries
+description: Explore browser games with AI-driven stories and mechanics, plus games whose creators used AI to help build them.
+eleventyComputed:
+    robots: "{{ 'index, follow' if (games | aiGames | indexableGames | length) >= site.minGamesPerTag else 'noindex, follow' }}"
+---
+{% extends 'base.njk' %}
+{% block adsense %}{% endblock %}
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <header class="max-w-3xl mb-12">
+        <h1 class="display-h1 text-4xl md:text-6xl">AI, meet play.</h1>
+        <p class="text-lg text-paper-70 leading-relaxed mt-6">Stories that respond to you. Word games with an AI referee. Small experiments made with a new set of tools. Explore what creators are doing with AI.</p>
+        <nav class="flex flex-wrap gap-3 mt-7" aria-label="AI game types">
+            <a href="#ai-gameplay" class="btn-ghost">AI gameplay</a>
+            <a href="#ai-assisted" class="btn-ghost">AI-assisted creation</a>
+        </nav>
+    </header>
+
+    {% for type in ['ai-gameplay', 'ai-assisted'] %}
+    {% set group = games | withAiType(type) | sortByDateDesc %}
+    <section id="{{ type }}" class="mb-14 scroll-mt-24">
+        <h2 class="display-h2 text-3xl">{{ 'AI gameplay' if type == 'ai-gameplay' else 'AI-assisted creation' }}</h2>
+        <p class="text-paper-70 mt-3 mb-6 max-w-2xl">{% if type == 'ai-gameplay' %}AI is part of the game itself: it might shape the story, respond as a character, or judge an answer.{% else %}The creator describes using AI to help with code, art or other development work. The finished game may also use AI during play.{% endif %}</p>
+        {% if group.length %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {% for game in group %}{% include 'game-card.njk' %}{% endfor %}
+        </div>
+        {% else %}
+        <p class="surface rounded-2xl p-6 text-paper-70">Know a game that belongs here? <a href="/submit/" class="link-inline">Send us its official link and the creator's AI notes.</a></p>
+        {% endif %}
+    </section>
+    {% endfor %}
+
+    <aside class="surface-raised rounded-2xl p-6 md:p-8 max-w-3xl">
+        <h2 class="text-xl font-semibold">Made something unusual?</h2>
+        <p class="text-paper-70 mt-3 mb-5">We label AI use from the creator's own description. A game can belong to both groups. Tell us what you made and what makes it interesting.</p>
+        <a href="/submit/" class="btn-ghost">Submit a game</a>
+    </aside>
+</div>
+{% endblock %}

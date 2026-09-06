@@ -8,8 +8,8 @@
 //   name          string   display title
 //   category      string   one of site.categories[].slug (6 values)
 //   tagline       string   one-line subtitle (<=80 chars)
-//   about         string   150–250 word original review (Phase A: factual placeholder)
-//   howToPlay     string   100–200 word controls + strategy (Phase A: factual placeholder)
+//   about         string   concise sourced introduction (30+ words for indexing)
+//   howToPlay     string   brief getting-started instructions (10+ words for indexing)
 //   keyFeatures   string[] 3–6 bullets
 //   screenshots   string[] 1–5 root-relative image paths (empty until content phase)
 //   sourceName    string   author / project name (for attribution + CTA label)
@@ -19,11 +19,13 @@
 //   addedDate     string   ISO date — when ArcadeBloom added it (drives /new/)
 //   releaseDate   string   year or ISO date — when the game itself shipped
 //   featured      boolean  editor pick (drives /featured/)
+//   ai            object?  types[], note, sourceUrl, checkedDate (creator disclosure)
+//   directoryStatus string? listed (default) | draft | unlisted
 //
 // REMOVED vs legacy schema: plays, rating, image, gameUrl (per ADR-0001).
 //
 // Phase-A entries (js13k import) carry factual placeholder about/howToPlay
-// marked for Phase-B human upgrade to original reviews. See CONTEXT.md
+// kept noindex until replaced with useful introductions. See CONTEXT.md
 // "Seed scale strategy".
 // =============================================================================
 
@@ -62679,5 +62681,399 @@ module.exports = [
         "releaseDate": "2021-09-06",
         "featured": false,
         "sourceKey": "github:michaelkolesidis/rock-paper-scissors-3d"
+    },
+    {
+        "id": 3035,
+        "slug": "ai-dungeon",
+        "name": "AI Dungeon",
+        "category": "simulation",
+        "tagline": "An open-ended text adventure with an AI storyteller.",
+        "about": "AI Dungeon turns written choices into an ongoing adventure. Start from a fantasy setting, a survival scenario or a community creation, then guide what happens next. Latitude describes a game built around AI-generated stories rather than a fixed sequence of choices.",
+        "howToPlay": "Open the official game, choose a scenario or create your own, and type what you want your character to do. Continue the story through your next action.",
+        "keyFeatures": [
+            "Open-ended text adventures",
+            "Custom and community scenarios",
+            "AI-generated story responses"
+        ],
+        "screenshots": [],
+        "sourceName": "Latitude",
+        "sourceUrl": "https://play.aidungeon.com/",
+        "licence": "proprietary",
+        "licenceStatus": "proprietary",
+        "sourceKey": "url:play.aidungeon.com/",
+        "tags": [
+            "text-based",
+            "sandbox",
+            "story-rich"
+        ],
+        "addedDate": "2026-09-06",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-gameplay"
+            ],
+            "note": "Latitude describes AI-generated adventures that respond to player choices.",
+            "sourceUrl": "https://aidungeon.com/",
+            "checkedDate": "2026-09-06"
+        }
+    },
+    {
+        "id": 3036,
+        "slug": "circuits-royale",
+        "name": "Circuits Royale",
+        "category": "puzzle",
+        "tagline": "Find word pairs together, with an AI judge on the other end.",
+        "about": "Circuits Royale is a communal word game from the Puzzmo team. Players add words to a shared prompt to form phrases. Answers resolve while everyone keeps playing; accepted guesses extend the round. Its developer describes using a language model to judge phrases and AI tools during development.",
+        "howToPlay": "Look at the current base word and submit a word that forms a familiar phrase with it. Wait for the verdict, then try another pairing before the round ends.",
+        "keyFeatures": [
+            "Shared word-pair rounds",
+            "Accepted answers extend the timer",
+            "AI-assisted phrase judging"
+        ],
+        "screenshots": [],
+        "sourceName": "Puzzmo",
+        "sourceUrl": "https://royale.circuitsgame.com/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:royale.circuitsgame.com/",
+        "tags": [
+            "text-based",
+            "quick-fix",
+            "brain-burner"
+        ],
+        "addedDate": "2026-09-06",
+        "releaseDate": "2025-08-25",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-gameplay",
+                "ai-assisted"
+            ],
+            "note": "Puzzmo describes a language-model phrase judge and AI assistance with prototyping, effects and interface code.",
+            "sourceUrl": "https://blog.puzzmo.com/posts/2025/09/08/the-making-of-circuits-royale/",
+            "checkedDate": "2026-09-06"
+        }
+    },
+    {
+        "id": 3037,
+        "slug": "newdle",
+        "name": "Newdle",
+        "category": "puzzle",
+        "tagline": "Arrange daily letters into your own crossword.",
+        "about": "Newdle gives you a daily set of letters to arrange into a crossword. Different layouts can earn different emoji achievements, so a finished grid is also an invitation to try another arrangement. Sundays introduce extra letters.",
+        "howToPlay": "Open the daily puzzle and arrange its letters into connected words. Try different layouts to discover additional emoji achievements.",
+        "keyFeatures": [
+            "Daily letter sets",
+            "Achievements for different arrangements",
+            "Extra letters on Sundays"
+        ],
+        "screenshots": [],
+        "sourceName": "minbytes",
+        "sourceUrl": "https://minbytes.itch.io/newdle",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:minbytes.itch.io/newdle",
+        "tags": [
+            "text-based",
+            "minimal",
+            "brain-burner"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator explicitly describes using generative AI to help write the code.",
+            "sourceUrl": "https://minbytes.itch.io/newdle",
+            "checkedDate": "2026-09-07"
+        }
+    },
+    {
+        "id": 3038,
+        "slug": "whisperline",
+        "name": "Whisperline",
+        "category": "puzzle",
+        "tagline": "Follow the gossip to find who leaked a secret.",
+        "about": "Whisperline is a deduction game about how a secret spreads through a social network. Statements, chat screenshots and relationships provide clues to who knew what on each day. Reconstruct the chain of information before deciding who is lying.",
+        "howToPlay": "Read the statements and chat records, then mark who knew the secret on each day. Use the relationships to trace the leak before making an accusation.",
+        "keyFeatures": [
+            "Chat records and witness statements",
+            "A social graph to investigate",
+            "Day-by-day knowledge tracking"
+        ],
+        "screenshots": [],
+        "sourceName": "Layline",
+        "sourceUrl": "https://layline.itch.io/whisperline",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:layline.itch.io/whisperline",
+        "tags": [
+            "text-based",
+            "brain-burner",
+            "story-rich"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator discloses AI assistance with code, graphics and text.",
+            "sourceUrl": "https://layline.itch.io/whisperline",
+            "checkedDate": "2026-09-07"
+        }
+    },
+    {
+        "id": 3039,
+        "slug": "taken-as-read",
+        "name": "Taken as Read",
+        "category": "puzzle",
+        "tagline": "Believe the narrator and change the room.",
+        "about": "Taken as Read turns a narrator's sentences into rules you can accept or refuse. Believing a statement changes the room around you, while doubts are limited. Contradictory statements can obstruct your escape, making language part of the puzzle itself.",
+        "howToPlay": "Move with the arrow keys or WASD. Press E to accept a nearby sentence or Q to doubt it, watching how each decision changes your route.",
+        "keyFeatures": [
+            "Sentences become room rules",
+            "Limited doubts in each chapter",
+            "Five chapters and fifteen rooms"
+        ],
+        "screenshots": [],
+        "sourceName": "CSAF — Core Systems Asset Factory",
+        "sourceUrl": "https://csaf.itch.io/taken-as-read",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:csaf.itch.io/taken-as-read",
+        "tags": [
+            "puzzle-room",
+            "text-based",
+            "experimental"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator discloses AI assistance with code, graphics and text; sounds use procedural synthesis rather than a generative model.",
+            "sourceUrl": "https://csaf.itch.io/taken-as-read",
+            "checkedDate": "2026-09-07"
+        }
+    },
+    {
+        "id": 3040,
+        "slug": "semantris",
+        "name": "Semantris",
+        "category": "puzzle",
+        "tagline": "Give an AI clues through word associations.",
+        "about": "Semantris is a word association experiment from Google Research. Enter a clue and its language model chooses the words it considers most closely related. The game invites you to explore connections through synonyms, topics and phrases rather than matching exact spellings.",
+        "howToPlay": "Look at the words in play and type a related clue. Submit it to see which words the AI associates with your hint.",
+        "keyFeatures": [
+            "Model-driven word associations",
+            "Clues can include phrases",
+            "Arcade word puzzles"
+        ],
+        "screenshots": [],
+        "sourceName": "Google Research",
+        "sourceUrl": "https://research.google.com/semantris/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:research.google.com/semantris/",
+        "tags": [
+            "text-based",
+            "experimental",
+            "brain-burner"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-gameplay"
+            ],
+            "note": "Google Research explains that its language model selects words related to the clues players enter.",
+            "sourceUrl": "https://research.google.com/semanticexperiences/about.html",
+            "checkedDate": "2026-09-07"
+        }
+    },
+    {
+        "id": 3041,
+        "slug": "quick-draw",
+        "name": "Quick, Draw!",
+        "category": "arcade",
+        "tagline": "Draw a prompt before the neural network guesses.",
+        "about": "Quick, Draw! asks you to sketch an object in twenty seconds while a neural network tries to recognize it. The Google experiment connects a simple drawing challenge with machine learning, and explains that contributed drawings help build a public dataset.",
+        "howToPlay": "Read the drawing prompt, then sketch the requested object before the twenty-second timer runs out. Watch the neural network try to recognize your drawing.",
+        "keyFeatures": [
+            "Twenty-second drawing prompts",
+            "Neural-network guesses",
+            "Contributions to a drawing dataset"
+        ],
+        "screenshots": [],
+        "sourceName": "Google Creative Lab / Data Arts",
+        "sourceUrl": "https://quickdraw.withgoogle.com/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:quickdraw.withgoogle.com/",
+        "tags": [
+            "drawing",
+            "quick-fix",
+            "experimental"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-gameplay"
+            ],
+            "note": "The official experiment describes a neural network recognizing drawings as players sketch.",
+            "sourceUrl": "https://quickdraw.withgoogle.com/",
+            "checkedDate": "2026-09-07"
+        }
+    },
+    {
+        "id": 3042,
+        "slug": "sandspiel",
+        "name": "Sandspiel",
+        "category": "simulation",
+        "tagline": "Build a changing world from sand and water.",
+        "about": "Sandspiel is Max Bittker's creative falling-sand simulation. Place materials such as sand, water and plants on a canvas, then observe their interactions. The project also supports sharing and building on creations, turning small material experiments into scenes others can explore.",
+        "howToPlay": "Choose a material from the toolbar and draw it onto the canvas. Add different materials nearby and observe how they interact as the simulation runs.",
+        "keyFeatures": [
+            "Interactive material simulation",
+            "A canvas for building scenes",
+            "Shared and remixed creations"
+        ],
+        "screenshots": [],
+        "sourceName": "Max Bittker",
+        "sourceUrl": "https://sandspiel.club/",
+        "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "github:MaxBittker/sandspiel",
+        "tags": [
+            "sandbox",
+            "physics",
+            "experimental",
+            "open-source"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false
+    },
+    {
+        "id": 3043,
+        "slug": "orb-farm",
+        "name": "Orb.Farm",
+        "category": "simulation",
+        "tagline": "Grow a small aquatic world inside a jar.",
+        "about": "Orb.Farm is an aquatic ecosystem you can sculpt and observe. Max Bittker's browser sandbox lets you arrange a small world with water, algae, bacteria and fish. Its changing oxygen and carbon dioxide levels make the inhabitants part of an interconnected system.",
+        "howToPlay": "Choose materials or organisms from the tools and place them in the jar. Observe the ecosystem and adjust your arrangement as its conditions change.",
+        "keyFeatures": [
+            "Aquatic ecosystem sandbox",
+            "Algae, bacteria and fish",
+            "Oxygen and carbon dioxide simulation"
+        ],
+        "screenshots": [],
+        "sourceName": "Max Bittker",
+        "sourceUrl": "https://orb.farm/",
+        "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "github:MaxBittker/orb.farm",
+        "tags": [
+            "sandbox",
+            "experimental",
+            "open-source"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false
+    },
+    {
+        "id": 3044,
+        "slug": "combo-pool",
+        "name": "Combo Pool",
+        "category": "puzzle",
+        "tagline": "Merge colored balls with carefully aimed collisions.",
+        "about": "Combo Pool combines billiards-style aiming with a color-merging puzzle. Collide matching balls to advance their colors while keeping the growing ball count under control. NuSan's PICO-8 game includes a colorblind mode alongside its compact, brightly colored playfield.",
+        "howToPlay": "Aim with the mouse and shoot a ball toward a matching color. Keep combining balls to manage their number and protect your remaining health.",
+        "keyFeatures": [
+            "Color-matching ball collisions",
+            "Ball-count pressure",
+            "Optional colorblind mode"
+        ],
+        "screenshots": [],
+        "sourceName": "NuSan",
+        "sourceUrl": "https://nusan.itch.io/combo-pool",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:nusan.itch.io/combo-pool",
+        "tags": [
+            "physics",
+            "retro",
+            "brain-burner"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false
+    },
+    {
+        "id": 3045,
+        "slug": "tiny-islands",
+        "name": "Tiny Islands",
+        "category": "strategy",
+        "tagline": "Draw an island landscape one card at a time.",
+        "about": "Tiny Islands is a digital roll-and-write game from David King Made Some Games. Cards take the place of dice as you decide how to draw and arrange an island landscape. Each placement contributes to the map you are building and its score.",
+        "howToPlay": "Reveal the available cards and choose where to place their features on your map. Continue drawing your islands while considering how placements contribute to scoring.",
+        "keyFeatures": [
+            "Card-driven map building",
+            "Roll-and-write structure",
+            "Island layouts to share"
+        ],
+        "screenshots": [],
+        "sourceName": "David King Made Some Games",
+        "sourceUrl": "https://dr-d-king.itch.io/tiny-islands",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:dr-d-king.itch.io/tiny-islands",
+        "tags": [
+            "card-game",
+            "turn-based",
+            "relaxing"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false
+    },
+    {
+        "id": 3046,
+        "slug": "picohot",
+        "name": "PICOHOT",
+        "category": "action",
+        "tagline": "Move carefully in a tiny time-bending shooter.",
+        "about": "PICOHOT is a PICO-8 homage to SUPERHOT made by three members of its team. Time advances as you move, turning a small three-dimensional shooter into a sequence of deliberate decisions. Story levels and an endless mode fit inside its restrained visual style.",
+        "howToPlay": "Use the keyboard controls shown by the game to move and shoot. Plan each movement around incoming threats, since moving also advances the action around you.",
+        "keyFeatures": [
+            "Time advances with movement",
+            "Story levels and endless mode",
+            "PICO-8 presentation"
+        ],
+        "screenshots": [],
+        "sourceName": "Piotr Kulla, Wojciech Dziedzic and Mariusz Tarkowski",
+        "sourceUrl": "https://tarkovsky.itch.io/picohot",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:tarkovsky.itch.io/picohot",
+        "tags": [
+            "shooter",
+            "retro",
+            "experimental"
+        ],
+        "addedDate": "2026-09-07",
+        "releaseDate": "unknown",
+        "featured": false
     }
 ];

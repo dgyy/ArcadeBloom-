@@ -1,7 +1,7 @@
 // =============================================================================
 // tests/rss-feed.spec.js — verify the RSS feed (issue #18).
 //
-// The feed publishes only eligible reviews + Collections. It is generated at
+// The feed publishes only content-qualified games + Collections. It is generated at
 // build time, so "released after a successful production health check" is
 // enforced by deployment (a rolled-back deploy never serves a new feed). These
 // tests assert the feed is well-formed and the eligibility gate holds.
@@ -12,14 +12,8 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
-const { createIndexEligibilityPolicy } = require('../scripts/lib/index-eligibility.js');
-
-const registry = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/review-registry.json'), 'utf8'));
-const isEligible = createIndexEligibilityPolicy({
-    registry,
-    projectRoot: path.resolve(__dirname, '..'),
-});
+const { createDirectoryPolicy } = require('../scripts/lib/directory-policy.js');
+const isEligible = createDirectoryPolicy(games);
 
 test.describe('RSS feed (issue #18)', () => {
     test('feed.xml exists and is well-formed RSS', async () => {
@@ -31,7 +25,7 @@ test.describe('RSS feed (issue #18)', () => {
         expect(feed).toMatch(/<\/rss>\s*$/);
     });
 
-    test('feed only contains eligible reviews (never provisional/grandfathered)', () => {
+    test('feed only contains content-qualified games (never placeholders)', () => {
         const feed = fs.readFileSync(path.resolve(__dirname, '../dist/feed.xml'), 'utf8');
         // Every eligible game must appear; every non-eligible must be absent.
         for (const g of games) {
@@ -47,7 +41,7 @@ test.describe('RSS feed (issue #18)', () => {
     test('feed carries the atom self link + description', () => {
         const feed = fs.readFileSync(path.resolve(__dirname, '../dist/feed.xml'), 'utf8');
         expect(feed).toContain('rel="self"');
-        expect(feed).toContain('Evidence-led');
+        expect(feed).toContain('indie browser games');
     });
 
     test('feed is listed in the sitemap', () => {

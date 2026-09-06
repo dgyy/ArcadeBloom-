@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## What this site is
-ArcadeBloom is an **outbound-link game directory** — we review browser games and link to each author's own site. We do not host third-party games. Every catalogue entry must have a verifiable source (author, play URL, licence). See `CONTEXT.md` and `docs/adr/` for the positioning decisions.
+ArcadeBloom is an **outbound-link game directory** — we introduce niche browser games, including AI games and link to each author's own site. We do not host third-party games. Every catalogue entry must have a verifiable source (author, play URL, licence). See `CONTEXT.md` and `docs/adr/` for the positioning decisions.
 
 ## Project Structure & Module Organization
 - `src/` is the Eleventy source. `src/_data/` holds the catalogue (`games.js`, `tags.js`, `site.js`); `src/_includes/` holds Nunjucks layout fragments; `src/*.njk` are page templates.
@@ -40,12 +40,12 @@ screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, f
 1. Append to `src/_data/games.js` (or run the import scripts for bulk sources).
 2. Fill every schema field. `category` ∈ the 6 in `site.js`; `tags` ∈ the controlled vocab in `tags.js`; `sourceUrl` is always an outbound link. Every game needs a unique `sourceKey` (upstream identity, e.g. `github:owner/repo`).
 3. Run `npm run validate` — zero errors required.
-4. Register the new `sourceKey` as non-indexable `provisional`: `node scripts/freeze-provisional-manifest.js`. Despite its legacy filename, this command preserves `evidence/index-manifest.json` unchanged and only adds missing registry states. Then `npm run validate:registry` must pass.
+4. For AI games, include `ai.types` (`ai-gameplay` and/or `ai-assisted`), `ai.note`, `ai.sourceUrl` (creator disclosure) and `ai.checkedDate`. Do not infer AI use. No gameplay assessment or review-registry registration is required.
 5. Run `npm run build` — the detail page, sitemap, and tag pages regenerate automatically.
 6. Thin-content guards: categories need ≥20 games to appear in the nav; tags need ≥8 games to generate a page.
 
-### Index eligibility (ADR-0010 + evidence gate)
-The 2026-07-22 manifest (`evidence/index-manifest.json`) is immutable historical audit data and grants no indexing entitlement. Every game requires an `eligible` registry state backed by a present, valid, current evidence record; all other states fail closed to `noindex,follow` and stay out of the sitemap. The review registry (`evidence/review-registry.json`) tracks `provisional` → `eligible` → `ineligible` per sourceKey. Evidence records live at `evidence/games/<slug>/<review-id>.json` (shape in `docs/evidence-schema.md`).
+### Index eligibility (ADR-0011)
+`directory-policy.js` controls game robots, sitemap, RSS and Collections using attribution, official outbound URLs and concise non-placeholder descriptions (tagline >=5 words, about >=30, howToPlay >=10). `directoryStatus: draft|unlisted` is noindex; omitted means listed. Strict schema and duplicate validation remain required. Historical evidence, manifests and review registry are archival and grant no indexing entitlement. The AI landing page is noindex until eight content-qualified AI games exist. See ADR-0011, which supersedes ADR-0004/0006/0010 and amends ADR-0008.
 
 ## Testing Guidelines
 - `npm run validate` + `npm test` must pass before commit. The smoke suite checks: no console errors, outbound CTAs carry `rel="noopener nofollow"`, content visible without JS, no legacy iframe/fake-data artifacts, and SEO essentials (canonical, JSON-LD, sitemap, noindex on `/search/`).

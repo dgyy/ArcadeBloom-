@@ -10,8 +10,6 @@
 const { test, expect } = require('@playwright/test');
 const { validateCollectionList, KEYWORD_TITLE, MIN_GAMES, MAX_GAMES } =
     require('../scripts/validate-collections.js');
-const { createIndexEligibilityPolicy } = require('../scripts/lib/index-eligibility.js');
-const path = require('path');
 
 // Synthetic catalogue: 12 games, all eligible.
 const gamesList = Array.from({ length: 12 }, (_, i) => ({
@@ -86,36 +84,13 @@ test.describe('Collection validator (issue #17)', () => {
         );
         const { errors } = validateCollectionList(
             [validCollection()], gamesList, eligibleFromStates(ineligibleStates));
-        expect(errors.join(' ')).toMatch(/current validated evidence/);
+        expect(errors.join(' ')).toMatch(/directory-quality content/);
     });
 
-    test('eligible registry state with stale evidence is rejected', () => {
-        const projectRoot = path.resolve(__dirname, '..');
-        const evidenceRef = 'tests/fixtures/index-evidence/2048/2026-07-23-fixture-good.json';
-        const stalePolicy = createIndexEligibilityPolicy({
-            registry: {
-                states: {
-                    'url:play2048.co/': { state: 'eligible', evidenceRef },
-                },
-            },
-            projectRoot,
-            evidenceRoot: path.resolve(projectRoot, 'tests/fixtures/index-evidence'),
-            now: new Date('2026-08-30T00:00:01Z'),
-        });
-        const collectionGames = gamesList.map((game, index) => index === 0
-            ? { ...game, sourceKey: 'url:play2048.co/' }
-            : game);
-
-        const { errors } = validateCollectionList(
-            [validCollection()], collectionGames, stalePolicy);
-
-        expect(errors.join(' ')).toMatch(/current validated evidence/);
-    });
-
-    test('missing evidence refs is rejected', () => {
-        const c = validCollection({ evidenceRefs: [] });
+    test('a directory Collection needs no gameplay evidence references', () => {
+        const c = validCollection({ evidenceRefs: undefined });
         const { errors } = validateCollectionList([c], gamesList, eligibleFromStates(states));
-        expect(errors.join(' ')).toMatch(/evidenceRefs/);
+        expect(errors).toEqual([]);
     });
 
     test('mismatched comparisons count is rejected', () => {

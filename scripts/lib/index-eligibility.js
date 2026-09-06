@@ -1,5 +1,8 @@
 'use strict';
 
+// ARCHIVED (ADR-0011): retained for historical evidence tooling only.
+// Active site publication uses directory-policy.js.
+
 const path = require('path');
 const { validateRecord } = require('../validate-evidence.js');
 const { loadReferencedEvidence } = require('./evidence-reference.js');

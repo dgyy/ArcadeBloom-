@@ -83,7 +83,7 @@ if (registry) {
     if (!registry.states || typeof registry.states !== 'object') {
         errors.push('registry: states must be an object keyed by sourceKey');
     } else {
-        for (const g of games) {
+        for (const g of games.filter((game) => manifest?.sourceKeys?.includes(game.sourceKey))) {
             if (!g.sourceKey) continue;
             const entry = registry.states[g.sourceKey];
             if (!entry) {
@@ -135,5 +135,5 @@ if (errors.length) {
     console.error('\nRegistry validation FAILED.\n');
     process.exit(1);
 }
-console.log(`\n✓  Registry valid. ${games.length} catalogue sourceKeys registered; historical manifest preserved.`);
+console.log(`\n✓  Registry valid. ${Object.keys(registry.states).length} archived states checked; historical manifest preserved.`);
 process.exit(0);

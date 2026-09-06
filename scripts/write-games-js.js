@@ -16,8 +16,8 @@ const HEADER = `// =============================================================
 //   name          string   display title
 //   category      string   one of site.categories[].slug (6 values)
 //   tagline       string   one-line subtitle (<=80 chars)
-//   about         string   150–250 word original review (Phase A: factual placeholder)
-//   howToPlay     string   100–200 word controls + strategy (Phase A: factual placeholder)
+//   about         string   concise sourced introduction (30+ words for indexing)
+//   howToPlay     string   brief getting-started instructions (10+ words for indexing)
 //   keyFeatures   string[] 3–6 bullets
 //   screenshots   string[] 1–5 root-relative image paths (empty until content phase)
 //   sourceName    string   author / project name (for attribution + CTA label)
@@ -27,11 +27,13 @@ const HEADER = `// =============================================================
 //   addedDate     string   ISO date — when ArcadeBloom added it (drives /new/)
 //   releaseDate   string   year or ISO date — when the game itself shipped
 //   featured      boolean  editor pick (drives /featured/)
+//   ai            object?  types[], note, sourceUrl, checkedDate (creator disclosure)
+//   directoryStatus string? listed (default) | draft | unlisted
 //
 // REMOVED vs legacy schema: plays, rating, image, gameUrl (per ADR-0001).
 //
 // Phase-A entries (js13k import) carry factual placeholder about/howToPlay
-// marked for Phase-B human upgrade to original reviews. See CONTEXT.md
+// kept noindex until replaced with useful introductions. See CONTEXT.md
 // "Seed scale strategy".
 // =============================================================================
 

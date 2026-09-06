@@ -6,6 +6,7 @@ const path = require('path');
 const decisions = require('./reviews/candidate-decisions.js');
 const tags = require('../src/_data/tags.js');
 const site = require('../src/_data/site.js');
+const { validateAiMetadata } = require('./lib/directory-policy.js');
 
 const APPLY = process.argv.includes('--apply');
 const GAMES_PATH = path.join(__dirname, '..', 'src', '_data', 'games.js');
@@ -28,14 +29,15 @@ const errors = [];
 for (const decision of approved) {
     const entry = decision.catalogue || {};
     const loc = decision.sourceKey;
+    validateAiMetadata(entry.ai).forEach((message) => errors.push(`${loc}: ${message}`));
     for (const field of ['slug', 'name', 'category', 'tagline', 'about', 'howToPlay', 'sourceName', 'sourceUrl', 'licence', 'licenceStatus', 'addedDate', 'releaseDate']) {
         if (!entry[field]) errors.push(`${loc}: missing ${field}`);
     }
     if (existingSlugs.has(entry.slug)) errors.push(`${loc}: slug already published: ${entry.slug}`);
     if (existingUrls.has(normalizeUrl(entry.sourceUrl))) errors.push(`${loc}: sourceUrl already published`);
     if (!categorySlugs.has(entry.category)) errors.push(`${loc}: invalid category ${entry.category}`);
-    if (wordCount(entry.about) < 150) errors.push(`${loc}: about has ${wordCount(entry.about)} words; minimum is 150`);
-    if (wordCount(entry.howToPlay) < 100) errors.push(`${loc}: howToPlay has ${wordCount(entry.howToPlay)} words; minimum is 100`);
+    if (wordCount(entry.about) < 30) errors.push(`${loc}: about has ${wordCount(entry.about)} words; minimum is 30`);
+    if (wordCount(entry.howToPlay) < 10) errors.push(`${loc}: howToPlay has ${wordCount(entry.howToPlay)} words; minimum is 10`);
     if (!Array.isArray(entry.keyFeatures) || entry.keyFeatures.length < 3 || entry.keyFeatures.length > 6) errors.push(`${loc}: keyFeatures must contain 3-6 items`);
     if (!Array.isArray(entry.tags) || entry.tags.length < 3 || entry.tags.length > 5) errors.push(`${loc}: tags must contain 3-5 items`);
     for (const tag of entry.tags || []) if (!tagSlugs.has(tag)) errors.push(`${loc}: unknown tag ${tag}`);

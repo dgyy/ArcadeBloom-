@@ -77,23 +77,16 @@
         <div class="flex items-center gap-4 h-16">
             {% include 'brand-mark.njk' %}
 
-            {# Desktop category nav — only categories meeting the thin-content
-               threshold appear in the header; all six remain in the footer. #}
-            <nav class="hidden lg:flex items-center gap-1 ml-4" aria-label="Categories">
-                {% for cat in site.categories %}
-                {% set cat_count = games | whereEq('category', cat.slug) | length %}
-                {% if cat_count >= site.minGamesPerCategory %}
-                <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} px-3 py-1.5 text-sm font-medium text-paper-70 hover:text-bloom rounded-full transition-colors">
-                    {{ cat.name }}
-                </a>
-                {% endif %}
+            <nav class="hidden md:flex items-center gap-1 ml-2" aria-label="Discover games">
+                {% for link in site.staticNav %}
+                <a href="{{ link.href }}" class="px-3 py-1.5 text-sm font-medium text-paper-70 hover:text-bloom rounded-full">{{ link.label }}</a>
                 {% endfor %}
             </nav>
 
             <div class="flex-1"></div>
 
             {# Desktop inline search (compact) #}
-            <div class="hidden md:block w-56 lg:w-64">
+            <div class="hidden xl:block w-56">
                 {% set size = 'sm' %}
                 {% include 'search-inline.njk' %}
             </div>
@@ -107,6 +100,8 @@
                 <div class="absolute right-0 top-full mt-2 w-64 surface rounded-2xl overflow-hidden shadow-xl shadow-black/40">
                     <a href="/featured/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">Featured</a>
                     <a href="/new/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">New Arrivals</a>
+                    <a href="/ai-games/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom">AI Games</a>
+                    <a href="/submit/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom">Submit a Game</a>
                     <div class="hairline-top mx-2 my-1"></div>
                     {% for cat in site.categories %}
                     <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} flex items-center gap-2 px-4 py-2.5 text-sm text-paper-70 hover:bg-ink-3 transition-colors">
@@ -137,7 +132,7 @@
             <div class="col-span-2 md:col-span-5">
                 {% include 'brand-mark.njk' %}
                 <p class="text-paper-60 text-sm leading-relaxed mt-4 max-w-sm">{{ site.description }}</p>
-                <p class="eyebrow mt-6">A directory · we review, you play at the source</p>
+                <p class="text-sm text-paper-70 mt-6">Small games. Unexpected ideas. Play at the source.</p>
             </div>
 
             <div class="md:col-span-3 md:col-start-7">
@@ -145,6 +140,7 @@
                 <ul class="space-y-2.5 text-sm">
                     <li><a href="/featured/" class="text-paper-70 hover:text-bloom transition-colors">Featured</a></li>
                     <li><a href="/new/" class="text-paper-70 hover:text-bloom transition-colors">New</a></li>
+                    <li><a href="/ai-games/" class="text-paper-70 hover:text-bloom">AI Games</a></li>
                     {% for cat in site.categories %}
                     <li><a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} text-paper-70 hover:text-bloom transition-colors">{{ cat.name }}</a></li>
                     {% endfor %}

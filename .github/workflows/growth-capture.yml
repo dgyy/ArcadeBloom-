@@ -1,3 +1,4 @@
+# Archived by ADR-0011: manual diagnostic use only; not part of listing publication.
 # growth-capture.yml — isolated Playwright evidence capture.
 #
 # Backs issue #10 / GROWTH-AUTOMATION-PLAN.md Required workflows →
@@ -17,9 +18,6 @@
 name: Growth Capture
 
 on:
-  schedule:
-    # 05:00 UTC Tuesday + Friday — conservative, two captures/week.
-    - cron: '0 5 * * 2,5'
   workflow_dispatch:
     inputs:
       slug:
