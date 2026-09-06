@@ -9,9 +9,9 @@
 
 module.exports = {
     name: 'ArcadeBloom',
-    tagline: 'Discover the best web games — and play them where they live.',
+    tagline: 'Find your next small obsession.',
     description:
-        'A curated directory of browser games from across the web. Read independent reviews and how-to-play guides, then jump straight to the original source. No walled garden, no re-hosting — just the best games, found faster.',
+        'Discover indie browser games, unusual experiments and AI games. Find something that catches your eye, meet its creator, and play at the source.',
     url: 'https://arcadebloom.com',
     locale: 'en',
 
@@ -66,12 +66,15 @@ module.exports = {
     staticNav: [
         { label: 'Featured', href: '/featured/' },
         { label: 'New', href: '/new/' },
+        { label: 'AI Games', href: '/ai-games/' },
+        { label: 'Submit a Game', href: '/submit/' },
     ],
 
     // Footer company links
     footerLinks: [
         { label: 'About', href: '/about/' },
         { label: 'Contact', href: '/contact/' },
+        { label: 'Submit a Game', href: '/submit/' },
         { label: 'Privacy Policy', href: '/privacy/' },
         { label: 'Terms of Service', href: '/terms/' },
     ],

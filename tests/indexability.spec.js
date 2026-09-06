@@ -1,86 +1,72 @@
-// =============================================================================
-// tests/indexability.spec.js — verify the index-eligibility gate (issue #8).
-//
-// The isIndexable filter in .eleventy.js decides who gets indexed. Rules
-// (ADR-0006 + evidence gate):
-//   - sourceKey in frozen 2026-07-22 manifest → indexable (grandfathered)
-//   - registry state === 'eligible'           → indexable (evidence passed)
-//   - anything else (new unreviewed, or 'ineligible') → NOINDEX, fail closed
-//
-// This test re-implements the same decision from the raw JSON files (it does
-// not import the filter, which lives inside the Eleventy config closure).
-// If the two ever drift, this test catches it by asserting the built
-// sitemap + a sample of built game pages match the expected decision.
-// =============================================================================
+// ADR-0011: directory metadata controls public indexing; no gameplay assessment.
 'use strict';
-
 const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
+const { createDirectoryPolicy, validateAiMetadata } = require('../scripts/lib/directory-policy.js');
+const hextris = games.find((game) => game.slug === 'hextris');
+const isIndexable = createDirectoryPolicy(games);
 
-const manifest = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/index-manifest.json'), 'utf8'));
-const registry = JSON.parse(fs.readFileSync(
-    path.resolve(__dirname, '../evidence/review-registry.json'), 'utf8'));
+test('useful sourced content is indexable without an evidence record', () => {
+    expect(createDirectoryPolicy([hextris])(hextris.sourceKey)).toBe(true);
+    expect(createDirectoryPolicy([{ ...hextris, about: hextris.about + ' Controls vary depending on your device.' }])(hextris.sourceKey)).toBe(true);
+});
 
-const manifestSet = new Set(manifest.sourceKeys);
-const registryStates = registry.states || {};
+test('missing attribution, short copy, placeholders and explicit exclusions stay noindex', () => {
+    for (const override of [
+        { sourceName: '' }, { sourceUrl: 'javascript:alert(1)' },
+        { sourceUrl: 'https://arcadebloom.com/game/hextris/' },
+        { about: 'Too short.' }, { howToPlay: 'Instructions pending.' },
+        { about: hextris.about + ' Placeholder.' },
+        { directoryStatus: 'draft' }, { directoryStatus: 'unlisted' },
+    ]) {
+        expect(createDirectoryPolicy([{ ...hextris, ...override }])(hextris.sourceKey)).toBe(false);
+    }
+});
 
-// The canonical decision function — MUST match .eleventy.js isIndexable.
-function isIndexable(sourceKey) {
-    if (!sourceKey) return false;
-    if (manifestSet.has(sourceKey)) return true;
-    const st = registryStates[sourceKey];
-    return !!(st && st.state === 'eligible');
-}
+test('unknown keys and duplicate source identities or URLs fail closed', () => {
+    expect(isIndexable('unknown:game')).toBe(false);
+    const policy = createDirectoryPolicy([hextris, { ...hextris, slug: 'copy' }]);
+    expect(policy(hextris.sourceKey)).toBe(false);
+    const duplicate = { ...hextris, slug: 'copy', sourceKey: 'url:duplicate' };
+    const urls = createDirectoryPolicy([hextris, duplicate]);
+    expect(urls(hextris.sourceKey)).toBe(false);
+    expect(urls(duplicate.sourceKey)).toBe(false);
+});
 
-test.describe('Index eligibility gate (issue #8)', () => {
-    test('every grandfathered game is indexable in the built sitemap', async () => {
-        const sitemap = fs.readFileSync(
-            path.resolve(__dirname, '../dist/sitemap.xml'), 'utf8');
-        const indexableSlugs = games.filter((g) => isIndexable(g.sourceKey)).map((g) => g.slug);
-        const nonIndexableSlugs = games.filter((g) => !isIndexable(g.sourceKey)).map((g) => g.slug);
-        // Every indexable slug must appear in the sitemap. Sitemap uses the
-        // canonical https://arcadebloom.com origin regardless of test server.
-        for (const slug of indexableSlugs) {
-            expect(sitemap, `indexable game ${slug} must be in sitemap`).toContain(
-                `/game/${slug}/</loc>`
-            );
-        }
-        // Every non-indexable slug must be ABSENT from the sitemap.
-        for (const slug of nonIndexableSlugs) {
-            expect(sitemap, `non-indexable game ${slug} must be absent from sitemap`)
-                .not.toContain(`/game/${slug}/</loc>`);
-        }
-    });
+test('AI labels require specific creator disclosures and controlled types', () => {
+    const ai = games.find((game) => game.slug === 'circuits-royale').ai;
+    expect(validateAiMetadata(ai)).toEqual([]);
+    expect(validateAiMetadata(undefined)).toEqual([]);
+    for (const override of [
+        { types: ['looks-ai'] }, { types: [] }, { types: ['ai-gameplay', 'ai-gameplay'] },
+        { sourceUrl: 'javascript:alert(1)' }, { note: '' }, { checkedDate: '' }, { checkedDate: '2026-02-31' },
+    ]) expect(validateAiMetadata({ ...ai, ...override }).length).toBeGreaterThan(0);
+});
 
-    test('fail-closed: the decision treats unknown sourceKeys as noindex', () => {
-        // A brand-new sourceKey that is neither in the manifest nor eligible.
-        const unknownKey = 'github:test/never-existed-' + Date.now();
-        expect(isIndexable(unknownKey)).toBe(false);
-        expect(isIndexable(null)).toBe(false);
-        expect(isIndexable(undefined)).toBe(false);
-        expect(isIndexable('')).toBe(false);
-    });
+test('built robots and sitemap agree for every catalogue entry', () => {
+    const root = path.resolve(__dirname, '../dist');
+    const sitemap = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
+    let qualified = 0;
+    let stubs = 0;
+    for (const game of games) {
+        const eligible = isIndexable(game.sourceKey);
+        eligible ? qualified++ : stubs++;
+        const html = fs.readFileSync(path.join(root, 'game', game.slug, 'index.html'), 'utf8');
+        expect(html).toContain(`name="robots" content="${eligible ? 'index' : 'noindex'}, follow"`);
+        expect(sitemap.includes(`/game/${game.slug}/</loc>`)).toBe(eligible);
+    }
+    expect(qualified).toBeGreaterThan(0);
+    expect(stubs).toBeGreaterThan(0);
+});
 
-    test('fail-closed: ineligible registry entries are not indexable', () => {
-        // Synthetic: a key marked ineligible is not indexable even if the
-        // decision helper is called with it directly.
-        const fakeStates = { 'x:test': { state: 'ineligible' } };
-        function decide(key) {
-            if (manifestSet.has(key)) return true;
-            const st = fakeStates[key];
-            return !!(st && st.state === 'eligible');
-        }
-        expect(decide('x:test')).toBe(false);
-    });
-
-    test('sample of built game pages has the correct robots meta', async ({ page }) => {
-        // Pick a grandfathered game (in manifest → index,follow).
-        const grandfathered = games.find((g) => manifestSet.has(g.sourceKey));
-        await page.goto(`/game/${grandfathered.slug}/`);
-        const robots = await page.locator('meta[name="robots"]').getAttribute('content');
-        expect(robots).toBe('index, follow');
-    });
+test('AI and submission landing pages respect thin-content and utility exclusions', async ({ page }) => {
+    for (const url of ['/ai-games/', '/submit/']) {
+        await page.goto(url);
+        await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+    }
+    const sitemap = fs.readFileSync(path.resolve(__dirname, '../dist/sitemap.xml'), 'utf8');
+    expect(sitemap).not.toContain('/ai-games/</loc>');
+    expect(sitemap).not.toContain('/submit/</loc>');
 });

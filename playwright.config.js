@@ -7,11 +7,12 @@ const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
     testDir: './tests',
+    outputDir: 'test-results/artifacts',
     timeout: 30_000,
     expect: { timeout: 5_000 },
     // Fail fast on errors — this is a smoke suite, not a regression suite
     retries: 0,
-    reporter: [['list']],
+    reporter: [['list'], ['html', { outputFolder: `test-results/html-report/${new Date().toISOString().slice(0, 10)}`, open: 'never' }]],
     use: {
         baseURL: 'http://localhost:4173',
         // Capture console errors per page for the "no console errors" checks

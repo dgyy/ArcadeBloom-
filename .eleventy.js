@@ -99,6 +99,11 @@ module.exports = function (eleventyConfig) {
         return String(text).split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
     });
 
+    // Imported stubs stay noindex; do not promise future reviews to visitors.
+    eleventyConfig.addFilter('directoryText', (text) => String(text || '')
+        .replace(/\s*\((?:This is a )?factual placeholder[^)]*\)/gi, '')
+        .replace(/\s*This is a factual entry; a full review is pending\./gi, '').trim());
+
     // JSON-stringify a value for safe embedding in JSON-LD (replaces | dump | safe)
     eleventyConfig.addFilter('toJSON', (value) => JSON.stringify(value));
 
@@ -161,40 +166,18 @@ module.exports = function (eleventyConfig) {
     // visitors can see a stale stylesheet for up to 4 hours after a deploy).
     eleventyConfig.addGlobalData('asset_version', () => Date.now().toString());
 
-    // ---- Index eligibility (ADR-0006 + evidence gate, issue #8) ----------
-    // Load the frozen manifest + review registry ONCE per build. A game is
-    // indexable iff its sourceKey is in the frozen 2026-07-22 manifest
-    // (grandfathered) OR its registry state is `eligible`. Everything else
-    // (new unreviewed sourceKey, or `ineligible`) fails closed: noindex and
-    // excluded from the sitemap. See docs/evidence-schema.md.
-    const fs = require('fs');
-    const path = require('path');
-    let manifestSourceKeys = new Set();
-    let registryStates = {};
-    try {
-        const manifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/index-manifest.json'), 'utf8'));
-        manifestSourceKeys = new Set(manifest.sourceKeys || []);
-    } catch { /* validate:registry reports the real error; build proceeds */ }
-    try {
-        const registry = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'evidence/review-registry.json'), 'utf8'));
-        registryStates = registry.states || {};
-    } catch { /* ditto */ }
+    // ADR-0011: one directory-content policy for robots, sitemap and RSS.
+    const { createDirectoryPolicy } = require('./scripts/lib/directory-policy.js');
+    const isIndexable = createDirectoryPolicy(require('./src/_data/games.js'));
 
-    eleventyConfig.addFilter('isIndexable', (sourceKey) => {
-        if (!sourceKey) return false;
-        if (manifestSourceKeys.has(sourceKey)) return true;        // grandfathered
-        const st = registryStates[sourceKey];
-        return !!(st && st.state === 'eligible');                  // evidence gate
-    });
-
-    // isEligible: strictly passed the evidence gate (used by RSS #18 and
-    // Collections #17 — these never include provisional/grandfathered entries,
-    // only fully reviewed ones).
-    eleventyConfig.addFilter('isEligible', (sourceKey) => {
-        if (!sourceKey) return false;
-        const st = registryStates[sourceKey];
-        return !!(st && st.state === 'eligible');
-    });
+    eleventyConfig.addFilter('isIndexable', isIndexable);
+    eleventyConfig.addFilter('isEligible', isIndexable);
+    eleventyConfig.addFilter('withAiType', (games, type) => (games || []).filter((game) =>
+        game.ai && game.ai.types.includes(type)));
+    eleventyConfig.addFilter('aiGames', (games) => (games || []).filter((game) => game.ai));
+    eleventyConfig.addFilter('indexableGames', (games) => (games || []).filter((game) => isIndexable(game.sourceKey)));
+    eleventyConfig.addFilter('licenceLabel', (licence) => licence === 'NOASSERTION' ? 'Not declared' : licence);
+    eleventyConfig.addFilter('findGame', (games, slug) => (games || []).find((game) => game.slug === slug));
 
     // ---- Collections ------------------------------------------------------
     // gamesByCategory / gamesByTag are computed at build time for navigation
@@ -219,7 +202,7 @@ module.exports = function (eleventyConfig) {
             input: 'src',
             includes: '_includes',
             data: '_data',
-            output: 'dist',
+            output: process.env.ARCADEBLOOM_OUTPUT_DIR || 'dist',
         },
         // Nunjucks for HTML-ish templates
         htmlTemplateEngine: 'njk',

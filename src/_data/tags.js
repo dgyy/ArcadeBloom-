@@ -13,6 +13,8 @@
 
 module.exports = [
     // ---- Gameplay subtypes -------------------------------------------------
+    { slug: 'drawing', name: 'Drawing', group: 'gameplay',
+      description: 'Sketch pictures and shapes as part of the game.' },
     { slug: 'roguelike', name: 'Roguelike', group: 'gameplay',
       description: 'Procedurally generated runs with permadeath — each attempt is a fresh, high-stakes build.' },
     { slug: 'tower-defense', name: 'Tower Defense', group: 'gameplay',

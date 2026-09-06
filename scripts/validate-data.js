@@ -19,6 +19,7 @@
 const games = require('../src/_data/games.js');
 const tags = require('../src/_data/tags.js');
 const site = require('../src/_data/site.js');
+const { validateAiMetadata } = require('./lib/directory-policy.js');
 
 const STRICT = process.argv.includes('--strict');
 const VERBOSE = process.argv.includes('--verbose');
@@ -80,6 +81,10 @@ function flag(loc, msg, kind) {
 let prevId = -Infinity;
 games.forEach((g, i) => {
     const loc = `games[${i}] (id=${g.id}, slug=${g.slug || '???'})`;
+    validateAiMetadata(g.ai).forEach((message) => errors.push(`${loc}: ${message}`));
+    if (g.directoryStatus !== undefined && !['listed', 'draft', 'unlisted'].includes(g.directoryStatus)) {
+        errors.push(`${loc}: directoryStatus must be listed, draft or unlisted`);
+    }
 
     // Required scalar fields
     ['id', 'slug', 'name', 'category', 'tagline', 'about', 'howToPlay', 'sourceName', 'sourceUrl', 'licence', 'addedDate', 'releaseDate'].forEach((f) => {
@@ -176,11 +181,11 @@ games.forEach((g, i) => {
     // content-quality warnings (advisory in BOTH modes — progressive target)
     if (g.about) {
         const w = String(g.about).split(/\s+/).filter(Boolean).length;
-        if (w < 150) warnings.push(`${loc}: about is ${w} words (<150 target)`);
+        if (w < 30) warnings.push(`${loc}: about is ${w} words (<30 directory minimum for indexing)`);
     }
     if (g.howToPlay) {
         const w = String(g.howToPlay).split(/\s+/).filter(Boolean).length;
-        if (w < 100) warnings.push(`${loc}: howToPlay is ${w} words (<100 target)`);
+        if (w < 10) warnings.push(`${loc}: howToPlay is ${w} words (<10 directory minimum for indexing)`);
     }
     if (/placeholder|pending/i.test(String(g.about) + String(g.howToPlay))) {
         warnings.push(`${loc}: about/howToPlay carries placeholder/pending wording (factual stub — upgrade before indexing)`);

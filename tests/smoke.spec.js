@@ -255,7 +255,8 @@ test.describe('No-JS content visibility', () => {
         const page = await ctx.newPage();
         await page.goto('/');
 
-        await expect(page.locator('h1', { hasText: 'Discover the best free browser games' })).toBeVisible();
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('Find your next');
+        await expect(page.getByRole('heading', { level: 1 })).toContainText('small obsession.');
         await expect(page.locator('h2', { hasText: 'Browse by Category' })).toBeVisible();
         // The "Browse by Category" section must render exactly 6 category cards.
         // Scope to that section to avoid matching the 12 extra /category/ links
@@ -367,15 +368,17 @@ test.describe('SEO essentials', () => {
         );
     });
 
-    test('sitemap excludes search and lists all games', async ({ page }) => {
+    test('sitemap excludes search and includes content-qualified games', async ({ page }) => {
         const resp = await page.goto('/sitemap.xml');
         expect(resp.status()).toBe(200);
         const xml = await resp.text();
         // Search must be excluded from the sitemap
         expect(xml).not.toContain('/search/');
-        // Every game slug should appear
+        const { createDirectoryPolicy } = require('../scripts/lib/directory-policy.js');
+        const isIndexable = createDirectoryPolicy(games);
         for (const slug of GAME_SLUGS) {
-            expect(xml).toContain(`/game/${slug}/`);
+            const game = games.find((item) => item.slug === slug);
+            expect(xml.includes(`/game/${slug}/</loc>`)).toBe(isIndexable(game.sourceKey));
         }
     });
 

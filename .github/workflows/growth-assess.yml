@@ -1,3 +1,4 @@
+# Archived by ADR-0011: manual diagnostic use only; not part of listing publication.
 # growth-assess.yml — assess captured evidence with the model adapter.
 #
 # Backs issue #11 / GROWTH-AUTOMATION-PLAN.md Required workflows →
@@ -23,10 +24,6 @@ on:
         description: 'growth-capture run id that produced the artifact (optional)'
         required: false
         default: ''
-  workflow_run:
-    # Auto-assess right after a successful capture run.
-    workflows: ['Growth Capture']
-    types: [completed]
 
 permissions:
   contents: read
@@ -69,14 +66,12 @@ jobs:
 
       - name: Download capture artifact
         run: |
-          mkdir -p evidence/games
           if [ -n "${{ github.event.inputs.capture-run-id }}" ]; then
-            gh run download ${{ github.event.inputs.capture-run-id }} -R ${{ github.repository }} -n "evidence-${{ steps.slug.outputs.slug }}-${{ github.event.inputs.capture-run-id }}" -D evidence-download || true
+            gh run download ${{ github.event.inputs.capture-run-id }} -R ${{ github.repository }} -n "evidence-${{ steps.slug.outputs.slug }}-${{ github.event.inputs.capture-run-id }}" -D evidence
           elif [ "${{ github.event_name }}" = "workflow_run" ]; then
-            gh run download ${{ github.event.workflow_run.id }} -R ${{ github.repository }} -D evidence-download || true
+            gh run download ${{ github.event.workflow_run.id }} -R ${{ github.repository }} -n "evidence-${{ steps.slug.outputs.slug }}-${{ github.event.workflow_run.id }}" -D evidence
           fi
-          # Restore the captured record into evidence/games/ for the assessor.
-          if [ -d evidence-download ]; then cp -r evidence-download/games/* evidence/games/ 2>/dev/null || true; fi
+          node scripts/validate-evidence-bundle.js --root=evidence --slug=${{ steps.slug.outputs.slug }}
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -96,5 +91,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: assessed-${{ steps.slug.outputs.slug }}-${{ github.run_id }}
-          path: evidence/games/
+          path: |
+            evidence/artifact-contract.json
+            evidence/games/${{ steps.slug.outputs.slug }}
           retention-days: 14

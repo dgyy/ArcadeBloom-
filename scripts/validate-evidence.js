@@ -12,7 +12,8 @@
 //   - schemaVersion, slug, sourceKey, reviewedAt, reviewId present
 //   - source: playUrl absolute, repositoryUrl absolute, licence valid
 //   - browser: loaded === true, finalUrl on source domain, screenshots
-//     contains >=1 desktop + >=1 mobile, consoleErrorCount below threshold,
+//     contains >=1 real desktop + >=1 real mobile artifact with verified
+//     path/size/hash/type, consoleErrorCount below threshold,
 //     interactionAttempts + viewportResults non-empty
 //   - assessment: provider is the expected adapter, model present
 //   - integrity: evidenceHash matches recomputed sha256 over canonical
@@ -29,6 +30,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const games = require('../src/_data/games.js');
+const { validateScreenshotArtifact } = require('./lib/evidence-artifacts.js');
 
 // --- Licence vocabulary (must match validate-data.js) ---
 const VALID_LICENCES = /^(MIT|ISC|Apache-2\.0|GPL-3\.0|GPL-2\.0|AGPL-3\.0|BSD-[23]-Clause|MPL-2\.0|CC0-1\.0|CC-BY(-\d\.\d)?(-\w+)?|Unlicense|NOASSERTION|source-available|proprietary|commercial)$/i;
@@ -129,6 +131,10 @@ function validateRecord(filePath) {
         const hasMobile = br.screenshots.some((s) => s.viewport === 'mobile');
         if (!hasDesktop) errors.push('browser.screenshots missing a desktop capture');
         if (!hasMobile) errors.push('browser.screenshots missing a mobile capture');
+        br.screenshots.forEach((screenshot, index) => {
+            validateScreenshotArtifact({ screenshot, recordPath: filePath, reviewId: record.reviewId })
+                .forEach((error) => errors.push(`browser.screenshots[${index}]: ${error}`));
+        });
     }
     if (typeof br.consoleErrorCount !== 'number' || br.consoleErrorCount > MAX_CONSOLE_ERRORS) {
         errors.push(`browser.consoleErrorCount ${br.consoleErrorCount} exceeds threshold ${MAX_CONSOLE_ERRORS} (broken page)`);

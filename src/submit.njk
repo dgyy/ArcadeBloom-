@@ -1,0 +1,86 @@
+---
+permalink: /submit/
+title: Submit a Game
+description: Suggest an indie browser game or AI experiment for ArcadeBloom. Share the official link, creator and what makes it interesting.
+robots: noindex, follow
+---
+{% extends 'base.njk' %}
+{% block adsense %}{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h1 class="display-h1 text-4xl md:text-5xl">Got a game we should see?</h1>
+    <p class="text-lg text-paper-70 leading-relaxed mt-6">Indie projects, game-jam surprises, odd little experiments and AI games are welcome. You can submit your own work or suggest someone else's.</p>
+    <p class="text-paper-70 mt-4">Email <a href="mailto:hello@arcadebloom.com?subject=Game%20submission" class="link-inline">hello@arcadebloom.com</a>, or prepare a draft below. Submissions are checked for source, fit and duplicates before listing.</p>
+
+    <aside class="surface rounded-2xl p-5 mt-6" aria-labelledby="scenario-policy-title">
+        <h2 id="scenario-policy-title" class="text-lg font-semibold">AI Dungeon scenarios</h2>
+        <p class="text-paper-70 mt-2">We accept individual Published scenarios from their creator, or with the creator's explicit permission. Send the direct AI Dungeon share link and an Everyone or Teen rating. Private, Unlisted, Mature and Unrated scenarios are not eligible, and we do not bulk-import Discover.</p>
+    </aside>
+
+    <form id="submission-form" class="submission-form surface rounded-2xl p-6 md:p-8 mt-8" hidden>
+        <label for="submission-kind">Submission type</label>
+        <select id="submission-kind" name="kind">
+            <option value="General browser game">General browser game</option>
+            <option value="Published AI Dungeon scenario">Published AI Dungeon scenario</option>
+        </select>
+        <label for="game-name">Game name <span>(required)</span></label>
+        <input id="game-name" name="name" required maxlength="120" autocomplete="off">
+        <label for="game-url">Official play URL <span>(required)</span></label>
+        <input id="game-url" name="url" type="url" required maxlength="500" placeholder="https://" pattern="https?://.+">
+        <label for="game-creator">Creator or studio <span>(required)</span></label>
+        <input id="game-creator" name="creator" required maxlength="120">
+        <label for="game-description">What makes it interesting? <span>(required)</span></label>
+        <textarea id="game-description" name="description" required maxlength="1200" rows="4"></textarea>
+        <label for="game-licence">Licence or source-code link <span>(if known)</span></label>
+        <input id="game-licence" name="licence" maxlength="500">
+        <label for="game-ai">How is AI used?</label>
+        <select id="game-ai" name="ai">
+            <option value="Not stated">Not stated / not applicable</option>
+            <option value="AI gameplay">AI is part of the gameplay</option>
+            <option value="AI-assisted creation">AI helped create the game</option>
+            <option value="Both">Both</option>
+        </select>
+        <label for="game-ai-source">Creator's AI explanation <span>(URL, if applicable)</span></label>
+        <input id="game-ai-source" name="aiSource" type="url" maxlength="500" pattern="https?://.+">
+        <fieldset id="ai-dungeon-fields" class="mt-6 border-t border-[var(--hairline-strong)] pt-5" hidden>
+            <legend class="font-semibold">AI Dungeon scenario details</legend>
+            <label for="scenario-rating">Published content rating <span>(required)</span></label>
+            <select id="scenario-rating" name="scenarioRating" required disabled>
+                <option value="">Choose a rating</option>
+                <option value="Everyone">Everyone</option>
+                <option value="Teen">Teen</option>
+            </select>
+            <label for="scenario-permission">Creator permission <span>(required)</span></label>
+            <select id="scenario-permission" name="scenarioPermission" required disabled>
+                <option value="">Choose one</option>
+                <option value="I am the scenario creator">I am the scenario creator</option>
+                <option value="The creator explicitly permitted this listing">The creator explicitly permitted this listing</option>
+            </select>
+            <p class="text-sm text-paper-70 mt-3">Use the scenario's Published share URL above. We may ask for the creator's permission message before listing.</p>
+        </fieldset>
+        <p class="text-sm text-paper-70 mt-5">Include any known price, account or download requirements in the description. We do not need your password or private account details.</p>
+        <button class="btn-ghost mt-6" type="submit">Prepare email draft</button>
+    </form>
+
+    <section id="submission-draft" class="mt-8" hidden aria-labelledby="draft-title">
+        <h2 id="draft-title" class="text-xl font-semibold">Your email draft</h2>
+        <p role="status" class="text-paper-70 mt-3">Nothing has been sent. Open your email app and send the message, or copy this draft into an email to hello@arcadebloom.com.</p>
+        <textarea id="draft-text" aria-label="Email draft" readonly rows="14" class="w-full bg-ink-2 text-paper border border-[var(--hairline-strong)] rounded-xl p-4 mt-4"></textarea>
+        <a id="draft-link" href="mailto:hello@arcadebloom.com" class="btn-ghost mt-4">Open email app</a>
+    </section>
+
+    <noscript>
+        <div class="surface rounded-2xl p-6 mt-8">
+            <h2 class="text-xl font-semibold mb-3">What to include in your email</h2>
+            <ul class="list-disc pl-5 space-y-2 text-paper-70">
+                <li>Game name, creator and official play URL.</li>
+                <li>A short description and any price, account or download requirements.</li>
+                <li>Licence or source-code link, if known.</li>
+                <li>For AI games, how AI is used and a link to the creator's explanation.</li>
+                <li>For an AI Dungeon scenario: its Published share URL, Everyone or Teen rating, and confirmation that you are the creator or have explicit permission.</li>
+            </ul>
+        </div>
+    </noscript>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/js/submit-game.js?v={{ asset_version }}" defer></script>{% endblock %}

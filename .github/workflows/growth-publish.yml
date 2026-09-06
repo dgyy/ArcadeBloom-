@@ -1,3 +1,4 @@
+# Archived by ADR-0011: manual diagnostic use only; not part of listing publication.
 # growth-publish.yml — autonomous publication of assessed evidence.
 #
 # Backs issue #12 / GROWTH-AUTOMATION-PLAN.md Required workflows →
@@ -28,9 +29,6 @@ on:
       assess-run-id:
         description: 'growth-assess run id with the assessed artifact'
         required: true
-  workflow_run:
-    workflows: ['Growth Assess']
-    types: [completed]
 
 # This job writes (creates a branch + PR). It needs contents:write + PR write.
 # This is the ONLY workflow that holds write permissions — capture/assess stay
@@ -77,9 +75,8 @@ jobs:
 
       - name: Download assessed bundle
         run: |
-          mkdir -p evidence/games
-          gh run download ${{ steps.slug.outputs.run_id }} -R ${{ github.repository }} -n "assessed-${{ steps.slug.outputs.slug }}-${{ steps.slug.outputs.run_id }}" -D evidence-download || true
-          if [ -d evidence-download ]; then cp -r evidence-download/games/* evidence/games/ 2>/dev/null || true; fi
+          gh run download ${{ steps.slug.outputs.run_id }} -R ${{ github.repository }} -n "assessed-${{ steps.slug.outputs.slug }}-${{ steps.slug.outputs.run_id }}" -D evidence
+          node scripts/validate-evidence-bundle.js --root=evidence --slug=${{ steps.slug.outputs.slug }}
         env:
           GH_TOKEN: ${{ github.token }}
 

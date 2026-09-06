@@ -21,7 +21,7 @@ eleventyComputed:
   "description": {{ collection.thesis | toJSON | safe }},
   "itemListElement": [
     {% for slug in collection.games %}
-    {% set g = games | whereEq('slug', slug) | first %}
+    {% set g = games | findGame(slug) %}
     {% if g %}
     {
       "@type": "ListItem",
@@ -61,7 +61,7 @@ eleventyComputed:
         <section class="space-y-6 mb-12">
             <h2 class="display-h2 text-2xl md:text-3xl mb-4">The games</h2>
             {% for slug in collection.games %}
-            {% set g = games | whereEq('slug', slug) | first %}
+            {% set g = games | findGame(slug) %}
             {% if g %}
             {% set comparison = collection.comparisons[loop.index0] %}
             <article class="surface rounded-2xl p-6">
@@ -72,7 +72,7 @@ eleventyComputed:
                         </h3>
                         <p class="text-sm text-paper-45">{{ g.sourceName }} · {{ g.licence }}</p>
                     </div>
-                    <span class="cat-{{ g.category }} eyebrow whitespace-nowrap">{{ site.categories | findCat(g.category) | first | default(g.category) }}</span>
+                    <span class="cat-{{ g.category }} eyebrow whitespace-nowrap">{% set cat = site.categories | findCat(g.category) %}{{ cat.name }}</span>
                 </div>
                 <p class="text-white/80 text-sm leading-relaxed">{{ comparison }}</p>
             </article>
@@ -80,18 +80,6 @@ eleventyComputed:
             {% endfor %}
         </section>
 
-        {# Evidence references — every factual claim points at a record. #}
-        <section class="hairline-top pt-6">
-            <h2 class="eyebrow mb-3">Evidence</h2>
-            <p class="text-xs text-paper-45 leading-relaxed">
-                Every claim in this Collection is backed by an evidence record. Sources:
-            </p>
-            <ul class="text-xs text-paper-60 mt-2 space-y-1">
-                {% for ref in collection.evidenceRefs %}
-                <li class="font-mono">{{ ref }}</li>
-                {% endfor %}
-            </ul>
-        </section>
     </article>
 
 </div>
