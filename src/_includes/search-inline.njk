@@ -8,7 +8,7 @@
 <form action="/search/" method="get" role="search" class="relative flex items-center w-full {{ wrapper_class or '' }}">
     <label for="q-{{ size or 'sm' }}" class="sr-only">Search games</label>
     <input id="q-{{ size or 'sm' }}" type="search" name="q"
-        placeholder="Search {{ games | length | number }} games…"
+        placeholder="Search {{ games | indexableGames | length | number }} detailed games…"
         value="{{ search_q or '' }}"
         autocomplete="off"
         class="w-full bg-ink-2 border border-[var(--hairline-strong)] {% if is_lg %}px-5 py-3.5 text-base pr-14{% else %}px-4 py-2.5 text-sm pr-11{% endif %} rounded-full focus:outline-none focus:border-bloom placeholder:text-paper-45 transition-colors">

@@ -34,7 +34,7 @@ npm run build  →  eleventy  →  dist/
 
 - **Clean URLs work automatically**: `/game/hextris/` resolves to `/game/hextris/index.html`. No rewrite rule needed.
 - **Trailing slash**: canonical form. Cloudflare Pages serves directory URLs with trailing slash.
-- **`_redirects`** (in `dist/`) handles legacy-URL retirement — see the file for the full 410/301 map.
+- **Pages Functions** return 410 for retired legacy URLs; **`_redirects`** in `dist/` contains supported 301 mappings.
 
 ## Legacy URL retirement (cutover)
 
@@ -42,12 +42,12 @@ Per ADR-0001, the old self-hosted catalogue is permanently removed:
 
 | Old URL | Status | Destination |
 |---|---|---|
-| `/game-detail.html?slug=*` | 410 | `/410.html` |
-| `/all-games.html` | 410 | `/410.html` |
-| `/js13k2023.html` | 410 | `/410.html` |
-| `/batch-generator.html.html` | 410 | `/410.html` |
-| `/add-game.html` | 410 | `/410.html` |
-| `/games/*` | 410 | `/410.html` |
+| `/game-detail.html?slug=*` | 410 | — |
+| `/all-games.html` | 410 | — |
+| `/js13k2023.html` | 410 | — |
+| `/batch-generator.html.html` | 410 | — |
+| `/add-game.html` | 410 | — |
+| `/games/*` | 410 | — |
 | `/about.html` | 301 | `/about/` |
 | `/contact.html` | 301 | `/contact/` |
 | `/terms.html` | 301 | `/terms/` |
@@ -60,7 +60,7 @@ Per ADR-0001, the old self-hosted catalogue is permanently removed:
 1. **Smoke-test key paths**: `/`, `/category/arcade/`, `/game/hextris/`, `/search/`, `/featured/`, `/new/`.
 2. **Legacy URLs return 410**: `curl -I https://arcadebloom.com/game-detail.html?slug=anything` → `410`.
 3. **Moved pages 301**: `curl -I https://arcadebloom.com/about.html` → `301` → `/about/`.
-4. **Sitemap reachable**: `curl https://arcadebloom.com/sitemap.xml` returns valid XML listing all games.
+4. **Sitemap reachable**: `curl https://arcadebloom.com/sitemap.xml` returns valid XML listing content-qualified games.
 5. **robots.txt** points to sitemap.
 6. **Google Search Console**: submit `/sitemap.xml`, request re-crawl of `/`. Expect old `game-detail.html` URLs to drop from index over 1-4 weeks as 410s propagate.
 7. **Delete legacy files** from repo after confirming deploy is stable (see "Legacy file cleanup" below).

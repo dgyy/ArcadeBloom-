@@ -33,9 +33,7 @@ eleventyComputed:
         </div>
         <p class="text-lg text-white/70 mt-4 max-w-3xl">{{ cat.intro }}</p>
     </header>
-    {% if is_thin %}
-    <div class="panel-card p-6 mb-8"><p class="text-sm">{{ p.totalGames }}/{{ site.minGamesPerCategory }} seeded.</p></div>
-    {% endif %}
+
 
     {% include 'ad-banner.njk' %}
 

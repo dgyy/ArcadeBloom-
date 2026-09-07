@@ -7,9 +7,10 @@ eleventyComputed:
 ---
 {% extends 'base.njk' %}
 {% block adsense %}{% endblock %}
-{% set all_ai = games | aiGames | sortByDateDesc %}
-{% set gameplay = games | withAiType('ai-gameplay') | sortByDateDesc %}
-{% set assisted = games | withAiType('ai-assisted') | sortByDateDesc %}
+{% set public_games = games | indexableGames %}
+{% set all_ai = public_games | aiGames | sortByDateDesc %}
+{% set gameplay = public_games | withAiType('ai-gameplay') | sortByDateDesc %}
+{% set assisted = public_games | withAiType('ai-assisted') | sortByDateDesc %}
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
     <header class="ai-hero">

@@ -11,9 +11,9 @@ permalink: /
 
 {% extends 'base.njk' %}
 
-{% set featured_games = games | featuredOnly | limit(8) %}
-{% set new_games = games | sortByDateDesc | limit(12) %}
-{% set total_games = games | length %}
+{% set public_games = games | indexableGames %}
+{% set featured_games = public_games | featuredOnly | limit(8) %}
+{% set new_games = public_games | sortByDateDesc | limit(12) %}
 
 {% block jsonld %}
 <script type="application/ld+json">
@@ -108,7 +108,7 @@ permalink: /
 </section>
 {% endif %}
 
-{% set ai_games = games | aiGames | sortByDateDesc | limit(4) %}
+{% set ai_games = public_games | aiGames | sortByDateDesc | limit(4) %}
 {% if ai_games.length %}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
     <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
@@ -139,7 +139,7 @@ permalink: /
     {% include 'section-heading.njk' %}
     <div class="border-b border-[var(--hairline)]">
         {% for cat in site.categories %}
-        {% set cat_count = games | whereEq('category', cat.slug) | length %}
+        {% set cat_count = public_games | whereEq('category', cat.slug) | length %}
         {% set is_thin = cat_count < site.minGamesPerCategory %}
         {% set count = cat_count %}
         {% set min = site.minGamesPerCategory %}

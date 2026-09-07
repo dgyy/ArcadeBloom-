@@ -7,7 +7,7 @@ description: A hand-picked selection of independent browser games, curated by Ar
 
 {% extends 'base.njk' %}
 
-{% set featured_games = games | featuredOnly | sortByDateDesc %}
+{% set featured_games = games | indexableGames | featuredOnly | sortByDateDesc %}
 
 {% block content %}
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

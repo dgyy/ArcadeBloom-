@@ -56,11 +56,10 @@
     <link rel="stylesheet" href="/css/styles.css?v={{ asset_version }}">
 
     {# ---- Google AdSense ----
-       Loaded by default because most content pages render an ad slot
-       (home, category, featured, new, tag via ad-banner.njk; game.njk via
-       its own slot). Ad-free pages (about, contact, privacy, terms, search)
-       override {% block adsense %} to empty. Issue #15: never load the script
-       on a page with no ad slot. #}
+       Loaded by default because list pages render an inline slot and game
+       pages use either an inline fallback or AdSense Auto ads Side rails.
+       Ad-free pages (about, contact, privacy, terms, search) override
+       {% block adsense %} to empty. #}
     {% block adsense %}
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115845392526625" crossorigin="anonymous"></script>
     {% endblock %}
@@ -104,10 +103,12 @@
                     <a href="/submit/" {% if page.url == '/submit/' %}aria-current="page"{% endif %} class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom{% if page.url == '/submit/' %} nav-current{% endif %}">Submit a Game</a>
                     <div class="hairline-top mx-2 my-1"></div>
                     {% for cat in site.categories %}
+                    {% if (games | indexableGames | whereEq('category', cat.slug) | length) >= site.minGamesPerCategory %}
                     <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} flex items-center gap-2 px-4 py-2.5 text-sm text-paper-70 hover:bg-ink-3 transition-colors">
                         <span class="w-1.5 h-1.5 rounded-full bg-[var(--cat)]"></span>
                         {{ cat.name }}
                     </a>
+                    {% endif %}
                     {% endfor %}
                     <div class="hairline-top mx-2 my-1"></div>
                     <form action="/search/" method="get" class="p-3">
@@ -142,7 +143,9 @@
                     <li><a href="/new/" class="text-paper-70 hover:text-bloom transition-colors">New</a></li>
                     <li><a href="/ai-games/" class="text-paper-70 hover:text-bloom">AI Games</a></li>
                     {% for cat in site.categories %}
+                    {% if (games | indexableGames | whereEq('category', cat.slug) | length) >= site.minGamesPerCategory %}
                     <li><a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} text-paper-70 hover:text-bloom transition-colors">{{ cat.name }}</a></li>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </div>
@@ -159,7 +162,7 @@
 
         <div class="hairline-top mt-12 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <p class="font-mono text-xs text-paper-45">© 2026 ArcadeBloom · est. 2026</p>
-            <p class="font-mono text-xs text-paper-45">{{ games | length }} games catalogued and growing</p>
+            <p class="font-mono text-xs text-paper-45">{{ games | indexableGames | length }} detailed games · {{ games | length }} source records</p>
         </div>
     </div>
 </footer>

@@ -190,7 +190,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addCollection('populatedTags', (collectionApi) => {
         const site = require('./src/_data/site.js');
         const tags = require('./src/_data/tags.js');
-        const games = require('./src/_data/games.js');
+        const games = require('./src/_data/games.js').filter((game) => isIndexable(game.sourceKey));
         const min = site.minGamesPerTag;
         return tags.filter((tag) => {
             const count = games.filter((g) => Array.isArray(g.tags) && g.tags.includes(tag.slug)).length;

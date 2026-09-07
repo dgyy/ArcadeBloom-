@@ -13,7 +13,8 @@ eleventyComputed:
 {% extends 'base.njk' %}
 
 {% set cat = site.categories | findCat(game.category) %}
-{% set related = (games | aiGames | reject('slug', game.slug) | limit(4)) if game.ai else (games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4)) %}
+{% set public_games = games | indexableGames %}
+{% set related = (public_games | aiGames | reject('slug', game.slug) | limit(4)) if game.ai else (public_games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4)) %}
 
 {% block jsonld %}
 <script type="application/ld+json">
@@ -185,21 +186,10 @@ eleventyComputed:
         </p>
     </section>
 
-    {# ---- Single labelled ad slot (issue #15).
-          Placed AFTER Source & Licence and BEFORE More Games — exactly one
-          per game detail page. No interstitials, pop-ups, sticky, or
-          placement adjacent to the Play CTA (GROWTH-AUTOMATION-PLAN.md). ---- #}
-    <section class="mb-10" aria-label="Advertisement">
-        <p class="text-xs text-paper-45 mb-2 uppercase tracking-wider">Advertisement</p>
-        <div class="surface rounded-2xl p-4 min-h-[90px] flex items-center justify-center">
-            <ins class="adsbygoogle"
-                 style="display:block; width:100%; min-height:90px"
-                 data-ad-client="ca-pub-1115845392526625"
-                 data-ad-slot="1115845392"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
-    </section>
+    {# Below 1440px, game pages use one inline fallback ad after the source
+       panel. Wider screens leave the centre clear for the game information;
+       AdSense Auto ads can use its left-and-right Side rail format there. #}
+    <div id="game-inline-ad" class="mb-10"></div>
 
     {% if related.length %}
     <section>
@@ -234,13 +224,33 @@ eleventyComputed:
 
 {% block adsense %}
 {{ super() }}
-{# Push the game-detail ad slot (placed after Source & Licence). The script
-   itself is loaded by base.njk's default adsense block. #}
-<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 {% endblock %}
 
 {% block scripts %}
 {# Play-click aggregate beacon (issue #5). Measurement-only; the outbound
    link still works without JS. Loaded only on game detail pages. #}
 <script src="/js/play-click.js?v={{ asset_version }}" defer></script>
+<script>
+    // Side rail ads are an AdSense Auto ads format and are configured in the
+    // publisher account. Only request our inline fallback when rails cannot
+    // use the wide desktop margins.
+    const adViewport = window.matchMedia('(min-width: 1440px)');
+    function updateInlineAd() {
+        const container = document.getElementById('game-inline-ad');
+        container.hidden = adViewport.matches;
+        if (adViewport.matches || container.childElementCount) return;
+        const mount = document.getElementById('game-inline-ad');
+        const section = document.createElement('section');
+        section.setAttribute('aria-label', 'Advertisement');
+        section.innerHTML = '<p class="text-xs text-paper-45 mb-2 uppercase tracking-wider">Advertisement</p>' +
+            '<div class="surface rounded-2xl p-4 min-h-[90px] flex items-center justify-center">' +
+            '<ins class="adsbygoogle" style="display:block;width:100%;min-height:90px" ' +
+            'data-ad-client="ca-pub-1115845392526625" data-ad-slot="1115845392" ' +
+            'data-ad-format="auto" data-full-width-responsive="true"></ins></div>';
+        mount.appendChild(section);
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    }
+    updateInlineAd();
+    adViewport.addEventListener('change', updateInlineAd);
+</script>
 {% endblock %}

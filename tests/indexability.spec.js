@@ -70,3 +70,31 @@ test('AI and submission landing pages respect thin-content and utility exclusion
     expect(sitemap).not.toContain('/ai-games/</loc>');
     expect(sitemap).not.toContain('/submit/</loc>');
 });
+
+test('public discovery hubs only expose content-qualified game records', async ({ page }) => {
+    const stub = games.find((game) => !isIndexable(game.sourceKey));
+    expect(stub).toBeTruthy();
+    for (const url of ['/', '/new/', `/category/${stub.category}/`, '/search/']) {
+        await page.goto(url);
+        await expect(page.locator(`main a[href="/game/${stub.slug}/"]`)).toHaveCount(0);
+    }
+
+    const searchIndex = (await page.locator('script').allTextContents()).find((text) => text.includes('var games ='));
+    expect(searchIndex).toBeTruthy();
+    expect(searchIndex).not.toContain(`"slug":"${stub.slug}"`);
+});
+
+test('legacy Pages Functions return a real 410 response', async () => {
+    for (const file of ['game-detail.js', 'game-detail.html.js', 'all-games.html.js']) {
+        const module = await import(`../functions/${file}`);
+        const response = module.onRequest();
+        expect(response.status).toBe(410);
+        expect(response.headers.get('X-Robots-Tag')).toBe('noindex');
+    }
+});
+
+test('sitemap omits ignored priority and change frequency hints', () => {
+    const sitemap = fs.readFileSync(path.resolve(__dirname, '../dist/sitemap.xml'), 'utf8');
+    expect(sitemap).not.toContain('<priority>');
+    expect(sitemap).not.toContain('<changefreq>');
+});
