@@ -22,9 +22,7 @@
         {% if game.tagline %}
         <p class="text-sm text-paper-60 line-clamp-2">{{ game.tagline }}</p>
         {% endif %}
-        {% if game.ai %}
-        <p class="text-xs text-paper-70">{% for type in game.ai.types %}{{ 'AI gameplay' if type == 'ai-gameplay' else 'AI-assisted creation' }}{% if not loop.last %} / {% endif %}{% endfor %}</p>
-        {% endif %}
+        {% include 'ai-labels.njk' %}
         <span class="mt-auto pt-2"><span class="cat-chip">{{ game.category }}</span></span>
     </div>
 </a>

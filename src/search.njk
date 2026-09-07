@@ -15,24 +15,32 @@ robots: noindex, follow
 {# No AdSense on this page (issue #15). #}
 
 {% block content %}
-<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
 
-    <header class="mb-8">
-        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Search Games</h1>
-        <p class="text-white/70 mt-2">Find games by name, category or tag.</p>
+    <header class="mb-8 max-w-2xl">
+        <p class="eyebrow">All {{ games | length | number }} games</p>
+        <h1 class="display-h1 text-4xl md:text-6xl mt-3">Find a game</h1>
+        <p class="text-paper-70 mt-4 text-lg">Search by name, category or tag, then narrow the results by how AI is used.</p>
     </header>
 
-    <form id="search-form" class="mb-8">
-        <input type="search" name="q" id="search-q" placeholder="Type a game name, category or tag…"
-            class="w-full px-5 py-3 rounded-full border-0 bg-white/10 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400/60"
-            autocomplete="off">
+    <form id="search-form" class="search-controls mb-8" role="search">
+        <label class="sr-only" for="search-q">Search games</label>
+        <input type="search" name="q" id="search-q" placeholder="Game name, category or tag…" autocomplete="off">
+        <fieldset class="search-filters">
+            <legend class="sr-only">Filter by AI use</legend>
+            <label><input type="radio" name="type" value="all" checked><span>All games</span></label>
+            <label><input type="radio" name="type" value="ai-gameplay"><span>AI in play</span></label>
+            <label><input type="radio" name="type" value="ai-assisted"><span>AI-assisted</span></label>
+        </fieldset>
     </form>
 
-    <div id="search-results" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+    <p id="search-summary" class="font-mono text-xs text-paper-45 mb-5" aria-live="polite"></p>
+
+    <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {# Results rendered client-side below; this is the no-JS fallback list #}
         {% for game in games | limit(12) %}
         <noscript>
-            <a href="/game/{{ game.slug }}/" class="panel-card p-4 block">
+            <a href="/game/{{ game.slug }}/" class="surface p-4 block">
                 <h3 class="font-semibold">{{ game.name }}</h3>
                 <p class="text-sm text-white/60 mt-1">{{ game.tagline }}</p>
             </a>
@@ -40,8 +48,9 @@ robots: noindex, follow
         {% endfor %}
     </div>
 
-    <div id="search-empty" class="hidden panel-card p-12 text-center mt-4">
-        <p class="text-white/60">No games match your search.</p>
+    <div id="search-empty" class="hidden surface p-10 md:p-14 mt-4">
+        <p class="display-h2 text-2xl">Nothing found here.</p>
+        <p class="text-paper-60 mt-2">Try a broader word or switch back to all games.</p>
     </div>
 
 </div>
@@ -59,7 +68,7 @@ robots: noindex, follow
     function card(g) {
         var a = document.createElement('a');
         a.href = '/game/' + g.slug + '/';
-        a.className = 'panel-card p-4 flex flex-col gap-3 hover:border-white/20 transition';
+        a.className = 'surface p-5 flex flex-col gap-3 transition-transform hover:-translate-y-0.5';
 
         var body = document.createElement('div');
         var h3 = document.createElement('h3');
@@ -73,6 +82,18 @@ robots: noindex, follow
         body.appendChild(p);
         a.appendChild(body);
 
+        if (Array.isArray(g.aiTypes) && g.aiTypes.length) {
+            var ai = document.createElement('span');
+            ai.className = 'ai-labels';
+            g.aiTypes.forEach(function (type) {
+                var label = document.createElement('span');
+                label.className = 'ai-label ai-label--' + (type === 'ai-gameplay' ? 'play' : 'made');
+                label.textContent = type === 'ai-gameplay' ? 'AI in play' : 'AI-assisted';
+                ai.appendChild(label);
+            });
+            a.appendChild(ai);
+        }
+
         var badge = document.createElement('span');
         badge.className = 'badge mt-auto';
         badge.textContent = g.category;
@@ -82,21 +103,28 @@ robots: noindex, follow
 
     function render(q) {
         q = (q || '').trim().toLowerCase();
-        var filtered = !q ? games.slice(0, 24) : games.filter(function (g) {
-            return (g.name && g.name.toLowerCase().indexOf(q) > -1)
+        var type = document.querySelector('input[name="type"]:checked').value;
+        var filtered = games.filter(function (g) {
+            var matchesText = !q || (g.name && g.name.toLowerCase().indexOf(q) > -1)
                 || (g.tagline && g.tagline.toLowerCase().indexOf(q) > -1)
                 || (g.category && g.category.toLowerCase().indexOf(q) > -1)
                 || (Array.isArray(g.tags) && g.tags.join(' ').toLowerCase().indexOf(q) > -1);
+            var matchesType = type === 'all' || (Array.isArray(g.aiTypes) && g.aiTypes.indexOf(type) > -1);
+            return matchesText && matchesType;
         });
         results.innerHTML = ''; // clear (incl. noscript fallback once JS runs)
         filtered.slice(0, 48).forEach(function (g) { results.appendChild(card(g)); });
         empty.classList.toggle('hidden', filtered.length > 0);
+        document.getElementById('search-summary').textContent = filtered.length + (filtered.length === 1 ? ' match' : ' matches') + (filtered.length > 48 ? ' · showing the first 48' : '');
     }
 
     var params = new URLSearchParams(window.location.search);
     input.value = params.get('q') || '';
     render(input.value);
     input.addEventListener('input', function () { render(input.value); });
+    document.querySelectorAll('input[name="type"]').forEach(function (control) {
+        control.addEventListener('change', function () { render(input.value); });
+    });
 })();
 </script>
 {% endblock %}

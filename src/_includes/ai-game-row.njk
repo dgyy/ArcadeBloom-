@@ -1,0 +1,13 @@
+<a href="/game/{{ game.slug }}/" class="ai-entry group">
+    <span class="ai-entry__index" aria-hidden="true">{{ loop.index | pad2 }}</span>
+    <span class="ai-entry__body">
+        {% include 'ai-labels.njk' %}
+        <span class="ai-entry__title">{{ game.name }}</span>
+        <span class="ai-entry__tagline">{{ game.tagline }}</span>
+        <span class="ai-entry__source">By {{ game.sourceName }}</span>
+    </span>
+    <span class="ai-entry__meta">
+        <span class="cat-{{ game.category }} cat-chip">{{ game.category }}</span>
+        <span class="ai-entry__arrow" aria-hidden="true">↗</span>
+    </span>
+</a>

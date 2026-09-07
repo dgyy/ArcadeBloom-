@@ -108,7 +108,7 @@ module.exports = function (eleventyConfig) {
     eleventyConfig.addFilter('toJSON', (value) => JSON.stringify(value));
 
     // Project the games list down to the search index — only the fields the
-    // client-side filter matches against (slug/name/tagline/category/tags).
+    // client-side filter matches against (slug/name/tagline/category/tags/AI type).
     // Keeps /search/ small and keeps about/howToPlay/licence/sourceUrl out of
     // the inline HTML (extend.md §5.4.2).
     eleventyConfig.addFilter('toSearchIndex', (games) =>
@@ -118,6 +118,7 @@ module.exports = function (eleventyConfig) {
             tagline: g.tagline,
             category: g.category,
             tags: g.tags,
+            aiTypes: g.ai ? g.ai.types : [],
         })))
     );
 
@@ -128,6 +129,7 @@ module.exports = function (eleventyConfig) {
 
     // First character of a string (for placeholder initials on game cards)
     eleventyConfig.addFilter('first', (str) => String(str || '').charAt(0));
+    eleventyConfig.addFilter('pad2', (value) => String(value || 0).padStart(2, '0'));
 
     // Lowercase (for inline text in templates)
     eleventyConfig.addFilter('lower', (str) => String(str || '').toLowerCase());

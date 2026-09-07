@@ -1,0 +1,10 @@
+{% if game.ai %}
+<span class="ai-labels" aria-label="AI use">
+    {% for type in game.ai.types %}
+    <span class="ai-label ai-label--{{ 'play' if type == 'ai-gameplay' else 'made' }}">
+        <span class="ai-label__signal" aria-hidden="true"></span>
+        {{ 'AI in play' if type == 'ai-gameplay' else 'AI-assisted' }}
+    </span>
+    {% endfor %}
+</span>
+{% endif %}
