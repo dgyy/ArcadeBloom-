@@ -17,13 +17,25 @@ test('AI types are distinct, with a dual-type game in both groups', async ({ pag
     for (const group of ['ai-gameplay', 'ai-assisted']) {
         await expect(page.locator(`#${group} a[href="/game/circuits-royale/"]`)).toBeVisible();
     }
+    await expect(page.locator('.ai-ledger')).toContainText('Games');
+    await expect(page.getByText('How to read the labels')).toBeVisible();
+    await expect(page.locator('header nav a[href="/ai-games/"]')).toHaveAttribute('aria-current', 'page');
+});
+
+test('AI game details explain the label and continue AI discovery', async ({ page }) => {
+    await page.goto('/game/circuits-royale/');
+    await expect(page.getByRole('heading', { name: 'Where AI appears' })).toBeVisible();
+    await expect(page.locator('.ai-disclosure')).toContainText('During play');
+    await expect(page.locator('.ai-disclosure')).toContainText('During production');
+    await expect(page.getByRole('link', { name: /creator's explanation/i })).toHaveAttribute('rel', 'noopener nofollow');
+    await expect(page.getByRole('heading', { name: 'More AI games' })).toBeVisible();
 });
 
 test('AI listing has attribution and all play actions keep the correct source', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/game/circuits-royale/');
-    await expect(page.getByRole('heading', { name: 'How this game uses AI' })).toBeVisible();
-    await expect(page.getByRole('link', { name: "creator's description" })).toHaveAttribute('href', /blog.puzzmo.com/);
+    await expect(page.getByRole('heading', { name: 'Where AI appears' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /creator's explanation/i })).toHaveAttribute('href', /blog.puzzmo.com/);
     const links = page.locator('[data-play-slug]');
     expect(await links.count()).toBeGreaterThan(0);
     for (const link of await links.all()) {
@@ -76,12 +88,24 @@ test('AI Dungeon scenario submissions require a Published creator-authorized ent
     await page.getByLabel('Creator or studio', { exact: false }).fill('Scenario Creator');
     await page.getByLabel('What makes it interesting?', { exact: false }).fill('A creator-submitted scenario with a stable public link.');
     await page.getByLabel('How is AI used?').selectOption('AI gameplay');
+    await page.getByLabel("Creator's AI explanation", { exact: false }).fill('https://help.aidungeon.com/faq/what-are-scenarios');
     await page.getByLabel('Published content rating', { exact: false }).selectOption('Teen');
     await page.getByLabel('Creator permission', { exact: false }).selectOption('I am the scenario creator');
     await page.getByRole('button', { name: 'Prepare email draft' }).click();
     const draft = page.getByLabel('Email draft', { exact: true });
     await expect(draft).toHaveValue(/AI Dungeon content rating: Teen/);
     await expect(draft).toHaveValue(/Creator permission: I am the scenario creator/);
+});
+
+test('search can narrow results by AI use', async ({ page }) => {
+    await page.goto('/search/?q=');
+    await page.locator('.search-filters label').filter({ hasText: 'AI in play' }).click();
+    await expect(page.locator('#search-results a[href="/game/ai-dungeon/"]')).toBeVisible();
+    await expect(page.locator('#search-results a[href="/game/newdle/"]')).toHaveCount(0);
+    await expect(page.locator('#search-summary')).toContainText('matches');
+    await page.locator('.search-filters label').filter({ hasText: 'AI-assisted' }).click();
+    await expect(page.locator('#search-results a[href="/game/newdle/"]')).toBeVisible();
+    await expect(page.locator('#search-results a[href="/game/ai-dungeon/"]')).toHaveCount(0);
 });
 
 test('AI discovery and email instructions work without JavaScript', async ({ browser }) => {

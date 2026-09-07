@@ -7,10 +7,18 @@ robots: noindex, follow
 {% extends 'base.njk' %}
 {% block adsense %}{% endblock %}
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <h1 class="display-h1 text-4xl md:text-5xl">Got a game we should see?</h1>
-    <p class="text-lg text-paper-70 leading-relaxed mt-6">Indie projects, game-jam surprises, odd little experiments and AI games are welcome. You can submit your own work or suggest someone else's.</p>
-    <p class="text-paper-70 mt-4">Email <a href="mailto:hello@arcadebloom.com?subject=Game%20submission" class="link-inline">hello@arcadebloom.com</a>, or prepare a draft below. Submissions are checked for source, fit and duplicates before listing.</p>
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <header class="max-w-3xl">
+        <p class="eyebrow">Creator submissions + good finds</p>
+        <h1 class="display-h1 text-4xl md:text-6xl mt-3">Got a game we should see?</h1>
+        <p class="text-lg text-paper-70 leading-relaxed mt-6">Indie projects, game-jam surprises, odd little experiments and AI games are welcome. Give us the facts; we will write the catalogue introduction.</p>
+        <p class="text-paper-70 mt-4">Email <a href="mailto:hello@arcadebloom.com?subject=Game%20submission" class="link-inline">hello@arcadebloom.com</a>, or prepare a draft below. Nothing is uploaded or sent automatically.</p>
+    </header>
+
+    <section class="submission-guide" aria-labelledby="submission-guide-title">
+        <h2 id="submission-guide-title" class="eyebrow">Three things we need</h2>
+        <ol><li><span>01</span><p><strong>The real play link</strong>Send visitors to the creator's own page.</p></li><li><span>02</span><p><strong>Clear attribution</strong>Name the person or studio behind it.</p></li><li><span>03</span><p><strong>AI disclosure</strong>If AI is involved, link the creator's explanation.</p></li></ol>
+    </section>
 
     <aside class="surface rounded-2xl p-5 mt-6" aria-labelledby="scenario-policy-title">
         <h2 id="scenario-policy-title" class="text-lg font-semibold">AI Dungeon scenarios</h2>
@@ -42,6 +50,7 @@ robots: noindex, follow
         </select>
         <label for="game-ai-source">Creator's AI explanation <span>(URL, if applicable)</span></label>
         <input id="game-ai-source" name="aiSource" type="url" maxlength="500" pattern="https?://.+">
+        <p id="ai-source-help" class="form-note" hidden>AI-labelled entries need a public creator or platform source that explains the AI use. This is attribution, not a score.</p>
         <fieldset id="ai-dungeon-fields" class="mt-6 border-t border-[var(--hairline-strong)] pt-5" hidden>
             <legend class="font-semibold">AI Dungeon scenario details</legend>
             <label for="scenario-rating">Published content rating <span>(required)</span></label>
@@ -59,11 +68,12 @@ robots: noindex, follow
             <p class="text-sm text-paper-70 mt-3">Use the scenario's Published share URL above. We may ask for the creator's permission message before listing.</p>
         </fieldset>
         <p class="text-sm text-paper-70 mt-5">Include any known price, account or download requirements in the description. We do not need your password or private account details.</p>
-        <button class="btn-ghost mt-6" type="submit">Prepare email draft</button>
+        <button class="btn-primary mt-6" type="submit">Prepare email draft <span aria-hidden="true">→</span></button>
     </form>
 
-    <section id="submission-draft" class="mt-8" hidden aria-labelledby="draft-title">
-        <h2 id="draft-title" class="text-xl font-semibold">Your email draft</h2>
+    <section id="submission-draft" class="submission-ready mt-8" hidden aria-labelledby="draft-title">
+        <p class="eyebrow">Draft ready</p>
+        <h2 id="draft-title" class="display-h2 text-2xl mt-2">Review before sending</h2>
         <p role="status" class="text-paper-70 mt-3">Nothing has been sent. Open your email app and send the message, or copy this draft into an email to hello@arcadebloom.com.</p>
         <textarea id="draft-text" aria-label="Email draft" readonly rows="14" class="w-full bg-ink-2 text-paper border border-[var(--hairline-strong)] rounded-xl p-4 mt-4"></textarea>
         <a id="draft-link" href="mailto:hello@arcadebloom.com" class="btn-ghost mt-4">Open email app</a>

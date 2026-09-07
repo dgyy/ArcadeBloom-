@@ -13,7 +13,7 @@ eleventyComputed:
 {% extends 'base.njk' %}
 
 {% set cat = site.categories | findCat(game.category) %}
-{% set related = games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4) %}
+{% set related = (games | aiGames | reject('slug', game.slug) | limit(4)) if game.ai else (games | whereEq('category', game.category) | reject('slug', game.slug) | limit(4)) %}
 
 {% block jsonld %}
 <script type="application/ld+json">
@@ -70,11 +70,7 @@ eleventyComputed:
         <h1 class="display-h1 text-4xl md:text-5xl lg:text-6xl">{{ game.name }}</h1>
         <p class="text-lg md:text-xl text-paper-70 mt-3 max-w-2xl">{{ game.tagline }}</p>
         {% if game.ai %}
-        <div class="mt-4 flex flex-wrap gap-2">
-            {% for type in game.ai.types %}
-            <a class="badge" href="/ai-games/#{{ type }}">{{ 'AI gameplay' if type == 'ai-gameplay' else 'AI-assisted creation' }}</a>
-            {% endfor %}
-        </div>
+        <div class="mt-5">{% include 'ai-labels.njk' %}</div>
         {% endif %}
         <div class="flex flex-wrap gap-2 mt-4">
             <a href="/category/{{ game.category }}/" class="cat-chip">{{ cat.name }}</a>
@@ -148,13 +144,22 @@ eleventyComputed:
     {% endif %}
 
     {% if game.ai %}
-    <section class="surface rounded-2xl p-6 mb-10" aria-labelledby="ai-use">
-        <h2 id="ai-use" class="text-lg font-bold mb-3">How this game uses AI</h2>
-        <p class="text-paper-70 leading-relaxed">{{ game.ai.note }}</p>
-        <p class="text-sm text-paper-60 mt-3">According to the
-            <a href="{{ game.ai.sourceUrl }}" rel="noopener nofollow" class="link-inline">creator's description</a>.
-            Source checked {{ game.ai.checkedDate | dateReadable }}.
-        </p>
+    <section class="ai-disclosure mb-10" aria-labelledby="ai-use">
+        <header class="ai-disclosure__header">
+            <div><p class="eyebrow">Creator disclosure</p><h2 id="ai-use" class="display-h2 text-2xl mt-2">Where AI appears</h2></div>
+            {% include 'ai-labels.njk' %}
+        </header>
+        <div class="ai-disclosure__grid">
+            <div class="ai-disclosure__explanation">
+                <p>{{ game.ai.note }}</p>
+            </div>
+            <dl class="ai-disclosure__facts">
+                {% if game.ai.types.indexOf('ai-gameplay') > -1 %}<div><dt>During play</dt><dd>AI participates in the player experience.</dd></div>{% endif %}
+                {% if game.ai.types.indexOf('ai-assisted') > -1 %}<div><dt>During production</dt><dd>The creator reports using AI while making the game.</dd></div>{% endif %}
+                <div><dt>Source checked</dt><dd>{{ game.ai.checkedDate | dateReadable }}</dd></div>
+            </dl>
+        </div>
+        <a class="ai-disclosure__source" href="{{ game.ai.sourceUrl }}" rel="noopener nofollow">Read the creator's explanation <span aria-hidden="true">↗</span></a>
     </section>
     {% endif %}
 
@@ -198,7 +203,10 @@ eleventyComputed:
 
     {% if related.length %}
     <section>
-        <h2 class="display-h2 text-2xl md:text-3xl mb-4">More {{ cat.name }} Games</h2>
+        <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+            <h2 class="display-h2 text-2xl md:text-3xl">{{ 'More AI games' if game.ai else 'More ' + cat.name + ' Games' }}</h2>
+            {% if game.ai %}<a href="/ai-games/" class="link-inline text-sm">See the AI field guide</a>{% endif %}
+        </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
             {% for game in related %}
             {% include 'game-card.njk' %}

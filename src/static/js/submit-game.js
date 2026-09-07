@@ -6,15 +6,28 @@ const kind = document.getElementById('submission-kind');
 const scenarioFields = document.getElementById('ai-dungeon-fields');
 const scenarioInputs = scenarioFields.querySelectorAll('select');
 const gameUrl = document.getElementById('game-url');
+const aiUse = document.getElementById('game-ai');
+const aiSource = document.getElementById('game-ai-source');
+const aiSourceHelp = document.getElementById('ai-source-help');
+
+function updateAiSource() {
+    const usesAi = aiUse.value !== 'Not stated';
+    aiSource.required = usesAi;
+    aiSourceHelp.hidden = !usesAi;
+}
 
 function updateScenarioFields() {
     const isScenario = kind.value === 'Published AI Dungeon scenario';
     scenarioFields.hidden = !isScenario;
     scenarioInputs.forEach((input) => { input.disabled = !isScenario; });
+    if (isScenario) aiUse.value = 'AI gameplay';
     gameUrl.setCustomValidity('');
+    updateAiSource();
 }
 
 kind.addEventListener('change', updateScenarioFields);
+aiUse.addEventListener('change', updateAiSource);
+gameUrl.addEventListener('input', () => gameUrl.setCustomValidity(''));
 updateScenarioFields();
 form.hidden = false;
 form.addEventListener('submit', (event) => {

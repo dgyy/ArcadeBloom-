@@ -7,36 +7,61 @@ eleventyComputed:
 ---
 {% extends 'base.njk' %}
 {% block adsense %}{% endblock %}
+{% set all_ai = games | aiGames | sortByDateDesc %}
+{% set gameplay = games | withAiType('ai-gameplay') | sortByDateDesc %}
+{% set assisted = games | withAiType('ai-assisted') | sortByDateDesc %}
 {% block content %}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-    <header class="max-w-3xl mb-12">
-        <h1 class="display-h1 text-4xl md:text-6xl">AI, meet play.</h1>
-        <p class="text-lg text-paper-70 leading-relaxed mt-6">Stories that respond to you. Word games with an AI referee. Small experiments made with a new set of tools. Explore what creators are doing with AI.</p>
-        <nav class="flex flex-wrap gap-3 mt-7" aria-label="AI game types">
-            <a href="#ai-gameplay" class="btn-ghost">AI gameplay</a>
-            <a href="#ai-assisted" class="btn-ghost">AI-assisted creation</a>
-        </nav>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+    <header class="ai-hero">
+        <div class="ai-hero__copy">
+            <p class="eyebrow">A field guide to machine-made surprises</p>
+            <h1 class="display-h1 text-5xl md:text-7xl mt-4">AI, meet play.</h1>
+            <p class="text-lg md:text-xl text-paper-70 leading-relaxed mt-6 max-w-2xl">Games where a model listens, answers or judges—and small projects whose creators used AI behind the scenes. Every label links back to the creator's own explanation.</p>
+            <nav class="flex flex-wrap gap-3 mt-8" aria-label="AI game types">
+                <a href="#ai-gameplay" class="ai-jump"><span>AI in play</span><strong>{{ gameplay.length }}</strong></a>
+                <a href="#ai-assisted" class="ai-jump"><span>AI-assisted</span><strong>{{ assisted.length }}</strong></a>
+            </nav>
+        </div>
+        <dl class="ai-ledger" aria-label="AI catalogue summary">
+            <div><dt>Games</dt><dd>{{ all_ai.length | pad2 }}</dd></div>
+            <div><dt>AI in play</dt><dd>{{ gameplay.length | pad2 }}</dd></div>
+            <div><dt>AI-assisted</dt><dd>{{ assisted.length | pad2 }}</dd></div>
+            <div class="ai-ledger__note"><dt>Our rule</dt><dd>Creator-stated use only. No guessing from screenshots or marketing language.</dd></div>
+        </dl>
     </header>
 
+    <section class="ai-key" aria-labelledby="ai-key-title">
+        <p id="ai-key-title" class="eyebrow">How to read the labels</p>
+        <div class="ai-key__items">
+            <div>{% set game = { ai: { types: ['ai-gameplay'] } } %}{% include 'ai-labels.njk' %}<p>The model participates while you play: it may respond, generate or judge.</p></div>
+            <div>{% set game = { ai: { types: ['ai-assisted'] } } %}{% include 'ai-labels.njk' %}<p>The creator says AI helped make code, images, text or sound.</p></div>
+        </div>
+    </section>
+
     {% for type in ['ai-gameplay', 'ai-assisted'] %}
-    {% set group = games | withAiType(type) | sortByDateDesc %}
-    <section id="{{ type }}" class="mb-14 scroll-mt-24">
-        <h2 class="display-h2 text-3xl">{{ 'AI gameplay' if type == 'ai-gameplay' else 'AI-assisted creation' }}</h2>
-        <p class="text-paper-70 mt-3 mb-6 max-w-2xl">{% if type == 'ai-gameplay' %}AI is part of the game itself: it might shape the story, respond as a character, or judge an answer.{% else %}The creator describes using AI to help with code, art or other development work. The finished game may also use AI during play.{% endif %}</p>
+    {% set group = gameplay if type == 'ai-gameplay' else assisted %}
+    <section id="{{ type }}" class="ai-section scroll-mt-24">
+        <header class="ai-section__header">
+            <div>
+                <p class="eyebrow">{{ 'The model is part of the rules' if type == 'ai-gameplay' else 'The tools used to make it' }}</p>
+                <h2 class="display-h2 text-3xl md:text-5xl mt-3">{{ 'AI in play' if type == 'ai-gameplay' else 'AI-assisted creation' }}</h2>
+            </div>
+            <p>{% if type == 'ai-gameplay' %}The game needs AI for part of the experience: shaping a story, understanding language, recognizing a drawing or deciding an answer.{% else %}The game can be conventional at runtime. This label records what its creator disclosed about the production process.{% endif %}</p>
+        </header>
         {% if group.length %}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {% for game in group %}{% include 'game-card.njk' %}{% endfor %}
+        <div class="ai-list">
+            {% for game in group %}{% include 'ai-game-row.njk' %}{% endfor %}
         </div>
         {% else %}
-        <p class="surface rounded-2xl p-6 text-paper-70">Know a game that belongs here? <a href="/submit/" class="link-inline">Send us its official link and the creator's AI notes.</a></p>
+        <div class="ai-empty"><p>No games in this group yet.</p><a href="/submit/" class="link-inline">Send the official link and creator's AI notes.</a></div>
         {% endif %}
     </section>
     {% endfor %}
 
-    <aside class="surface-raised rounded-2xl p-6 md:p-8 max-w-3xl">
-        <h2 class="text-xl font-semibold">Made something unusual?</h2>
-        <p class="text-paper-70 mt-3 mb-5">We label AI use from the creator's own description. A game can belong to both groups. Tell us what you made and what makes it interesting.</p>
-        <a href="/submit/" class="btn-ghost">Submit a game</a>
+    <aside class="ai-submit-callout">
+        <div><p class="eyebrow">Open call</p><h2 class="display-h2 text-2xl md:text-3xl mt-2">Made something unusual?</h2></div>
+        <p>Tell us where AI appears, link the creator's explanation, and send players to the original site.</p>
+        <a href="/submit/" class="btn-primary">Submit an AI game <span aria-hidden="true">→</span></a>
     </aside>
 </div>
 {% endblock %}

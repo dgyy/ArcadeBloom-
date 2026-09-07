@@ -79,7 +79,7 @@
 
             <nav class="hidden md:flex items-center gap-1 ml-2" aria-label="Discover games">
                 {% for link in site.staticNav %}
-                <a href="{{ link.href }}" class="px-3 py-1.5 text-sm font-medium text-paper-70 hover:text-bloom rounded-full">{{ link.label }}</a>
+                <a href="{{ link.href }}" {% if page.url == link.href %}aria-current="page"{% endif %} class="px-3 py-1.5 text-sm font-medium text-paper-70 hover:text-bloom rounded-full{% if page.url == link.href %} nav-current{% endif %}">{{ link.label }}</a>
                 {% endfor %}
             </nav>
 
@@ -100,8 +100,8 @@
                 <div class="absolute right-0 top-full mt-2 w-64 surface rounded-2xl overflow-hidden shadow-xl shadow-black/40">
                     <a href="/featured/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">Featured</a>
                     <a href="/new/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom hover:bg-ink-3 transition-colors">New Arrivals</a>
-                    <a href="/ai-games/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom">AI Games</a>
-                    <a href="/submit/" class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom">Submit a Game</a>
+                    <a href="/ai-games/" {% if page.url == '/ai-games/' %}aria-current="page"{% endif %} class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom{% if page.url == '/ai-games/' %} nav-current{% endif %}">AI Games</a>
+                    <a href="/submit/" {% if page.url == '/submit/' %}aria-current="page"{% endif %} class="block px-4 py-2.5 text-sm text-paper-70 hover:text-bloom{% if page.url == '/submit/' %} nav-current{% endif %}">Submit a Game</a>
                     <div class="hairline-top mx-2 my-1"></div>
                     {% for cat in site.categories %}
                     <a href="/category/{{ cat.slug }}/" class="cat-{{ cat.slug }} flex items-center gap-2 px-4 py-2.5 text-sm text-paper-70 hover:bg-ink-3 transition-colors">
