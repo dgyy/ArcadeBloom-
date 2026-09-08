@@ -179,8 +179,8 @@ test.describe('Play-click aggregate beacon', () => {
 
 // =============================================================================
 // 2c. Advertising placement (issue #15).
-//     Game detail pages carry exactly one labelled ad, after Source & Licence
-//     and before More Games. AdSense script loads ONLY on game pages.
+//     Game detail pages use one inline fallback below 1440px. Wide desktops
+//     leave the centre clear for AdSense Auto ads left/right Side rails.
 // =============================================================================
 test.describe('Advertising placement', () => {
     test('game page has exactly one labelled ad slot', async ({ page }) => {
@@ -191,6 +191,15 @@ test.describe('Advertising placement', () => {
         await expect(ourSlots).toHaveCount(1);
         // The slot is inside a labelled "Advertisement" region.
         await expect(page.locator('section[aria-label="Advertisement"]')).toBeVisible();
+    });
+
+    test('wide game page leaves the centre clear for side rail ads', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+        const page = await ctx.newPage();
+        await page.goto(`/game/${GAME_SLUGS[0]}/`);
+        await expect(page.locator('#game-inline-ad')).toBeHidden();
+        await expect(page.locator('ins.adsbygoogle[data-ad-slot="1115845392"]')).toHaveCount(0);
+        await ctx.close();
     });
 
     test('ad slot appears after Source & Licence and before More Games', async ({ page }) => {

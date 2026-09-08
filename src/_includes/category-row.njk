@@ -13,13 +13,11 @@
             <h3 class="display-h2 text-xl md:text-2xl group-hover:text-bloom transition-colors">{{ cat.name }}</h3>
             <span class="font-mono text-xs text-paper-45 tracking-wide">
                 {{ count }} game{% if count != 1 %}s{% endif %}
-                {% if is_thin %}<span class="ml-1 text-paper-45">/ {{ min }}</span>{% endif %}
+
             </span>
         </div>
         <p class="text-paper-60 text-sm md:text-base mt-1">{{ cat.blurb }}</p>
-        {% if is_thin %}
-        <p class="text-xs text-paper-45 mt-1.5 italic">Still seeding — browse what's here.</p>
-        {% endif %}
+
     </div>
 
     {# Arrow that nudges on hover #}

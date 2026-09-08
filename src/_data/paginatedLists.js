@@ -9,7 +9,9 @@
 // Three lists are paginated at site.gamesPerPage (24):
 //   categoryPages  — one entry per category × page
 //   tagPages       — one entry per populated tag (>= minGamesPerTag) × page
-//   newPages       — all games by addedDate desc × page
+//   newPages       — content-qualified games by addedDate desc × page
+// Public hubs intentionally omit noindex stubs so indexable pages do not
+// advertise thin records to crawlers or visitors.
 //
 // Sort order mirrors .eleventy.js `sortByScreenshotThenDate` so the first page
 // of every list matches what the (previously un-paginated) templates showed.
@@ -28,9 +30,12 @@
 const games = require('./games.js');
 const site = require('./site.js');
 const tags = require('./tags.js');
+const { createDirectoryPolicy } = require('../../scripts/lib/directory-policy.js');
 
 const PER_PAGE = site.gamesPerPage;   // 24
 const MIN_TAG = site.minGamesPerTag;  // 8
+const isIndexable = createDirectoryPolicy(games);
+const publicGames = games.filter((game) => isIndexable(game.sourceKey));
 
 function chunk(arr, size) {
     const out = [];
@@ -80,7 +85,7 @@ function buildPages(baseHref, sortedItems) {
 // ---- Category pages ----
 const categoryPages = [];
 for (const cat of site.categories) {
-    const catGames = games.filter((g) => g.category === cat.slug);
+    const catGames = publicGames.filter((g) => g.category === cat.slug);
     buildPages(`/category/${cat.slug}`, sortByScreenshotThenDate(catGames)).forEach((p) =>
         categoryPages.push({ ...p, category: cat.slug })
     );
@@ -89,7 +94,7 @@ for (const cat of site.categories) {
 // ---- Tag pages (only tags carried by >= minGamesPerTag games) ----
 const tagPages = [];
 for (const tag of tags) {
-    const tagGames = games.filter((g) => Array.isArray(g.tags) && g.tags.includes(tag.slug));
+    const tagGames = publicGames.filter((g) => Array.isArray(g.tags) && g.tags.includes(tag.slug));
     if (tagGames.length < MIN_TAG) continue;
     buildPages(`/tag/${tag.slug}`, sortByScreenshotThenDate(tagGames)).forEach((p) =>
         tagPages.push({ ...p, tag: tag.slug })
@@ -97,6 +102,6 @@ for (const tag of tags) {
 }
 
 // ---- New pages (all games, date desc) ----
-const newPages = buildPages('/new', sortByDateDesc(games));
+const newPages = buildPages('/new', sortByDateDesc(publicGames));
 
 module.exports = { categoryPages, tagPages, newPages };

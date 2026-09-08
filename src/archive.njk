@@ -1,0 +1,20 @@
+---
+permalink: /catalogue/archive/
+title: Game Source Archive
+robots: noindex, follow
+---
+{% extends 'base.njk' %}
+{% block adsense %}{% endblock %}
+{% block content %}
+<div class="max-w-5xl mx-auto px-4 py-12">
+    <h1 class="display-h1 text-4xl">Game source archive</h1>
+    <p class="text-paper-70 my-6">Source records with limited game information. Browse the <a href="/search/" class="link-inline">main directory</a> for detailed introductions and instructions.</p>
+    <ul class="grid sm:grid-cols-2 gap-3">
+    {% for game in games %}
+        {% if not (game.sourceKey | isIndexable) and game.directoryStatus != 'draft' and game.directoryStatus != 'unlisted' %}
+        <li><a class="link-inline" href="/game/{{ game.slug }}/">{{ game.name }}</a> <span class="text-paper-45">— {{ game.sourceName }}</span></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

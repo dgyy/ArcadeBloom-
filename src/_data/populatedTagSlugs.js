@@ -7,7 +7,10 @@
 
 const site = require('./site.js');
 const tags = require('./tags.js');
-const games = require('./games.js');
+const allGames = require('./games.js');
+const { createDirectoryPolicy } = require('../../scripts/lib/directory-policy.js');
+const eligible = createDirectoryPolicy(allGames);
+const games = allGames.filter((game) => eligible(game.sourceKey));
 
 module.exports = (() => {
     const min = site.minGamesPerTag;

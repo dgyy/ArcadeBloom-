@@ -4,29 +4,29 @@ eleventyExcludeFromCollections: true
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>{{ site.url }}/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
-  <url><loc>{{ site.url }}/featured/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>{{ site.url }}/new/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>{{ site.url }}/</loc></url>
+  <url><loc>{{ site.url }}/featured/</loc></url>
+  <url><loc>{{ site.url }}/new/</loc></url>
 {% for cat in site.categories %}
-  <url><loc>{{ site.url }}/category/{{ cat.slug }}/</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>{{ site.url }}/category/{{ cat.slug }}/</loc></url>
 {% endfor %}
 {% for tag in collections.populatedTags %}
-  <url><loc>{{ site.url }}/tag/{{ tag.slug }}/</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>{{ site.url }}/tag/{{ tag.slug }}/</loc></url>
 {% endfor %}
 {% for game in games %}
   {% if game.sourceKey | isIndexable %}
-  <url><loc>{{ site.url }}/game/{{ game.slug }}/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>{{ site.url }}/game/{{ game.slug }}/</loc></url>
   {% endif %}
 {% endfor %}
 {% for collection in collections %}
-  <url><loc>{{ site.url }}/collection/{{ collection.slug }}/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>{{ site.url }}/collection/{{ collection.slug }}/</loc></url>
 {% endfor %}
 {% if (games | aiGames | indexableGames | length) >= site.minGamesPerTag %}
-  <url><loc>{{ site.url }}/ai-games/</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>{{ site.url }}/ai-games/</loc></url>
 {% endif %}
-  <url><loc>{{ site.url }}/about/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>{{ site.url }}/contact/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>{{ site.url }}/terms/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>{{ site.url }}/privacy/</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
-  <url><loc>{{ site.url }}/feed.xml</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
+  <url><loc>{{ site.url }}/about/</loc></url>
+  <url><loc>{{ site.url }}/contact/</loc></url>
+  <url><loc>{{ site.url }}/terms/</loc></url>
+  <url><loc>{{ site.url }}/privacy/</loc></url>
+  <url><loc>{{ site.url }}/feed.xml</loc></url>
 </urlset>

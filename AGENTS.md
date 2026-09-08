@@ -59,7 +59,7 @@ screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, f
 ## Deployment
 - Target: **Cloudflare Pages**, deploying `dist/` from the `main` branch.
 - Build command: `npm run build`. Output directory: `dist`.
-- `_redirects` (in `src/static/`, copied to `dist/`) handles legacy-URL retirement (410 Gone for removed content, 301 for moved static pages).
+- Pages Functions under `functions/` return 410 Gone for retired legacy URLs. Generated `dist/_redirects` handles 301 mappings for moved pages and catalogue slugs.
 - Clean URLs work by default: Cloudflare Pages resolves `/game/<slug>/` to `/game/<slug>/index.html`.
 
 ## Agent skills

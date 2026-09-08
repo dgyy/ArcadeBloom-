@@ -10,6 +10,7 @@ robots: noindex, follow
    because the name/tagline originate from imported upstream data. #}
 
 {% extends 'base.njk' %}
+{% set public_games = games | indexableGames %}
 
 {% block adsense %}{% endblock %}
 {# No AdSense on this page (issue #15). #}
@@ -18,9 +19,10 @@ robots: noindex, follow
 <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
 
     <header class="mb-8 max-w-2xl">
-        <p class="eyebrow">All {{ games | length | number }} games</p>
+        <p class="eyebrow">{{ public_games | length | number }} detailed game pages</p>
         <h1 class="display-h1 text-4xl md:text-6xl mt-3">Find a game</h1>
         <p class="text-paper-70 mt-4 text-lg">Search by name, category or tag, then narrow the results by how AI is used.</p>
+        <p class="text-paper-60 mt-3">Looking for an older source record? <a href="/catalogue/archive/" class="link-inline">Browse the archive</a>.</p>
     </header>
 
     <form id="search-form" class="search-controls mb-8" role="search">
@@ -38,7 +40,7 @@ robots: noindex, follow
 
     <div id="search-results" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {# Results rendered client-side below; this is the no-JS fallback list #}
-        {% for game in games | limit(12) %}
+        {% for game in public_games | limit(12) %}
         <noscript>
             <a href="/game/{{ game.slug }}/" class="surface p-4 block">
                 <h3 class="font-semibold">{{ game.name }}</h3>
@@ -58,7 +60,7 @@ robots: noindex, follow
 <script>
 (function () {
     // Slim projection — only the matched fields (extend.md §5.4.2).
-    var games = {{ games | toSearchIndex | safe }};
+    var games = {{ public_games | toSearchIndex | safe }};
     var input = document.getElementById('search-q');
     var results = document.getElementById('search-results');
     var empty = document.getElementById('search-empty');
