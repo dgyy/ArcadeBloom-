@@ -4,6 +4,7 @@ const { test, expect } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const games = require('../src/_data/games.js');
+const site = require('../src/_data/site.js');
 const { createDirectoryPolicy, validateAiMetadata } = require('../scripts/lib/directory-policy.js');
 const hextris = games.find((game) => game.slug === 'hextris');
 const isIndexable = createDirectoryPolicy(games);
@@ -62,12 +63,15 @@ test('built robots and sitemap agree for every catalogue entry', () => {
 });
 
 test('AI and submission landing pages respect thin-content and utility exclusions', async ({ page }) => {
-    for (const url of ['/ai-games/', '/submit/']) {
-        await page.goto(url);
-        await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
-    }
+    const qualifiedAiGames = games.filter((game) => game.ai && isIndexable(game.sourceKey));
+    const aiIndexable = qualifiedAiGames.length >= site.minGamesPerTag;
+    await page.goto('/ai-games/');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', `${aiIndexable ? 'index' : 'noindex'}, follow`);
+    await page.goto('/submit/');
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow');
+
     const sitemap = fs.readFileSync(path.resolve(__dirname, '../dist/sitemap.xml'), 'utf8');
-    expect(sitemap).not.toContain('/ai-games/</loc>');
+    expect(sitemap.includes('/ai-games/</loc>')).toBe(aiIndexable);
     expect(sitemap).not.toContain('/submit/</loc>');
 });
 

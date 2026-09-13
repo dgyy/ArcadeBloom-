@@ -63075,5 +63075,153 @@ module.exports = [
         "addedDate": "2026-09-07",
         "releaseDate": "unknown",
         "featured": false
+    },
+    {
+        "id": 3047,
+        "slug": "gogh-strike",
+        "name": "Gogh Strike",
+        "category": "action",
+        "tagline": "Join a painterly six-versus-six firefight through Van Gogh's imagined town.",
+        "about": "Gogh Strike is Peter Gostev's first-person browser shooter built around a procedural town inspired by Van Gogh's paintings. Choose one of twelve artist characters, join five computer-controlled teammates and face a rival crew in a three-minute paint fight. The first side to twenty eliminations wins, or the higher score decides the result when time expires.\n\nEach artist has a distinct character design, primary weapon, sidearm, graffiti tag and victory dance. Movement includes sprinting, jumping, crouching and sliding, while smoke, paint bursts and healing add short tactical decisions around the central shooting loop. Despite the team format, this is a single-player game against bots rather than an online multiplayer match. The current release is designed for desktop keyboard and mouse play and bundles its Three.js runtime and game assets for the browser.",
+        "howToPlay": "Choose an artist and press Play. Use WASD to move and the mouse to look and fire. Shift sprints, Space jumps, C crouches, and crouching during a sprint starts a slide. Reload with R, switch weapons with 1 or 2, and hold H while standing still to heal.\n\nWork with the five bots on your crew to eliminate the opposing team. Use cover while reloading, crouch to tighten weapon spread, and avoid sprinting when you need to fire immediately. The match ends when one crew reaches twenty eliminations or the three-minute timer expires. Press Tab to inspect the scoreboard and Escape to pause.",
+        "keyFeatures": [
+            "Twelve artist characters across two imagined rival crews",
+            "Three-minute six-versus-six matches with computer-controlled bots",
+            "Distinct weapons, graffiti tags and victory animations",
+            "Procedural painterly town rendered with Three.js",
+            "Desktop shooter controls with sprinting, sliding and utility abilities"
+        ],
+        "screenshots": [],
+        "sourceName": "Peter Gostev",
+        "sourceUrl": "https://gogh-strike.surge.sh/",
+        "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "github:petergpt/gogh-strike",
+        "tags": [
+            "shooter",
+            "skill-based",
+            "experimental",
+            "open-source"
+        ],
+        "addedDate": "2026-09-13",
+        "releaseDate": "2026",
+        "featured": true,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator identifies GPT-6 Astra as the tool used to build the Van Gogh town that this game adapts; the game repository documents the later combat, character and bot additions separately.",
+            "sourceUrl": "https://www.linkedin.com/posts/peter-gostev_gpt-6-astra-max-van-gogh-town-in-threejs-activity-7501543788499091456-ZOdW",
+            "checkedDate": "2026-09-13"
+        }
+    },
+    {
+        "id": 3048,
+        "slug": "mosswing",
+        "name": "Mosswing",
+        "category": "arcade",
+        "tagline": "Guide a tiny winged creature through an endless three-dimensional garden.",
+        "about": "Mosswing is Ayi1337's mobile-first, one-button flying game set in a softly lit three-dimensional garden. A small winged creature continually moves forward while the player taps to resist gravity and steer it through a sequence of narrow gaps. Passing an obstacle adds one point; touching an obstacle or the ground ends the flight and invites an immediate retry.\n\nThe familiar tap-to-flap structure is presented with an original character, a moving camera and a fully rendered Three.js environment rather than flat sprites. Its restrained interface keeps the score and personal best visible without covering the flight path. The creator supplies the complete game as a single HTML document and also publishes an official browser version designed to work with touch input or a keyboard.",
+        "howToPlay": "Tap anywhere on the screen or press Space to flap upward. Gravity pulls Mosswing down between taps, so use short, measured inputs to line up with each approaching gap. You earn one point every time you pass an obstacle.\n\nAvoid touching the obstacles and the ground, because either collision ends the current flight. After a crash, choose Fly Again to restart immediately. On mobile, keep a steady tapping rhythm rather than pressing repeatedly; on desktop, use brief Space presses and watch the next opening instead of the creature itself.",
+        "keyFeatures": [
+            "One-button touch and keyboard controls",
+            "Endless obstacle sequence with a saved personal best",
+            "Original creature and three-dimensional garden setting",
+            "Single-file browser game with no installation"
+        ],
+        "screenshots": [],
+        "sourceName": "Ayi1337",
+        "sourceUrl": "https://mosswing-quiet-flight.jack-514.chatgpt.site/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:mosswing-quiet-flight.jack-514.chatgpt.site/",
+        "tags": [
+            "physics",
+            "quick-fix",
+            "skill-based",
+            "experimental"
+        ],
+        "addedDate": "2026-09-13",
+        "releaseDate": "2026",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator describes Mosswing as a one-shot GPT-6 Astra Xhigh experiment completed from the published game brief in about twenty-one minutes.",
+            "sourceUrl": "https://github.com/Ayi1337/gpt6-astra-one-shot-games",
+            "checkedDate": "2026-09-13"
+        }
+    },
+    {
+        "id": 3049,
+        "slug": "melon-lab",
+        "name": "Melon Lab",
+        "category": "puzzle",
+        "tagline": "Merge soft fruit while changing the strange physics inside a crowded tank.",
+        "about": "Melon Lab is Ayi1337's experimental fruit-merging puzzle built around soft, deformable objects. Aim above a transparent container and release fruit into the pile, where matching pieces combine into larger forms. The unusual part is how the fruit bends, squeezes into gaps and shifts as the container fills, making every drop less predictable than a conventional rigid-body merging game.\n\nThree material settings change the feel of the simulation, ranging from a jelly-like response to looser semi-fluid and juice-like motion. Players can also tilt the container or spend stored energy to stir the contents, creating another way to bring matching fruit together when the pile becomes stuck. The game supports mouse, touch and keyboard input and runs from the creator's official browser page without an installation.",
+        "howToPlay": "Move the aiming guide with the pointer, touch controls or the left and right arrow keys, then click, tap or press Enter to drop the next fruit. When two pieces of the same type touch, they merge into a larger fruit and increase the score.\n\nUse A and D or the on-screen controls to tilt the container. Change the material mode to alter how the fruit deforms and flows. When enough energy is available, press Space or use the stir control to disturb a blocked pile. Keep all fruit below the warning line; allowing the container to overflow ends the run.",
+        "keyFeatures": [
+            "Soft and semi-fluid fruit deformation",
+            "Matching fruit merge into larger forms",
+            "Three material modes with different physical behaviour",
+            "Container tilting and an energy-powered stirring ability",
+            "Mouse, keyboard and touch controls"
+        ],
+        "screenshots": [],
+        "sourceName": "Ayi1337",
+        "sourceUrl": "https://melon-game.jack-514.chatgpt.site/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "url:melon-game.jack-514.chatgpt.site/",
+        "tags": [
+            "physics",
+            "match-3",
+            "quick-fix",
+            "experimental"
+        ],
+        "addedDate": "2026-09-13",
+        "releaseDate": "2026",
+        "featured": false,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "The creator presents Melon Lab as a GPT-6 Astra one-shot experiment and publishes both the original Chinese prompt and the resulting HTML.",
+            "sourceUrl": "https://github.com/Ayi1337/gpt6-astra-one-shot-games",
+            "checkedDate": "2026-09-13"
+        }
+    },
+    {
+        "id": 3050,
+        "slug": "flip-buddies",
+        "name": "Flip Buddies",
+        "category": "strategy",
+        "tagline": "Play Othello with animated pill characters, special abilities and private friend rooms.",
+        "about": "Flip Buddies is Vlad Palacio's friendly three-dimensional interpretation of Othello. The familiar eight-by-eight board is populated by animated pill characters that flip, jump and change allegiance when they are captured. Classic mode preserves the standard rules, while Enhanced mode adds earned abilities including Undo, Shield and Corner Claim, followed by an expanded celebration at the end of a match.\n\nSolo players can choose from three CPU difficulty levels, see legal-move hints and preserve an unfinished match in browser storage. Private friend rooms add invitation codes, ready checks, reconnection and rematches that swap colours. Practice rankings track several time windows, while ten character styles, original music, light and dark themes and reduced-motion support give the board more personality. An HTML fallback remains available when WebGL cannot run.",
+        "howToPlay": "Choose Play Now for a CPU match or Play with Friends to create or join a private room. Select Classic or Enhanced rules and, for solo play, choose a difficulty. Black moves first. Select a glowing legal square and confirm Place Pill.\n\nA legal move traps at least one opposing piece in a straight line between the new piece and another piece of your colour; every trapped piece flips to your side. If you have no legal move, your turn passes automatically. The game ends when neither player can move, and the player controlling the most pieces wins. Enhanced mode also lets you spend abilities earned during the match.",
+        "keyFeatures": [
+            "Classic Othello and an Enhanced ability mode",
+            "Three CPU difficulty levels with legal-move hints",
+            "Private friend rooms with reconnect and rematch support",
+            "Ten animated pill styles and original music",
+            "Keyboard, mobile, reduced-motion and non-WebGL fallbacks"
+        ],
+        "screenshots": [],
+        "sourceName": "Vlad Palacio",
+        "sourceUrl": "https://flipbuddies.vladpalacio.com/",
+        "licence": "MIT",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "github:deifos/Othello",
+        "tags": [
+            "board-game",
+            "turn-based",
+            "multiplayer",
+            "open-source",
+            "quick-fix"
+        ],
+        "addedDate": "2026-09-13",
+        "releaseDate": "2026",
+        "featured": false
     }
 ];
