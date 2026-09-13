@@ -5,7 +5,7 @@
 If you discover a security vulnerability in ArcadeBloom, please report it responsibly:
 
 1. **Do not** open a public GitHub issue.
-2. Email: hello@arcadebloom.com with a description of the vulnerability.
+2. Email: wkrealmadrid@hotmail.com with a description of the vulnerability.
 3. Include steps to reproduce if possible.
 
 You will receive a response within 48 hours. If the vulnerability is confirmed, a fix will be prioritized and you will be credited (unless you prefer to remain anonymous).

@@ -72,7 +72,7 @@ test('submission prepares a local, encoded email draft without claiming to send'
     await expect(page.getByRole('status')).toContainText('Nothing has been sent');
     const mailto = new URL(await page.getByRole('link', { name: 'Open email app' }).getAttribute('href'));
     expect(mailto.protocol).toBe('mailto:');
-    expect(mailto.pathname).toBe('hello@arcadebloom.com');
+    expect(mailto.pathname).toBe('wkrealmadrid@hotmail.com');
     expect(mailto.searchParams.get('subject')).toBe('Game submission: A & B <game>');
     expect(mailto.searchParams.get('body')).toContain('AI use: Both');
     await expect(page.getByLabel('Email draft', { exact: true })).toHaveValue(mailto.searchParams.get('body'));
@@ -115,7 +115,7 @@ test('AI discovery and email instructions work without JavaScript', async ({ bro
     await expect(page.locator('#ai-gameplay a[href="/game/ai-dungeon/"]')).toBeVisible();
     await page.goto('http://localhost:4173/submit/');
     await expect(page.getByRole('heading', { name: 'What to include in your email' })).toBeVisible();
-    await expect(page.getByRole('link', { name: 'hello@arcadebloom.com' })).toHaveAttribute('href', /^mailto:/);
+    await expect(page.getByRole('link', { name: 'wkrealmadrid@hotmail.com' })).toHaveAttribute('href', /^mailto:/);
     await expect(page.locator('#submission-form')).toBeHidden();
     await context.close();
 });

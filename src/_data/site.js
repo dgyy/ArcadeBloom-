@@ -14,6 +14,7 @@ module.exports = {
         'Discover indie browser games, unusual experiments and AI games. Find something that catches your eye, meet its creator, and play at the source.',
     url: 'https://arcadebloom.com',
     locale: 'en',
+    contactEmail: 'wkrealmadrid@hotmail.com',
 
     // The fixed 6 top-level categories. Order = nav order.
     // Each must reach >=20 seeded games before its landing page ships.

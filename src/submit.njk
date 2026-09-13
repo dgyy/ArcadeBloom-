@@ -12,7 +12,7 @@ robots: noindex, follow
         <p class="eyebrow">Creator submissions + good finds</p>
         <h1 class="display-h1 text-4xl md:text-6xl mt-3">Got a game we should see?</h1>
         <p class="text-lg text-paper-70 leading-relaxed mt-6">Indie projects, game-jam surprises, odd little experiments and AI games are welcome. Give us the facts; we will write the catalogue introduction.</p>
-        <p class="text-paper-70 mt-4">Email <a href="mailto:hello@arcadebloom.com?subject=Game%20submission" class="link-inline">hello@arcadebloom.com</a>, or prepare a draft below. Nothing is uploaded or sent automatically.</p>
+        <p class="text-paper-70 mt-4">Email <a href="mailto:{{ site.contactEmail }}?subject=Game%20submission" class="link-inline">{{ site.contactEmail }}</a>, or prepare a draft below. Nothing is uploaded or sent automatically.</p>
     </header>
 
     <section class="submission-guide" aria-labelledby="submission-guide-title">
@@ -25,7 +25,7 @@ robots: noindex, follow
         <p class="text-paper-70 mt-2">We accept individual Published scenarios from their creator, or with the creator's explicit permission. Send the direct AI Dungeon share link and an Everyone or Teen rating. Private, Unlisted, Mature and Unrated scenarios are not eligible, and we do not bulk-import Discover.</p>
     </aside>
 
-    <form id="submission-form" class="submission-form surface rounded-2xl p-6 md:p-8 mt-8" hidden>
+    <form id="submission-form" class="submission-form surface rounded-2xl p-6 md:p-8 mt-8" data-recipient="{{ site.contactEmail }}" hidden>
         <label for="submission-kind">Submission type</label>
         <select id="submission-kind" name="kind">
             <option value="General browser game">General browser game</option>
@@ -74,9 +74,9 @@ robots: noindex, follow
     <section id="submission-draft" class="submission-ready mt-8" hidden aria-labelledby="draft-title">
         <p class="eyebrow">Draft ready</p>
         <h2 id="draft-title" class="display-h2 text-2xl mt-2">Review before sending</h2>
-        <p role="status" class="text-paper-70 mt-3">Nothing has been sent. Open your email app and send the message, or copy this draft into an email to hello@arcadebloom.com.</p>
+        <p role="status" class="text-paper-70 mt-3">Nothing has been sent. Open your email app and send the message, or copy this draft into an email to {{ site.contactEmail }}.</p>
         <textarea id="draft-text" aria-label="Email draft" readonly rows="14" class="w-full bg-ink-2 text-paper border border-[var(--hairline-strong)] rounded-xl p-4 mt-4"></textarea>
-        <a id="draft-link" href="mailto:hello@arcadebloom.com" class="btn-ghost mt-4">Open email app</a>
+        <a id="draft-link" href="mailto:{{ site.contactEmail }}" class="btn-ghost mt-4">Open email app</a>
     </section>
 
     <noscript>

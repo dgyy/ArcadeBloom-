@@ -28,8 +28,7 @@ search and has a credible opportunity to click through to the verified source.
   are not a human-traffic baseline.
 - There is no current first-party Play-click measurement or visitor analytics
   script in the repository.
-- `hello@arcadebloom.com` is displayed publicly but the domain currently has no
-  inbound-mail MX configuration.
+- `wkrealmadrid@hotmail.com` is the public administrator mailbox.
 
 ## 120-day contract
 
@@ -308,12 +307,12 @@ Deliverables:
 5. Add a weekly metric snapshot and the day-zero baseline record.
 6. Keep the successful `https://arcadebloom.com/sitemap.xml`; remove the stale
    `http://arcadebloom.com/` sitemap entry from Search Console.
-7. Enable Cloudflare Email Routing for `hello@arcadebloom.com` and verify the
-   owner's Gmail forwarding destination. This phase sends no unsolicited mail.
+7. Verify that `wkrealmadrid@hotmail.com` receives controlled test mail. This
+   phase sends no unsolicited mail.
 
 Exit gate: a controlled visit is visible as a page view, a controlled Play click
 increments only the expected aggregate, no personal identifier is stored, and
-mail to `hello@arcadebloom.com` reaches the verified destination.
+mail to `wkrealmadrid@hotmail.com` reaches the administrator inbox.
 
 ### Phase 1 — evidence and index gates
 
@@ -402,9 +401,8 @@ These actions require account ownership and cannot be inferred from the repo:
 
 1. In Cloudflare, enable Web Analytics and the free storage/binding selected for
    Play aggregates; keep paid overage disabled.
-2. Enable Email Routing for `arcadebloom.com`, verify the private forwarding
-   destination supplied by the owner, and route `hello@arcadebloom.com` to it.
-   Do not commit that destination address.
+2. Verify the public administrator mailbox `wkrealmadrid@hotmail.com` with a
+   controlled inbound test. Do not store mailbox credentials in the repository.
 3. In GitHub, keep GitHub Models paid usage disabled, create the scoped bot
    identity, enable auto-merge, and protect `main` with required checks.
 4. Create a Google Cloud service account for read-only Search Console API

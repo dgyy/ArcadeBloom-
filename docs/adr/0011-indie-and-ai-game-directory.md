@@ -41,7 +41,7 @@ registry and evidence are retained unchanged as archives, not indexing permissio
 
 ## Submission and publication
 
-`/submit/` prepares a local email draft for `hello@arcadebloom.com`; users explicitly
+`/submit/` prepares a local email draft for `wkrealmadrid@hotmail.com`; users explicitly
 send through their email app. A no-JavaScript email route remains available. No backend
 receipt is claimed and no new paid service is introduced.
 
