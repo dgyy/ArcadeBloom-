@@ -2,6 +2,7 @@
 
 // Compose locally; the visitor explicitly sends through their own mail app.
 const form = document.getElementById('submission-form');
+const recipient = form.dataset.recipient;
 const kind = document.getElementById('submission-kind');
 const scenarioFields = document.getElementById('ai-dungeon-fields');
 const scenarioInputs = scenarioFields.querySelectorAll('select');
@@ -54,7 +55,7 @@ form.addEventListener('submit', (event) => {
     const body = fields.map(([label, key]) => `${label}: ${String(data.get(key) || '').trim() || 'Not stated'}`).join('\n\n');
     const subject = `Game submission: ${String(data.get('name')).replace(/[\r\n]/g, ' ')}`;
     document.getElementById('draft-text').value = body;
-    document.getElementById('draft-link').href = `mailto:hello@arcadebloom.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    document.getElementById('draft-link').href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     document.getElementById('submission-draft').hidden = false;
     document.getElementById('draft-text').focus();
 });
