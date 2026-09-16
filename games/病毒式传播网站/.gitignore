@@ -1,0 +1,5 @@
+node_modules/
+.playwright-mcp/
+desktop.png
+mobile*.png
+english-*.png
