@@ -1,0 +1,50 @@
+import {scoreCircle,dateKey,dailyRadius,readChallenge} from './game.js';
+const $=s=>document.querySelector(s), canvas=$('#canvas'),ctx=canvas.getContext('2d');
+const incoming=readChallenge(location.search);
+let mode=incoming?.mode||'free', day=incoming?.day||dateKey(), points=[],drawing=false,result=null,pointer=null,keyboard=false,toastTimer;
+let history=[];
+try { const saved=JSON.parse(localStorage.getItem('circle-records')||'[]'); if(Array.isArray(saved)) history=saved.filter(r=>r&&Number.isFinite(r.score)&&r.score>=0&&r.score<=100&&['free','daily'].includes(r.mode)&&typeof r.day==='string').slice(0,30); } catch{}
+function toast(message){$('#toast').textContent=message;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,3500)}
+function dimensions(){return {w:canvas.clientWidth,h:canvas.clientHeight,s:Math.min(canvas.clientWidth,canvas.clientHeight)}}
+function position(p){const {w,h,s}=dimensions();return {x:w/2+(p.x-.5)*s,y:h/2+(p.y-.5)*s}}
+function render(){
+  const {w,h,s}=dimensions();ctx.clearRect(0,0,w,h);
+  ctx.beginPath();ctx.arc(w/2,h/2,3,0,Math.PI*2);ctx.fillStyle='#858b78';ctx.fill();
+  ctx.lineWidth=1;ctx.strokeStyle='#e0e4d6';ctx.setLineDash([4,6]);
+  ctx.beginPath();ctx.arc(w/2,h/2,(mode==='daily'?dailyRadius(day):.275)*s,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);
+  if(points.length){ctx.beginPath();points.forEach((p,i)=>{const q=position(p);i?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y)});ctx.lineWidth=4;ctx.lineJoin='round';ctx.lineCap='round';ctx.strokeStyle=result?'#6a9827':'#292f22';ctx.stroke();const start=position(points[0]);ctx.beginPath();ctx.arc(start.x,start.y,4,0,Math.PI*2);ctx.fillStyle='#6a9827';ctx.fill();}
+  if(keyboard&&points.length){const q=position(points.at(-1));ctx.beginPath();ctx.arc(q.x,q.y,6,0,Math.PI*2);ctx.strokeStyle='#252a20';ctx.lineWidth=2;ctx.stroke()}
+}
+new ResizeObserver(()=>{const {w,h}=dimensions(), dpr=Math.min(devicePixelRatio||1,3);canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);render()}).observe(canvas);
+function updateMode(){document.querySelectorAll('.mode').forEach(b=>{const selected=b.dataset.mode===mode;b.classList.toggle('active',selected);b.setAttribute('aria-pressed',selected)});$('#day-label').textContent=mode==='daily'?day:'ONE STROKE';$('#board-label').textContent=mode==='daily'?'DAILY CIRCLE · MATCH THE GUIDE':'THE CIRCLE TEST';const best=history.filter(r=>r.mode===mode&&(mode==='free'||r.day===day)).reduce((a,b)=>Math.max(a,b.score),0);$('#best-label').textContent=best?`Best ${best.toFixed(1)}`:'Best —';$('#challenge').hidden=!incoming||incoming.mode!==mode;$('#challenge').textContent=incoming?`Your friend scored ${incoming.score.toFixed(1)}. Your turn.`:'';render()}
+function reset(){drawing=false;pointer=null;keyboard=false;points=[];result=null;$('#result').hidden=true;$('#poster').hidden=true;$('#hint').hidden=false;$('#board-status').textContent=mode==='daily'?'Match the dotted circle.':'Trust your hand.';render()}
+function finish(){drawing=false;pointer=null;keyboard=false;const scored=scoreCircle(points,mode==='daily'?dailyRadius(day):null);if(!scored.valid){$('#board-status').textContent=scored.message;toast(scored.message);render();return}result=scored;history.unshift({score:result.score,mode,day});history=history.slice(0,30);try{localStorage.setItem('circle-records',JSON.stringify(history))}catch{toast('Records could not be saved. You can still copy your challenge link.')}
+  $('#result').hidden=false;$('#poster').hidden=false;$('#score').textContent=result.score.toFixed(1);$('#verdict').textContent=result.score>=95?'Are you secretly a compass?':result.score>=85?'You have a knack for this.':result.score>=70?'So close to full circle.':'A circle with personality.';
+  $('#result-detail').textContent=incoming&&incoming.mode===mode?(result.score>incoming.score?`You beat your friend by ${(result.score-incoming.score).toFixed(1)} points. Pass it on!`:result.score===incoming.score?'A tie! One more round to settle it?':`Just ${(incoming.score-result.score).toFixed(1)} points behind your friend. Try again?`):'Your next circle could be your best.';$('#board-status').textContent='That one is worth keeping.';updateMode();render();
+}
+function fromEvent(e){const rect=canvas.getBoundingClientRect(),{w,h,s}=dimensions();return {x:(e.clientX-rect.left-w/2)/s+.5,y:(e.clientY-rect.top-h/2)/s+.5}}
+canvas.addEventListener('pointerdown',e=>{if(drawing||!e.isPrimary||e.button!==0)return;reset();drawing=true;pointer=e.pointerId;canvas.setPointerCapture(pointer);points=[fromEvent(e)];$('#hint').hidden=true;render()});
+canvas.addEventListener('pointermove',e=>{if(!drawing||e.pointerId!==pointer)return;const samples=e.getCoalescedEvents?.();for(const sample of samples?.length?samples:[e]){const p=fromEvent(sample),last=points.at(-1);if(Math.hypot(p.x-last.x,p.y-last.y)>.002)points.push(p)}render()});
+canvas.addEventListener('pointerup',e=>{if(!drawing||e.pointerId!==pointer)return;points.push(fromEvent(e));finish()});
+canvas.addEventListener('pointercancel',()=>{reset();toast('Drawing interrupted. Give it another go.')});
+canvas.addEventListener('lostpointercapture',()=>{if(drawing&&!keyboard)reset()});
+canvas.addEventListener('keydown',e=>{if(e.key==='Escape'){reset();return}if(e.key==='Enter'){e.preventDefault();if(keyboard){finish()}else{reset();drawing=true;keyboard=true;points=[{x:.775,y:.5}];$('#hint').hidden=true;$('#board-status').textContent='Arrow keys: draw · Enter: finish · Esc: reset';render()}return}if(keyboard&&['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)){e.preventDefault();const p={...points.at(-1)},step=e.shiftKey?.005:.015;if(e.key==='ArrowUp')p.y-=step;if(e.key==='ArrowDown')p.y+=step;if(e.key==='ArrowLeft')p.x-=step;if(e.key==='ArrowRight')p.x+=step;p.x=Math.max(.02,Math.min(.98,p.x));p.y=Math.max(.02,Math.min(.98,p.y));points.push(p);render()}});
+document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;day=incoming?.mode===mode&&incoming.day?incoming.day:dateKey();reset();updateMode()});$('#retry').onclick=()=>{reset();canvas.focus({preventScroll:true})};
+function openDialog(html){$('#dialog-content').innerHTML=html;$('#dialog').showModal()}
+$('#close-dialog').onclick=()=>$('#dialog').close();$('#dialog').addEventListener('click',e=>{if(e.target===$('#dialog')){const r=e.target.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)e.target.close()}});
+$('#help').onclick=()=>openDialog('<h2>One circle. Three steps.</h2><ol><li>Press and hold, then draw around the center dot.</li><li>Make one loop. Release to see your score.</li><li>Copy your challenge link and let a friend try.</li></ol><p>Free draw: any size works. Aim for a round shape with ends that meet. Daily challenge: match the dotted circle, too. The daily challenge resets at midnight UTC worldwide.</p><p>Keyboard: focus the canvas and press Enter to start. Draw with the arrow keys; hold Shift for smaller steps. Enter finishes, Escape resets.</p><p>Scores are calculated for fun, not a ranking against other players.</p>');
+$('#records').onclick=()=>{openDialog('<h2>Your circle collection</h2><p>Your last 30 scores · Saved on this device only</p><div id="record-list"></div>');const list=$('#record-list');if(!history.length){list.textContent='Nothing here yet. Draw your first circle!'}else history.forEach(r=>{const row=document.createElement('div');row.className='record-row';const label=document.createElement('span');label.textContent=`${r.day} · ${r.mode==='daily'?'Daily challenge':'Free draw'}`;const score=document.createElement('b');score.textContent=r.score.toFixed(1)+' points';row.append(label,score);list.append(row)})};
+function shareUrl(){const url=new URL(location.href);url.search='';url.hash='';if(result){url.searchParams.set('score',result.score.toFixed(1));url.searchParams.set('mode',mode);if(mode==='daily')url.searchParams.set('day',day)}return url.href}
+$('#share').onclick=async()=>{
+  const url=shareUrl();
+  try {
+    await navigator.clipboard.writeText(url);
+    toast('Link copied! Send it to a friend.');
+  } catch {
+    openDialog('<h2>Copy your challenge link</h2><p>Automatic copying is unavailable. Select the link below and copy it.</p><input id="share-link" aria-label="Challenge link" readonly><button id="select-link" class="button primary">Select link</button>');
+    $('#share-link').value=url;
+    $('#select-link').onclick=()=>{$('#share-link').focus();$('#share-link').select();toast('Link selected. Copy it to send to a friend.')};
+  }
+};
+$('#poster').onclick=()=>{if(!result)return;const card=document.createElement('canvas');card.width=900;card.height=1200;const c=card.getContext('2d');c.fillStyle='#f5f5ef';c.fillRect(0,0,900,1200);c.fillStyle='#252a20';c.font='bold 32px sans-serif';c.fillText('CIRCLE CLUB',70,90);c.font='bold 55px sans-serif';c.fillText('Looks easy. Beat my circle.',70,185);c.fillStyle='#c2f65a';c.fillRect(70,220,760,680);c.beginPath();points.forEach((p,i)=>{const x=450+(p.x-.5)*700,y=500+(p.y-.5)*700;i?c.lineTo(x,y):c.moveTo(x,y)});c.strokeStyle='#252a20';c.lineWidth=7;c.lineCap='round';c.lineJoin='round';c.stroke();c.fillStyle='#252a20';c.font='bold 100px sans-serif';c.fillText(result.score.toFixed(1),110,850);c.font='25px sans-serif';c.fillText('/ 100 · Can you beat it?',410,840);c.font='30px sans-serif';c.fillText(mode==='daily'?`Daily challenge · ${day}`:'One stroke. One circle. Your turn.',70,975);c.font='22px sans-serif';c.fillText('Open the challenge link and give it a go.',70,1030);c.font='18px sans-serif';c.fillText(location.host,70,1110);card.toBlob(blob=>{if(!blob){toast('Could not create the image. Please try again.');return}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`circle-club-${result.score.toFixed(1)}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);toast('Score image saved. Copy the link to pass on your challenge.')},'image/png')};
+updateMode();reset();

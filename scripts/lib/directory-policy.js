@@ -1,6 +1,7 @@
 'use strict';
 
 // ADR-0011: publication quality, not a gameplay assessment, controls indexing.
+const { hostedPath } = require('./hosted-games');
 const STUB = /\b(?:placeholders?|pending|coming soon|description unavailable|details unavailable)\b/i;
 const AI_TYPES = ['ai-gameplay', 'ai-assisted'];
 
@@ -35,7 +36,7 @@ function hasDirectoryContent(game) {
     if (!game || game.directoryStatus === 'unlisted' || game.directoryStatus === 'draft') return false;
     if (!['sourceKey', 'slug', 'name', 'sourceName', 'licence', 'licenceStatus'].every((key) =>
         typeof game[key] === 'string' && game[key].trim())) return false;
-    if (!isWebUrl(game.sourceUrl) || /(^|\.)arcadebloom\.com$/i.test(new URL(game.sourceUrl).hostname)) return false;
+    if (!isWebUrl(game.sourceUrl) || (/(^|\.)arcadebloom\.com$/i.test(new URL(game.sourceUrl).hostname) && !hostedPath(game))) return false;
     if (validateAiMetadata(game.ai).length) return false;
     // Concise descriptions are welcome. Stubs remain browsable but noindex.
     const words = (value) => typeof value === 'string' ? value.trim().split(/\s+/).filter(Boolean).length : 0;

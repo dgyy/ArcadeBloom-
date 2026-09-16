@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="https://arcadebloom.com/play/circle-club/">
+  <meta name="theme-color" content="#f5f5ef">
+  <title>Circle Club — Can you draw a perfect circle?</title>
+  <meta name="description" content="One stroke. One circle. How close can you get to perfect? Play instantly and copy your challenge link.">
+  <meta property="og:title" content="Circle Club · The circle challenge"><meta property="og:description" content="Draw a circle. Get your score. Can your friends do better?"><meta property="og:type" content="website">
+  <link rel="icon" href="./favicon.svg"><link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="header"><a class="brand" href="/play/circle-club/" aria-label="Circle Club home"><span class="brand-mark">○</span> Circle Club</a><button id="help" class="text-button">How to play <span>↗</span></button></header>
+  <main>
+    <section class="intro"><div class="eyebrow"><span></span> NO DOWNLOAD. JUST DRAW.</div><h1>Looks easy.<br>Draw <span class="underline">a circle.</span></h1><p>One stroke. How hard could it be?<br>Go on. Just one more try.</p><div class="intro-bottom"><span class="scribble">↳</span><span>Draw it. Score it. Try to beat it.<br><b>Think your friends can do better?</b></span></div></section>
+    <section class="play-section" aria-label="Circle drawing game">
+      <div class="mode-bar" role="group" aria-label="Game mode"><button class="mode active" data-mode="free" aria-pressed="true">Free draw</button><button class="mode" data-mode="daily" aria-pressed="false">Daily challenge <span>↗</span></button><span id="day-label">ONE STROKE</span></div>
+      <div class="game-board" id="board"><div class="board-top"><span id="board-label">THE CIRCLE TEST</span><span id="best-label">Best —</span></div><div id="challenge" class="challenge" hidden></div>
+        <canvas id="canvas" tabindex="0" aria-label="Draw a circle around the center with your finger or mouse. Keyboard: Enter to start, arrow keys to draw, Enter to finish, Escape to reset."></canvas>
+        <div class="board-hint" id="hint"><strong>Start anywhere</strong><span>Draw once around the center dot</span></div><div class="board-footer"><span id="board-status">Trust your hand.</span><span>↖ Hold · Draw · Release</span></div>
+      </div>
+      <div class="result" id="result" hidden aria-live="polite"><div><span class="result-label">YOUR ROUNDNESS</span><div class="score"><span id="score">0</span><small>/ 100</small></div></div><div class="result-copy"><h2 id="verdict"></h2><p id="result-detail"></p></div></div>
+      <div class="actions"><button id="retry" class="button secondary">↻ <span>Try again</span></button><button id="share" class="button primary">Copy link <span>↗</span></button></div>
+      <button id="poster" class="poster-button" hidden>↓ Save score image</button><p class="local-note">No account needed. Your records stay on this device.</p>
+    </section>
+    <section class="bottom-strip"><div><span class="step">01</span><p>Go freehand<span>No compass. Just confidence.</span></p></div><div><span class="step">02</span><p>Get your score<span>Rounder and closer wins.</span></p></div><div><span class="step">03</span><p>Pass it on<span>Copy a link. Challenge a friend.</span></p></div></section>
+  </main>
+  <footer><a href="/game/circle-club/">← ArcadeBloom · Game details</a><span>A little circle. A lot of fun.</span><span>MADE FOR YOUR “ONE MORE TRY”</span><button id="records" class="text-button">My records ↗</button></footer>
+  <dialog id="dialog"><button id="close-dialog" class="close" aria-label="Close">×</button><div id="dialog-content"></div></dialog><div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="./app.js"></script>
+</body></html>
