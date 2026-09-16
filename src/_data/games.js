@@ -62754,7 +62754,8 @@ module.exports = [
             "sourceUrl": "https://blog.puzzmo.com/posts/2025/09/08/the-making-of-circuits-royale/",
             "checkedDate": "2026-09-06"
         }
-    },
+    }
+,
     {
         "id": 3037,
         "slug": "newdle",
@@ -63223,5 +63224,36 @@ module.exports = [
         "addedDate": "2026-09-13",
         "releaseDate": "2026",
         "featured": false
+    },
+    {
+        "id": 3051,
+        "slug": "circle-club",
+        "name": "Circle Club",
+        "category": "arcade",
+        "tagline": "Draw one circle and challenge your friends to beat it.",
+        "about": "Circle Club turns a single hand-drawn circle into a quick score challenge. Draw around the center dot, release, and see how close your shape comes to a complete, even circle. Free draw lets you practise at your own pace; the daily challenge adds a target size shared by everyone on the same UTC date. Your latest thirty scores stay on your device. Copy a challenge link or save a score image to share your attempt with friends.",
+        "howToPlay": "Hold your mouse button or touch the canvas and draw once around the center dot, then release to score. Choose Free draw or Daily challenge before starting. For keyboard play, focus the canvas, press Enter, draw with the arrow keys, and press Enter again to finish. Hold Shift for smaller steps and press Escape to reset.",
+        "keyFeatures": [
+            "Free draw and a daily target-size challenge",
+            "Mouse, touch and keyboard controls",
+            "Thirty recent scores stored on your device",
+            "Friend challenge links and downloadable score cards",
+            "Play directly on ArcadeBloom without an account"
+        ],
+        "screenshots": ["/media/circle-club.png"],
+        "sourceName": "Circle Club",
+        "sourceUrl": "https://arcadebloom.com/play/circle-club/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "arcadebloom:circle-club",
+        "tags": [
+            "drawing",
+            "quick-fix",
+            "minimal",
+            "skill-based"
+        ],
+        "addedDate": "2026-09-17",
+        "releaseDate": "unknown",
+        "featured": true
     }
 ];

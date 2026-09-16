@@ -95,7 +95,7 @@ eleventyComputed:
             <div>{% include 'play-cta.njk' %}</div>
             <p class="text-sm text-paper-60">
                 Browser game<br>
-                <span class="text-paper-45">Opens at {{ game.sourceName }}</span>
+                <span class="text-paper-45">{% if game | hostedPath %}Play here on ArcadeBloom{% else %}Opens at {{ game.sourceName }}{% endif %}</span>
             </p>
         </div>
     </header>
@@ -181,8 +181,8 @@ eleventyComputed:
             </div>
         </dl>
         <p class="text-xs text-paper-45 mt-4">
-            ArcadeBloom is a directory. We introduce games and link to their creators. All rights belong to its author.
-            Visit the <a href="{{ game.sourceUrl }}" rel="noopener nofollow" class="link-inline">official site</a> to play.
+            {% if game | hostedPath %}Hosted on ArcadeBloom with permission from the site owner. No public reuse licence has been declared.{% else %}ArcadeBloom is a directory. We introduce games and link to their creators. All rights belong to its author.{% endif %}
+            Visit the <a href="{{ (game | hostedPath) or game.sourceUrl }}" rel="noopener nofollow" class="link-inline">{% if game | hostedPath %}game page{% else %}official site{% endif %}</a> to play.
         </p>
     </section>
 

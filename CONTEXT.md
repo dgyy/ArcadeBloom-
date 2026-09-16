@@ -4,7 +4,7 @@ Updated 2026-09-06. Current positioning: ADR-0011. Historical growth and evidenc
 
 ## ArcadeBloom
 
-An outbound-link directory of niche browser games: independent projects, game-jam surprises, unusual experiments and AI games. Visitors discover a game, read a short introduction and continue to the creator's site. We do not host third-party games.
+An outbound-link directory of niche browser games: independent projects, game-jam surprises, unusual experiments and AI games. Visitors discover a game, read a short introduction and continue to the creator's site. We do not generally host third-party games. ADR-0013 permits the owner-supplied Circle Club as a specific hosting exception.
 Avoid: review platform, trust index, compatibility laboratory, self-hosted game portal.
 
 ## Game entry
@@ -59,7 +59,7 @@ A themed selection answering a real interest: five to twelve content-qualified g
 
 Eleventy + Nunjucks + compiled Tailwind; complete static HTML for content pages. Frontmatter must be first in `.njk` files. Cloudflare Pages deploys `dist/` from `main`. Keep outward Play links with `rel="noopener nofollow"`. No iframe copies or Tailwind CDN.
 
-Publication uses PRs with schema, build and Playwright checks. No routine gameplay assessment pipeline. Retired capture/assess/publish workflows are manual archival tools. Self-developed daily games are outside the current scope.
+Publication uses PRs with schema, build and Playwright checks. No routine gameplay assessment pipeline. Retired capture/assess/publish workflows are manual archival tools. Circle Club is an owner-authorized hosting exception under ADR-0013, served at `/play/circle-club/` with a regular catalogue entry. Other games remain outbound links.
 
 ## Attribution, measurement and operating boundaries
 

@@ -12,7 +12,7 @@ permalink: /
 {% extends 'base.njk' %}
 
 {% set public_games = games | indexableGames %}
-{% set featured_games = public_games | featuredOnly | limit(8) %}
+{% set featured_games = public_games | featuredOnly %}
 {% set new_games = public_games | sortByDateDesc | limit(12) %}
 
 {% block jsonld %}
@@ -62,10 +62,13 @@ permalink: /
                 <a href="/new/" class="btn-ghost">See what's new</a>
             </div>
         </div>
-        <aside class="surface-raised rounded-2xl p-6 sm:p-8">
-            <h2 class="display-h2 text-3xl">A different kind of play.</h2>
-            <p class="text-paper-70 leading-relaxed mt-4">An AI storyteller. A word-game referee. A creator trying a new tool. Meet the games exploring AI.</p>
-            <a href="/ai-games/" class="btn-ghost mt-6">Explore AI games</a>
+        <aside class="circle-spotlight">
+            <svg viewBox="0 0 240 150" aria-hidden="true"><path d="M176 45 C146 4 77 13 57 56 C34 104 83 140 127 133 C175 128 198 75 173 43"/><circle cx="120" cy="75" r="4"/></svg>
+            <p class="text-sm font-semibold text-bloom">Now playing on ArcadeBloom</p>
+            <h2 class="display-h2 text-4xl mt-2">Circle Club</h2>
+            <p class="text-paper-70 leading-relaxed mt-3">One stroke. One circle. How close can you get to perfect?</p>
+            <a href="/play/circle-club/" class="circle-play">Play Circle Club</a>
+            <a href="/game/circle-club/" class="text-sm link-inline">About the game</a>
         </aside>
     </div>
 </section>

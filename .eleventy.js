@@ -27,6 +27,8 @@ module.exports = function (eleventyConfig) {
     // and are copied 1:1 to dist/.
     eleventyConfig.addPassthroughCopy({ 'src/static': './' });
 
+    eleventyConfig.addFilter('hostedPath', require('./scripts/lib/hosted-games').hostedPath);
+
     // ---- Filters ----------------------------------------------------------
 
     // Group a list of games by category slug -> { category, games }[]

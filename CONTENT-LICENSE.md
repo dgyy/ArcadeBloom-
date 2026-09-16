@@ -46,3 +46,7 @@ You may **not**:
 Each game entry in `games.js` records `sourceName`, `sourceUrl`, and `licence`
 per entry. The games themselves belong to their respective authors. ArcadeBloom
 links to the original sources; it does not host or redistribute game code.
+
+## Supplied hosted games
+
+`src/static/play/circle-club/` contains the owner-supplied Circle Club game, hosted at the owner’s request. No public reuse licence was supplied; these files are excluded from the site-code MIT grant above. `src/static/media/circle-club.png` is a capture of that game and has the same undeclared reuse status. See ADR-0013.

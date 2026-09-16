@@ -16,6 +16,7 @@ eleventyExcludeFromCollections: true
 {% for game in games %}
   {% if game.sourceKey | isIndexable %}
   <url><loc>{{ site.url }}/game/{{ game.slug }}/</loc></url>
+  {% if game | hostedPath %}<url><loc>{{ site.url }}{{ game | hostedPath }}</loc></url>{% endif %}
   {% endif %}
 {% endfor %}
 {% for collection in collections %}
