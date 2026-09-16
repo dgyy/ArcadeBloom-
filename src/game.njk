@@ -21,10 +21,11 @@ eleventyComputed:
 {
   "@context": "https://schema.org",
   "@type": "VideoGame",
+  {% if game | hostedPath %}"@id": "{{ site.url }}{{ game | hostedPath }}#game",{% endif %}
   "name": {{ game.name | toJSON | safe }},
   "description": {{ game.tagline | toJSON | safe }},
   "genre": {{ cat.name | toJSON | safe }},
-  "url": "{{ site.url }}/game/{{ game.slug }}/",
+  "url": "{{ site.url }}{% if game | hostedPath %}{{ game | hostedPath }}{% else %}/game/{{ game.slug }}/{% endif %}",
   {% if game.releaseDate != 'unknown' %}
   "datePublished": "{{ game.releaseDate }}",
   {% endif %}
