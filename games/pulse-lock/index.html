@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pulse Lock — Free Timing Challenge | ArcadeBloom</title>
+    <meta name="description" content="Play Pulse Lock, a free browser timing challenge with escalating rounds, daily courses and shareable scores. No account or download.">
+    <link rel="canonical" href="https://arcadebloom.com/play/pulse-lock/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#112941">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Pulse Lock — Can you beat my course?">
+    <meta property="og:description" content="Play Pulse Lock, a free browser timing challenge with escalating rounds, daily courses and shareable scores. No account or download.">
+    <meta property="og:url" content="https://arcadebloom.com/play/pulse-lock/">
+    <meta property="og:image" content="https://arcadebloom.com/media/pulse-lock.png">
+    <meta property="og:image:alt" content="Pulse Lock game board">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="../_shared/style.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","@id":"https://arcadebloom.com/play/pulse-lock/#game","name":"Pulse Lock","url":"https://arcadebloom.com/play/pulse-lock/","description":"Play Pulse Lock, a free browser timing challenge with escalating rounds, daily courses and shareable scores. No account or download.","genre":"Arcade","applicationCategory":"GameApplication","operatingSystem":"Web browser","isAccessibleForFree":true,"inLanguage":"en","publisher":{"@type":"Organization","name":"ArcadeBloom","url":"https://arcadebloom.com/"},"image":"https://arcadebloom.com/media/pulse-lock.png"}</script>
+</head>
+<body class="pulse" data-game="pulse-lock" data-title="Pulse Lock">
+<header><a class="brand" href="/">Pulse Lock <span>/ ArcadeBloom</span></a><div class="top-tools"><a href="#how-to-play">How to play</a><button id="sound" class="quiet" aria-pressed="false">Sound off</button></div></header>
+<main>
+    <noscript><p>Enable JavaScript to play. The instructions, scoring and privacy information below remain readable without it.</p></noscript>
+    <section class="hero">
+        <div class="intro"><p class="eyebrow">Twenty locks. Three chances.</p><h1>Catch the<br>signal.</h1><p>A moving needle. A narrowing window. Build a perfect chain before the signal slips away.</p><p id="invitation" class="invitation" hidden></p><div class="motif" aria-hidden="true"><i></i><i></i><i></i></div><p class="eyebrow">Free to play. No sign-up.</p></div>
+        <div class="console">
+            <div class="console-bar"><span id="course">Choose your course</span><label><span class="hint">Mode </span><select id="mode" aria-label="Game mode"><option value="daily">Daily challenge</option><option value="practice">Practice</option></select></label></div>
+            <div class="metrics"><div><span>Round</span><strong id="round">1 / 20</strong></div><div><span>Score</span><strong id="score">0</strong></div><div><span>Lives</span><strong id="lives">3</strong></div><div><span>Local best</span><strong id="best">—</strong></div></div>
+            <div class="arena"><svg id="radar" viewBox="0 0 320 320" role="img" aria-label="Orange needle rotates toward the blue target arc"><circle class="track" cx="160" cy="160" r="110"/><circle id="target" class="target" cx="160" cy="160" r="110" stroke-dasharray="110 692" transform="rotate(-55 160 160)"/><g id="needle"><line class="needle" x1="160" y1="74" x2="160" y2="37"/><circle cx="160" cy="160" r="4" fill="#f5a75d"/></g><text x="160" y="146" class="radar-label">Chain multiplier</text><text x="160" y="195" id="combo" class="radar-number">×1.0</text></svg></div>
+            <p id="status" class="status" role="status">Stop the orange needle inside the blue arc. Twenty locks get faster and tighter; late locks shift the target while it moves.</p>
+            <button id="action" class="primary">Start the signal</button>
+            <div class="toolbar"><button id="pause" class="quiet" disabled>Pause</button><span>Daily course uses UTC</span></div>
+            <p class="hint">Tap the button or press Space. Late locks shift the target arc while it moves.</p>
+        </div>
+    </section>
+    <section id="results" class="result" aria-labelledby="result-title" tabindex="-1" hidden>
+        <h2 id="result-title">Your run, decoded.</h2><div id="final-score" class="score">0</div><p id="summary"></p><p id="comparison"></p>
+        <div class="result-actions"><button id="again">Play again</button><button id="share">Copy challenge link</button><button id="save">Save score card</button></div>
+        <p id="share-status" role="status"></p><div id="copy-fallback" hidden><label for="copy-link">Challenge URL</label><input id="copy-link" readonly></div>
+        <details><summary>Round breakdown</summary><ol id="round-log"></ol></details>
+        <p>Shared scores are unverified. Challenge your friends for fun.</p>
+    </section>
+    <section class="guide" id="how-to-play"><div><h2>How to play Pulse Lock</h2><p>Stop the orange needle inside the blue arc. Each new lock gets faster and tighter; late locks can shift the target while the needle moves.</p><ol><li>Choose a daily course or a fresh practice course. Start the signal and watch the orange needle.</li><li>Tap Lock now when the needle enters the blue arc. The middle third counts as a perfect lock.</li><li>Complete twenty locks with three lives. Misses break your chain, and late locks may feint to a new target. Select Next lock when you are ready.</li></ol><h3>Controls and accessibility</h3><p>Tap or click Lock now, or press Space when a form control is not focused. Enter or Space activates a focused button. Pause freezes the needle; switching tabs pauses automatically.</p><p>The animation is the timing challenge itself. Sound starts off and is optional. This is a timing game, not a measurement of medical reaction time.</p></div>
+    <div><h2>What makes a good run?</h2><p>A caught lock earns 100–300 points based on how close you are to the center. Consecutive catches add a multiplier in steps of 0.2, up to ×2. A miss costs one life and resets the chain. Each lock allows 9 active seconds; a timeout counts as a miss.</p><h3>Do friends get the same challenge?</h3><p>Yes. A challenge link includes a course seed and your score. Opening it selects the same sequence of rounds, even on another day. Daily courses use the UTC date at the start of a run. Practice creates a fresh course. Scores are editable URL values, not verified leaderboard entries.</p><h3>Where are my records stored?</h3><p>Your latest twenty completed runs stay in this browser. No account, tracking code or server score submission is used by this game. Scores from different courses can vary in difficulty. The local best combines your saved courses.</p><button id="clear-records" class="quiet">Clear local records</button><p id="record-status" role="status"></p><p>Built for ArcadeBloom with AI-assisted code generation. No AI model runs during play. <a href="/game/pulse-lock/">Game details and licence</a>.</p></div></section>
+</main>
+<footer><a href="/">More from ArcadeBloom</a><a href="/play/circle-club/">Circle Club</a><a href="/play/echo-vault/">Echo Vault</a><a href="/privacy/">Privacy</a></footer>
+<script type="module" src="./app.js"></script>
+</body></html>

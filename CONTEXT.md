@@ -9,6 +9,8 @@ Avoid: review platform, trust index, compatibility laboratory, self-hosted game 
 
 ## Game entry
 
+Pulse Lock and Echo Vault are additional owner-requested hosted games (ADR-0014). They use active source under `games/pulse-lock/`, `games/echo-vault/` and `games/_shared/`, served at matching `/play/<slug>/` paths. These named directories are exceptions to legacy retirement. Their visible AI-assisted creation disclosure supports catalogue metadata; no model runs during play. Daily and practice links share seeded courses with unverified scores.
+
 A game with a stable slug and upstream `sourceKey`, genre and controlled tags, a short introduction, getting-started instructions, features, available screenshots, creator, official play URL, licence information and dates. Unknown licences are `NOASSERTION`; unknown release dates are `unknown`. Never fabricate ratings, play counts, pricing, account requirements, screenshots or provenance.
 
 `src/_data/games.js` is the published catalogue. New entries use monotonic IDs and preserve existing slugs. Retired root HTML, `games/` and `games-data.js` are not current source.

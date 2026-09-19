@@ -12,6 +12,8 @@
 // =============================================================================
 
 module.exports = [
+    { slug: 'timing', name: 'Timing', group: 'gameplay', description: 'Land an action at the right moment to build a precise run.' },
+    { slug: 'memory', name: 'Memory', group: 'gameplay', description: 'Remember patterns, positions and sequences across rounds.' },
     // ---- Gameplay subtypes -------------------------------------------------
     { slug: 'drawing', name: 'Drawing', group: 'gameplay',
       description: 'Sketch pictures and shapes as part of the game.' },

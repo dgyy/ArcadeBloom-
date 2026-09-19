@@ -31,6 +31,12 @@ The game has a dedicated homepage spotlight and appears in editor's picks, lates
 
 No public reuse licence or AI disclosure was supplied for Circle Club. Its catalogue licence is `NOASSERTION`; hosting permission does not grant redistribution rights.
 
+## More games hosted here
+
+[Pulse Lock](https://arcadebloom.com/play/pulse-lock/) is a twenty-round timing challenge with narrowing windows, late shifting targets, precision scoring, chain multipliers and three lives. [Echo Vault](https://arcadebloom.com/play/echo-vault/) is a twelve-chamber memory challenge with three-to-nine tile sequences, reverse and mirror recall, and optional replays.
+
+Both include UTC daily courses, fresh practice runs, same-course friend links, PNG score cards, local records, keyboard/touch support and optional synthesized audio. Source and maintenance instructions are in [games/README.md](games/README.md). Eleventy copies the named runtime files directly, so changes also work with `npm run serve`. See [ADR-0014](docs/adr/0014-shareable-hosted-games.md). Shareable mechanics do not guarantee viral growth.
+
 ## Tech stack
 
 - **[Eleventy](https://www.11ty.dev/)** — complete static HTML for content pages

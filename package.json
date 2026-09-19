@@ -26,7 +26,8 @@
     "validate:evidence": "node scripts/validate-evidence.js",
     "validate:collections": "node scripts/validate-collections.js",
     "pretest": "npm run build",
-    "test": "playwright test"
+    "test": "playwright test",
+    "test:games": "playwright test tests/challenge-games.spec.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",

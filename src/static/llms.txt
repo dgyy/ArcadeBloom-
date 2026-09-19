@@ -6,7 +6,7 @@ ArcadeBloom catalogues browser games across six categories: Puzzle, Action, Arca
 
 ## What this site is
 
-- A **game directory** (not a portal): we discover, introduce, and link out. Other games stay at their original sources; Circle Club runs directly on this site.
+- A **game directory**: we discover, introduce, and link out. Circle Club, Pulse Lock and Echo Vault run directly on this site under explicit hosting exceptions; other games stay at their original sources.
 - Each game page has: a concise introduction (About), getting-started instructions, key features, source attribution (author, URL, licence), and an outbound "Play on [source]" link.
 - We do not fabricate play counts or ratings — removed per our design principles.
 
@@ -29,6 +29,13 @@ ArcadeBloom catalogues browser games across six categories: Puzzle, Action, Arca
 - [Game details and licence](https://arcadebloom.com/game/circle-club/): catalogue attribution; public reuse licence not declared.
 
 Free draw and a UTC-date-based target-size challenge are available without an account or download. The latest thirty scores stay in the current browser. Challenge URLs carry editable, unverified scores; there is no verified leaderboard. The canonical play URL has no score or date query parameters. Consult the visible game page for current facts.
+
+## More hosted challenges
+
+- [Pulse Lock](https://arcadebloom.com/play/pulse-lock/): twenty-round browser timing game. Capture the blue arc through narrowing windows and late shifting targets, earn precision points and chain bonuses, and finish with three lives. Daily UTC and fresh practice courses; optional sound, pause, local records and shareable seeded challenges.
+- [Echo Vault](https://arcadebloom.com/play/echo-vault/): twelve-chamber browser memory game. Repeat three-to-nine tile sequences forwards, backwards or through mirrored columns. Three lives, escalating playback speed, replay penalties and daily UTC courses make the late chambers demanding. Practice courses, local records and score-card downloads are also available.
+
+Both are free to play without an account. The game pages disclose AI-assisted creation, but no AI model runs during play. Scores in shared links are editable and unverified, not leaderboard rankings. The canonical URLs omit challenge parameters. Public reuse licences are not declared.
 
 ## Categories
 
