@@ -264,14 +264,13 @@ test.describe('No-JS content visibility', () => {
         const page = await ctx.newPage();
         await page.goto('/');
 
-        await expect(page.getByRole('heading', { level: 1 })).toContainText('Find your next');
-        await expect(page.getByRole('heading', { level: 1 })).toContainText('small obsession.');
-        await expect(page.locator('h2', { hasText: 'Browse by Category' })).toBeVisible();
-        // The "Browse by Category" section must render exactly 6 category cards.
-        // Scope to that section to avoid matching the 12 extra /category/ links
-        // in the header nav and footer.
-        const categorySection = page.locator('section', { has: page.locator('h2:has-text("Browse by Category")') });
-        await expect(categorySection.locator('a[href^="/category/"]')).toHaveCount(6);
+        await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+        await expect(page.locator('.home-spotlight .btn-primary')).toBeVisible();
+        const interests = page.getByRole('navigation', { name: 'Explore games by interest' });
+        await expect(interests).toBeVisible();
+        // Thin categories lead to filtered search instead of top-level navigation.
+        await expect(interests.locator('a[href^="/category/"], a[href^="/search/?q="]')).toHaveCount(6);
+        await expect(interests.locator('a[href="/ai-games/"]')).toBeVisible();
 
         await ctx.close();
     });

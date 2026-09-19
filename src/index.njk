@@ -3,11 +3,8 @@ title: Discover Indie Browser Games & AI Experiments
 description: Find indie browser games, game-jam surprises and AI experiments. Explore the directory and play at the original source.
 permalink: /
 ---
-{# Homepage — editorial directory style.
-   Hero (merged with page, no colliding gradient panel) → asymmetric Editor's
-   Picks → Browse by Category (list rows) → New Arrivals (horizontal rail) →
-   About (prose column). Preserves all URLs, categories, JSON-LD, business
-   positioning. Static pre-rendered, no JS-rendered rails. #}
+{# Homepage: one playable spotlight, other hosted games, editorial picks,
+   interest navigation and a compact latest list. All content is static HTML. #}
 
 {% extends 'base.njk' %}
 
@@ -51,170 +48,90 @@ permalink: /
 {% endblock %}
 
 {% block content %}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 md:pt-20 md:pb-12">
-    <div class="max-w-4xl">
-        <div>
-            <h1 class="display-h1 text-5xl sm:text-6xl lg:text-7xl">Find your next<br>small obsession.</h1>
-            <p class="mt-6 text-lg md:text-xl text-paper-70 leading-relaxed max-w-2xl">Indie browser games, game-jam surprises and experiments you might never stumble across. Pick something interesting. Play at the source.</p>
-            <div class="mt-8 max-w-xl">
-                {% set size = 'lg' %}{% include 'search-inline.njk' %}
+{% set spotlight = hosted_games[0] %}
+{% set picks = featured_games | sortByScreenshotThenDate | limit(4) %}
+<div class="home-editorial">
+    <section id="play-here" aria-labelledby="spotlight-title">
+        <p class="home-intro">Independent browser games. Unexpected ideas. Something worth playing.</p>
+        {% if spotlight %}
+        <div class="home-spotlight">
+            <div class="home-spotlight__copy">
+                <p class="eyebrow">In the spotlight · Play on ArcadeBloom</p>
+                <h1 id="spotlight-title">{{ spotlight.name }}</h1>
+                <p class="home-spotlight__pitch">{{ spotlight.tagline }}</p>
+                <a class="btn-primary" href="{{ spotlight | hostedPath }}">Play {{ spotlight.name }} <span aria-hidden="true">↗</span></a>
+                <a class="home-detail-link" href="/game/{{ spotlight.slug }}/">How to play</a>
             </div>
-            <div class="flex flex-wrap gap-3 mt-5">
-                <a href="#play-here" class="btn-ghost">Play our daily challenges</a>
-                <a href="/featured/" class="btn-ghost">Explore the picks</a>
-                <a href="/new/" class="btn-ghost">See what's new</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="play-here" class="hosted-showcase max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-    <div class="hosted-showcase__heading">
-        <div>
-            <p class="eyebrow">Play on ArcadeBloom</p>
-            <h2 class="display-h2 text-3xl md:text-4xl mt-2">Pick a challenge</h2>
-        </div>
-        <p>Daily courses, practice runs and challenge links you can send to a friend. Play directly on ArcadeBloom.</p>
-    </div>
-
-    <div class="hosted-showcase__grid">
-        {% for game in hosted_games %}
-        {% set play_path = game | hostedPath %}
-        {% set category = site.categories | findCat(game.category) %}
-        <article class="hosted-game{% if loop.first %} hosted-game--lead{% else %} hosted-game--compact{% endif %} cat-{{ game.category }}">
-            <a href="{{ play_path }}" class="hosted-game__image" aria-label="Play {{ game.name }}">
-                <img src="{{ game.screenshots[0] }}" alt="{{ game.name }} game board" loading="lazy" width="1280" height="900">
+            <a class="home-spotlight__visual" href="{{ spotlight | hostedPath }}" aria-label="Open {{ spotlight.name }}">
+                {% set game = spotlight %}{% include 'home-game-art.njk' %}
             </a>
-            <div class="hosted-game__body">
-                <p class="hosted-game__meta">{{ category.name }} · Play here</p>
-                <h3 class="display-h2">{{ game.name }}</h3>
-                <p>{{ game.tagline }}</p>
-                <div class="hosted-game__actions"><a href="{{ play_path }}" class="btn-primary">Play {{ game.name }}</a><a href="/game/{{ game.slug }}/" class="link-inline">Details</a></div>
-            </div>
-        </article>
-        {% endfor %}
-    </div>
-</section>
-
-{# =====================================================================
-   EDITOR'S PICKS — asymmetric layout, not a uniform grid.
-   1 large feature (first pick) + a row of smaller satellites.
-   Signals editorial curation rather than a product catalog.
-   ===================================================================== #}
-{% set picks = featured_games | sortByScreenshotThenDate | limit(7) %}
-{% if picks.length %}
-<section id="picks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-    {% set heading_eyebrow = "Editor's picks" %}
-    {% set heading_title = "Jump straight in" %}
-    {% set heading_subtitle = "Small projects with an idea worth exploring. Meet the game, then jump to its original site." %}
-    {% set heading_href = "/featured/" %}
-    {% set heading_link_label = "All featured" %}
-    {% include 'section-heading.njk' %}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        {# Hero feature — first pick, spans tall on large screens #}
-        {% if picks.length > 0 %}
-        {% set game = picks[0] %}
-        {% set lazy = false %}
-        <div class="lg:row-span-2">
-            {% include 'game-card-feature.njk' %}
         </div>
+        {% else %}
+        <h1 id="spotlight-title" class="display-h1">Find something worth playing.</h1>
         {% endif %}
-
-        {# Satellites — the rest, in a responsive sub-grid #}
-        {% set satellites = picks | slice(1, 6) %}
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 lg:grid-cols-3">
-            {% for game in satellites %}
-            {% include 'game-card.njk' %}
+        {% if hosted_games.length > 1 %}
+        <div class="home-section-heading home-section-heading--small">
+            <h2>More to play here</h2><a href="/play/">All our games <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-local-grid">
+            {% for game in hosted_games | slice(1, 4) %}
+            <article class="home-local-game">
+                <a class="home-local-game__art" href="{{ game | hostedPath }}" aria-label="Open {{ game.name }}">{% include 'home-game-art.njk' %}</a>
+                <div>
+                    <h3>{{ game.name }}</h3>
+                    <p>{{ game.tagline }}</p>
+                    <a class="btn-primary" href="{{ game | hostedPath }}">Play {{ game.name }} <span aria-hidden="true">↗</span></a>
+                    <a class="home-detail-link" href="/game/{{ game.slug }}/">Details</a>
+                </div>
+            </article>
             {% endfor %}
         </div>
-    </div>
-    <div class="mt-6 sm:hidden">
-        <a href="/featured/" class="btn-ghost w-full">All featured picks →</a>
-    </div>
-</section>
-{% endif %}
+        {% endif %}
+    </section>
 
-{% set ai_games = directory_games | aiGames | sortByDateDesc | limit(4) %}
-{% if ai_games.length %}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-    <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
-        <div><h2 class="display-h2 text-3xl md:text-4xl">AI in the playground</h2><p class="text-paper-70 mt-3">New mechanics, open-ended stories and tools behind the scenes.</p></div>
-        <a href="/ai-games/" class="link-inline">Explore AI games</a>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {% for game in ai_games %}{% include 'game-card.njk' %}{% endfor %}
-    </div>
-</section>
-{% endif %}
+    {% if picks.length %}
+    <section id="picks" class="home-section" aria-labelledby="picks-title">
+        <div class="home-section-heading">
+            <div><h2 id="picks-title">Worth a look</h2><p>Independent games selected from across the web.</p></div>
+            <a href="/featured/">All editor’s picks <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-picks">
+            {% for game in picks %}
+            <a href="/game/{{ game.slug }}/" class="home-pick">
+                {% if game.screenshots.length %}<img src="{{ game.screenshots[0] }}" alt="{{ game.name }} screenshot" loading="lazy" width="640" height="400">{% endif %}
+                <div><p class="eyebrow">{{ (site.categories | findCat(game.category)).name }}</p><h3>{{ game.name }}</h3><p>{{ game.tagline }}</p><span class="home-pick__link">Meet the game <span aria-hidden="true">→</span></span></div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
 
-{# Sponsored slot — contained visually (label + hairline) so it reads as
-   intentional rather than a broken widget. #}
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    {% include 'ad-banner.njk' %}
+    {% endif %}
+    <section class="home-explore home-section" aria-labelledby="explore-title">
+        <h2 id="explore-title">Follow your curiosity</h2>
+        <nav aria-label="Explore games by interest">
+            <a href="/ai-games/">AI games <span aria-hidden="true">↗</span></a>
+            {% for cat in site.categories %}
+            {% set count = public_games | whereEq('category', cat.slug) | length %}
+            {% if count >= site.minGamesPerCategory %}
+            <a href="/category/{{ cat.slug }}/">{{ cat.name }} <span aria-hidden="true">↗</span></a>
+            {% else %}
+            <a href="/search/?q={{ cat.slug }}">{{ cat.name }} <span aria-hidden="true">↗</span></a>
+            {% endif %}
+            {% endfor %}
+        </nav>
+    </section>
+
+    <section class="home-section" aria-labelledby="latest-title">
+        <div class="home-section-heading"><div><h2 id="latest-title">Just added</h2><p>Fresh discoveries for your next visit.</p></div><a href="/new/">All new arrivals <span aria-hidden="true">→</span></a></div>
+        <div class="home-latest">
+            {% for game in new_games | limit(6) %}
+            <a href="/game/{{ game.slug }}/">
+                <div><h3>{{ game.name }}</h3><p>{{ game.tagline }}</p></div>
+                <span class="home-latest__category">{{ (site.categories | findCat(game.category)).name }}</span><span aria-hidden="true">↗</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    <div class="home-section">{% include 'ad-banner.njk' %}</div>
 </div>
-
-{# =====================================================================
-   BROWSE BY CATEGORY — editorial list rows, not cards.
-   Each row carries its category accent on hover.
-   ===================================================================== #}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-    {% set heading_eyebrow = 'The catalogue' %}
-    {% set heading_title = 'Browse by Category' %}
-    {% set heading_subtitle = 'Follow a familiar genre into something unexpected.' %}
-    {% set heading_href = '' %}
-    {% include 'section-heading.njk' %}
-    <div class="border-b border-[var(--hairline)]">
-        {% for cat in site.categories %}
-        {% set cat_count = public_games | whereEq('category', cat.slug) | length %}
-        {% set is_thin = cat_count < site.minGamesPerCategory %}
-        {% set count = cat_count %}
-        {% set min = site.minGamesPerCategory %}
-        {% include 'category-row.njk' %}
-        {% endfor %}
-    </div>
-</section>
-
-{# =====================================================================
-   NEW ARRIVALS — horizontal scroll rail.
-   Differentiated from Editor's Picks: peek/scroll says "fresh, keep moving".
-   ===================================================================== #}
-{% if new_games.length %}
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
-    {% set heading_eyebrow = 'Fresh in' %}
-    {% set heading_title = 'New arrivals' %}
-    {% set heading_subtitle = 'The most recent additions to the directory.' %}
-    {% set heading_href = '/new/' %}
-    {% set heading_link_label = 'All new arrivals' %}
-    {% include 'section-heading.njk' %}
-    {# The rail is one row of cards; on small screens each card is ~70vw,
-       on md+ a fixed 260px. Snap scrolling keeps it tidy. #}
-    <div class="rail -mx-4 px-4 sm:mx-0 sm:px-0">
-        {% for game in new_games %}
-        <div class="w-[70vw] sm:w-[260px]">
-            {% include 'game-card.njk' %}
-        </div>
-        {% endfor %}
-    </div>
-    <div class="mt-5">
-        <a href="/new/" class="inline-flex items-center gap-1 text-sm font-semibold text-bloom hover:text-paper transition-colors">
-            See all new arrivals <span aria-hidden="true">→</span>
-        </a>
-    </div>
-</section>
-{% endif %}
-
-<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-    <div class="grid md:grid-cols-2 gap-8 surface-raised rounded-2xl p-6 md:p-10">
-        <div>
-            <h2 class="display-h2 text-3xl md:text-4xl">Small games deserve to be found.</h2>
-            <p class="text-paper-70 leading-relaxed mt-5 max-w-xl">Made for a jam, built after work, or dreamed up by a tiny studio. We bring scattered browser games together, with a short introduction and a direct link to the people who made them.</p>
-            <a href="/about/" class="link-inline inline-block mt-5">About ArcadeBloom</a>
-        </div>
-        <div class="md:pl-6">
-            <h2 class="display-h2 text-2xl">Have a game to share?</h2>
-            <p class="text-paper-70 leading-relaxed mt-4">Your own project or an unexpected find. Send us the official link and tell us what caught your attention.</p>
-            <a href="/submit/" class="btn-ghost mt-6">Submit a game</a>
-        </div>
-    </div>
-</section>
 {% endblock %}
