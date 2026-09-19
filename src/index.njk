@@ -12,8 +12,10 @@ permalink: /
 {% extends 'base.njk' %}
 
 {% set public_games = games | indexableGames %}
-{% set featured_games = public_games | featuredOnly %}
-{% set new_games = public_games | sortByDateDesc | limit(12) %}
+{% set hosted_games = public_games | hostedGames | sortByDateDesc %}
+{% set directory_games = public_games | rejectHosted %}
+{% set featured_games = directory_games | featuredOnly %}
+{% set new_games = directory_games | sortByDateDesc | limit(12) %}
 
 {% block jsonld %}
 <script type="application/ld+json">
@@ -50,8 +52,8 @@ permalink: /
 
 {% block content %}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 md:pt-20 md:pb-12">
-    <div class="grid lg:grid-cols-3 gap-10 items-end">
-        <div class="lg:col-span-2 max-w-3xl">
+    <div class="max-w-4xl">
+        <div>
             <h1 class="display-h1 text-5xl sm:text-6xl lg:text-7xl">Find your next<br>small obsession.</h1>
             <p class="mt-6 text-lg md:text-xl text-paper-70 leading-relaxed max-w-2xl">Indie browser games, game-jam surprises and experiments you might never stumble across. Pick something interesting. Play at the source.</p>
             <div class="mt-8 max-w-xl">
@@ -63,26 +65,32 @@ permalink: /
                 <a href="/new/" class="btn-ghost">See what's new</a>
             </div>
         </div>
-        <aside class="circle-spotlight">
-            <svg viewBox="0 0 240 150" aria-hidden="true"><path d="M176 45 C146 4 77 13 57 56 C34 104 83 140 127 133 C175 128 198 75 173 43"/><circle cx="120" cy="75" r="4"/></svg>
-            <p class="text-sm font-semibold text-bloom">Now playing on ArcadeBloom</p>
-            <h2 class="display-h2 text-4xl mt-2">Circle Club</h2>
-            <p class="text-paper-70 leading-relaxed mt-3">One stroke. One circle. How close can you get to perfect?</p>
-            <a href="/play/circle-club/" class="circle-play">Play Circle Club</a>
-            <a href="/game/circle-club/" class="text-sm link-inline">About the game</a>
-        </aside>
     </div>
 </section>
 
-<section id="play-here" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-    <h2 class="display-h2 text-3xl md:text-4xl">Three games. Your next challenge.</h2>
-    <p class="text-paper-70 mt-3 mb-6">Draw, time or remember. Play here, save your score and send a friend the same challenge.</p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {% for slug in ['pulse-lock', 'echo-vault', 'circle-club'] %}
-        {% set game = games | findGame(slug) %}
-        <article class="surface-raised rounded-2xl overflow-hidden">
-            <a href="/play/{{ slug }}/"><img src="{{ game.screenshots[0] }}" alt="{{ game.name }} game board" loading="lazy" width="1280" height="900" class="w-full aspect-video object-cover"></a>
-            <div class="p-5"><h3 class="display-h2 text-2xl">{{ game.name }}</h3><p class="text-paper-70 mt-2">{{ game.tagline }}</p><a href="/play/{{ slug }}/" class="circle-play">Start {{ game.name }}</a><a href="/game/{{ slug }}/" class="link-inline text-sm">How to play and details</a></div>
+<section id="play-here" class="hosted-showcase max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+    <div class="hosted-showcase__heading">
+        <div>
+            <p class="eyebrow">Play on ArcadeBloom</p>
+            <h2 class="display-h2 text-3xl md:text-4xl mt-2">Pick a challenge</h2>
+        </div>
+        <p>Daily courses, practice runs and challenge links you can send to a friend. Play directly on ArcadeBloom.</p>
+    </div>
+
+    <div class="hosted-showcase__grid">
+        {% for game in hosted_games %}
+        {% set play_path = game | hostedPath %}
+        {% set category = site.categories | findCat(game.category) %}
+        <article class="hosted-game{% if loop.first %} hosted-game--lead{% else %} hosted-game--compact{% endif %} cat-{{ game.category }}">
+            <a href="{{ play_path }}" class="hosted-game__image" aria-label="Play {{ game.name }}">
+                <img src="{{ game.screenshots[0] }}" alt="{{ game.name }} game board" loading="lazy" width="1280" height="900">
+            </a>
+            <div class="hosted-game__body">
+                <p class="hosted-game__meta">{{ category.name }} · Play here</p>
+                <h3 class="display-h2">{{ game.name }}</h3>
+                <p>{{ game.tagline }}</p>
+                <div class="hosted-game__actions"><a href="{{ play_path }}" class="btn-primary">Play {{ game.name }}</a><a href="/game/{{ game.slug }}/" class="link-inline">Details</a></div>
+            </div>
         </article>
         {% endfor %}
     </div>
@@ -126,7 +134,7 @@ permalink: /
 </section>
 {% endif %}
 
-{% set ai_games = public_games | aiGames | sortByDateDesc | limit(4) %}
+{% set ai_games = directory_games | aiGames | sortByDateDesc | limit(4) %}
 {% if ai_games.length %}
 <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14">
     <div class="flex flex-wrap items-end justify-between gap-4 mb-6">

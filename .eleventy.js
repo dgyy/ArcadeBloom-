@@ -33,7 +33,8 @@ module.exports = function (eleventyConfig) {
     }
     eleventyConfig.addWatchTarget('games/');
 
-    eleventyConfig.addFilter('hostedPath', require('./scripts/lib/hosted-games').hostedPath);
+    const { hostedPath } = require('./scripts/lib/hosted-games');
+    eleventyConfig.addFilter('hostedPath', hostedPath);
 
     // ---- Filters ----------------------------------------------------------
 
@@ -99,6 +100,16 @@ module.exports = function (eleventyConfig) {
     // Reject items where a field equals a value (inverse of whereEq)
     eleventyConfig.addFilter('reject', (items, field, value) =>
         (items || []).filter((i) => i[field] !== value)
+    );
+
+    // Homepage-hosted games come from the same identity-and-URL allowlist
+    // that controls local play paths. New authorized games therefore appear
+    // in the showcase without adding another homepage-only slug list.
+    eleventyConfig.addFilter('hostedGames', (items) =>
+        (items || []).filter((item) => hostedPath(item))
+    );
+    eleventyConfig.addFilter('rejectHosted', (items) =>
+        (items || []).filter((item) => !hostedPath(item))
     );
 
     // Split a string into paragraphs (on blank lines) — for multi-para about/howToPlay
