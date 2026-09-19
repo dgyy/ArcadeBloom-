@@ -3,10 +3,12 @@ const { test, expect } = require('@playwright/test');
 
 test('homepage exposes discovery, AI and creator routes', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('heading', { level: 1 })).toContainText('small obsession');
-    for (const href of ['/featured/', '/new/', '/ai-games/', '/submit/']) {
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    await expect(page.locator('.home-spotlight .btn-primary')).toBeVisible();
+    for (const href of ['/featured/', '/new/', '/ai-games/']) {
         await expect(page.locator(`main a[href="${href}"]`).first()).toBeVisible();
     }
+    await expect(page.locator('footer a[href="/submit/"]')).toBeVisible();
     await expect(page.locator('main')).not.toContainText(/read the review/i);
 });
 

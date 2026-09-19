@@ -21,7 +21,7 @@ The catalogue spans six categories — Puzzle, Action, Arcade, Strategy, Racing 
 
 Draw one circle with a mouse, touch or keyboard, then release to see your score. Free draw and a daily target-size challenge are available without an account. The latest thirty scores stay in browser localStorage; challenge links carry a score and mode, plus the date for daily challenges. Shared scores are not a verified leaderboard.
 
-The game has a dedicated homepage spotlight and appears in editor's picks, latest additions, search and the Arcade category.
+The game is available in the homepage's hosted-game section and the complete `/play/` library, as well as directory discovery and search.
 
 - Runtime files: `src/static/play/circle-club/`, copied into `dist/play/circle-club/` by Eleventy. Maintain this production copy; the original supplied `games/` folder is not a build input.
 - Catalogue entry: `circle-club` in `src/_data/games.js`; screenshot: `src/static/media/circle-club.png`.
@@ -36,6 +36,12 @@ No public reuse licence or AI disclosure was supplied for Circle Club. Its catal
 [Pulse Lock](https://arcadebloom.com/play/pulse-lock/) is a twenty-round timing challenge with narrowing windows, late shifting targets, precision scoring, chain multipliers and three lives. [Echo Vault](https://arcadebloom.com/play/echo-vault/) is a twelve-chamber memory challenge with three-to-nine tile sequences, reverse and mirror recall, and optional replays.
 
 Both include UTC daily courses, fresh practice runs, same-course friend links, PNG score cards, local records, keyboard/touch support and optional synthesized audio. Source and maintenance instructions are in [games/README.md](games/README.md). Eleventy copies the named runtime files directly, so changes also work with `npm run serve`. See [ADR-0014](docs/adr/0014-shareable-hosted-games.md). Shareable mechanics do not guarantee viral growth.
+
+## Homepage discovery
+
+The homepage leads with one hosted game, then up to four other hosted games, four editorial picks, interest navigation and six recent additions. The full hosted library is at `/play/`. Hosted entries are derived from the approved hosting rules and do not repeat in the homepage's directory sections.
+
+Homepage artwork shows gameplay elements rather than full-page screenshots. To refresh the built-in games' board images, serve a local build and run `node scripts/capture-home-boards.js http://127.0.0.1:4174`, then rebuild. Catalogue records and indexability policy are unchanged.
 
 ## Tech stack
 

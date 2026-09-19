@@ -1,0 +1,19 @@
+---
+title: Play on ArcadeBloom
+description: Browser games you can play directly on ArcadeBloom. Find a challenge and start playing.
+permalink: /play/
+---
+{% extends 'base.njk' %}
+{% block content %}
+<div class="home-editorial">
+    <header class="home-section-heading"><div><h1 class="display-h1 text-4xl">Play on ArcadeBloom</h1><p>Pick a game and jump in.</p></div></header>
+    <div class="home-local-grid">
+        {% for game in games | indexableGames | hostedGames | sortByDateDesc %}
+        <article class="home-local-game">
+            <a class="home-local-game__art" href="{{ game | hostedPath }}" aria-label="Open {{ game.name }}">{% include 'home-game-art.njk' %}</a>
+            <div><h2>{{ game.name }}</h2><p>{{ game.tagline }}</p><a class="btn-primary" href="{{ game | hostedPath }}">Play {{ game.name }}</a><a class="home-detail-link" href="/game/{{ game.slug }}/">Details</a></div>
+        </article>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

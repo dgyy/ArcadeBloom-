@@ -1,0 +1,7 @@
+{% if game.slug == 'pulse-lock' or game.slug == 'echo-vault' or game.slug == 'circle-club' %}
+<img src="/media/{{ game.slug }}-board.png" alt="{{ game.name }} gameplay" width="800" height="600" {% if game.slug == spotlight.slug %}fetchpriority="high"{% else %}loading="lazy"{% endif %}>
+{% elif game.screenshots.length %}
+<img src="{{ game.screenshots[0] }}" alt="{{ game.name }} gameplay" width="800" height="600" loading="lazy">
+{% else %}
+<span class="home-art-fallback">{{ game.name }}</span>
+{% endif %}
