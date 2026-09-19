@@ -1,11 +1,12 @@
 'use strict';
 
-// Owner-authorized hosting exception, ADR-0013. Match identity AND exact URL.
+// Owner-authorized hosting exceptions, ADR-0013/0014. Match identity AND exact URL.
 function hostedPath(game) {
-    return game?.sourceKey === 'arcadebloom:circle-club' &&
-        game.slug === 'circle-club' &&
-        game.sourceUrl === 'https://arcadebloom.com/play/circle-club/'
-        ? '/play/circle-club/' : null;
+    const slugs = ['circle-club', 'pulse-lock', 'echo-vault'];
+    return game && slugs.includes(game.slug) &&
+        game.sourceKey === `arcadebloom:${game.slug}` &&
+        game.sourceUrl === `https://arcadebloom.com/play/${game.slug}/`
+        ? `/play/${game.slug}/` : null;
 }
 
 module.exports = { hostedPath };

@@ -26,6 +26,12 @@ module.exports = function (eleventyConfig) {
     // Favicon, og images, screenshots, robots.txt etc. live under src/static/
     // and are copied 1:1 to dist/.
     eleventyConfig.addPassthroughCopy({ 'src/static': './' });
+    // ADR-0014: maintained game sources, with an explicit runtime allowlist.
+    eleventyConfig.addPassthroughCopy({ 'games/_shared/*.js': 'play/_shared', 'games/_shared/*.css': 'play/_shared' });
+    for (const slug of ['pulse-lock', 'echo-vault']) {
+        eleventyConfig.addPassthroughCopy({ [`games/${slug}/index.html`]: `play/${slug}/index.html`, [`games/${slug}/app.js`]: `play/${slug}/app.js` });
+    }
+    eleventyConfig.addWatchTarget('games/');
 
     eleventyConfig.addFilter('hostedPath', require('./scripts/lib/hosted-games').hostedPath);
 

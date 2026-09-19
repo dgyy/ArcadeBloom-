@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Echo Vault — Free Memory Challenge | ArcadeBloom</title>
+    <meta name="description" content="Play Echo Vault, a free browser memory challenge with escalating rounds, daily courses and shareable scores. No account or download.">
+    <link rel="canonical" href="https://arcadebloom.com/play/echo-vault/">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#302445">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Echo Vault — Can you beat my course?">
+    <meta property="og:description" content="Play Echo Vault, a free browser memory challenge with escalating rounds, daily courses and shareable scores. No account or download.">
+    <meta property="og:url" content="https://arcadebloom.com/play/echo-vault/">
+    <meta property="og:image" content="https://arcadebloom.com/media/echo-vault.png">
+    <meta property="og:image:alt" content="Echo Vault game board">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="stylesheet" href="../_shared/style.css">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","@id":"https://arcadebloom.com/play/echo-vault/#game","name":"Echo Vault","url":"https://arcadebloom.com/play/echo-vault/","description":"Play Echo Vault, a free browser memory challenge with escalating rounds, daily courses and shareable scores. No account or download.","genre":"Puzzle","applicationCategory":"GameApplication","operatingSystem":"Web browser","isAccessibleForFree":true,"inLanguage":"en","publisher":{"@type":"Organization","name":"ArcadeBloom","url":"https://arcadebloom.com/"},"image":"https://arcadebloom.com/media/echo-vault.png"}</script>
+</head>
+<body class="echo" data-game="echo-vault" data-title="Echo Vault">
+<header><a class="brand" href="/">Echo Vault <span>/ ArcadeBloom</span></a><div class="top-tools"><a href="#how-to-play">How to play</a><button id="sound" class="quiet" aria-pressed="false">Sound off</button></div></header>
+<main>
+    <noscript><p>Enable JavaScript to play. The instructions, scoring and privacy information below remain readable without it.</p></noscript>
+    <section class="hero">
+        <div class="intro"><p class="eyebrow">Twelve chambers. One memory.</p><h1>Trust your<br>echo.</h1><p>Watch the pattern. Hold it in your head. Then the vault asks you to remember it backwards.</p><p id="invitation" class="invitation" hidden></p><div class="motif" aria-hidden="true"><i></i><i></i><i></i></div><p class="eyebrow">Free to play. No sign-up.</p></div>
+        <div class="console">
+            <div class="console-bar"><span id="course">Choose your course</span><label><span class="hint">Mode </span><select id="mode" aria-label="Game mode"><option value="daily">Daily challenge</option><option value="practice">Practice</option></select></label></div>
+            <div class="metrics"><div><span>Round</span><strong id="round">1 / 12</strong></div><div><span>Score</span><strong id="score">0</strong></div><div><span>Lives</span><strong id="lives">3</strong></div><div><span>Local best</span><strong id="best">—</strong></div></div>
+            <div class="arena"><div class="pad-grid" role="group" aria-label="Memory tiles"><button class="pad" disabled aria-label="Tile 1">1</button><button class="pad" disabled aria-label="Tile 2">2</button><button class="pad" disabled aria-label="Tile 3">3</button><button class="pad" disabled aria-label="Tile 4">4</button><button class="pad" disabled aria-label="Tile 5">5</button><button class="pad" disabled aria-label="Tile 6">6</button><button class="pad" disabled aria-label="Tile 7">7</button><button class="pad" disabled aria-label="Tile 8">8</button><button class="pad" disabled aria-label="Tile 9">9</button></div><div id="progress" class="sequence-progress" aria-hidden="true"></div><p class="hint">Recall rule: <strong id="rule">Forward</strong></p></div>
+            <p id="status" class="status" role="status">Watch the numbered tiles light up, then repeat their sequence. Later chambers switch between forward, reverse and mirrored-column recall.</p>
+            <button id="action" class="primary">Open the vault</button>
+            <div class="toolbar"><button id="replay" class="quiet" disabled>Replay (−100)</button><span>Daily course uses UTC</span></div>
+            <p class="hint">Tap the tiles or use number keys 1–9. Read the rule before answering.</p>
+        </div>
+    </section>
+    <section id="results" class="result" aria-labelledby="result-title" tabindex="-1" hidden>
+        <h2 id="result-title">Your run, decoded.</h2><div id="final-score" class="score">0</div><p id="summary"></p><p id="comparison"></p>
+        <div class="result-actions"><button id="again">Play again</button><button id="share">Copy challenge link</button><button id="save">Save score card</button></div>
+        <p id="share-status" role="status"></p><div id="copy-fallback" hidden><label for="copy-link">Challenge URL</label><input id="copy-link" readonly></div>
+        <details><summary>Round breakdown</summary><ol id="round-log"></ol></details>
+        <p>Shared scores are unverified. Challenge your friends for fun.</p>
+    </section>
+    <section class="guide" id="how-to-play"><div><h2>How to play Echo Vault</h2><p>Watch the numbered tiles light up, then repeat their sequence. Later chambers switch between forward, reverse and mirrored-column recall.</p><ol><li>Choose a daily course or fresh practice course. Watch the tiles light up one at a time.</li><li>Repeat the sequence by tapping the tiles, or using keys 1–9. Read the rule: reverse chambers require the last tile first, and mirror chambers flip each tile across the grid.</li><li>Clear twelve chambers. You have three lives for the whole run and one optional replay in each chamber.</li></ol><h3>Controls and accessibility</h3><p>Click or tap numbered tiles, or use the number keys 1–9. Tiles follow reading order, left to right. Sound is optional; the numbers and highlights carry all the instructions. If playback is interrupted by switching tabs, resume to watch it again.</p><p>Chambers 3, 5, 6, 8, 9 and 12 introduce reverse or mirrored recall. The game does not diagnose or measure intelligence. There is no input timer: take the time you need.</p></div>
+    <div><h2>What makes a good run?</h2><p>Each completed chamber earns 100 points per tile. Each wrong press deducts 75 points from that chamber and costs a life; a replay deducts 100 points and restarts your input sequence. Chamber scores never go below zero. Sequences grow from three to nine tiles and playback gets faster.</p><h3>Do friends get the same challenge?</h3><p>Yes. A challenge link includes a course seed and your score. Opening it selects the same sequence of rounds, even on another day. Daily courses use the UTC date at the start of a run. Practice creates a fresh course. Scores are editable URL values, not verified leaderboard entries.</p><h3>Where are my records stored?</h3><p>Your latest twenty completed runs stay in this browser. No account, tracking code or server score submission is used by this game. Scores from different courses can vary in difficulty. The local best combines your saved courses.</p><button id="clear-records" class="quiet">Clear local records</button><p id="record-status" role="status"></p><p>Built for ArcadeBloom with AI-assisted code generation. No AI model runs during play. <a href="/game/echo-vault/">Game details and licence</a>.</p></div></section>
+</main>
+<footer><a href="/">More from ArcadeBloom</a><a href="/play/circle-club/">Circle Club</a><a href="/play/pulse-lock/">Pulse Lock</a><a href="/privacy/">Privacy</a></footer>
+<script type="module" src="./app.js"></script>
+</body></html>

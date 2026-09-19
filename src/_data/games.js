@@ -63255,5 +63255,87 @@ module.exports = [
         "addedDate": "2026-09-17",
         "releaseDate": "unknown",
         "featured": true
+    },
+    {
+        "id": 3052,
+        "slug": "pulse-lock",
+        "name": "Pulse Lock",
+        "category": "arcade",
+        "tagline": "Catch a moving signal through twenty increasingly precise timing locks.",
+        "about": "A moving needle. A narrowing window. Build a perfect chain before the signal slips away. Stop the orange needle inside the blue arc. Each new lock gets faster and tighter; late locks can shift the target while the needle moves. A caught lock earns 100–300 points based on how close you are to the center. Consecutive catches add a multiplier in steps of 0.2, up to ×2. A miss costs one life and resets the chain. Each lock allows 9 active seconds; a timeout counts as a miss. Play a UTC daily course or generate a fresh practice run. Share the course seed with friends and save a score card after your run.",
+        "howToPlay": "Choose a daily course or a fresh practice course. Start the signal and watch the orange needle. Tap Lock now when the needle enters the blue arc. The middle third counts as a perfect lock. Complete twenty locks with three lives; late locks shift the target while it moves. Misses break your chain. Select Next lock when you are ready. Tap or click Lock now, or press Space when a form control is not focused. Enter or Space activates a focused button. Pause freezes the needle; switching tabs pauses automatically.",
+        "keyFeatures": [
+            "Twenty progressively faster timing locks with late target shifts",
+            "Precision scoring and chain multiplier",
+            "Three lives and pause control",
+            "Seeded daily and friend courses",
+            "Local records and score cards"
+        ],
+        "screenshots": [
+            "/media/pulse-lock.png"
+        ],
+        "sourceName": "ArcadeBloom",
+        "sourceUrl": "https://arcadebloom.com/play/pulse-lock/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "arcadebloom:pulse-lock",
+        "tags": [
+            "timing",
+            "quick-fix",
+            "skill-based",
+            "minimal"
+        ],
+        "addedDate": "2026-09-19",
+        "releaseDate": "2026-09-19",
+        "featured": true,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "ArcadeBloom discloses AI-assisted code generation on the game page. The game uses deterministic browser JavaScript; no AI model runs during play.",
+            "sourceUrl": "https://arcadebloom.com/play/pulse-lock/#how-to-play",
+            "checkedDate": "2026-09-19"
+        }
+    },
+    {
+        "id": 3053,
+        "slug": "echo-vault",
+        "name": "Echo Vault",
+        "category": "puzzle",
+        "tagline": "Remember longer glowing sequences, then unlock chambers with reverse and mirror recall.",
+        "about": "Watch the pattern. Hold it in your head. Then the vault asks you to remember it backwards or across a mirrored grid. Watch the numbered tiles light up, then repeat their sequence. Later chambers switch between forward, reverse and mirror recall. Each completed chamber earns 100 points per tile. Each wrong press deducts 75 points from that chamber and costs a life; a replay deducts 100 points and restarts your input sequence. Chamber scores never go below zero. Sequences grow from three to nine tiles and playback gets faster. Play a UTC daily course or generate a fresh practice run. Share the course seed with friends and save a score card after your run.",
+        "howToPlay": "Choose a daily course or fresh practice course. Watch the tiles light up one at a time. Repeat the sequence by tapping the tiles, or using keys 1–9. Read the rule: reverse chambers require the last tile first, while mirror chambers swap the left and right columns. Clear twelve chambers. You have three lives for the whole run and one optional replay in each chamber. Click or tap numbered tiles, or use the number keys 1–9. Tiles follow reading order, left to right. Sound is optional; the numbers and highlights carry all the instructions. If playback is interrupted by switching tabs, resume to watch it again.",
+        "keyFeatures": [
+            "Twelve escalating memory chambers with three-to-nine tile sequences",
+            "Forward, reverse and mirror recall",
+            "Replay with a score penalty",
+            "Seeded daily and friend courses",
+            "Local records and score cards"
+        ],
+        "screenshots": [
+            "/media/echo-vault.png"
+        ],
+        "sourceName": "ArcadeBloom",
+        "sourceUrl": "https://arcadebloom.com/play/echo-vault/",
+        "licence": "NOASSERTION",
+        "licenceStatus": "noassertion",
+        "sourceKey": "arcadebloom:echo-vault",
+        "tags": [
+            "memory",
+            "quick-fix",
+            "skill-based",
+            "minimal"
+        ],
+        "addedDate": "2026-09-19",
+        "releaseDate": "2026-09-19",
+        "featured": true,
+        "ai": {
+            "types": [
+                "ai-assisted"
+            ],
+            "note": "ArcadeBloom discloses AI-assisted code generation on the game page. The game uses deterministic browser JavaScript; no AI model runs during play.",
+            "sourceUrl": "https://arcadebloom.com/play/echo-vault/#how-to-play",
+            "checkedDate": "2026-09-19"
+        }
     }
 ];

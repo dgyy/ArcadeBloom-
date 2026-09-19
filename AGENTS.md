@@ -64,6 +64,10 @@ screenshots[], sourceName, sourceUrl, licence, tags[], addedDate, releaseDate, f
 
 ## Agent skills
 
+### Hosted game source exception (ADR-0014)
+
+`games/pulse-lock/`, `games/echo-vault/` and `games/_shared/` are active source for owner-requested games. Eleventy copies their named runtime files into `dist/play/`. Maintain these directly; do not duplicate them under `src/static/`. Circle Club remains at `src/static/play/circle-club/`. The exact hosting allowlist is in `scripts/lib/hosted-games.js`; all other games keep outbound URLs. See ADR-0014 for AI disclosure, local storage and licence boundaries.
+
 ### Issue tracker
 
 Issues live as GitHub issues; use the `gh` CLI. See `docs/agents/issue-tracker.md`.

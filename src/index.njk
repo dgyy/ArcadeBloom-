@@ -58,6 +58,7 @@ permalink: /
                 {% set size = 'lg' %}{% include 'search-inline.njk' %}
             </div>
             <div class="flex flex-wrap gap-3 mt-5">
+                <a href="#play-here" class="btn-ghost">Play our daily challenges</a>
                 <a href="/featured/" class="btn-ghost">Explore the picks</a>
                 <a href="/new/" class="btn-ghost">See what's new</a>
             </div>
@@ -70,6 +71,20 @@ permalink: /
             <a href="/play/circle-club/" class="circle-play">Play Circle Club</a>
             <a href="/game/circle-club/" class="text-sm link-inline">About the game</a>
         </aside>
+    </div>
+</section>
+
+<section id="play-here" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h2 class="display-h2 text-3xl md:text-4xl">Three games. Your next challenge.</h2>
+    <p class="text-paper-70 mt-3 mb-6">Draw, time or remember. Play here, save your score and send a friend the same challenge.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {% for slug in ['pulse-lock', 'echo-vault', 'circle-club'] %}
+        {% set game = games | findGame(slug) %}
+        <article class="surface-raised rounded-2xl overflow-hidden">
+            <a href="/play/{{ slug }}/"><img src="{{ game.screenshots[0] }}" alt="{{ game.name }} game board" loading="lazy" width="1280" height="900" class="w-full aspect-video object-cover"></a>
+            <div class="p-5"><h3 class="display-h2 text-2xl">{{ game.name }}</h3><p class="text-paper-70 mt-2">{{ game.tagline }}</p><a href="/play/{{ slug }}/" class="circle-play">Start {{ game.name }}</a><a href="/game/{{ slug }}/" class="link-inline text-sm">How to play and details</a></div>
+        </article>
+        {% endfor %}
     </div>
 </section>
 
