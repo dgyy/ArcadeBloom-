@@ -189,7 +189,8 @@ test.describe('Advertising placement', () => {
         for (const path of [`/game/${GAME_SLUGS[0]}/`, '/', '/featured/', '/new/', '/ai-games/', '/about/']) {
             await page.goto(path);
             await expect(page.locator('.game-side-ad')).toHaveCount(2);
-            await expect(page.locator('.game-side-ad ins[data-ad-slot="1115845392"]')).toHaveCount(2);
+            await expect(page.locator('.game-side-ad--left ins[data-ad-slot="4896132207"]')).toHaveCount(1);
+            await expect(page.locator('.game-side-ad--right ins[data-ad-slot="7849598607"]')).toHaveCount(1);
             await expect(page.getByLabel('Left advertisement')).toBeVisible();
             await expect(page.getByLabel('Right advertisement')).toBeVisible();
             await expect(page.locator('main ins.adsbygoogle')).toHaveCount(0);

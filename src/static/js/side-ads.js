@@ -1,6 +1,9 @@
 const DESKTOP_RAIL = '(min-width: 1500px)';
 const CLIENT = 'ca-pub-1115845392526625';
-const SLOT = '1115845392';
+const SLOTS = {
+    left: '4896132207',
+    right: '7849598607',
+};
 const media = window.matchMedia(DESKTOP_RAIL);
 let libraryPromise;
 
@@ -16,9 +19,9 @@ function createRail(side) {
     const ad = document.createElement('ins');
     ad.className = 'adsbygoogle';
     ad.dataset.adClient = CLIENT;
-    ad.dataset.adSlot = SLOT;
-    ad.dataset.adFormat = 'vertical';
-    ad.dataset.fullWidthResponsive = 'false';
+    ad.dataset.adSlot = SLOTS[side];
+    ad.dataset.adFormat = 'auto';
+    ad.dataset.fullWidthResponsive = 'true';
 
     rail.append(label, ad);
     document.body.append(rail);
