@@ -20,17 +20,10 @@ test('archive is noindex and navigation respects category threshold', async ({ p
     await expect(page.locator('footer a[href="/category/arcade/"]')).toBeVisible();
 });
 
-test('inline ad follows viewport changes without duplicate slots', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/game/hextris/');
-    const ad = page.locator('#game-inline-ad');
-    await expect(ad).toBeHidden();
-    await page.setViewportSize({ width: 1000, height: 900 });
-    await expect(ad).toBeVisible();
-    await expect(ad.locator('ins')).toHaveCount(1);
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await expect(ad).toBeHidden();
-    await page.setViewportSize({ width: 1000, height: 900 });
-    await expect(ad).toBeVisible();
-    await expect(ad.locator('ins')).toHaveCount(1);
+test('content pages contain no inline advertisement slots', async ({ page }) => {
+    for (const route of ['/', '/featured/', '/new/', '/category/arcade/', '/game/hextris/']) {
+        await page.goto(route);
+        await expect(page.locator('main ins.adsbygoogle')).toHaveCount(0);
+        await expect(page.locator('#game-inline-ad')).toHaveCount(0);
+    }
 });
