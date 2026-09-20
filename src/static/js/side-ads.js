@@ -1,8 +1,8 @@
-const DESKTOP_RAIL = '(min-width: 1500px)';
+const DESKTOP_RAIL = '(min-width: 1600px)';
 const CLIENT = 'ca-pub-1115845392526625';
 const SLOTS = {
-    left: '4896132207',
-    right: '7849598607',
+    left: '8427263236',
+    right: '3039205182',
 };
 const media = window.matchMedia(DESKTOP_RAIL);
 let libraryPromise;
@@ -18,10 +18,17 @@ function createRail(side) {
 
     const ad = document.createElement('ins');
     ad.className = 'adsbygoogle';
+    ad.style.display = 'inline-block';
+    ad.style.width = '160px';
+    ad.style.height = '600px';
     ad.dataset.adClient = CLIENT;
     ad.dataset.adSlot = SLOTS[side];
-    ad.dataset.adFormat = 'auto';
-    ad.dataset.fullWidthResponsive = 'true';
+
+    const statusObserver = new MutationObserver(() => {
+        if (/^unfill/.test(ad.dataset.adStatus || '')) rail.hidden = true;
+        if (ad.dataset.adStatus === 'filled') rail.hidden = false;
+    });
+    statusObserver.observe(ad, { attributes: true, attributeFilter: ['data-ad-status'] });
 
     rail.append(label, ad);
     document.body.append(rail);

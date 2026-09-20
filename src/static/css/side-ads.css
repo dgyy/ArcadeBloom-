@@ -1,8 +1,7 @@
 .game-side-ad {
     position: fixed;
     top: 110px;
-    bottom: 24px;
-    width: clamp(120px, calc((100vw - 1268px) / 2), 260px);
+    width: 160px;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -21,11 +20,12 @@
     opacity: .55;
 }
 .game-side-ad .adsbygoogle {
-    display: block;
-    width: 100%;
+    display: inline-block;
+    width: 160px;
+    height: 600px;
     min-height: 600px;
-    flex: 1;
+    flex: none;
 }
-@media (max-width: 1499px) {
+@media (max-width: 1599px) {
     .game-side-ad { display: none !important; }
 }
