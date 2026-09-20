@@ -186,7 +186,7 @@ test.describe('Advertising placement', () => {
         const ctx = await browser.newContext({ viewport: { width: 1700, height: 900 } });
         const page = await ctx.newPage();
         await page.route('https://pagead2.googlesyndication.com/**', route => route.abort());
-        for (const path of [`/game/${GAME_SLUGS[0]}/`, '/', '/featured/', '/new/', '/ai-games/']) {
+        for (const path of [`/game/${GAME_SLUGS[0]}/`, '/', '/featured/', '/new/', '/ai-games/', '/about/']) {
             await page.goto(path);
             await expect(page.locator('.game-side-ad')).toHaveCount(2);
             await expect(page.locator('.game-side-ad ins[data-ad-slot="1115845392"]')).toHaveCount(2);
@@ -207,10 +207,11 @@ test.describe('Advertising placement', () => {
     });
 
     test('AdSense script is NOT loaded on ad-free pages', async ({ page }) => {
-        // about/contact/privacy/terms/search carry no ad slot → no script.
+        // Contact, legal, search, archive and submission pages carry no ad slot.
+        await page.setViewportSize({ width: 1700, height: 900 });
         const reqs = [];
         page.on('request', (req) => reqs.push(req.url()));
-        await page.goto('/about/');
+        await page.goto('/contact/');
         expect(reqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(false);
     });
 
