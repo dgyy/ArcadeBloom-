@@ -189,8 +189,8 @@ test.describe('Advertising placement', () => {
         for (const path of [`/game/${GAME_SLUGS[0]}/`, '/', '/featured/', '/new/', '/ai-games/', '/about/']) {
             await page.goto(path);
             await expect(page.locator('.game-side-ad')).toHaveCount(2);
-            await expect(page.locator('.game-side-ad--left ins[data-ad-slot="4896132207"]')).toHaveCount(1);
-            await expect(page.locator('.game-side-ad--right ins[data-ad-slot="7849598607"]')).toHaveCount(1);
+            await expect(page.locator('.game-side-ad--left ins[data-ad-slot="8427263236"]')).toHaveCount(1);
+            await expect(page.locator('.game-side-ad--right ins[data-ad-slot="3039205182"]')).toHaveCount(1);
             await expect(page.getByLabel('Left advertisement')).toBeVisible();
             await expect(page.getByLabel('Right advertisement')).toBeVisible();
             await expect(page.locator('main ins.adsbygoogle')).toHaveCount(0);
@@ -203,6 +203,9 @@ test.describe('Advertising placement', () => {
         await page.route('https://pagead2.googlesyndication.com/**', route => route.abort());
         await page.goto(`/game/${GAME_SLUGS[0]}/`);
         await expect(page.locator('.game-side-ad')).toHaveCount(2);
+        await page.locator('.game-side-ad--left ins').evaluate(ad => ad.dataset.adStatus = 'unfilled');
+        await expect(page.locator('.game-side-ad--left')).toBeHidden();
+        await expect(page.locator('.game-side-ad--right')).toBeVisible();
         await page.setViewportSize({ width: 1200, height: 900 });
         await expect(page.locator('.game-side-ad')).toHaveCount(0);
     });

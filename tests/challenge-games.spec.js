@@ -111,8 +111,8 @@ test('hosted games reserve labelled ad rails only on wide desktops', async ({ br
         await desktop.route('https://pagead2.googlesyndication.com/**', route => route.abort());
         await desktop.goto(`/play/${slug}/`);
         await expect(desktop.locator('.game-side-ad')).toHaveCount(2);
-        await expect(desktop.locator('.game-side-ad--left .adsbygoogle[data-ad-slot="4896132207"]')).toHaveCount(1);
-        await expect(desktop.locator('.game-side-ad--right .adsbygoogle[data-ad-slot="7849598607"]')).toHaveCount(1);
+        await expect(desktop.locator('.game-side-ad--left .adsbygoogle[data-ad-slot="8427263236"]')).toHaveCount(1);
+        await expect(desktop.locator('.game-side-ad--right .adsbygoogle[data-ad-slot="3039205182"]')).toHaveCount(1);
         await expect(desktop.getByLabel('Left advertisement')).toBeVisible();
         await expect(desktop.getByLabel('Right advertisement')).toBeVisible();
         await desktop.close();
