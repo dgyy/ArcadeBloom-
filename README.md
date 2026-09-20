@@ -37,7 +37,7 @@ No public reuse licence or AI disclosure was supplied for Circle Club. Its catal
 
 Both include UTC daily courses, fresh practice runs, same-course friend links, PNG score cards, local records, keyboard/touch support and optional synthesized audio. Source and maintenance instructions are in [games/README.md](games/README.md). Eleventy copies the named runtime files directly, so changes also work with `npm run serve`. See [ADR-0014](docs/adr/0014-shareable-hosted-games.md). Shareable mechanics do not guarantee viral growth.
 
-Ad-supported content pages, including About, load the shared `/js/side-ads.js` component. It creates labelled left and right AdSense rails only at viewport widths of 1500px or more; smaller screens receive no ad nodes. There are no inline, sticky or interstitial placements. Legal, contact, search, archive and submission pages remain ad-free.
+Ad-supported content pages, including About, load the shared `/js/side-ads.js` component. It creates labelled left and right AdSense rails when the main content leaves at least 200px on each side (160px ad, 28px gap and 12px screen margin). Rails follow the content edges; mobile screens receive no ad nodes. Each side uses an independent fixed 160x600 unit, and unfilled rails are hidden. There are no inline, sticky or interstitial placements. Legal, contact, search, archive and submission pages remain ad-free.
 
 ## Homepage discovery
 

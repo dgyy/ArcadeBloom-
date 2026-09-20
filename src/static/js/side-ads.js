@@ -1,10 +1,23 @@
-const DESKTOP_RAIL = '(min-width: 1600px)';
+const AD_WIDTH = 160;
+const GAP = 28;
+const EDGE = 12;
 const CLIENT = 'ca-pub-1115845392526625';
 const SLOTS = {
     left: '8427263236',
     right: '3039205182',
 };
-const media = window.matchMedia(DESKTOP_RAIL);
+const main = document.querySelector('main');
+const content = main?.id === 'main' ? main.firstElementChild : main;
+function placement() {
+    if (!content || window.innerWidth < 1024) return null;
+    const rect = content.getBoundingClientRect();
+    const style = getComputedStyle(content);
+    const left = rect.left + parseFloat(style.paddingLeft);
+    const right = rect.right - parseFloat(style.paddingRight);
+    const width = document.documentElement.clientWidth;
+    if (left < AD_WIDTH + GAP + EDGE || width - right < AD_WIDTH + GAP + EDGE) return null;
+    return { left: left - GAP - AD_WIDTH, right: right + GAP };
+}
 let libraryPromise;
 
 function createRail(side) {
@@ -60,16 +73,22 @@ function requestAds(ads) {
 }
 
 function updateSideAds() {
-    if (!media.matches) {
+    const position = placement();
+    if (!position) {
         document.querySelectorAll('.game-side-ad').forEach(rail => rail.remove());
         return;
     }
+    document.querySelectorAll('.game-side-ad').forEach(rail => {
+        rail.style.left = `${position[rail.classList.contains('game-side-ad--left') ? 'left' : 'right']}px`;
+    });
     if (document.querySelector('.game-side-ad')) return;
     const ads = [createRail('left'), createRail('right')];
-    loadLibrary().then(() => requestAds(ads)).catch(() => {
+    ads.forEach((ad, index) => { ad.parentElement.style.left = `${position[index === 0 ? 'left' : 'right']}px`; });
+    loadLibrary().then(() => requestAds(ads.filter(ad => ad.isConnected && placement()))).catch(() => {
         ads.forEach(ad => { ad.dataset.adStatus = 'unavailable'; });
     });
 }
 
 updateSideAds();
-media.addEventListener('change', updateSideAds);
+window.addEventListener('resize', updateSideAds);
+if (content) new ResizeObserver(updateSideAds).observe(content);
