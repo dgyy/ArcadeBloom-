@@ -179,58 +179,31 @@ test.describe('Play-click aggregate beacon', () => {
 
 // =============================================================================
 // 2c. Advertising placement (issue #15).
-//     Game detail pages use one inline fallback below 1440px. Wide desktops
-//     leave the centre clear for AdSense Auto ads left/right Side rails.
+//     Ad-supported content pages use only labelled desktop side rails.
 // =============================================================================
 test.describe('Advertising placement', () => {
-    test('game page has exactly one labelled ad slot', async ({ page }) => {
-        await page.goto(`/game/${GAME_SLUGS[0]}/`);
-        // Exactly one ad slot WE placed (AdSense may inject extra fill ins at
-        // runtime, so scope to our data-ad-slot attribute).
-        const ourSlots = page.locator('ins.adsbygoogle[data-ad-slot]');
-        await expect(ourSlots).toHaveCount(1);
-        // The slot is inside a labelled "Advertisement" region.
-        await expect(page.locator('section[aria-label="Advertisement"]')).toBeVisible();
-    });
-
-    test('wide game page leaves the centre clear for side rail ads', async ({ browser }) => {
-        const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    test('content pages use exactly two labelled rails on wide desktops', async ({ browser }) => {
+        const ctx = await browser.newContext({ viewport: { width: 1700, height: 900 } });
         const page = await ctx.newPage();
-        await page.goto(`/game/${GAME_SLUGS[0]}/`);
-        await expect(page.locator('#game-inline-ad')).toBeHidden();
-        await expect(page.locator('ins.adsbygoogle[data-ad-slot="1115845392"]')).toHaveCount(0);
+        await page.route('https://pagead2.googlesyndication.com/**', route => route.abort());
+        for (const path of [`/game/${GAME_SLUGS[0]}/`, '/', '/featured/', '/new/', '/ai-games/']) {
+            await page.goto(path);
+            await expect(page.locator('.game-side-ad')).toHaveCount(2);
+            await expect(page.locator('.game-side-ad ins[data-ad-slot="1115845392"]')).toHaveCount(2);
+            await expect(page.getByLabel('Left advertisement')).toBeVisible();
+            await expect(page.getByLabel('Right advertisement')).toBeVisible();
+            await expect(page.locator('main ins.adsbygoogle')).toHaveCount(0);
+        }
         await ctx.close();
     });
 
-    test('ad slot appears after Source & Licence and before More Games', async ({ page }) => {
+    test('side rails are removed when the viewport becomes narrow', async ({ page }) => {
+        await page.setViewportSize({ width: 1700, height: 900 });
+        await page.route('https://pagead2.googlesyndication.com/**', route => route.abort());
         await page.goto(`/game/${GAME_SLUGS[0]}/`);
-        const adSection = page.locator('section[aria-label="Advertisement"]');
-        const sourceSection = page.locator('section', { hasText: 'Source & Licence' });
-        const moreGamesHeader = page.locator('h2', { hasText: /More .* Games/ });
-        // All three present.
-        await expect(adSection).toBeVisible();
-        await expect(sourceSection.first()).toBeVisible();
-        // The ad's bounding-box y is greater than Source & Licence's and less
-        // than More Games' (when More Games renders).
-        const adBox = await adSection.boundingBox();
-        const srcBox = await sourceSection.first().boundingBox();
-        expect(adBox.y, 'ad must be below Source & Licence').toBeGreaterThan(srcBox.y);
-        if (await moreGamesHeader.count()) {
-            const moreBox = await moreGamesHeader.first().boundingBox();
-            expect(adBox.y, 'ad must be above More Games').toBeLessThan(moreBox.y);
-        }
-    });
-
-    test('AdSense script loads on game pages AND on the homepage', async ({ page }) => {
-        // Both carry ad slots (game: own slot; home: ad-banner.njk), so both
-        // must load the AdSense library.
-        for (const path of [`/game/${GAME_SLUGS[0]}/`, '/']) {
-            const reqs = [];
-            page.on('request', (req) => reqs.push(req.url()));
-            await page.goto(path);
-            expect(reqs.some((u) => /adsbygoogle\.js/.test(u)), `${path} should load adsbygoogle.js`).toBe(true);
-            page.removeAllListeners('request');
-        }
+        await expect(page.locator('.game-side-ad')).toHaveCount(2);
+        await page.setViewportSize({ width: 1200, height: 900 });
+        await expect(page.locator('.game-side-ad')).toHaveCount(0);
     });
 
     test('AdSense script is NOT loaded on ad-free pages', async ({ page }) => {
@@ -241,15 +214,12 @@ test.describe('Advertising placement', () => {
         expect(reqs.some((u) => /adsbygoogle\.js/.test(u))).toBe(false);
     });
 
-    test('no interstitial/sticky ad artifacts on game pages', async ({ page }) => {
+    test('no inline, interstitial or sticky ad artifacts on game pages', async ({ page }) => {
         await page.goto(`/game/${GAME_SLUGS[0]}/`);
         const html = await page.content();
-        // No fixed/sticky positioning commonly used by intrusive ad formats.
         expect(html).not.toMatch(/class="[^"]*sticky[^"]*ad/i);
         expect(html).not.toMatch(/class="[^"]*interstitial/i);
-        // Exactly one ad slot WE placed (AdSense may inject fill ins at runtime).
-        const adSlots = page.locator('ins.adsbygoogle[data-ad-slot]');
-        await expect(adSlots).toHaveCount(1);
+        await expect(page.locator('main ins.adsbygoogle')).toHaveCount(0);
     });
 });
 

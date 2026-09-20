@@ -1,0 +1,31 @@
+.game-side-ad {
+    position: fixed;
+    top: 110px;
+    bottom: 24px;
+    width: clamp(120px, calc((100vw - 1268px) / 2), 260px);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: currentColor;
+    z-index: 1;
+}
+.game-side-ad--left { left: 12px; }
+.game-side-ad--right { right: 12px; }
+.game-side-ad__label {
+    margin: 0;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: .12em;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: .55;
+}
+.game-side-ad .adsbygoogle {
+    display: block;
+    width: 100%;
+    min-height: 600px;
+    flex: 1;
+}
+@media (max-width: 1499px) {
+    .game-side-ad { display: none !important; }
+}

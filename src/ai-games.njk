@@ -6,7 +6,6 @@ eleventyComputed:
     robots: "{{ 'index, follow' if (games | aiGames | indexableGames | length) >= site.minGamesPerTag else 'noindex, follow' }}"
 ---
 {% extends 'base.njk' %}
-{% block adsense %}{% endblock %}
 {% set public_games = games | indexableGames %}
 {% set all_ai = public_games | aiGames | sortByDateDesc %}
 {% set gameplay = public_games | withAiType('ai-gameplay') | sortByDateDesc %}
