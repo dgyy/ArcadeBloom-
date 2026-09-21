@@ -66,12 +66,23 @@
     {# ---- Structured data (per-page override via {% block jsonld %}) ---- #}
     {% block jsonld %}{% endblock %}
 </head>
-<body class="font-body">
+<body class="font-body {{ body_class or '' }}">
 
 <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] focus:px-4 focus:py-2 focus:bg-bloom focus:text-ink focus:rounded-full focus:font-semibold">Skip to content</a>
 
 <header class="nav-shell sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if page.url == '/' %}
+        <div class="home-nav">
+            {% include 'brand-mark.njk' %}
+            <div class="home-nav__search">{% set size = 'sm' %}{% include 'search-inline.njk' %}</div>
+            <nav aria-label="Discover games" class="home-nav__links">
+                <a href="/featured/">Featured</a>
+                <a href="/new/">New</a>
+                <a href="/ai-games/">AI Games <span aria-hidden="true">↗</span></a>
+            </nav>
+        </div>
+        {% else %}
         <div class="flex items-center gap-4 h-16">
             {% include 'brand-mark.njk' %}
 
@@ -119,6 +130,7 @@
                 </div>
             </details>
         </div>
+        {% endif %}
     </div>
 </header>
 

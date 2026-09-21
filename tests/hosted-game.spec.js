@@ -15,9 +15,9 @@ test('homepage and directory lead to a working game with shareable scores', asyn
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto('/');
-    const playCircle = page.locator('#play-here .btn-primary').filter({ hasText: 'Play Circle Club' });
+    const playCircle = page.locator('#play-here').getByRole('link', { name: 'Play Circle Club', exact: true });
     await expect(playCircle).toBeVisible();
-    await expect(page.locator('#picks').getByRole('link', { name: /Circle Club/ })).toHaveCount(0);
+    await expect(page.locator('#play-here .home-tile[href="/play/circle-club/"]')).toHaveCount(0);
     await page.screenshot({ path: 'test-results/screenshots/home-after.png', fullPage: true });
     await playCircle.click();
     await expect(page.locator('#canvas')).toBeVisible();
