@@ -234,18 +234,21 @@ test.describe('Advertising placement', () => {
 //    crawlers that do not run JS must still see it.
 // =============================================================================
 test.describe('No-JS content visibility', () => {
-    test('home shows hero + categories without JS', async ({ browser }) => {
+    test('home exposes game discovery and search without JS', async ({ browser }) => {
         const ctx = await browser.newContext({ javaScriptEnabled: false });
         const page = await ctx.newPage();
         await page.goto('/');
 
         await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-        await expect(page.locator('.home-spotlight .btn-primary')).toBeVisible();
-        const interests = page.getByRole('navigation', { name: 'Explore games by interest' });
+        await expect(page.getByRole('link', { name: 'Play Circle Club', exact: true })).toBeVisible();
+        const interests = page.getByRole('navigation', { name: 'Explore by interest' });
         await expect(interests).toBeVisible();
-        // Thin categories lead to filtered search instead of top-level navigation.
-        await expect(interests.locator('a[href^="/category/"], a[href^="/search/?q="]')).toHaveCount(6);
+        expect(await interests.locator('a[href^="/category/"], a[href^="/tag/"]').count()).toBeGreaterThan(0);
         await expect(interests.locator('a[href="/ai-games/"]')).toBeVisible();
+        await expect(page.locator('#picks a[href^="/game/"]').first()).toBeVisible();
+        await page.getByRole('searchbox', { name: 'Search games' }).fill('circle');
+        await page.getByRole('button', { name: 'Search', exact: true }).click();
+        await expect(page).toHaveURL(/\/search\/\?q=circle$/);
 
         await ctx.close();
     });

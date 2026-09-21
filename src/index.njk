@@ -2,135 +2,130 @@
 title: Discover Indie Browser Games & AI Experiments
 description: Find indie browser games, game-jam surprises and AI experiments. Explore the directory and play at the original source.
 permalink: /
+body_class: home-page
 ---
-{# Homepage: one playable spotlight, other hosted games, editorial picks,
-   interest navigation and a compact latest list. All content is static HTML. #}
-
 {% extends 'base.njk' %}
-
+{% from 'home-game-card.njk' import tile %}
 {% set public_games = games | indexableGames %}
-{% set hosted_games = public_games | hostedGames | sortByDateDesc %}
-{% set directory_games = public_games | rejectHosted %}
-{% set featured_games = directory_games | featuredOnly %}
-{% set new_games = directory_games | sortByDateDesc | limit(12) %}
 
 {% block jsonld %}
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      "name": "ArcadeBloom",
-      "description": "{{ site.description }}",
-      "url": "{{ site.url }}/",
-      "publisher": { "@id": "{{ site.url }}/#org" },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "{{ site.url }}/search/?q={search_term_string}"
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "name": "ArcadeBloom",
+            "description": "{{ site.description }}",
+            "url": "{{ site.url }}/",
+            "publisher": { "@id": "{{ site.url }}/#org" },
+            "potentialAction": {
+                "@type": "SearchAction",
+                "target": { "@type": "EntryPoint", "urlTemplate": "{{ site.url }}/search/?q={search_term_string}" },
+                "query-input": "required name=search_term_string"
+            }
         },
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "Organization",
-      "@id": "{{ site.url }}/#org",
-      "name": "ArcadeBloom",
-      "url": "{{ site.url }}/",
-      "description": "A directory of indie browser games and AI experiments.",
-      "logo": "{{ site.url }}/og-image.png"
-    }
-  ]
+        {
+            "@type": "Organization",
+            "@id": "{{ site.url }}/#org",
+            "name": "ArcadeBloom",
+            "url": "{{ site.url }}/",
+            "description": "A directory of indie browser games and AI experiments.",
+            "logo": "{{ site.url }}/og-image.png"
+        }
+    ]
 }
 </script>
 {% endblock %}
 
 {% block content %}
-{% set spotlight = hosted_games[0] %}
-{% set picks = featured_games | sortByScreenshotThenDate | limit(4) %}
-<div class="home-editorial">
-    <section id="play-here" aria-labelledby="spotlight-title">
-        <p class="home-intro">Independent browser games. Unexpected ideas. Something worth playing.</p>
-        {% if spotlight %}
-        <div class="home-spotlight">
-            <div class="home-spotlight__copy">
-                <p class="eyebrow">In the spotlight · Play on ArcadeBloom</p>
-                <h1 id="spotlight-title">{{ spotlight.name }}</h1>
-                <p class="home-spotlight__pitch">{{ spotlight.tagline }}</p>
-                <a class="btn-primary" href="{{ spotlight | hostedPath }}">Play {{ spotlight.name }} <span aria-hidden="true">↗</span></a>
-                <a class="home-detail-link" href="/game/{{ spotlight.slug }}/">How to play</a>
-            </div>
-            <a class="home-spotlight__visual" href="{{ spotlight | hostedPath }}" aria-label="Open {{ spotlight.name }}">
-                {% set game = spotlight %}{% include 'home-game-art.njk' %}
-            </a>
-        </div>
-        {% else %}
-        <h1 id="spotlight-title" class="display-h1">Find something worth playing.</h1>
+<div class="home-shell">
+    <nav class="home-shortcuts" aria-label="Explore by interest">
+        <a href="#picks" class="home-shortcuts__active">Discover</a>
+        {% for cat in site.categories %}
+        {% if (public_games | whereEq('category', cat.slug) | length) >= site.minGamesPerCategory %}
+        <a href="/category/{{ cat.slug }}/">{{ cat.name }}</a>
         {% endif %}
-        {% if hosted_games.length > 1 %}
-        <div class="home-section-heading home-section-heading--small">
-            <h2>More to play here</h2><a href="/play/">All our games <span aria-hidden="true">→</span></a>
+        {% endfor %}
+        {% for tag in homepage.shortcuts %}
+        <a href="/tag/{{ tag.slug }}/">{{ tag.name }}</a>
+        {% endfor %}
+        <a href="/ai-games/">AI Games <span aria-hidden="true">↗</span></a>
+    </nav>
+
+    <section id="picks" class="home-discover" aria-labelledby="discover-title">
+        <div class="home-heading home-heading--hero">
+            <div>
+                <h1 id="discover-title">Find your next <span>small obsession.</span></h1>
+                <p>Indie browser games. Unexpected ideas. Pick something and jump in.</p>
+            </div>
+            <a href="/featured/">Explore the picks <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="home-local-grid">
-            {% for game in hosted_games | slice(1, 4) %}
-            <article class="home-local-game">
-                <a class="home-local-game__art" href="{{ game | hostedPath }}" aria-label="Open {{ game.name }}">{% include 'home-game-art.njk' %}</a>
-                <div>
-                    <h3>{{ game.name }}</h3>
-                    <p>{{ game.tagline }}</p>
-                    <a class="btn-primary" href="{{ game | hostedPath }}">Play {{ game.name }} <span aria-hidden="true">↗</span></a>
-                    <a class="home-detail-link" href="/game/{{ game.slug }}/">Details</a>
+        <div id="play-here" class="home-wall">
+            {% if homepage.spotlight %}
+            <article class="home-spotlight">
+                <div class="home-spotlight__top"><span>THE SPOTLIGHT</span><span>Play here <span aria-hidden="true">↗</span></span></div>
+                <a href="/play/circle-club/" class="home-spotlight__drawing" aria-label="Open Circle Club">
+                    <svg viewBox="0 0 360 210" aria-hidden="true">
+                        <circle class="home-spotlight__guide" cx="180" cy="105" r="82"/>
+                        <path class="home-spotlight__stroke" d="M240 48 C208 10 134 18 108 61 C80 104 99 156 144 180 C190 204 252 175 264 126 C275 88 252 48 238 43"/>
+                        <circle class="home-spotlight__dot" cx="180" cy="105" r="4"/>
+                    </svg>
+                    <span>ONE STROKE. HOW CLOSE CAN YOU GET?</span>
+                </a>
+                <div class="home-spotlight__copy">
+                    <h2>Circle Club</h2>
+                    <p>Your next perfect circle is one try away.</p>
+                    <div class="home-spotlight__actions">
+                        <a href="/play/circle-club/" class="home-play" aria-label="Play Circle Club">Play now <span aria-hidden="true">↗</span></a>
+                        <a href="/game/circle-club/">About the game</a>
+                    </div>
                 </div>
             </article>
-            {% endfor %}
-        </div>
-        {% endif %}
-    </section>
-
-    {% if picks.length %}
-    <section id="picks" class="home-section" aria-labelledby="picks-title">
-        <div class="home-section-heading">
-            <div><h2 id="picks-title">Worth a look</h2><p>Independent games selected from across the web.</p></div>
-            <a href="/featured/">All editor’s picks <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="home-picks">
-            {% for game in picks %}
-            <a href="/game/{{ game.slug }}/" class="home-pick">
-                {% if game.screenshots.length %}<img src="{{ game.screenshots[0] }}" alt="{{ game.name }} screenshot" loading="lazy" width="640" height="400">{% endif %}
-                <div><p class="eyebrow">{{ (site.categories | findCat(game.category)).name }}</p><h3>{{ game.name }}</h3><p>{{ game.tagline }}</p><span class="home-pick__link">Meet the game <span aria-hidden="true">→</span></span></div>
-            </a>
-            {% endfor %}
-        </div>
-    </section>
-
-    {% endif %}
-    <section class="home-explore home-section" aria-labelledby="explore-title">
-        <h2 id="explore-title">Follow your curiosity</h2>
-        <nav aria-label="Explore games by interest">
-            <a href="/ai-games/">AI games <span aria-hidden="true">↗</span></a>
-            {% for cat in site.categories %}
-            {% set count = public_games | whereEq('category', cat.slug) | length %}
-            {% if count >= site.minGamesPerCategory %}
-            <a href="/category/{{ cat.slug }}/">{{ cat.name }} <span aria-hidden="true">↗</span></a>
-            {% else %}
-            <a href="/search/?q={{ cat.slug }}">{{ cat.name }} <span aria-hidden="true">↗</span></a>
             {% endif %}
-            {% endfor %}
-        </nav>
+            {% for game in homepage.picks %}{{ tile(game, site.categories, true) }}{% endfor %}
+        </div>
+        <p class="home-source-note"><span aria-hidden="true">↗</span> Discover here. Play at the creator’s site, or try our own challenges. <a href="/play/">All our games →</a></p>
     </section>
 
     <section class="home-section" aria-labelledby="latest-title">
-        <div class="home-section-heading"><div><h2 id="latest-title">Just added</h2><p>Fresh discoveries for your next visit.</p></div><a href="/new/">All new arrivals <span aria-hidden="true">→</span></a></div>
-        <div class="home-latest">
-            {% for game in new_games | limit(6) %}
-            <a href="/game/{{ game.slug }}/">
-                <div><h3>{{ game.name }}</h3><p>{{ game.tagline }}</p></div>
-                <span class="home-latest__category">{{ (site.categories | findCat(game.category)).name }}</span><span aria-hidden="true">↗</span>
-            </a>
-            {% endfor %}
+        <div class="home-heading">
+            <div><h2 id="latest-title">Fresh finds <span class="home-heading__dot" aria-hidden="true"></span></h2><p>The latest additions to the directory.</p></div>
+            <a href="/new/">All new games <span aria-hidden="true">→</span></a>
         </div>
+        <div class="home-grid">{% for game in homepage.latest %}{{ tile(game, site.categories) }}{% endfor %}</div>
+    </section>
+
+    {% if homepage.ai.length %}
+    <section class="home-section home-ai" aria-labelledby="ai-title">
+        <div class="home-heading">
+            <div><span class="home-kicker">A DIFFERENT KIND OF PLAY</span><h2 id="ai-title">Meet the AI playground</h2><p>AI in the gameplay, or in the making. Every game tells you which.</p></div>
+            <a href="/ai-games/">Explore AI games <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-grid">{% for game in homepage.ai %}{{ tile(game, site.categories) }}{% endfor %}</div>
+    </section>
+    {% endif %}
+
+    {% for theme in homepage.themes %}
+    <section class="home-section" aria-labelledby="theme-{{ theme.slug }}">
+        <div class="home-heading">
+            <div><h2 id="theme-{{ theme.slug }}">{{ theme.title }}</h2><p>{{ theme.description }}</p></div>
+            <a href="/tag/{{ theme.slug }}/">See more <span class="sr-only">{{ (tags | findTag(theme.slug)).name }} games</span><span aria-hidden="true">→</span></a>
+        </div>
+        <div class="home-grid">{% for game in theme.games %}{{ tile(game, site.categories) }}{% endfor %}</div>
+    </section>
+    {% endfor %}
+
+
+    <section class="home-section" aria-labelledby="more-title">
+        <div class="home-heading"><div><h2 id="more-title">Keep exploring</h2><p>There’s always another little world to get lost in.</p></div><a href="/search/">Browse all games <span aria-hidden="true">→</span></a></div>
+        <div class="home-grid">{% for game in homepage.more %}{{ tile(game, site.categories) }}{% endfor %}</div>
+        <a href="/new/" class="home-more">More games to discover <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section class="home-submit" aria-labelledby="submit-title">
+        <div><h2 id="submit-title">Made something worth playing?</h2><p>We help small games find their people.</p></div>
+        <a href="/submit/">Share your game <span aria-hidden="true">↗</span></a>
     </section>
 </div>
 {% endblock %}

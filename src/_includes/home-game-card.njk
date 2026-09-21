@@ -1,0 +1,28 @@
+{% macro tile(game, categories, eager=false) %}
+{% set play_path = game | hostedPath %}
+<a href="{{ play_path or ('/game/' ~ game.slug ~ '/') }}" class="home-tile cat-{{ game.category }}" {% if play_path %}aria-label="Play {{ game.name }}"{% endif %}>
+    <div class="home-tile__art">
+        {% if play_path %}<span class="home-tile__local">Play here ↗</span>{% endif %}
+        {% if game.slug == 'pulse-lock' or game.slug == 'echo-vault' or game.slug == 'circle-club' %}
+        <img src="/media/{{ game.slug }}-board.png" alt="{{ game.name }} gameplay" width="800" height="600" loading="{{ 'eager' if eager else 'lazy' }}" decoding="async">
+        {% elif game.screenshots.length %}
+        <img src="{{ game.screenshots[0] }}" alt="{{ game.name }} screenshot" width="480" height="300" loading="{{ 'eager' if eager else 'lazy' }}" decoding="async">
+        {% else %}
+        <div class="home-tile__cover" aria-hidden="true">
+            <span>{{ (categories | findCat(game.category)).name }}</span>
+            <strong>{{ game.name }}</strong>
+            <span class="home-tile__cover-note">Explore the game ↗</span>
+        </div>
+        {% endif %}
+        <span class="home-tile__peek">{{ game.tagline }}</span>
+    </div>
+    <div class="home-tile__caption">
+        <h3>{{ game.name }}</h3>
+        {% if game.ai %}
+        {% include 'ai-labels.njk' %}
+        {% else %}
+        <span>{{ (categories | findCat(game.category)).name }}</span>
+        {% endif %}
+    </div>
+</a>
+{% endmacro %}

@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 test('homepage exposes discovery, AI and creator routes', async ({ page }) => {
     await page.goto('/');
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-    await expect(page.locator('.home-spotlight .btn-primary')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Play Circle Club', exact: true })).toBeVisible();
     for (const href of ['/featured/', '/new/', '/ai-games/']) {
         await expect(page.locator(`main a[href="${href}"]`).first()).toBeVisible();
     }
