@@ -11213,20 +11213,21 @@ module.exports = [
         "slug": "ancient-beast",
         "name": "Ancient Beast",
         "category": "strategy",
-        "tagline": "Materialize and control beasts in order to defeat your opponents!",
-        "about": "Ancient Beast — Materialize and control beasts in order to defeat your opponents!. Originally an open-source browser game catalogued from the Games-on-GitHub collection under the \"Strategy\" category. This is a factual entry; a full review is pending.\n\nPlay it at the author's own site via the link below.",
-        "howToPlay": "Controls for Ancient Beast vary — open the game via the source link to see in-game instructions. Most browser games in this category use keyboard, mouse, or touch. (Full how-to-play guide pending.)",
+        "tagline": "Summon strange creatures for tactical battles on a compact hex arena.",
+        "about": "Ancient Beast is a turn-based strategy game created by Freezing Moon and an international open-source community. Players assemble creatures with distinct movement and ability kits, then fight across hexagonal arenas in local, online or bot-supported matches. The official browser client is the project's primary way to play.",
+        "howToPlay": "Start a match, select creatures and take turns moving across the hex grid. Spend each unit's available actions on positioning and abilities, coordinate attacks, and eliminate the opposing player's forces.",
         "keyFeatures": [
-            "Open-source browser game",
-            "Genre: Strategy",
-            "Source: GitHub"
+            "Hex-grid tactical combat",
+            "Distinct summonable creatures",
+            "Bot and multiplayer modes",
+            "Community-developed art and audio"
         ],
         "screenshots": [],
-        "sourceName": "Ancient Beast",
-        "sourceUrl": "http://ancientbeast.com/play",
-        "licence": "source-available",
-        "licenceStatus": "source-available",
-        "sourceKey": "url:ancientbeast.com/play",
+        "sourceName": "Freezing Moon",
+        "sourceUrl": "https://play.ancientbeast.com/",
+        "licence": "AGPL-3.0",
+        "licenceStatus": "osi-approved",
+        "sourceKey": "github:FreezingMoon/AncientBeast",
         "tags": [
             "turn-based",
             "open-source",
@@ -39702,21 +39703,22 @@ module.exports = [
     {
         "id": 1657,
         "slug": "openpanzer",
-        "name": "openpanzer",
-        "category": "arcade",
-        "tagline": "Javascript/HTML5 rewrite of Panzer General 2 game",
-        "about": "openpanzer — Javascript/HTML5 rewrite of Panzer General 2 game Originally an open-source browser game on GitHub by nicupavel.\n\nPlay it at the author's own site via the link below. (Factual placeholder — a full review will follow.)",
-        "howToPlay": "Open openpanzer via the source link to see the in-game controls. Most browser games use keyboard, mouse, or touch. (Factual placeholder — specific controls will be documented in the full guide.)",
+        "name": "OpenPanzer",
+        "category": "strategy",
+        "tagline": "Command historical units through turn-based campaigns on a hex battlefield.",
+        "about": "OpenPanzer is Nicu Pavel's HTML5 turn-based strategy game inspired by classic Panzer General campaigns. It runs in desktop and mobile browsers, combining hex-grid movement, varied unit classes, objectives and persistent campaign progression. The official site hosts both the game and its project documentation.",
+        "howToPlay": "Choose a campaign and deploy your available units. Move and attack on the hex map while watching terrain, range, strength and remaining turns. Capture the required objectives before the scenario deadline to continue the campaign.",
         "keyFeatures": [
-            "Open-source browser game (GitHub: nicupavel/openpanzer)",
-            "183+ GitHub stars",
-            "Author: nicupavel"
+            "Historical turn-based campaigns",
+            "Hex-grid movement and combat",
+            "Many unit classes and scenarios",
+            "Desktop and mobile browser support"
         ],
         "screenshots": [],
-        "sourceName": "openpanzer",
-        "sourceUrl": "http://panzermarshal.com",
-        "licence": "source-available",
-        "licenceStatus": "source-available",
+        "sourceName": "Nicu Pavel",
+        "sourceUrl": "https://www.linuxconsulting.ro/openpanzer/",
+        "licence": "GPL-2.0",
+        "licenceStatus": "osi-approved",
         "sourceKey": "github:nicupavel/openpanzer",
         "tags": [
             "open-source",
@@ -63337,5 +63339,6 @@ module.exports = [
             "sourceUrl": "https://arcadebloom.com/play/echo-vault/#how-to-play",
             "checkedDate": "2026-09-19"
         }
-    }
+    },
+    ...require('./open-source-web-games')
 ];
