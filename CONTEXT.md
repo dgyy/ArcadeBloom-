@@ -13,6 +13,8 @@ Pulse Lock and Echo Vault are additional owner-requested hosted games (ADR-0014)
 
 A game with a stable slug and upstream `sourceKey`, genre and controlled tags, a short introduction, getting-started instructions, features, available screenshots, creator, official play URL, licence information and dates. Unknown licences are `NOASSERTION`; unknown release dates are `unknown`. Never fabricate ratings, play counts, pricing, account requirements, screenshots or provenance.
 
+Anarch is a third-party hosting exception authorised by the owner in ADR-0015. Its pinned CC0 Web build lives under `games/anarch/`, while the catalogue retains the creator-controlled play URL and upstream identity for attribution. All other third-party listings remain outbound links.
+
 `src/_data/games.js` is the published catalogue. New entries use monotonic IDs and preserve existing slugs. Retired root HTML, `games/` and `games-data.js` are not current source.
 
 ## AI gameplay
@@ -61,7 +63,7 @@ A themed selection answering a real interest: five to twelve content-qualified g
 
 Eleventy + Nunjucks + compiled Tailwind; complete static HTML for content pages. Frontmatter must be first in `.njk` files. Cloudflare Pages deploys `dist/` from `main`. Keep outward Play links with `rel="noopener nofollow"`. No iframe copies or Tailwind CDN.
 
-Publication uses PRs with schema, build and Playwright checks. No routine gameplay assessment pipeline. Retired capture/assess/publish workflows are manual archival tools. Circle Club is an owner-authorized hosting exception under ADR-0013, served at `/play/circle-club/` with a regular catalogue entry. Other games remain outbound links.
+Publication uses PRs with schema, build and Playwright checks. No routine gameplay assessment pipeline. Retired capture/assess/publish workflows are manual archival tools. Circle Club is an owner-authorized hosting exception under ADR-0013, served at `/play/circle-club/` with a regular catalogue entry. Anarch is the exact third-party exception in ADR-0015; other third-party games remain outbound links.
 
 ## Attribution, measurement and operating boundaries
 

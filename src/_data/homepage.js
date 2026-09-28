@@ -2,14 +2,19 @@ const games = require('./games');
 const tags = require('./tags');
 const site = require('./site');
 const { createDirectoryPolicy } = require('../../scripts/lib/directory-policy');
+const { hostedPath } = require('../../scripts/lib/hosted-games');
 
 const isPublic = createDirectoryPolicy(games);
 const publicGames = games.filter((game) => isPublic(game.sourceKey));
 const newest = (a, b) => b.addedDate.localeCompare(a.addedDate);
 const illustrated = (a, b) => Number(Boolean(b.screenshots.length)) - Number(Boolean(a.screenshots.length)) || newest(a, b);
 const spotlight = publicGames.find((game) => game.slug === 'circle-club');
-const picks = publicGames.filter((game) => game !== spotlight && game.screenshots.length)
-    .sort((a, b) => Number(b.featured) - Number(a.featured) || newest(a, b)).slice(0, 6);
+const localPicks = publicGames.filter((game) => game !== spotlight && hostedPath(game));
+const picks = [
+    ...localPicks,
+    ...publicGames.filter((game) => game !== spotlight && !localPicks.includes(game) && game.screenshots.length)
+        .sort((a, b) => Number(b.featured) - Number(a.featured) || newest(a, b)),
+].slice(0, 6);
 const displayed = new Set([spotlight, ...picks].filter(Boolean).map((game) => game.slug));
 const latest = publicGames.filter((game) => !displayed.has(game.slug)).sort(newest).slice(0, 6);
 latest.forEach((game) => displayed.add(game.slug));

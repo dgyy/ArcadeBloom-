@@ -31,6 +31,8 @@ module.exports = function (eleventyConfig) {
     for (const slug of ['pulse-lock', 'echo-vault']) {
         eleventyConfig.addPassthroughCopy({ [`games/${slug}/index.html`]: `play/${slug}/index.html`, [`games/${slug}/app.js`]: `play/${slug}/app.js` });
     }
+    // ADR-0015: pinned CC0 third-party Web build and licence notice.
+    eleventyConfig.addPassthroughCopy({ 'games/anarch': 'play/anarch' });
     eleventyConfig.addWatchTarget('games/');
 
     const { hostedPath } = require('./scripts/lib/hosted-games');
